@@ -1039,3 +1039,5 @@ table.io { border-collapse: collapse; width: 100%; max-width: 760px; font-size: 
 /* 첫 화면은 문서처럼 스크롤 — body 의 overflow:hidden 은 지도 화면용 (2026-08-30 사용자 보고: 스크롤 불가) */
 body.page-scroll { overflow: auto; }
 body.page-scroll .landing { min-height: 100vh; }
+
+.story-disclosure { font: 12px/1.6 var(--font-geist-mono); color: var(--muted); border-left: 2px solid var(--line-strong, #cfcbc2); padding-left: 12px; margin: 0 0 18px; max-width: 70ch; }

@@ -16,8 +16,8 @@ const storySerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: 'OLMoEarth Nepal Live Twin',
-  description: 'Satellite evidence, OLMoEarth embeddings, and a transparent hazard-simulation interface for Rasuwa, Nepal.',
+  title: 'Nepal AI Twin — Rasuwa 2026',
+  description: 'An independent AI twin of the 26 Aug 2026 Rasuwa flash flood: satellite windows compared with a general Earth-embedding model to rank places to inspect first.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

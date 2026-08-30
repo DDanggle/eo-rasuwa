@@ -17,14 +17,14 @@ export default function Landing() {
   return (
     <main className="landing">
       <nav className="landing-nav">
-        <span className="brand">OLMoEarth <b>Live Twin</b> · Rasuwa, Nepal · 26 Aug 2026</span>
+        <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026 · independent project</span>
         <div><button className={!ko ? 'is-active' : ''} onClick={() => setKo(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => setKo(true)}>한국어</button><Link href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</Link></div>
       </nav>
 
       <section className="hero">
-        <p className="kicker">{ko ? '재난 전용 모델을 학습하지 않은, 범용 지구 임베딩의 재사용' : 'A general Earth embedding, reused — no disaster-specific detector was trained'}</p>
+        <p className="kicker">{ko ? '독립 프로젝트. 재난 전용 모델을 학습하지 않은, 범용 지구 임베딩 모델의 재사용' : 'An independent project. A general Earth-embedding model, reused — no disaster-specific detector was trained'}</p>
         <h1>{ko ? <>위성 관측창 <em>100개.</em><br />먼저 확인할 곳 <em>6곳.</em></> : <><em>100</em> satellite windows.<br /><em>6</em> places to inspect first.</>}</h1>
-        <p className="sub">{ko ? '사건 전후의 센티넬 관측을 OLMoEarth 임베딩으로 비교해, 평소 변화보다 크게 달라진 장소만 남겼습니다. “달라진 곳”이 아니라 “평소보다 더 달라진 곳”입니다.' : 'OLMoEarth embeddings compare before-and-after Sentinel observations with each place\'s ordinary change. Not "what changed" — "what changed more than it usually does."'}</p>
+        <p className="sub">{ko ? '사건 전후의 센티넬 관측을 범용 지구 임베딩 모델로 비교해, 평소 변화보다 크게 달라진 장소만 남겼습니다. “달라진 곳”이 아니라 “평소보다 더 달라진 곳”입니다.' : 'A general Earth-embedding model compares before-and-after Sentinel observations with each place\'s ordinary change. Not "what changed" — "what changed more than it usually does."'}</p>
         <div className="funnel" role="img" aria-label="100 scanned, 47 observable, 6 review leads, 0 confirmed damage labels">
           <div><b>{rv?.funnel.scanned ?? 100}</b><span>{ko ? '스캔한 창' : 'scanned'}</span></div><i>→</i>
           <div><b>{rv?.funnel.observable ?? 47}</b><span>{ko ? '판독 가능' : 'observable'}</span></div><i>→</i>
@@ -75,7 +75,7 @@ export default function Landing() {
           <thead><tr><th>#</th><th>{ko ? '장소' : 'place'}</th><th>{ko ? 'AI 변화 · 후보 토큰' : 'AI change · candidate tokens'}</th><th>{ko ? '관측 신뢰도' : 'observability'}</th><th>{ko ? '외부 보고(사후 대조)' : 'external reports (post-hoc)'}</th></tr></thead>
           <tbody>{rv.leads.map((l) => <tr key={l.id}><td>{l.rank}</td><td>{l.place}<small>{l.id} · {l.kind}</small></td><td><i style={{ width: `${Math.min(100, 100 * l.candidate_token_frac / 0.15)}%` }} />{pct(l.candidate_token_frac)}</td><td>{pct(l.observable)}{l.observable < 0.6 && <small>{ko ? ' 절반 가까이 구름' : ' partly cloud'}</small>}</td><td>{l.external_reports.urls.length ? l.external_reports.urls.map((u, i) => <a key={u} href={u} target="_blank" rel="noreferrer">{new URL(u).hostname.replace('www.', '')}{i < l.external_reports.urls.length - 1 ? ' · ' : ''}</a>) : <span className="muted">—</span>}</td></tr>)}</tbody>
         </table>
-        <p className="note">{ko ? '외부 보고는 순위를 낸 뒤에 대조했고 순위 조정에 쓰지 않았습니다. 링크는 제공받은 것이며 이 빌드가 독립 검증하지 않았습니다. OLMoEarth는 피해를 확정하지 않습니다 — 사람이 먼저 볼 곳을 좁힙니다.' : rv.posthoc_note + ' OLMoEarth does not confirm damage — it narrows where people should look first.'}</p>
+        <p className="note">{ko ? '외부 보고는 순위를 낸 뒤에 대조했고 순위 조정에 쓰지 않았습니다. 링크는 제공받은 것이며 이 빌드가 독립 검증하지 않았습니다. 이 시스템은 피해를 확정하지 않습니다 — 사람이 먼저 볼 곳을 좁힙니다.' : rv.posthoc_note + ' The system does not confirm damage — it narrows where people should look first.'}</p>
         {rv.reobserve.length > 0 && <p className="note">{ko ? '판단 보류(구름): ' : 'Held for re-observation (cloud): '}{rv.reobserve.map((r) => `${r.place} (${pct(r.candidate_token_frac)} tokens, ${pct(r.observable)} observable)`).join(' · ')}{ko ? ' — 다음 맑은 광학 또는 레이더로 먼저 재관측할 산사면.' : ' — hillslopes to re-observe first with the next clear optical pass or radar.'}</p>}
         <p className="note">{ko ? `탐색 범위: 강 회랑 ${rv.by_zone.river?.total ?? 41}창(판독 ${rv.by_zone.river?.observable ?? 39}), 주변 산사면 ${rv.by_zone.hillslope?.total ?? 49}창(판독 ${rv.by_zone.hillslope?.observable ?? 6}), 렌데 상류 ${rv.by_zone.lhende?.total ?? 10}창(판독 ${rv.by_zone.lhende?.observable ?? 2}). 결과가 강에 몰린 것은 강만 봤기 때문이 아니라 사건 후 광학영상에서 강 회랑이 훨씬 잘 보였기 때문입니다.` : `Search extent: ${rv.by_zone.river?.total ?? 41} river windows (${rv.by_zone.river?.observable ?? 39} observable), ${rv.by_zone.hillslope?.total ?? 49} hillslope windows (${rv.by_zone.hillslope?.observable ?? 6}), ${rv.by_zone.lhende?.total ?? 10} upstream Lhende windows (${rv.by_zone.lhende?.observable ?? 2}). Results cluster on the river not because only the river was searched, but because the river corridor was far better observed after the event.`}</p>
       </section>
@@ -86,7 +86,7 @@ export default function Landing() {
         <h2>{ko ? '다른 홍수·산사태·산림 변화에도 같은 입력 계약과 임베딩 비교법을 적용할 수 있습니다' : 'The same input contract and embedding comparison apply to other floods, landslides and forest change'}</h2>
         <table className="io"><thead><tr><th>{ko ? '넣는 것' : 'you provide'}</th><th>{ko ? '받는 것' : 'you get'}</th></tr></thead><tbody>
           <tr><td>{ko ? 'AOI + 사건 전후 Sentinel-2 장면(12밴드, 10 m)' : 'AOI + before/after Sentinel-2 scenes (12 bands, 10 m)'}</td><td>{ko ? '후보 순위 GeoJSON' : 'ranked candidate GeoJSON'}</td></tr>
-          <tr><td>{ko ? 'OLMoEarth v1 Base(동결, 학습 없음)' : 'OlmoEarth v1 Base, frozen — no training'}</td><td>{ko ? '창별 PRE · POST · AI Δ 이미지' : 'PRE · POST · AI Δ image per window'}</td></tr>
+          <tr><td>{ko ? 'Earth-embedding model (OlmoEarth v1 Base, frozen — no training)' : 'Earth-embedding model (OlmoEarth v1 Base, frozen — no training)'}</td><td>{ko ? '창별 PRE · POST · AI Δ 이미지' : 'PRE · POST · AI Δ image per window'}</td></tr>
           <tr><td>{ko ? '평시 관측 기간(2주 쌍 2–3개)' : 'ordinary periods (two or three fortnight pairs)'}</td><td>{ko ? '후보별 변화값·관측 가능성·감사 기록(SHA-256)' : 'per-candidate change, observability and an audit record (SHA-256)'}</td></tr>
         </tbody></table>
         <div className="cta"><Link href="/map#story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</Link><a className="btn" href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">CODE ↗</a></div>
@@ -96,7 +96,7 @@ export default function Landing() {
         <p><b>{ko ? '과학적 경계' : 'Scientific boundary'}</b> {ko ? '후보를 찾지만 피해를 확정하지 않습니다.' : 'Finds candidates; does not confirm damage.'}</p>
         <p><b>{ko ? '사용자 가치' : 'User value'}</b> {ko ? '사람이 100곳을 모두 보는 대신 먼저 볼 곳을 알려줍니다.' : 'Instead of looking at 100 places, people know where to look first.'}</p>
         <p><b>{ko ? '재사용 가치' : 'Reuse value'}</b> {ko ? '새로운 재난마다 모델을 다시 학습하지 않습니다.' : 'No retraining for each new disaster.'}</p>
-        <small>Sentinel-1/2 © ESA Copernicus · PlanetScope © Planet Labs PBC (CC-BY-NC-4.0) · OlmoEarth © Ai2 · suspected rock–ice avalanche, under investigation · {sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}</small>
+        <small>Independent project by an individual researcher — not affiliated with Ai2, ESA, Planet or any agency. Model: OlmoEarth v1 Base (Ai2, open weights, used frozen). Sentinel-1/2 © ESA Copernicus · PlanetScope © Planet Labs PBC (CC-BY-NC-4.0) · suspected rock–ice avalanche, under investigation · {sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}</small>
       </footer>
     </main>
   );

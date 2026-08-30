@@ -1035,3 +1035,7 @@ table.io { border-collapse: collapse; width: 100%; max-width: 760px; font-size: 
 .review-list { margin-top: 10px; display: grid; gap: 6px; max-height: 220px; overflow: auto; }
 .review-list > div { font: 11px/1.4 var(--font-geist-sans); border-left: 2px solid var(--line-strong, #cfcbc2); padding-left: 8px; }
 .review-list b { font-family: var(--font-geist-mono); } .review-list em { color: var(--muted); font-style: normal; } .review-list small { display: block; color: var(--ink); }
+
+/* 첫 화면은 문서처럼 스크롤 — body 의 overflow:hidden 은 지도 화면용 (2026-08-30 사용자 보고: 스크롤 불가) */
+body.page-scroll { overflow: auto; }
+body.page-scroll .landing { min-height: 100vh; }

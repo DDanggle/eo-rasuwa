@@ -10,6 +10,7 @@ type Scenario = { generated_at: string; review?: Review | null; placebo_extended
 export default function Landing() {
   const [sc, setSc] = useState<Scenario | null>(null);
   const [ko, setKo] = useState(false);
+  useEffect(() => { document.body.classList.add('page-scroll'); return () => document.body.classList.remove('page-scroll'); }, []);
   useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); }, []);
   const rv = sc?.review ?? null; const lead = rv?.leads[0];
   const pct = (x: number | null | undefined) => x == null ? '—' : `${(100 * x).toFixed(0)}%`;

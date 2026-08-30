@@ -842,7 +842,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .delta-preview > span { position: relative; z-index: 2; }
 
 /* 지도 위 후보 오버레이 칩 */
-.cand-chip { position: absolute; z-index: 6; left: 50%; top: 100px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px;
+.cand-chip { position: absolute; z-index: 6; left: 50%; top: 150px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px;
   padding: 8px 10px 8px 12px; background: var(--surface, #fffefb); border: 1px solid var(--orange, #eb6834); box-shadow: var(--card-shadow); font-family: var(--font-geist-mono); font-size: 11px; }
 .cand-chip b { color: var(--orange); }
 .cand-chip-modes { display: flex; gap: 4px; }
@@ -1053,3 +1053,6 @@ body.page-scroll .landing { min-height: 100vh; }
 .how-grid figure { margin: 0; } .how-grid figure img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border: 1px solid var(--line-strong, #cfcbc2); }
 .how-grid figcaption { margin-top: 8px; font: 11px/1.5 var(--font-geist-mono); color: var(--muted); } .how-grid figcaption b { color: var(--ink); }
 @media (max-width: 860px) { .how-grid { grid-template-columns: 1fr; } }
+
+/* 후보 칩은 키 문장 아래로 */
+.cand-chip { top: 150px; }

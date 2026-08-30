@@ -812,7 +812,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
             const lead = scenario.review?.leads.find((l) => l.id === focus) ?? scenario.review?.reobserve.map((r, i) => ({ ...r, rank: i + 1 })).find((l) => l.id === focus);
             const feat = scenario.candidates.geojson.features.find((f) => String(f.properties?.id) === focus);
             const center = (lead?.center_lonlat ?? (feat?.properties?.center_lonlat as [number, number] | undefined));
-            if (center) { focusDoneRef.current = true; setTimeout(() => showCandidate(focus, 'post', { rank: lead?.rank, place: lead?.place, center }), 400); }
+            if (center) { focusDoneRef.current = true; initialCorridorFitRef.current = true; userSelectedSceneRef.current = true; setTimeout(() => showCandidate(focus, 'post', { rank: lead?.rank, place: lead?.place, center }), 900); }
           }
         } catch { /* ignore */ }
         console.log('[diag] candidate layers attached | windows =', scenario.candidates.geojson.features.length, '| layers =', (map.getStyle()?.layers ?? []).map((l) => l.id).filter((id) => /scan|ai-|olmo|river|point/.test(id)).join(','));

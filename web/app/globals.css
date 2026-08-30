@@ -966,7 +966,19 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .story-popup .maplibregl-popup-close-button:hover::after { transform: translate(-50%, -50%) rotate(45deg); }
 .lb-close { width: 36px; height: 36px; border: 1px solid var(--line-strong, #cfcbc2); background: transparent; border-radius: 50%; cursor: pointer; color: var(--ink); }
 
-/* 사람 검토 노트 (Supabase 설정 시에만 렌더) */
+/* 2026-08-30 두 구역 모드 · 키 문장 · 연구자 목록 */
+.key-strip { position: absolute; z-index: 5; top: 84px; left: 50%; transform: translateX(-50%); max-width: min(880px, calc(100% - 760px)); display: flex; gap: 10px; align-items: baseline; padding: 8px 14px; background: var(--surface, #fffefb); border: 1px solid var(--line-strong, #cfcbc2); box-shadow: 0 6px 18px rgba(0,0,0,.08); font: 12px/1.45 var(--font-geist-sans); color: var(--ink); }
+.key-strip b { flex: 0 0 auto; font: 700 9px var(--font-geist-mono); letter-spacing: .14em; color: var(--orange); }
+@media (max-width: 1100px) { .key-strip { max-width: calc(100% - 48px); top: 92px; } }
+.zone-switch button { white-space: nowrap; }
+.zone-card { margin-bottom: 12px; padding: 10px 12px; border: 1px solid var(--line-strong, #cfcbc2); background: var(--surface, #fffefb); }
+.zone-card svg { width: 100%; height: auto; display: block; margin: 8px 0 4px; }
+.zone-card p { margin: 8px 0 0; font: 11px/1.5 var(--font-geist-sans); color: var(--ink); }
+.research-list { display: grid; gap: 10px; margin-top: 12px; }
+.research-list > div { display: grid; grid-template-columns: 120px 1fr; gap: 14px; padding: 10px 0; border-top: 1px solid var(--line, #e3e0d8); }
+.research-list b { font: 700 10px var(--font-geist-mono); letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+.research-list span { font: 13px/1.55 var(--font-geist-sans); color: var(--ink); }
+
 .review-notes { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line, #e3e0d8); }
 .review-form { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
 .review-form textarea, .review-form button, .review-form small { grid-column: 1 / -1; }
@@ -975,6 +987,4 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .review-form small { color: var(--muted); font: 10px var(--font-geist-mono); }
 .review-list { margin-top: 10px; display: grid; gap: 6px; max-height: 220px; overflow: auto; }
 .review-list > div { font: 11px/1.4 var(--font-geist-sans); border-left: 2px solid var(--line-strong, #cfcbc2); padding-left: 8px; }
-.review-list b { font-family: var(--font-geist-mono); }
-.review-list em { color: var(--muted); font-style: normal; }
-.review-list small { display: block; color: var(--ink); }
+.review-list b { font-family: var(--font-geist-mono); } .review-list em { color: var(--muted); font-style: normal; } .review-list small { display: block; color: var(--ink); }

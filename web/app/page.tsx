@@ -150,6 +150,7 @@ type Scenario = {
     geojson: FeatureCollection;
   } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
+  geomorph?: { zone1: { length_km: number; drop_m: number; mean_slope_deg: number; narrowest: { km_from_source: number; valley_width_km: number; lon: number; lat: number }; profile: { km: number; elev: number; width_km: number; slope_deg: number | null }[]; path_lonlat: [number, number][]; note: string }; zone2: { correlations: Record<string, { spearman: number; p: number; n: number }>; n_windows: number; rows: { id: string; km_from_A: number; valley_width_km: number; relief_m: number | null; channel_slope: number | null; candidate_frac: number | null }[] }; zone_bounds: Record<string, [number, number, number, number]>; claim_boundary: string } | null;
   placebo_extended?: { threshold_pooled3: number; threshold_each: Record<string, number>; spearman_vs_single_pair: number | null; ranked_windows: number; top: { id: string; rank: number; frac_pooled3: number | null; frac_p1: number | null; frac_local3: number | null; observable: number }[] } | null;
   lake_search?: { aoi_center: [number, number]; half_km: number; s2_clear_frac: number; new_water_km2: number; s1_drop_px?: number; candidate_basis?: string; components_top5: { px: number; km2: number; center_lonlat: [number, number] }[]; images: { ndwi_pre: string; ndwi_post: string; candidates: string } } | null;
   presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
@@ -313,6 +314,8 @@ export default function Home() {
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
   const [viewDim, setViewDim] = useState<'2d' | '3d'>('2d');
+  const [zone, setZone] = useState<0 | 1 | 2>(0);  // 0 overview · 1 source→impact · 2 impact→downstream
+  const zoneRef = useRef<0 | 1 | 2>(0);
   // SSR과 첫 client render는 반드시 같은 값이어야 한다. window.hash를 state initializer에서
   // 읽으면 /#story 직링크에서 hydration mismatch가 난다(2026-08-29 브라우저 QA 실측).
   const [storyOpen, setStoryOpen] = useState(false);
@@ -809,6 +812,28 @@ export default function Home() {
     }).catch((e) => console.error('[diag] candidates effect failed (this is why the boxes/cyan dots were missing):', e));
   }, [mapReady, styleRevision, scenario?.candidates?.geojson, scenario?.candidates?.retrieval?.top10, scenario?.corridor_sealed, satTiles, openLightbox]);
 
+  // 두 구역 모드(2026-08-30): 1 = 빙하 발원→충격(렌데 계곡·산사면 격자), 2 = 충격→하류(강 창). 레이어 필터 + 카메라.
+  useEffect(() => {
+    const map = mapRef.current; if (!map || !mapReady) return;
+    const kinds = zone === 1 ? ['lhende', 'hillslope'] : zone === 2 ? ['river'] : null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const kindFilter: any = kinds ? ['in', ['get', 'kind'], ['literal', kinds]] : null;
+    const apply = () => {
+      if (map.getLayer('ai-candidate-fill')) map.setFilter('ai-candidate-fill', kindFilter ? ['all', ['==', ['get', 'status'], 'ranked'], kindFilter] : ['==', ['get', 'status'], 'ranked']);
+      if (map.getLayer('scan-center-dot')) map.setFilter('scan-center-dot', kindFilter);
+      if (map.getLayer('ai-candidate-rank')) map.setFilter('ai-candidate-rank', kindFilter ? ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6], kindFilter] : ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6]]);
+      for (const id of ['olmo-canonical-fill', 'olmo-canonical-line', 'olmo-canonical-rank']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', zone === 1 ? 'none' : 'visible');
+      const b = zone !== 0 ? scenario?.geomorph?.zone_bounds?.[String(zone)] : null;
+      zoneRef.current = zone;  // 장면 효과가 구역 카메라를 덮어쓰지 않게(아래 fitScene 가드)
+      if (b) map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: scenePadding(), duration: prefersReducedMotion() ? 0 : 900, pitch: 0, bearing: 0, maxZoom: 12.5 });
+      else if (zone === 0 && scenario) fitCorridor();
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__map = map;
+    if (map.getLayer('ai-candidate-fill')) apply(); else map.once('idle', apply);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zone, mapReady, styleRevision]);
+
   // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
   // 이전 버전은 패널이 항상 보인다고 가정한 고정 패딩을 썼다.
   const scenePadding = useCallback(() => {
@@ -825,6 +850,7 @@ export default function Home() {
   const fitScene = useCallback((scene: SceneRecord, duration = 900) => {
     const map = mapRef.current;
     if (!map) return;
+    if (zoneRef.current !== 0) return;  // 구역 모드: 장면 맞춤 금지
     const [topLeft, , bottomRight] = scene.coordinates;
     map.fitBounds(
       new LngLatBounds([topLeft[0], bottomRight[1]], [bottomRight[0], topLeft[1]]),
@@ -848,13 +874,13 @@ export default function Home() {
       // 첫 화면은 단일 A/B 위성창이 아니라 SOURCE→DOWNSTREAM 사건 전체를 보여준다.
       // 단 **최초 1회만**: 이 효과는 styleRevision 등으로 재실행되는데, 그때마다 fitBounds 하면
       // GO/확대 뒤 화면이 원위치로 튀는 결함이 생김 (2026-08-29 사용자 보고).
-      if (!initialCorridorFitRef.current) {
+      if (!initialCorridorFitRef.current && zoneRef.current === 0) {  // 구역 모드 중엔 최초 회랑 맞춤도 금지 (2026-08-30 헤드리스 추적)
         initialCorridorFitRef.current = true;
         map.fitBounds(new LngLatBounds([84.96, 27.77], [85.55, 28.36]), {
           padding: scenePadding(), maxZoom: 10.8, duration: 0,
         });
       }
-    } else {
+    } else if (zoneRef.current === 0) {
       fitScene(scene, 700);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1061,6 +1087,7 @@ export default function Home() {
 
   const fitCorridor = () => {
     userSelectedSceneRef.current = false;
+    if (zoneRef.current !== 0) return;  // 구역 모드: 회랑 맞춤 금지
     mapRef.current?.fitBounds(new LngLatBounds([84.96, 27.77], [85.55, 28.36]), {
       padding: scenePadding(), pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0, duration: prefersReducedMotion() ? 0 : 1100,
     });
@@ -1148,6 +1175,14 @@ export default function Home() {
           이전의 DOM 고정 backdrop은 ① 드래그해도 움직이지 않고 ② WASM flow(지도 좌표)와
           어긋나며 ③ 지도 캔버스와 basemap을 가렸다. WebGL2가 없을 때만 정적 이미지로
           내려간다(아래 map-fallback). */}
+      <div className="key-strip" role="note">
+        <b>{zone === 0 ? 'KEY' : zone === 1 ? 'ZONE 1' : 'ZONE 2'}</b>
+        <span>{zone === 0
+          ? (scenario?.candidates?.top10?.length ? `Where to look first, ranked by how far each place moved from its own past in OlmoEarth's representation: ${scenario.candidates.top10.slice(0, 3).map((c) => c.place ?? c.id).join(' · ')}. Nothing here is confirmed damage.` : 'Where to look first, ranked by OlmoEarth change. Nothing here is confirmed damage.')
+          : zone === 1
+          ? (scenario?.geomorph ? `Glacier source to the border: ${scenario.geomorph.zone1.length_km} km of gorge, ${scenario.geomorph.zone1.drop_m.toFixed(0)} m of drop; the valley pinches to ${scenario.geomorph.zone1.narrowest.valley_width_km} km at km ${scenario.geomorph.zone1.narrowest.km_from_source}. The hillslope grid around the source is cloud-limited; Salê is its only judged off-river candidate.` : 'Glacier source to the border.')
+          : (scenario?.geomorph ? `Border to Galchhi: ${scenario.geomorph.zone2.n_windows} judged river windows. Wider valley floors carry more change (ρ ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}); confined, high-relief reaches carry less (ρ ${scenario.geomorph.zone2.correlations.relief_m?.spearman.toFixed(2)}). Look first at Dalphedi and the Bidur reach.` : 'Border to Galchhi.')}</span>
+      </div>
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
       {scenario?.candidates && mapStatus === 'ready' && (
         <div className="map-legend" aria-label="Map legend">
@@ -1186,9 +1221,10 @@ export default function Home() {
           <div className="brand-mark"><span /></div>
           <div><p className="eyebrow">AI2 / PLANETARY INTELLIGENCE PROTOTYPE</p><h1>OLMoEarth <span>Live Twin</span></h1></div>
         </div>
-        <div className="map-mode-switch" role="group" aria-label="Map focus">
-          <button onClick={() => { userSelectedSceneRef.current = true; if (activeScene) fitScene(activeScene, 900); }} disabled={!activeScene || mapStatus !== 'ready'}>SATELLITE FRAME</button>
-          <button onClick={fitCorridor} disabled={mapStatus !== 'ready'}>EVENT CHAIN</button>
+        <div className="map-mode-switch zone-switch" role="group" aria-label="Zone">
+          <button className={zone === 0 ? 'is-active' : ''} onClick={() => setZone(0)} disabled={mapStatus !== 'ready'}>WHOLE CHAIN</button>
+          <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
+          <button className={zone === 2 ? 'is-active' : ''} onClick={() => setZone(2)} disabled={mapStatus !== 'ready'}>2 · IMPACT → DOWNSTREAM</button>
         </div>
         <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : ''}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE TILES ON' : 'SATELLITE TILES'}</button>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
@@ -1223,6 +1259,26 @@ export default function Home() {
 
       {leftOpen && (
       <aside className="left-rail glass-panel">
+        {zone === 1 && scenario?.geomorph && (() => { const pr = scenario.geomorph.zone1.profile; const W = 300, H = 110; const kmMax = pr[pr.length - 1].km; const eMin = Math.min(...pr.map((r) => r.elev)), eMax = Math.max(...pr.map((r) => r.elev)); const X = (k: number) => 8 + (k / kmMax) * (W - 16); const Y = (e: number) => 8 + (1 - (e - eMin) / (eMax - eMin)) * (H - 30); const nw = scenario.geomorph.zone1.narrowest; return (
+          <div className="zone-card">
+            <span className="ops-title">ZONE 1 · SOURCE → IMPACT · terrain profile (Copernicus DEM 30 m)</span>
+            <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Elevation profile from the source estimate to the border impact">
+              <path d={pr.map((r, i) => `${i ? 'L' : 'M'}${X(r.km).toFixed(1)},${Y(r.elev).toFixed(1)}`).join(' ')} fill="none" stroke="var(--ink)" strokeWidth="1.4" />
+              {pr.map((r) => <rect key={r.km} x={X(r.km) - 1} y={H - 18} width="2" height={Math.min(14, r.width_km * 5)} fill="var(--blue)" opacity="0.7" />)}
+              <line x1={X(nw.km_from_source)} x2={X(nw.km_from_source)} y1="6" y2={H - 18} stroke="var(--orange)" strokeDasharray="2 2" />
+              <text x="8" y={H - 4} fontSize="7" fontFamily="var(--font-geist-mono)" fill="var(--muted)">{eMax.toFixed(0)} m → {eMin.toFixed(0)} m · {kmMax} km · bars = valley width · dashed = narrowest {nw.valley_width_km} km</text>
+            </svg>
+            <p>{`A ${scenario.geomorph.zone1.length_km} km channel path with ${scenario.geomorph.zone1.drop_m.toFixed(0)} m of fall (mean ${scenario.geomorph.zone1.mean_slope_deg}°). The first 15 km is a steep gorge; at km ${nw.km_from_source} the valley narrows to ${nw.valley_width_km} km before the last drop to the border. A pinch like that concentrates flow — a qualitative reading; no runout physics was computed.`}</p>
+          </div>); })()}
+        {zone === 2 && scenario?.geomorph && (
+          <div className="zone-card">
+            <span className="ops-title">ZONE 2 · IMPACT → DOWNSTREAM · valley shape vs AI change ({scenario.geomorph.zone2.n_windows} windows)</span>
+            <table className="ai-vs-table"><thead><tr><th>parameter</th><th>ρ</th><th>p</th></tr></thead><tbody>
+              {(['valley_width_km', 'relief_m', 'channel_slope', 'tortuosity', 'km_from_A'] as const).map((k) => { const c = scenario.geomorph!.zone2.correlations[k]; return c ? <tr key={k} className={c.p < 0.05 ? 'win' : ''}><td>{k.replace(/_/g, ' ')}</td><td>{c.spearman >= 0 ? '+' : ''}{c.spearman.toFixed(2)}</td><td>{c.p.toFixed(3)}</td></tr> : null; })}
+            </tbody></table>
+            <p>Change concentrates where the valley floor is wide and relief is low — floodplain deposition rather than hillslope failure. Exploratory (n ≈ 40, one event); not a hazard model.</p>
+          </div>
+        )}
         <div className="panel-heading"><span>01</span><div><p>EVENT ANATOMY</p><strong>Source → downstream</strong></div></div>
         <div className="coordinate-list">
           {eventPoints.map((point) => (
@@ -1678,8 +1734,20 @@ export default function Home() {
             <p className="story-caption">{ko ? '이 화면 자체는 인공지능이 아니다. 지도와 타임라인은 사람이 만든 화면이고, 인공지능이 계산한 것은 서버에 봉인된 파일들이다. 화면은 그 파일을 읽어 보여줄 뿐이다.' : 'The interface is not the AI. The map and timeline are hand-built; what the model computed lives in sealed files on a server. The page reads those files and shows them.'}</p>
           </section>
 
+          {scenario?.geomorph && (
           <section className="story-section story-step story-wide">
-            <p className="story-kicker">04 · {ko ? '틀렸던 것' : 'WHAT WE GOT WRONG'}</p>
+            <p className="story-kicker">04 · {ko ? '지형' : 'THE TERRAIN'}</p>
+            <h2>{ko ? '두 개의 구역: 협곡이 밀어내고, 넓은 바닥이 받는다' : 'Two zones: the gorge pushes, the wide floor receives'}</h2>
+            <p>{ko
+              ? `발원지에서 국경까지(1구역)는 ${scenario.geomorph.zone1.length_km} km의 하도이고 낙차는 ${scenario.geomorph.zone1.drop_m.toFixed(0)} m다. 처음 15 km는 가파른 협곡이고, ${scenario.geomorph.zone1.narrowest.km_from_source} km 지점에서 계곡 폭이 ${scenario.geomorph.zone1.narrowest.valley_width_km} km까지 좁아진 뒤 국경으로 떨어진다. 좁아진 곳은 흐름을 모은다 — 정성적 읽기이고, 유속을 계산하지는 않았다.`
+              : `From the source to the border (Zone 1) the channel runs ${scenario.geomorph.zone1.length_km} km and falls ${scenario.geomorph.zone1.drop_m.toFixed(0)} m. The first 15 km is a steep gorge; at km ${scenario.geomorph.zone1.narrowest.km_from_source} the valley pinches to ${scenario.geomorph.zone1.narrowest.valley_width_km} km before the final drop to the border. A pinch concentrates flow — a qualitative reading; no runout physics was computed.`}</p>
+            <p>{ko
+              ? `국경 아래(2구역)에서는 강 창 ${scenario.geomorph.zone2.n_windows}개의 계곡 형태를 DEM으로 재고 AI 후보 비율과 견줬다. 계곡 바닥이 넓을수록 변화가 많고(순위 상관 ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}, p ${scenario.geomorph.zone2.correlations.valley_width_km?.p.toFixed(2)}), 기복이 큰 협착 구간은 적다(${scenario.geomorph.zone2.correlations.relief_m?.spearman.toFixed(2)}). 하도 경사·굴곡도는 관계가 없었다. 이 사건의 변화는 사면이 무너진 것이 아니라 넓은 바닥에 토사가 깔린 것이다 — 위성사진에서 사면 흉터가 안 보이는 이유와 같다. 사건 하나, 창 40개의 탐색 결과이며 위험 예측 모형이 아니다.`
+              : `Below the border (Zone 2) we measured the valley shape of ${scenario.geomorph.zone2.n_windows} river windows from the DEM and compared it with the AI candidate share. Wider valley floors carry more change (rank correlation ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}, p ${scenario.geomorph.zone2.correlations.valley_width_km?.p.toFixed(2)}); confined, high-relief reaches carry less (${scenario.geomorph.zone2.correlations.relief_m?.spearman.toFixed(2)}). Channel slope and sinuosity did not matter. The change in this event is sediment laid across wide floors, not slopes giving way — the same reason the imagery shows no fresh scars. One event, forty windows: exploratory, not a hazard model.`}</p>
+          </section>
+          )}
+          <section className="story-section story-step story-wide">
+            <p className="story-kicker">05 · {ko ? '틀렸던 것' : 'WHAT WE GOT WRONG'}</p>
             <h2>{ko ? '레이더 단위 하나가 결과 둘을 뒤집었다' : 'One unit error in the radar input overturned two results'}</h2>
             <p>{ko
               ? '처음 발표한 회랑 결과에서는 라수와가디의 40m 격자 9.8%가 평소 범위를 넘었다고 썼다. 뒤늦게 확인하니 레이더 입력이 선형 강도였고, 모델의 정규화는 데시벨(dB)을 기대한다. 잘못된 단위로 들어간 레이더 채널이 거리를 부풀렸다. 데시벨로 바꿔 다시 계산하자 5개 앵커와 회랑 27창 모두에서 사건 전후 거리가 평소 범위 안으로 들어왔다. 레이더만 따로 봐도 마찬가지였다(회랑 사건 평균 0.03, 평소 0.06). 그래서 그 결과와 그에 딸린 후보(렌데, 레이더 24번 창)는 철회했다.'
@@ -1689,8 +1757,21 @@ export default function Home() {
               : 'What remains is optical: the 100-window candidate list, the record of the model beating classical methods on past disasters, and the control window\'s "no change". This is why the page insists on "review candidate" rather than "detection".'}</p>
           </section>
 
+          <section className="story-section story-step story-wide">
+            <p className="story-kicker">07 · {ko ? '연구자에게' : 'FOR RESEARCHERS'}</p>
+            <h2>{ko ? '재현에 필요한 것 전부' : 'Everything needed to reproduce this'}</h2>
+            <div className="research-list">
+              <div><b>{ko ? '모델' : 'Model'}</b><span>OlmoEarth v1 Base (Ai2), frozen, patch 4, 768-d tokens at 40 m. Optical scan: Sentinel-2 L2A, 12 bands, 256 px × 2.56 km windows. Sealed contract: Sentinel-1 RTC in dB + Sentinel-2, 4 periods × 14 d.</span></div>
+              <div><b>{ko ? '변화 점수' : 'Change score'}</b><span>Δz = 1 − cos(z_before, z_after) per token; before = mean over three baseline dates (3 Jul, 23 Jul, 7 Aug), after = 27 Aug. Ordinary range = p99 of the same statistic over placebo pairs (three pairs, 19 May → 3 Jul; pooled p99 {scenario?.placebo_extended?.threshold_pooled3.toFixed(3) ?? '0.317'}). Tokens brighter than B02 &gt; 2600 in the base mean or target are excluded; windows with &lt; 20% valid tokens are not judged.</span></div>
+              <div><b>{ko ? '검증' : 'Validation'}</b><span>Sen12-Landslides: AI vs classical 9/9 (M73); Presto control 6/7 (M79); radar-only 2/7, fusion gain &lt; +0.03 everywhere (M78, M80). Nepal controls: Tadi Khola 1.3%, pre-registered p009 1.0% vs Dalphedi 13.3% under the pooled threshold (M77, M81, M82).</span></div>
+              <div><b>{ko ? '철회' : 'Retracted'}</b><span>Rasuwagadhi 9.8% token exceedance and the Lhende / radar-window-24 candidates: Sentinel-1 fed as linear intensity where the model expects dB (M75/M76).</span></div>
+              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo_olmo_earth_project — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; MEASURED_FINDINGS.md M66–M84; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
+              <div><b>{ko ? '열린 질문' : 'Open questions'}</b><span>{ko ? '독립 피해 경계(USGS/UNOSAT)로 후보 정밀도@k; 다른 사건(Gorkha 2015)에서 계곡 폭–변화 상관 재현; 흐린 장면에서의 레이더 단독 성능; 두 번째 광학 FM(Prithvi/Clay) 같은 계약.' : 'Candidate precision@k against an independent extent map (USGS/UNOSAT); does valley width → change replicate on another event (Gorkha 2015); radar-only under real cloud; a second optical FM (Prithvi/Clay) under the same contract.'}</span></div>
+            </div>
+          </section>
+
           <section className="story-section story-step story-boundary">
-            <p className="story-kicker">05 · {ko ? '다음 관문과 출처' : 'NEXT GATE AND SOURCES'}</p>
+            <p className="story-kicker">06 · {ko ? '다음 관문과 출처' : 'NEXT GATE AND SOURCES'}</p>
             <h2>{ko ? '더 넓은 평시 기준과 독립된 피해 경계가 필요하다' : 'A deeper ordinary baseline and an independent event extent'}</h2>
             <p>{ko ? '지금의 “평소 범위”는 2주 전이 한 쌍뿐이다. 평시 쌍을 늘리면 문턱이 안정되고, USGS·UNOSAT가 낼 피해 경계와 겹쳐 보면 후보가 얼마나 맞았는지 처음으로 셀 수 있다. 그 전까지 이 페이지의 후보는 사람이 볼 순서를 정하는 목록이다.' : 'The current "ordinary range" rests on a single pair of fortnights. More ordinary pairs will steady the threshold, and an extent map from USGS or UNOSAT will let us count, for the first time, how many candidates were right. Until then the candidates here are an order in which people should look.'}</p>
             <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>

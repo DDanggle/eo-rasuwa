@@ -1315,6 +1315,29 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def geomorph_block(candidates: dict[str, Any] | None) -> dict[str, Any] | None:
+    """M84: 1구역(E→A) D8 종단면 + 2구역 계곡 매개변수 상관 + 두 구역 경계(후보 격자 kind 기준)."""
+    rp = WORK_ROOT / "artifacts/corridor_geomorph/report.json"
+    if not rp.exists():
+        return None
+    rj = json.loads(rp.read_text()); z1 = rj["zone1_source_to_impact"]
+    prof = [{"km": r["km_from_source"], "elev": r["elev_m"], "width_km": r["valley_width_km"], "slope_deg": r.get("slope_deg")} for r in z1["profile"][::2]]
+    zones = {}
+    if candidates and candidates.get("geojson"):
+        for zone, kinds in (("1", {"lhende", "hillslope"}), ("2", {"river"})):
+            xs = []; ys = []
+            for f in candidates["geojson"]["features"]:
+                if f["properties"].get("kind") in kinds:
+                    for ring in f["geometry"]["coordinates"]:
+                        for x, y in ring: xs.append(x); ys.append(y)
+            if xs: zones[zone] = [min(xs), min(ys), max(xs), max(ys)]
+    zones.setdefault("1", [85.33, 28.20, 85.62, 28.36])
+    return {"zone1": {"length_km": z1["length_km"], "drop_m": z1["drop_m"], "mean_slope_deg": z1["mean_slope_deg"], "narrowest": z1["narrowest"], "profile": prof, "path_lonlat": z1["path_lonlat"][::3], "note": z1["note"]},
+            "zone2": {"correlations": rj["zone2_correlation_with_candidate_frac_pooled3"], "n_windows": len([r for r in rj["zone2_windows"] if r.get("status") == "ranked"]),
+                      "rows": [{"id": r["id"], "km_from_A": r["km_from_A"], "valley_width_km": r["valley_width_km"], "relief_m": r["relief_m"], "channel_slope": r["channel_slope"], "candidate_frac": r["candidate_frac"]} for r in rj["zone2_windows"] if r.get("status") == "ranked"]},
+            "zone_bounds": zones, "claim_boundary": rj["claim_boundary"], "report_sha256": sha256(rp)}
+
+
 def placebo_extended_block() -> dict[str, Any] | None:
     """M82: 평시 쌍 3개(pooled p99)로 임계를 다시 잡았을 때의 후보 비율·순위 안정성."""
     rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_placebo_ext/report.json"
@@ -1583,6 +1606,8 @@ def build(refresh_osm: bool) -> None:
     else:
         evidence_status = "Post-event open satellite scene pending in this snapshot."
 
+    candidates_block_cached = candidates_block()
+
     manifest = {
         "schema": "olmoearth-nepal-live-twin/v2",
         "generated_at": datetime.now(UTC).isoformat(),
@@ -1604,7 +1629,7 @@ def build(refresh_osm: bool) -> None:
         "decision": build_decision(live_observation, scheduled_scenes, olmoearth),
         "ops_log": build_ops_log(),
         "research": research_block(),
-        "candidates": candidates_block(),
+        "candidates": candidates_block_cached,
         "corridor_sealed": corrected_corridor,
         "input_contract_audit": (json.loads(S1_DB_AUDIT.read_text()) if S1_DB_AUDIT.exists() else None),
         "corridor_contract": corridor_contract_block(),
@@ -1615,6 +1640,7 @@ def build(refresh_osm: bool) -> None:
         "presto_control": presto_control_block(),
         "lake_search": lake_search_block(),
         "placebo_extended": placebo_extended_block(),
+        "geomorph": geomorph_block(candidates_block_cached),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {

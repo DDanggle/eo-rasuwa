@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 
 const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const scenario = JSON.parse(await readFile(resolve(root, 'public/data/scenario.json'), 'utf8'));
 const hydrography = JSON.parse(await readFile(resolve(root, 'public/data/hydrography.geojson'), 'utf8'));
+const observableGeojson = JSON.parse(await readFile(resolve(root, 'public/data/candidates.geojson'), 'utf8'));
+const reviewLeadsGeojson = JSON.parse(await readFile(resolve(root, 'public/data/review-leads.geojson'), 'utf8'));
 
 assert.equal(scenario.schema, 'olmoearth-nepal-live-twin/v2');
 assert.ok(scenario.scene_records.length >= 9);
@@ -77,6 +79,58 @@ assert.equal(scenario.corridor_contract.stage, 'screening_complete');
 assert.ok(hydrography.simulation_route.length >= 40 && hydrography.simulation_route.length <= 96);
 assert.ok(hydrography.features.length >= 11 && hydrography.features.length <= 20); // 2026-08-29: Galchhi 방향 연장으로 15
 
+// Public result contract: the landing page, map and downloads must all expose
+// the same pooled-three-pair score, not the superseded single-pair ranking.
+assert.deepEqual(scenario.review.funnel, { scanned: 100, observable: 47, leads: 6, confirmed_damage_labels: 0 });
+assert.equal(Object.values(scenario.review.by_zone).reduce((sum, row) => sum + row.total, 0), 100);
+assert.equal(Object.values(scenario.review.by_zone).reduce((sum, row) => sum + row.observable, 0), 47);
+assert.equal(scenario.review.threshold, scenario.placebo_extended.threshold_pooled3);
+assert.equal(scenario.review.download, '/data/review-leads.geojson');
+assert.equal(scenario.review.all_observable_download, '/data/candidates.geojson');
+assert.equal(scenario.candidates.geojson.features.length, 100);
+assert.equal(observableGeojson.features.length, 47);
+assert.equal(reviewLeadsGeojson.features.length, 6);
+assert.deepEqual(scenario.review.leads.map((lead) => lead.rank), [1, 2, 3, 4, 5, 6]);
+assert.equal(new Set(scenario.review.leads.map((lead) => lead.id)).size, 6);
+assert.ok(scenario.review.leads.every((lead) => lead.observable >= 0.4));
+assert.ok(scenario.review.reobserve.every((lead) => lead.observable < 0.4));
+assert.ok(scenario.review.reobserve.some((lead) => lead.id === 'v064'));
+assert.ok(!scenario.review.leads.some((lead) => lead.id === 'v064'));
+assert.ok(scenario.review.leads.every((lead) => lead.external_reports.verified_by_this_build === false));
+
+const scanById = new Map(scenario.candidates.geojson.features.map((feature) => [feature.properties.id, feature]));
+const observableIds = new Set(observableGeojson.features.map((feature) => feature.properties.id));
+for (const lead of scenario.review.leads) {
+  const feature = scanById.get(lead.id);
+  assert.ok(feature, `lead ${lead.id} is absent from the scan`);
+  assert.equal(feature.properties.review_status, 'lead');
+  assert.equal(feature.properties.review_rank, lead.rank);
+  assert.ok(Math.abs(feature.properties.candidate_token_frac - lead.candidate_token_frac) < 0.001);
+  assert.ok(observableIds.has(lead.id));
+}
+assert.deepEqual(reviewLeadsGeojson.features.map((feature) => feature.properties.id), scenario.review.leads.map((lead) => lead.id));
+for (const feature of observableGeojson.features) {
+  assert.equal(feature.properties.status, 'ranked');
+  assert.ok(Number.isInteger(feature.properties.rank_pooled3));
+  assert.equal(feature.properties.rank, feature.properties.rank_pooled3);
+  assert.equal(feature.properties.candidate_token_frac, feature.properties.candidate_token_frac_pooled3);
+  assert.ok(['lead', 'screened'].includes(feature.properties.review_status));
+}
+for (const feature of scenario.candidates.geojson.features) {
+  const id = feature.properties.id;
+  assert.match(id, /^v\d{3}$/);
+  assert.ok(['lead', 'reobserve', 'screened', 'unobservable'].includes(feature.properties.review_status));
+  for (const suffix of ['pre', 'post', 'delta']) {
+    const file = await stat(resolve(root, `public/data/candidates/${id}_${suffix}.png`));
+    assert.ok(file.size > 1_000, `${id}_${suffix}.png is missing or truncated`);
+  }
+}
+for (const row of scenario.downstream_profile) {
+  const feature = scanById.get(row.id);
+  assert.equal(row.candidate_token_frac, feature.properties.candidate_token_frac);
+  assert.equal(row.rank, feature.properties.rank);
+}
+
 for (const scene of scenario.scene_records) {
   const image = await readFile(resolve(root, 'public', scene.image.slice(1)));
   assert.ok(image.length > 1_000, `${scene.id} rendered image is unexpectedly small`);
@@ -112,4 +166,4 @@ assert.ok(values.every(Number.isFinite));
 assert.ok(values[0] > 80 && values[0] < 90);
 assert.ok(values[1] > 20 && values[1] < 35);
 
-console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: scenario.olmoearth.anchors, route_points: hydrography.simulation_route.length, wasm_particles: count, map_worker_bytes: mapWorker.length + mapWorkerShared.length }, null, 2));
+console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: scenario.olmoearth.anchors, scanned_windows: scenario.review.funnel.scanned, observable_windows: observableGeojson.features.length, review_leads: reviewLeadsGeojson.features.length, route_points: hydrography.simulation_route.length, wasm_particles: count, map_worker_bytes: mapWorker.length + mapWorkerShared.length }, null, 2));

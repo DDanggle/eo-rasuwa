@@ -11,9 +11,12 @@
     "data": "python3 python/build_live_twin_data.py",
     "wasm": "bash scripts/build-wasm.sh",
     "verify": "node scripts/verify-assets.mjs",
+    "prebuild": "node scripts/verify-assets.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ignore-pattern .next --ignore-pattern public/maplibre-gl-worker.mjs --ignore-pattern public/maplibre-gl-shared.mjs"
+    "lint": "eslint . --ignore-pattern .next --ignore-pattern public/maplibre-gl-worker.mjs --ignore-pattern public/maplibre-gl-shared.mjs",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm verify && pnpm lint && pnpm typecheck && pnpm build"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.0",
@@ -32,11 +35,5 @@
     "eslint-config-next": "16.2.6",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp",
-      "unrs-resolver"
-    ]
   }
 }

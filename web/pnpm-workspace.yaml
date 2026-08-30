@@ -1,11 +1,9 @@
-packages:
-  - .
+# pnpm 10+: 빌드 스크립트 허용 목록 (next 의 sharp, eslint 의 unrs-resolver)
+onlyBuiltDependencies:
+  - sharp
+  - unrs-resolver
 
-allowBuilds:
-  sharp: set this to true or false
-  unrs-resolver: set this to true or false
-
-# eslint-config-next currently resolves the just-published zod 4.5.4.
-# Pin the audited, policy-eligible patch until the minimum release-age window passes.
+# eslint-config-next currently permits zod 4.x and resolved a release younger
+# than the workspace supply-chain policy. Keep the last audited patch pinned.
 overrides:
   zod: 4.5.2

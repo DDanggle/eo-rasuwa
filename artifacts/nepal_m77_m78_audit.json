@@ -1,0 +1,62 @@
+{
+  "m77": {
+    "candidate_under_control_local_threshold": {
+      "count": 19,
+      "fraction": 0.005489742848887605
+    },
+    "candidate_under_corridor_threshold": {
+      "count": 124,
+      "fraction": 0.03582779543484542
+    },
+    "claim": "Putative no-event control with event mean close to its ordinary mean. The 3.6% figure is the fair corridor-shared-threshold comparison; the sealed control-local report records 0.55%. It is not a field-verified no-change label.",
+    "common_threshold_ratio_to_corridor_top": 0.14087184247573262,
+    "control": "Tadi Khola (x001)",
+    "control_local_threshold": 0.347932904958725,
+    "corridor_shared_threshold": 0.2818852365016937,
+    "corridor_top": {
+      "fraction": 0.25432900432900435,
+      "id": "v003"
+    },
+    "delta_event_mean": 0.1286652833223343,
+    "delta_placebo_mean": 0.12454798817634583,
+    "observability_fraction": 0.844970703125,
+    "valid_event_tokens": 3461
+  },
+  "m78": {
+    "claim": "S1-only OLMoEarth clears AUROC 0.70 in 2/7 regions, while S1+S2 clears the pre-registered +0.03 gain gate in 0/7. This establishes conditional S1 representation value, not a general through-cloud benefit.",
+    "evaluated_patches": 690,
+    "evaluated_regions": 7,
+    "excluded_regions": [
+      "indonesia",
+      "thrissur"
+    ],
+    "fusion_gain_gate": 0.03,
+    "fusion_gain_positive_regions": 7,
+    "fusion_gate_pass_regions": 0,
+    "limitations": [
+      "Patch and timestamp selection is driven by the four clearest S2 observations on each side; no cloudy S2 stratum is evaluated.",
+      "AUROC pools spatial tokens within each region; no spatial-block confidence interval is present.",
+      "There is one frozen model recipe and no seed or matched second-GeoFM control.",
+      "Indonesia and Thrissur are excluded because four distinct S1 observations per side were unavailable."
+    ],
+    "maximum_fusion_gain": 0.014014105711461888,
+    "olmo_over_classical_regions": [
+      "hokkaido",
+      "hiroshima",
+      "usa_alaska"
+    ],
+    "s1_only_gate": 0.7,
+    "s1_only_gate_regions": [
+      "hokkaido",
+      "hiroshima"
+    ]
+  },
+  "schema": "nepal-m77-m78-audit-v1",
+  "sha256": {
+    "artifacts/corridor_s2_candidates/embed_ctrl/deltas/x001_delta.npz": "44a3a02f02a6b0fac5d13c1880cc88c7f7d846e6357c41327374cec7f79e1bde",
+    "artifacts/corridor_s2_candidates/embed_ctrl/report.json": "78aed2c348a44b2163b4118bbaa47e0cd9b6dc70633f707f1189faa92e923b77",
+    "artifacts/corridor_s2_candidates/embed_scan_v2/report.json": "e2870c8d080032890db8d3752f8d1ed5be58fb27d5488b15ed887f267a4f104f",
+    "artifacts/sen12_radar_value/report.json": "afab015e8b0efad5bab88314703377dd481466ac22cf72567f06db8218ccd244",
+    "code/sen12_radar_value.py": "d5080c268dfcfd288a521814e1c1c8a7a7b73a22180ed16f4d1b047a222387b5"
+  }
+}

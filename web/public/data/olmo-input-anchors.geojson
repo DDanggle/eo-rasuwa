@@ -1,0 +1,180 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "dhunche",
+        "status": "input_materialized",
+        "interpretation": "operational_anchor"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              85.2827651477393,
+              28.11367202569824
+            ],
+            [
+              85.30917995379647,
+              28.11367202569824
+            ],
+            [
+              85.30917995379647,
+              28.090249050118548
+            ],
+            [
+              85.2827651477393,
+              28.090249050118548
+            ],
+            [
+              85.2827651477393,
+              28.11367202569824
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "rasuwagadhi",
+        "status": "input_materialized",
+        "interpretation": "operational_anchor"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              85.3647035979672,
+              28.287669004148757
+            ],
+            [
+              85.39114669468483,
+              28.287669004148757
+            ],
+            [
+              85.39114669468483,
+              28.264259473078294
+            ],
+            [
+              85.3647035979672,
+              28.264259473078294
+            ],
+            [
+              85.3647035979672,
+              28.287669004148757
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "source_provisional",
+        "status": "input_materialized",
+        "interpretation": "provisional"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              85.50611016930938,
+              28.288179209562546
+            ],
+            [
+              85.53252464686987,
+              28.288179209562546
+            ],
+            [
+              85.53252464686987,
+              28.264795130447297
+            ],
+            [
+              85.50611016930938,
+              28.264795130447297
+            ],
+            [
+              85.50611016930938,
+              28.288179209562546
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "syabrubesi",
+        "status": "input_materialized",
+        "interpretation": "operational_anchor"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              85.33371752261709,
+              28.175661551315184
+            ],
+            [
+              85.36013801600295,
+              28.175661551315184
+            ],
+            [
+              85.36013801600295,
+              28.15224722378189
+            ],
+            [
+              85.33371752261709,
+              28.15224722378189
+            ],
+            [
+              85.33371752261709,
+              28.175661551315184
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "timure",
+        "status": "input_materialized",
+        "interpretation": "operational_anchor"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              85.34973608039031,
+              28.24669898414297
+            ],
+            [
+              85.37617163374277,
+              28.24669898414297
+            ],
+            [
+              85.37617163374277,
+              28.223287041629067
+            ],
+            [
+              85.34973608039031,
+              28.223287041629067
+            ],
+            [
+              85.34973608039031,
+              28.24669898414297
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

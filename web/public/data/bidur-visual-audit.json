@@ -1,0 +1,82 @@
+{
+  "schema": "olmoearth-bidur-visual-audit/v1",
+  "created_at_utc": "2026-08-29T02:40:10.574343+00:00",
+  "point": {
+    "name": "Trishuli Bazar / Bidur reach",
+    "coordinates": [
+      85.1357,
+      27.9162
+    ]
+  },
+  "purpose": "visual_only_downstream_context_not_part_of_five_anchor_olmo_contract",
+  "catalog": "https://planetarycomputer.microsoft.com/api/stac/v1",
+  "collection": "sentinel-2-l2a",
+  "records": [
+    {
+      "label": "pre",
+      "acquired_at": "2026-08-12T04:57:01.025000Z",
+      "item_id": "S2C_MSIL2A_20260812T045701_R119_T45RUL_20260812T100317",
+      "candidate_item_ids": [
+        "S2C_MSIL2A_20260812T045701_R119_T45RUL_20260812T100317"
+      ],
+      "mgrs_tile": "45RUL",
+      "tile_cloud_pct": 27.947062,
+      "bbox": [
+        84.9659236,
+        27.0197356,
+        85.8709574,
+        28.0201008
+      ],
+      "image": "/data/story/anchors/bidur_pre.png",
+      "image_sha256": "e36a5e706d6c731be80124a459e58c2ee4ada0170d61edfbfb0fe94845320970",
+      "render": {
+        "crs": "EPSG:32645",
+        "source_shape": [
+          3,
+          10980,
+          10980
+        ],
+        "window_m": 2560,
+        "output_shape": [
+          256,
+          256,
+          4
+        ],
+        "valid_pixel_fraction": 1.0
+      }
+    },
+    {
+      "label": "post",
+      "acquired_at": "2026-08-27T04:56:59.024000Z",
+      "item_id": "S2B_MSIL2A_20260827T045659_R119_T45RUL_20260827T084453",
+      "candidate_item_ids": [
+        "S2B_MSIL2A_20260827T045659_R119_T45RUL_20260827T084453"
+      ],
+      "mgrs_tile": "45RUL",
+      "tile_cloud_pct": 54.286689,
+      "bbox": [
+        84.9659236,
+        27.0197356,
+        85.8765996,
+        28.0201614
+      ],
+      "image": "/data/story/anchors/bidur_post.png",
+      "image_sha256": "c2bf59207d20584edf410c2511bad7c0e89fc4332cd5a044650029f2c38342ea",
+      "render": {
+        "crs": "EPSG:32645",
+        "source_shape": [
+          3,
+          10980,
+          10980
+        ],
+        "window_m": 2560,
+        "output_shape": [
+          256,
+          256,
+          4
+        ],
+        "valid_pixel_fraction": 1.0
+      }
+    }
+  ]
+}

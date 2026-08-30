@@ -1,0 +1,73 @@
+{
+ "schema": "corridor-classical-vs-ai-v1",
+ "threshold_classical_p99": 0.2669478505849842,
+ "spearman_ai_vs_classical": 0.22190101757631825,
+ "top10_overlap": 3,
+ "reported_place_hits_top10": {
+  "ai": 6,
+  "classical": 5
+ },
+ "classical_top10": [
+  {
+   "id": "v033",
+   "place": "Khadag Bhanjyang, Bidur",
+   "classical_frac": 0.3905191873589165,
+   "ai_rank": 27
+  },
+  {
+   "id": "v018",
+   "place": "Grang, Kalika",
+   "classical_frac": 0.06398730830248546,
+   "ai_rank": 37
+  },
+  {
+   "id": "v019",
+   "place": "Chipleti, Uttargaya",
+   "classical_frac": 0.06338028169014084,
+   "ai_rank": 19
+  },
+  {
+   "id": "v003",
+   "place": "Dalphedi, Gosaikunda",
+   "classical_frac": 0.041666666666666664,
+   "ai_rank": 1
+  },
+  {
+   "id": "v002",
+   "place": "Timure, Gosaikunda",
+   "classical_frac": 0.023510336441021483,
+   "ai_rank": 5
+  },
+  {
+   "id": "v017",
+   "place": "Grang, Kalika",
+   "classical_frac": 0.020151133501259445,
+   "ai_rank": 42
+  },
+  {
+   "id": "v032",
+   "place": "Bidur, Bidur",
+   "classical_frac": 0.019659936238044632,
+   "ai_rank": 11
+  },
+  {
+   "id": "v031",
+   "place": "Bidur, Bidur",
+   "classical_frac": 0.010365379632029024,
+   "ai_rank": 6
+  },
+  {
+   "id": "v010",
+   "place": "Sano Bharkhu, Gosaikunda",
+   "classical_frac": 0.009699321047526674,
+   "ai_rank": 36
+  },
+  {
+   "id": "v009",
+   "place": "Sano Bharkhu, Gosaikunda",
+   "classical_frac": 0.0090595340811044,
+   "ai_rank": 35
+  }
+ ],
+ "n_ranked": 47
+}

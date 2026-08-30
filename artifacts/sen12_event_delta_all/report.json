@@ -1,0 +1,157 @@
+{
+  "schema": "sen12-event-delta-pilot-v1",
+  "keep_per_side": 4,
+  "label_rule": "token mask mean >= 0.25",
+  "regions": {
+    "hokkaido": {
+      "patches_used": 120,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": 0.8528342431276242,
+      "recall_at_5pct_fpr": 0.3774310563349504,
+      "placebo_pooled_auroc": 0.5637257773742953,
+      "placebo_patches": 110,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 32.7
+    },
+    "hiroshima": {
+      "patches_used": 120,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": 0.9515419318157091,
+      "recall_at_5pct_fpr": 0.7991152221998793,
+      "placebo_pooled_auroc": 0.6023593143721633,
+      "placebo_patches": 85,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 30.6
+    },
+    "dominicamaria": {
+      "patches_used": 120,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": 0.6052332456385485,
+      "recall_at_5pct_fpr": 0.11700440528634361,
+      "placebo_pooled_auroc": 0.43267552375140994,
+      "placebo_patches": 12,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 24.6
+    },
+    "nepal": {
+      "patches_used": 0,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": null,
+      "recall_at_5pct_fpr": null,
+      "placebo_pooled_auroc": null,
+      "placebo_patches": 0,
+      "verdict": "not detected",
+      "elapsed_s": 0.4
+    },
+    "kyrgyzstan1": {
+      "patches_used": 0,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": null,
+      "recall_at_5pct_fpr": null,
+      "placebo_pooled_auroc": null,
+      "placebo_patches": 0,
+      "verdict": "not detected",
+      "elapsed_s": 38.6
+    },
+    "kyrgyzstan2": {
+      "patches_used": 0,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": null,
+      "recall_at_5pct_fpr": null,
+      "placebo_pooled_auroc": null,
+      "placebo_patches": 0,
+      "verdict": "not detected",
+      "elapsed_s": 10.8
+    },
+    "italy": {
+      "patches_used": 120,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": 0.6239119174643881,
+      "recall_at_5pct_fpr": 0.14192139737991266,
+      "placebo_pooled_auroc": 0.5729405441225958,
+      "placebo_patches": 120,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 36.0
+    },
+    "china": {
+      "patches_used": 0,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": null,
+      "recall_at_5pct_fpr": null,
+      "placebo_pooled_auroc": null,
+      "placebo_patches": 0,
+      "verdict": "not detected",
+      "elapsed_s": 3.8
+    },
+    "newzealand": {
+      "patches_used": 0,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": null,
+      "recall_at_5pct_fpr": null,
+      "placebo_pooled_auroc": null,
+      "placebo_patches": 0,
+      "verdict": "not detected",
+      "elapsed_s": 27.3
+    },
+    "indonesia": {
+      "patches_used": 52,
+      "skipped_insufficient_obs": 2,
+      "pooled_auroc": 0.9196146078681875,
+      "recall_at_5pct_fpr": 0.6086956521739131,
+      "placebo_pooled_auroc": 0.4694119972427768,
+      "placebo_patches": 35,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 25.6
+    },
+    "itogon": {
+      "patches_used": 120,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": 0.764360843317356,
+      "recall_at_5pct_fpr": 0.3517618469015796,
+      "placebo_pooled_auroc": 0.5497235403769798,
+      "placebo_patches": 12,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 22.5
+    },
+    "lanaodelnorte": {
+      "patches_used": 0,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": null,
+      "recall_at_5pct_fpr": null,
+      "placebo_pooled_auroc": null,
+      "placebo_patches": 0,
+      "verdict": "not detected",
+      "elapsed_s": 1.8
+    },
+    "thrissur": {
+      "patches_used": 120,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": 0.8590038790638704,
+      "recall_at_5pct_fpr": 0.5398184176394293,
+      "placebo_pooled_auroc": 0.5348786404672852,
+      "placebo_patches": 105,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 35.6
+    },
+    "usa_alaska": {
+      "patches_used": 44,
+      "skipped_insufficient_obs": 34,
+      "pooled_auroc": 0.5525190046106278,
+      "recall_at_5pct_fpr": 0.08037825059101655,
+      "placebo_pooled_auroc": 0.5321176475996102,
+      "placebo_patches": 28,
+      "verdict": "not detected",
+      "elapsed_s": 13.3
+    },
+    "usa_puertorico": {
+      "patches_used": 47,
+      "skipped_insufficient_obs": 0,
+      "pooled_auroc": 0.6750616040530155,
+      "recall_at_5pct_fpr": 0.2857142857142857,
+      "placebo_pooled_auroc": null,
+      "placebo_patches": 0,
+      "verdict": "candidate localization signal",
+      "elapsed_s": 8.9
+    }
+  }
+}

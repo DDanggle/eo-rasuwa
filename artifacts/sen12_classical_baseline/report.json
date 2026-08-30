@@ -1,0 +1,77 @@
+{
+ "schema": "sen12-classical-baseline-v1",
+ "regions": {
+  "hokkaido": {
+   "patches": 120,
+   "classical_band_auroc": 0.542196556094314,
+   "classical_index_auroc": 0.7257415345448416,
+   "ai_auroc": 0.8528342431276242,
+   "ai_minus_best_classical": 0.12709270858278265,
+   "elapsed_s": 12.6
+  },
+  "hiroshima": {
+   "patches": 120,
+   "classical_band_auroc": 0.6412964526324892,
+   "classical_index_auroc": 0.767191776708835,
+   "ai_auroc": 0.9515419318157091,
+   "ai_minus_best_classical": 0.18435015510687414,
+   "elapsed_s": 8.8
+  },
+  "dominicamaria": {
+   "patches": 120,
+   "classical_band_auroc": 0.4924307284179777,
+   "classical_index_auroc": 0.49171437071271074,
+   "ai_auroc": 0.6052332456385485,
+   "ai_minus_best_classical": 0.11280251722057083,
+   "elapsed_s": 10.9
+  },
+  "italy": {
+   "patches": 120,
+   "classical_band_auroc": 0.4331928416553836,
+   "classical_index_auroc": 0.37227012704783274,
+   "ai_auroc": 0.6239119174643881,
+   "ai_minus_best_classical": 0.19071907580900455,
+   "elapsed_s": 11.5
+  },
+  "indonesia": {
+   "patches": 52,
+   "classical_band_auroc": 0.7072221558382307,
+   "classical_index_auroc": 0.7341012964085106,
+   "ai_auroc": 0.9196146078681875,
+   "ai_minus_best_classical": 0.18551331145967687,
+   "elapsed_s": 16.6
+  },
+  "itogon": {
+   "patches": 120,
+   "classical_band_auroc": 0.5412434201586517,
+   "classical_index_auroc": 0.6540449019881438,
+   "ai_auroc": 0.764360843317356,
+   "ai_minus_best_classical": 0.11031594132921219,
+   "elapsed_s": 9.2
+  },
+  "thrissur": {
+   "patches": 120,
+   "classical_band_auroc": 0.6513371750749374,
+   "classical_index_auroc": 0.7026028188935665,
+   "ai_auroc": 0.8590038790638704,
+   "ai_minus_best_classical": 0.15640106017030397,
+   "elapsed_s": 11.1
+  },
+  "usa_alaska": {
+   "patches": 44,
+   "classical_band_auroc": 0.4128586279748757,
+   "classical_index_auroc": 0.49773217042158957,
+   "ai_auroc": 0.5525190046106278,
+   "ai_minus_best_classical": 0.05478683418903818,
+   "elapsed_s": 5.6
+  },
+  "usa_puertorico": {
+   "patches": 47,
+   "classical_band_auroc": 0.6720351228782373,
+   "classical_index_auroc": 0.5780782962666573,
+   "ai_auroc": 0.6750616040530155,
+   "ai_minus_best_classical": 0.003026481174778217,
+   "elapsed_s": 3.9
+  }
+ }
+}

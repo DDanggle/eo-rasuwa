@@ -1,0 +1,95 @@
+{
+ "schema": "sen12-radar-value-v2",
+ "post_clear_band": [
+  null,
+  null
+ ],
+ "post_clear_target": 0.1,
+ "regions": {
+  "hokkaido": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.7949239830670235,
+   "auroc_s1s2": 0.8031940620529407,
+   "auroc_s1_only_olmo": 0.7701059305947283,
+   "auroc_s1_classical_logratio": 0.7134092642442966,
+   "post_clear_mean": 0.0988519032796224,
+   "gain": 0.00827007898591725,
+   "elapsed_s": 47.5
+  },
+  "hiroshima": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.8959631793291312,
+   "auroc_s1s2": 0.9015721808210706,
+   "auroc_s1_only_olmo": 0.7394146563391392,
+   "auroc_s1_classical_logratio": 0.5998424526955811,
+   "post_clear_mean": 0.6585577646891276,
+   "gain": 0.005609001491939436,
+   "elapsed_s": 44.7
+  },
+  "dominicamaria": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.5750799801620227,
+   "auroc_s1s2": 0.5892460655273424,
+   "auroc_s1_only_olmo": 0.48940557519328215,
+   "auroc_s1_classical_logratio": 0.5590461826834153,
+   "post_clear_mean": 0.4907801310221354,
+   "gain": 0.014166085365319714,
+   "elapsed_s": 49.5
+  },
+  "italy": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.6524742500971301,
+   "auroc_s1s2": 0.6602102512710288,
+   "auroc_s1_only_olmo": 0.496064871246317,
+   "auroc_s1_classical_logratio": 0.48980664019836223,
+   "post_clear_mean": 0.8332300821940104,
+   "gain": 0.007736001173898721,
+   "elapsed_s": 47.2
+  },
+  "indonesia": {
+   "patches": 0,
+   "no_s1_files": 52
+  },
+  "itogon": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.7556833319198278,
+   "auroc_s1s2": 0.7645455503331466,
+   "auroc_s1_only_olmo": 0.6471589962762633,
+   "auroc_s1_classical_logratio": 0.6487063137351582,
+   "post_clear_mean": 0.8463692982991536,
+   "gain": 0.008862218413318801,
+   "elapsed_s": 46.3
+  },
+  "thrissur": {
+   "patches": 0,
+   "no_s1_files": 427
+  },
+  "usa_alaska": {
+   "patches": 43,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.5081918078538569,
+   "auroc_s1s2": 0.5082937070996711,
+   "auroc_s1_only_olmo": 0.49654911803419616,
+   "auroc_s1_classical_logratio": 0.45044894982305783,
+   "post_clear_mean": 0.11298813930777617,
+   "gain": 0.00010189924581427423,
+   "elapsed_s": 18.5
+  },
+  "usa_puertorico": {
+   "patches": 47,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.7069514904496582,
+   "auroc_s1s2": 0.7106127975351524,
+   "auroc_s1_only_olmo": 0.4836577684938537,
+   "auroc_s1_classical_logratio": 0.515822902484811,
+   "post_clear_mean": 0.9568825579704122,
+   "gain": 0.00366130708549417,
+   "elapsed_s": 17.9
+  }
+ }
+}

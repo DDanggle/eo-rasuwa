@@ -1,0 +1,83 @@
+{
+ "schema": "sen12-radar-value-v2",
+ "regions": {
+  "hokkaido": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.8528342431276242,
+   "auroc_s1s2": 0.8560191869127293,
+   "auroc_s1_only_olmo": 0.7683131914138949,
+   "auroc_s1_classical_logratio": 0.71745333051425,
+   "gain": 0.003184943785105032,
+   "elapsed_s": 69.7
+  },
+  "hiroshima": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.9515419318157091,
+   "auroc_s1s2": 0.9553290253224912,
+   "auroc_s1_only_olmo": 0.7312202227786192,
+   "auroc_s1_classical_logratio": 0.6093027480916647,
+   "gain": 0.00378709350678208,
+   "elapsed_s": 66.0
+  },
+  "dominicamaria": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.6052332456385485,
+   "auroc_s1s2": 0.6192473513500104,
+   "auroc_s1_only_olmo": 0.5162756388849162,
+   "auroc_s1_classical_logratio": 0.5665731375069135,
+   "gain": 0.014014105711461888,
+   "elapsed_s": 70.1
+  },
+  "italy": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.6272007433580508,
+   "auroc_s1s2": 0.6305838145373355,
+   "auroc_s1_only_olmo": 0.4892439525037893,
+   "auroc_s1_classical_logratio": 0.4920437343987354,
+   "gain": 0.0033830711792847135,
+   "elapsed_s": 70.7
+  },
+  "indonesia": {
+   "patches": 0,
+   "no_s1_files": 52
+  },
+  "itogon": {
+   "patches": 120,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.764360843317356,
+   "auroc_s1s2": 0.77551824252952,
+   "auroc_s1_only_olmo": 0.6548767237458961,
+   "auroc_s1_classical_logratio": 0.6635546360431153,
+   "gain": 0.011157399212163965,
+   "elapsed_s": 68.0
+  },
+  "thrissur": {
+   "patches": 0,
+   "no_s1_files": 427
+  },
+  "usa_alaska": {
+   "patches": 43,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.5467328051512242,
+   "auroc_s1s2": 0.5470347283520077,
+   "auroc_s1_only_olmo": 0.552906301087384,
+   "auroc_s1_classical_logratio": 0.51605842849552,
+   "gain": 0.00030192320078348267,
+   "elapsed_s": 26.4
+  },
+  "usa_puertorico": {
+   "patches": 47,
+   "s1_unit_detected": "dB",
+   "auroc_s2_only": 0.6750616040530155,
+   "auroc_s1s2": 0.6788281478257367,
+   "auroc_s1_only_olmo": 0.462056123091581,
+   "auroc_s1_classical_logratio": 0.48140328720597775,
+   "gain": 0.0037665437727212314,
+   "elapsed_s": 26.6
+  }
+ }
+}

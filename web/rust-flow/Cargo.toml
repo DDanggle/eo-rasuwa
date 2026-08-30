@@ -1,0 +1,16 @@
+[package]
+name = "nepal-flow-wasm"
+version = "0.1.0"
+edition = "2024"
+description = "Deterministic kinematic particle preview for the OLMoEarth Nepal Live Twin"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

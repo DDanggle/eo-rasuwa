@@ -1,0 +1,33 @@
+{
+  "name": "nepal-live-twin-web",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "dev": "next dev",
+    "data": "python3 python/build_live_twin_data.py",
+    "wasm": "bash scripts/build-wasm.sh",
+    "verify": "node scripts/verify-assets.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ignore-pattern .next --ignore-pattern public/maplibre-gl-worker.mjs --ignore-pattern public/maplibre-gl-shared.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0",
+    "maplibre-gl": "^6.6.0",
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3"
+  }
+}

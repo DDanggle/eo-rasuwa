@@ -740,6 +740,7 @@ export default function Home() {
         map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
           paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 2.2, 12, 4, 15, 7], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 1.5, 'circle-opacity': 0.95 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
+          filter: ['==', ['get', 'status'], 'ranked'],  // 2026-08-30: 판정된 창만 채움 — 구름 창은 청록 점만 남겨 회랑이 벽이 되지 않게
           paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'],
                    'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.0, 0.05, 0.14, 0.2, 0.38, 0.5, 0.55] } }, before);
         try { map.addLayer({ id: 'ai-candidate-rank', type: 'symbol', source: 'ai-candidates',

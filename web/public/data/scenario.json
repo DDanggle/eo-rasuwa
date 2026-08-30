@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-30T05:24:25.421403+00:00",
+  "generated_at": "2026-08-30T05:56:57.828364+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -9310,6 +9310,205 @@
     },
     "claim_boundary": "exploratory correlation on ~40 judged windows; no causal or predictive claim; no runout physics",
     "report_sha256": "6e80915e3641695546f1c911fa27b1f94a956f592f4899bc902793715cfc4c9a"
+  },
+  "review": {
+    "funnel": {
+      "scanned": 100,
+      "observable": 47,
+      "leads": 6,
+      "confirmed_damage_labels": 0
+    },
+    "by_zone": {
+      "river": {
+        "total": 41,
+        "observable": 39
+      },
+      "lhende": {
+        "total": 10,
+        "observable": 2
+      },
+      "hillslope": {
+        "total": 49,
+        "observable": 6
+      }
+    },
+    "threshold": 0.3169780373573303,
+    "leads": [
+      {
+        "id": "v003",
+        "rank": 1,
+        "place": "Dalphedi, Gosaikunda",
+        "kind": "river",
+        "candidate_token_frac": 0.133,
+        "candidate_token_frac_single_pair": 0.254,
+        "observable": 0.451,
+        "center_lonlat": [
+          85.361097,
+          28.2255196
+        ],
+        "images": {
+          "pre": "/data/candidates/v003_pre.png",
+          "post": "/data/candidates/v003_post.png",
+          "delta": "/data/candidates/v003_delta.png"
+        },
+        "external_reports": {
+          "urls": [],
+          "verified_by_this_build": false
+        }
+      },
+      {
+        "id": "v025",
+        "rank": 2,
+        "place": "Bhainse, Bidur",
+        "kind": "river",
+        "candidate_token_frac": 0.132,
+        "candidate_token_frac_single_pair": 0.18,
+        "observable": 0.906,
+        "center_lonlat": [
+          85.1762602,
+          27.9649438
+        ],
+        "images": {
+          "pre": "/data/candidates/v025_pre.png",
+          "post": "/data/candidates/v025_post.png",
+          "delta": "/data/candidates/v025_delta.png"
+        },
+        "external_reports": {
+          "urls": [
+            "https://radionepalonline.com/en/2026/08/27/434851.html"
+          ],
+          "verified_by_this_build": false
+        }
+      },
+      {
+        "id": "v024",
+        "rank": 3,
+        "place": "Naubisephat, Uttargaya",
+        "kind": "river",
+        "candidate_token_frac": 0.107,
+        "candidate_token_frac_single_pair": 0.146,
+        "observable": 0.946,
+        "center_lonlat": [
+          85.1815317,
+          27.9786895
+        ],
+        "images": {
+          "pre": "/data/candidates/v024_pre.png",
+          "post": "/data/candidates/v024_post.png",
+          "delta": "/data/candidates/v024_delta.png"
+        },
+        "external_reports": {
+          "urls": [],
+          "verified_by_this_build": false
+        }
+      },
+      {
+        "id": "v027",
+        "rank": 4,
+        "place": "Bidur",
+        "kind": "river",
+        "candidate_token_frac": 0.081,
+        "candidate_token_frac_single_pair": 0.104,
+        "observable": 0.944,
+        "center_lonlat": [
+          85.1552937,
+          27.9336297
+        ],
+        "images": {
+          "pre": "/data/candidates/v027_pre.png",
+          "post": "/data/candidates/v027_post.png",
+          "delta": "/data/candidates/v027_delta.png"
+        },
+        "external_reports": {
+          "urls": [
+            "https://radionepalonline.com/en/2026/08/27/434851.html"
+          ],
+          "verified_by_this_build": false
+        }
+      },
+      {
+        "id": "v022",
+        "rank": 5,
+        "place": "Shanti Bazar, Kispang",
+        "kind": "river",
+        "candidate_token_frac": 0.073,
+        "candidate_token_frac_single_pair": 0.114,
+        "observable": 0.867,
+        "center_lonlat": [
+          85.1846652,
+          28.0133953
+        ],
+        "images": {
+          "pre": "/data/candidates/v022_pre.png",
+          "post": "/data/candidates/v022_post.png",
+          "delta": "/data/candidates/v022_delta.png"
+        },
+        "external_reports": {
+          "urls": [
+            "https://kathmandupost.com/national/2026/08/26/bhotekoshi-flood-what-we-know-what-remains-unclear"
+          ],
+          "verified_by_this_build": false
+        }
+      },
+      {
+        "id": "v002",
+        "rank": 6,
+        "place": "Timure, Gosaikunda",
+        "kind": "river",
+        "candidate_token_frac": 0.071,
+        "candidate_token_frac_single_pair": 0.14,
+        "observable": 0.602,
+        "center_lonlat": [
+          85.3581813,
+          28.2411955
+        ],
+        "images": {
+          "pre": "/data/candidates/v002_pre.png",
+          "post": "/data/candidates/v002_post.png",
+          "delta": "/data/candidates/v002_delta.png"
+        },
+        "external_reports": {
+          "urls": [
+            "https://nrcs.org/resources/news-and-events/rasuwa-flood-situation-update-26-august-2026/"
+          ],
+          "verified_by_this_build": false
+        }
+      }
+    ],
+    "reobserve": [
+      {
+        "id": "v064",
+        "place": "Salê",
+        "candidate_token_frac": 0.119,
+        "observable": 0.212,
+        "center_lonlat": [
+          85.46621680097404,
+          28.345225889574237
+        ],
+        "images": {
+          "pre": "/data/candidates/v064_pre.png",
+          "post": "/data/candidates/v064_post.png",
+          "delta": "/data/candidates/v064_delta.png"
+        }
+      },
+      {
+        "id": "v041",
+        "place": "Rasuwa Gadhi, Gosaikunda",
+        "candidate_token_frac": 0.082,
+        "observable": 0.216,
+        "center_lonlat": [
+          85.39213960269319,
+          28.276056586875097
+        ],
+        "images": {
+          "pre": "/data/candidates/v041_pre.png",
+          "post": "/data/candidates/v041_post.png",
+          "delta": "/data/candidates/v041_delta.png"
+        }
+      }
+    ],
+    "download": "/data/candidates.geojson",
+    "posthoc_note": "External reports were compared after ranking and never used to tune it; links are user-provided and not independently verified by this build."
   },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",

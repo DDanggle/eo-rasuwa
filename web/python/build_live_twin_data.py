@@ -1315,6 +1315,61 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def review_leads_block(candidates: dict[str, Any] | None, placebo_ext: dict[str, Any] | None) -> dict[str, Any] | None:
+    """첫 화면용 깔때기 100 → 판독 가능 → 우선 검토 6. 순위는 M82 pooled3 후보 비율, 관측 가능성 ≥ 0.4 인 창만 리드로 승격.
+    외부 보고 대조는 사후 검증이며 순위에 쓰지 않음(사용자 제공 링크, 이 빌드가 독립 검증하지 않음)."""
+    if not candidates or not candidates.get("geojson"):
+        return None
+    feats = candidates["geojson"]["features"]
+    by_kind: dict[str, dict[str, int]] = {}
+    for f in feats:
+        k = f["properties"].get("kind", "river"); by_kind.setdefault(k, {"total": 0, "observable": 0})
+        by_kind[k]["total"] += 1
+        if f["properties"].get("status") == "ranked": by_kind[k]["observable"] += 1
+    places_path = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_scan_v2/places.json"
+    places = json.loads(places_path.read_text()) if places_path.exists() else {}
+    ext_path = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_placebo_ext/report.json"
+    rows = json.loads(ext_path.read_text())["windows"] if ext_path.exists() else []
+    ranked = [r for r in rows if r.get("status") == "ranked" and r.get("candidate_frac_pooled3") is not None]
+    ranked.sort(key=lambda r: -r["candidate_frac_pooled3"])
+    # 외부 보고(사용자 제공, 2026-08-30) — 순위 산출 뒤 대조. verified=False 로 표기.
+    reports = {"Timure": ["https://nrcs.org/resources/news-and-events/rasuwa-flood-situation-update-26-august-2026/"],
+               "Shanti Bazar": ["https://kathmandupost.com/national/2026/08/26/bhotekoshi-flood-what-we-know-what-remains-unclear"],
+               "Bidur": ["https://radionepalonline.com/en/2026/08/27/434851.html"],
+               "Betrawati": ["https://kathmandupost.com/national/2026/08/26/bhotekoshi-flood-what-we-know-what-remains-unclear"]}
+    leads = []; used_places: set[str] = set(); reobserve = []
+    for r in ranked:
+        place0 = places.get(r["id"]) if isinstance(places.get(r["id"]), str) else None
+        if r["event_valid_frac"] < 0.4:
+            if len(reobserve) < 3 and r["candidate_frac_pooled3"] >= 0.05:
+                reobserve.append({"id": r["id"], "place": place0 or r["id"], "candidate_token_frac": round(r["candidate_frac_pooled3"], 3), "observable": round(r["event_valid_frac"], 3), "center_lonlat": r["center_lonlat"],
+                                  "images": {"pre": f"/data/candidates/{r['id']}_pre.png", "post": f"/data/candidates/{r['id']}_post.png", "delta": f"/data/candidates/{r['id']}_delta.png"}})
+            continue
+        key = (place0 or r["id"]).split(",")[0].strip().lower()
+        if key in used_places: continue  # 같은 마을 창 중복 제거(Bidur ×3)
+        used_places.add(key)
+        place = places.get(r["id"]) if isinstance(places.get(r["id"]), str) else (places.get(r["id"], {}) or {}).get("place") if isinstance(places.get(r["id"]), dict) else None
+        place = place or r["id"]
+        hits = [u for name, urls in reports.items() if name.lower() in str(place).lower() for u in urls]
+        leads.append({"id": r["id"], "rank": len(leads) + 1, "place": place, "kind": next((f["properties"].get("kind") for f in feats if f["properties"]["id"] == r["id"]), "river"),
+                      "candidate_token_frac": round(r["candidate_frac_pooled3"], 3), "candidate_token_frac_single_pair": round(r["candidate_frac_P1only"], 3) if r.get("candidate_frac_P1only") is not None else None,
+                      "observable": round(r["event_valid_frac"], 3), "center_lonlat": r["center_lonlat"],
+                      "images": {"pre": f"/data/candidates/{r['id']}_pre.png", "post": f"/data/candidates/{r['id']}_post.png", "delta": f"/data/candidates/{r['id']}_delta.png"},
+                      "external_reports": {"urls": hits, "verified_by_this_build": False}})
+        if len(leads) == 6: break
+    observable_total = sum(v["observable"] for v in by_kind.values())
+    # 다운로드용 GeoJSON (판정된 창만, 속성 포함)
+    out = {"type": "FeatureCollection", "name": "olmoearth_nepal_rasuwa_2026_candidates", "license": "CC-BY-4.0 derived from ESA Copernicus Sentinel-2; OlmoEarth v1 Base (Ai2)",
+           "claim": "candidate change (representation moved more than its ordinary range) — not damage, not cause, not probability",
+           "features": [{"type": "Feature", "geometry": f["geometry"], "properties": {**{k: f["properties"].get(k) for k in ("id", "kind", "status", "rank", "candidate_token_frac", "valid_event_frac", "d_event_mean", "d_placebo_mean", "center_lonlat")},
+                          "candidate_token_frac_pooled3": next((r["candidate_frac_pooled3"] for r in rows if r["id"] == f["properties"]["id"]), None), "place": places.get(f["properties"]["id"]) if isinstance(places.get(f["properties"]["id"]), str) else None}}
+                        for f in feats if (f["properties"].get("status") or next((r.get("status") for r in rows if r["id"] == f["properties"].get("id")), None)) == "ranked"]}
+    (PUBLIC_DATA / "candidates.geojson").write_text(json.dumps(out))
+    return {"funnel": {"scanned": len(feats), "observable": observable_total, "leads": len(leads), "confirmed_damage_labels": 0}, "by_zone": by_kind,
+            "threshold": placebo_ext["threshold_pooled3"] if placebo_ext else None, "leads": leads, "reobserve": reobserve, "download": "/data/candidates.geojson",
+            "posthoc_note": "External reports were compared after ranking and never used to tune it; links are user-provided and not independently verified by this build."}
+
+
 def geomorph_block(candidates: dict[str, Any] | None) -> dict[str, Any] | None:
     """M84: 1구역(E→A) D8 종단면 + 2구역 계곡 매개변수 상관 + 두 구역 경계(후보 격자 kind 기준)."""
     rp = WORK_ROOT / "artifacts/corridor_geomorph/report.json"
@@ -1641,6 +1696,7 @@ def build(refresh_osm: bool) -> None:
         "lake_search": lake_search_block(),
         "placebo_extended": placebo_extended_block(),
         "geomorph": geomorph_block(candidates_block_cached),
+        "review": review_leads_block(candidates_block_cached, placebo_extended_block()),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {

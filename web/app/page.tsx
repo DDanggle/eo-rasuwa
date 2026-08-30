@@ -9,7 +9,7 @@ type Scenario = { generated_at: string; review?: Review | null; placebo_extended
 
 export default function Landing() {
   const [sc, setSc] = useState<Scenario | null>(null);
-  const [ko, setKo] = useState(false);
+  const [ko, setKo] = useState(true);
   const [swipe, setSwipe] = useState(50);
   useEffect(() => { document.body.classList.add('page-scroll'); return () => document.body.classList.remove('page-scroll'); }, []);
   useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); }, []);

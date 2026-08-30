@@ -17,14 +17,14 @@ export default function Landing() {
   return (
     <main className="landing">
       <nav className="landing-nav">
-        <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026 · independent project</span>
+        <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026</span>
         <div><button className={!ko ? 'is-active' : ''} onClick={() => setKo(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => setKo(true)}>한국어</button><Link href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</Link></div>
       </nav>
 
       <section className="hero">
-        <p className="kicker">{ko ? '독립 프로젝트. 재난 전용 모델을 학습하지 않은, 범용 지구 임베딩 모델의 재사용' : 'An independent project. A general Earth-embedding model, reused — no disaster-specific detector was trained'}</p>
+        <p className="kicker">{ko ? '재난 전용 모델을 학습하지 않은, 범용 지구 임베딩 모델의 재사용' : 'A general Earth-embedding model, reused — no disaster-specific detector was trained'}</p>
         <h1>{ko ? <>위성 관측창 <em>100개.</em><br />먼저 확인할 곳 <em>6곳.</em></> : <><em>100</em> satellite windows.<br /><em>6</em> places to inspect first.</>}</h1>
-        <p className="sub">{ko ? '사건 전후의 센티넬 관측을 범용 지구 임베딩 모델로 비교해, 평소 변화보다 크게 달라진 장소만 남겼습니다. “달라진 곳”이 아니라 “평소보다 더 달라진 곳”입니다.' : 'A general Earth-embedding model compares before-and-after Sentinel observations with each place\'s ordinary change. Not "what changed" — "what changed more than it usually does."'}</p>
+        <p className="sub">{ko ? <>사건 전후의 센티넬 관측을 범용 지구 임베딩 모델(<a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2 OlmoEarth v1 Base</a>, 학습 없이 사용)로 비교해, 평소 변화보다 크게 달라진 장소만 남겼습니다. “달라진 곳”이 아니라 “평소보다 더 달라진 곳”입니다.</> : <>A general Earth-embedding model — <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2&apos;s OlmoEarth v1 Base</a>, used frozen — compares before-and-after Sentinel observations with each place&apos;s ordinary change. Not &quot;what changed&quot; — &quot;what changed more than it usually does.&quot;</>}</p>
         <div className="funnel" role="img" aria-label="100 scanned, 47 observable, 6 review leads, 0 confirmed damage labels">
           <div><b>{rv?.funnel.scanned ?? 100}</b><span>{ko ? '스캔한 창' : 'scanned'}</span></div><i>→</i>
           <div><b>{rv?.funnel.observable ?? 47}</b><span>{ko ? '판독 가능' : 'observable'}</span></div><i>→</i>
@@ -96,7 +96,7 @@ export default function Landing() {
         <p><b>{ko ? '과학적 경계' : 'Scientific boundary'}</b> {ko ? '후보를 찾지만 피해를 확정하지 않습니다.' : 'Finds candidates; does not confirm damage.'}</p>
         <p><b>{ko ? '사용자 가치' : 'User value'}</b> {ko ? '사람이 100곳을 모두 보는 대신 먼저 볼 곳을 알려줍니다.' : 'Instead of looking at 100 places, people know where to look first.'}</p>
         <p><b>{ko ? '재사용 가치' : 'Reuse value'}</b> {ko ? '새로운 재난마다 모델을 다시 학습하지 않습니다.' : 'No retraining for each new disaster.'}</p>
-        <small>Independent project by an individual researcher — not affiliated with Ai2, ESA, Planet or any agency. Model: OlmoEarth v1 Base (Ai2, open weights, used frozen). Sentinel-1/2 © ESA Copernicus · PlanetScope © Planet Labs PBC (CC-BY-NC-4.0) · suspected rock–ice avalanche, under investigation · {sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}</small>
+        <small>Model: <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a> (Ai2, open weights, used frozen) · Sentinel-1/2 © ESA Copernicus · PlanetScope © Planet Labs PBC (CC-BY-NC-4.0) · suspected rock–ice avalanche, under investigation · {sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}</small>
       </footer>
     </main>
   );

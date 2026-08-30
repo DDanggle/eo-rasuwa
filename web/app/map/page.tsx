@@ -1223,7 +1223,7 @@ export default function Home() {
       <header className="topbar">
         <div className="brand-lockup">
           <div className="brand-mark"><span /></div>
-          <div><p className="eyebrow">INDEPENDENT PROJECT · EVIDENCE MAP</p><h1>Nepal <span>AI Twin</span></h1></div>
+          <div><p className="eyebrow">EVIDENCE MAP · RASUWA 2026</p><h1>Nepal <span>AI Twin</span></h1></div>
         </div>
         <div className="map-mode-switch zone-switch" role="group" aria-label="Zone">
           <button className={zone === 0 ? 'is-active' : ''} onClick={() => setZone(0)} disabled={mapStatus !== 'ready'}>WHOLE CHAIN</button>
@@ -1558,7 +1558,7 @@ export default function Home() {
           <section className="story-hero story-step">
             <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '갱신' : 'UPDATED'} {scenario ? kstStamp(scenario.generated_at) : '—'} KST</p>
             <h1>{ko ? '산이 무너진 지 사흘, 위성은 무엇을 봤고 무엇을 보지 못했나' : 'Three days of satellites over a valley that stopped looking like itself'}</h1>
-            <p className="story-disclosure">{ko ? '이 글과 화면은 한 개인 연구자의 독립 프로젝트입니다. Ai2·ESA·Planet 등 어느 기관과도 관계가 없습니다. 인공지능 모델은 Ai2가 공개한 OlmoEarth v1 Base를 학습 없이 그대로 사용했습니다.' : 'This story and the map are an independent project by one researcher, not affiliated with Ai2, ESA, Planet or any agency. The AI model is OlmoEarth v1 Base, released openly by Ai2 and used here frozen, without training.'}</p>
+            <p className="story-disclosure">{ko ? <>인공지능 모델은 Ai2가 공개한 <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>를 학습 없이 그대로 사용했습니다. 위성 자료는 ESA 센티넬-1·2, 참고 영상은 Planet입니다.</> : <>The AI model is <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>, released openly by Ai2 and used here frozen, without training. Satellite data: ESA Sentinel-1/2; reference imagery: Planet.</>}</p>
             <p className="story-lede">{ko
               ? '8월 26일 아침, 네팔 라수와 군 랑탕 리룽 북사면에서 바위와 얼음이 함께 무너졌다. 토사와 물은 렌데 계곡을 타고 국경 마을 라수와가디를 덮친 뒤 트리슐리 강을 따라 70km 넘게 내려갔다. 이 페이지는 그 며칠 동안 유럽우주국의 무료 위성 두 대(광학 센티넬-2, 레이더 센티넬-1)가 이 계곡을 어떻게 찍었는지, 학습을 멈춘 인공지능 모델 하나가 그 관측으로 무엇을 계산했는지, 그리고 무엇을 계산하지 못했는지를 기록한다. 원인은 아직 조사 중이다(rock–ice avalanche 추정).'
               : 'On the morning of 26 August, rock and ice gave way on the north face of Langtang Lirung in Rasuwa district. Debris and water ran down the Lhende valley into the border town of Rasuwagadhi, then more than 70 km down the Trishuli. This page records what two free ESA satellites — optical Sentinel-2 and radar Sentinel-1 — captured over those days, what one frozen AI model computed from that, and what it could not. The cause is still under investigation (suspected rock–ice avalanche).'}</p>

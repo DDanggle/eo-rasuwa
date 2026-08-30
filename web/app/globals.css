@@ -1061,3 +1061,22 @@ body.page-scroll .landing { min-height: 100vh; }
 .map-legend { left: 18px; top: 150px; max-width: 300px; }
 .story-close { left: 22px; right: auto; }
 .story-lang { right: 22px; }
+
+/* 모바일 정리 (2026-08-30 QA) */
+.landing { overflow-x: hidden; }
+.leads { overflow-x: auto; }
+@media (max-width: 720px) {
+  .landing { padding: 0 18px 60px; }
+  .landing-nav { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .landing-nav div { flex-wrap: wrap; }
+  .landing .hero h1 { font-size: 36px; }
+  .funnel { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .funnel > i { display: none; }
+  .funnel > div { min-width: 0; padding: 10px 12px; } .funnel > div b { font-size: 26px; }
+  .landing .btn { width: 100%; text-align: center; }
+  .leads table { min-width: 640px; }
+  .key-strip { display: none; }
+  .topbar .story-launch { padding: 8px 10px; font-size: 9px; }
+  .topbar .sat-tiles-toggle { display: none; }
+  .map-legend { display: none; }
+}

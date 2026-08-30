@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable @next/next/no-img-element -- sealed research rasters are intentionally served without image transformation */
 import { useEffect, useState } from 'react';
 
 // 첫 화면(2026-08-30 개편): 메시지 하나 — 100개 창 → 47개 판독 가능 → 6곳 우선 검토. 증거 전체는 /map 과 STORY 로.
@@ -33,8 +34,8 @@ export default function Landing() {
         </div>
         <div className="cta">
           <a href="/map" className="btn primary">{ko ? '후보 6곳 탐색' : 'EXPLORE 6 CANDIDATES'}</a>
-          <a href={rv?.download ?? '/data/review-leads.geojson'} className="btn" download>{ko ? '리드 6곳 GeoJSON' : 'DOWNLOAD 6 REVIEW LEADS'}</a>
-          <a href="#reuse" className="btn">{ko ? '이 방법 재사용하기' : 'REUSE THIS RECIPE'}</a>
+          <a href={rv?.all_observable_download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '측정된 47곳 GeoJSON 내려받기(후보 순)' : 'DOWNLOAD ALL 47 WINDOWS (RANKED GEOJSON)'}</a>
+          <a href="https://github.com/DDanggle/eo_olmo_earth_project" className="btn" target="_blank" rel="noreferrer">GITHUB ↗</a>
         </div>
       </section>
 
@@ -50,9 +51,9 @@ export default function Landing() {
           <figure><img src={lead?.images.delta ?? '/data/candidates/v003_delta.png'} alt="embedding change" /><figcaption><b>{ko ? '임베딩 변화' : 'EMBEDDING CHANGE'}</b>{ko ? ' — 평소 범위를 넘은 40 m 토큰(주황). 왼쪽 손잡이를 끌어 전후를 비교하세요.' : ' — 40 m tokens beyond their ordinary range (orange). Drag the handle on the left to compare.'}</figcaption></figure>
         </div>
         <ul className="plain">
-          <li><b>Δz</b> — {ko ? '같은 장소가 사건 전후에 얼마나 다르게 표현됐는가' : 'how differently the same place is represented before and after'}</li>
-          <li><b>placebo</b> — {ko ? '사건이 없던 평범한 기간에도 보통 얼마나 달라지는가(세 개의 2주 쌍)' : 'how much it usually differs across ordinary fortnights (three pairs)'}</li>
-          <li><b>{ko ? '초과 비율' : 'exceedance'}</b> — {ko ? '한 창(2.56 km, 64×64 격자) 안에서 Δz가 평시 99퍼센타일을 넘은 40 m 격자의 비율. 표의 “임베딩 변화 초과 비율”이 이것이다. 피해 면적이 아니다.' : 'the share of 40 m cells in a 2.56 km window (64×64 cells) whose Δz exceeds the ordinary 99th percentile. This is the number in the table. It is not a damaged area.'}</li>
+          <li><b>Δz</b> — {ko ? '같은 장소가 사건 전후에 얼마나 달라졌는지를 AI 임베딩으로 측정한 값' : 'how much the same place changed before vs after, measured in the AI embedding'}</li>
+          <li><b>placebo</b> — {ko ? '사건이 없던 일반적인 기간(5~8월)에도 같은 장소가 얼마나 달라지는지 측정한 값 — 이것이 “평소 변화”의 기준' : 'how much the same place changes in ordinary periods without an event (May–August) — the baseline for "ordinary change"'}</li>
+          <li><b>{ko ? '평소보다 다르게 보이는 비율' : 'share unlike its ordinary self'}</b> — {ko ? '한 창(2.56 km) 안에서 평소 변화 범위를 넘어선 40 m 격자의 비율. 표의 숫자가 이것이며, 피해 면적이 아닙니다.' : 'the share of 40 m cells in a 2.56 km window that moved beyond their ordinary range. This is the number in the table; it is not a damaged area.'}</li>
         </ul>
       </section>
 
@@ -65,8 +66,8 @@ export default function Landing() {
           <figure><img src={lead.images.delta} alt="delta" /><figcaption>AI Δ</figcaption></figure>
           <div className="example-text">
             <h2>#{lead.rank} {lead.place}</h2>
-            <p>{ko ? `이 2.56 km 창의 40 m 격자 중 ${pct(lead.candidate_token_frac)}에서 사건 전후 임베딩 거리 Δz가 평시 99퍼센타일 문턱을 넘었고, 27일 영상 격자의 ${pct(lead.observable)}가 구름 없이 판독됐습니다. 강 회랑 6 km 아래, 국경 충격 지점에서 토사가 넓은 계곡 바닥에 깔린 구간입니다.` : `In ${pct(lead.candidate_token_frac)} of this 2.56 km window's 40 m cells the before/after embedding distance Δz exceeded the ordinary 99th-percentile threshold, and ${pct(lead.observable)} of the 27 Aug scene was cloud-free. Six kilometres below the border impact, this is where debris spread across a wide valley floor.`}</p>
-            <dl><div><dt>{ko ? '임베딩 변화 초과 비율' : 'exceedance (cells with Δz > ordinary p99)'}</dt><dd>{pct(lead.candidate_token_frac)}</dd></div><div><dt>{ko ? '관측 가능 비율(구름 제외)' : 'cloud-free share'}</dt><dd>{pct(lead.observable)}</dd></div><div><dt>{ko ? '평시 p99 문턱(코사인 거리)' : 'ordinary p99 threshold (cosine distance)'}</dt><dd>{rv?.threshold?.toFixed(3) ?? '—'}</dd></div></dl>
+            <p>{ko ? `이 2.56 km 창의 40 m 격자 중 ${pct(lead.candidate_token_frac)}가 평소 변화 기준값을 넘어 달라졌고, 27일 영상은 ${pct(lead.observable)}가 구름 없이 관측됐습니다. 빙하가 무너져 산사태가 시작된 지점을 기준으로 강을 따라 흘러내린 구간에 있으며, 실제 피해 여부가 더 의심되는 곳으로 보입니다.` : `In ${pct(lead.candidate_token_frac)} of this 2.56 km window's 40 m cells the before/after embedding distance Δz exceeded the ordinary 99th-percentile threshold, and ${pct(lead.observable)} of the 27 Aug scene was cloud-free. About six kilometres down the river corridor from the border impact, this broad valley floor is the first place for a person to check—not a confirmed deposit.`}</p>
+            <dl><div><dt>{ko ? '임베딩 기준 이상 비율' : 'share unlike its ordinary self'}</dt><dd>{pct(lead.candidate_token_frac)}</dd></div><div><dt>{ko ? '관측된 비율(구름 제외)' : 'observed share (cloud-free)'}</dt><dd>{pct(lead.observable)}</dd></div><div><dt>{ko ? '평소 변화 기준값(코사인 거리)' : 'ordinary-change reference (cosine distance)'}</dt><dd>{rv?.threshold?.toFixed(3) ?? '—'}</dd></div></dl>
           </div>
         </div>
       </section>
@@ -76,7 +77,7 @@ export default function Landing() {
       <section className="leads">
         <p className="kicker">{ko ? '우선 검토 6곳 · 세 가지 증거를 나란히' : 'SIX REVIEW LEADS · three kinds of evidence side by side'}</p>
         <table>
-          <thead><tr><th>#</th><th>{ko ? '장소' : 'place'}</th><th>{ko ? '임베딩 변화 초과 비율' : 'embedding-change exceedance'}<small>{ko ? 'Δz > 평시 p99 인 40 m 격자의 비율' : 'share of 40 m cells with Δz above the ordinary 99th percentile'}</small></th><th>{ko ? '관측 가능 비율' : 'cloud-free share'}<small>{ko ? '27일 장면 중 구름 아닌 격자(SCL)' : 'cells of the 27 Aug scene not cloud (SCL)'}</small></th><th>{ko ? '외부 보고(사후 대조)' : 'external reports (post-hoc)'}</th></tr></thead>
+          <thead><tr><th>#</th><th>{ko ? '장소' : 'place'}</th><th>{ko ? '평소보다 다르게 보이는 비율' : 'share unlike its ordinary self'}<small>{ko ? '평소 변화 범위를 넘은 40 m 격자의 비율' : 'share of 40 m cells beyond their ordinary range'}</small></th><th>{ko ? '관측된 비율' : 'observed share'}<small>{ko ? '27일 영상에서 구름 없이 보인 부분' : 'cloud-free part of the 27 Aug scene'}</small></th><th>{ko ? '외부 보고(사후 대조)' : 'external reports (post-hoc)'}</th></tr></thead>
           <tbody>{rv.leads.map((l) => <tr key={l.id}><td>{l.rank}</td><td><a className="place-link" href={`/map?focus=${l.id}`}>{l.place}</a><small>{l.id} · {l.kind}</small></td><td><i style={{ width: `${Math.min(100, 100 * l.candidate_token_frac / 0.15)}%` }} />{pct(l.candidate_token_frac)}</td><td>{pct(l.observable)}{l.observable < 0.6 && <small>{ko ? ' 절반 가까이 구름' : ' partly cloud'}</small>}</td><td>{l.external_reports.urls.length ? l.external_reports.urls.map((u, i) => <a key={u} href={u} target="_blank" rel="noreferrer">{new URL(u).hostname.replace('www.', '')}{i < l.external_reports.urls.length - 1 ? ' · ' : ''}</a>) : <span className="muted">—</span>}</td></tr>)}</tbody>
         </table>
         <p className="note">{ko ? '외부 보고는 순위를 낸 뒤에 대조했고 순위 조정에 쓰지 않았습니다. 링크는 제공받은 것이며 이 빌드가 독립 검증하지 않았습니다. 이 시스템은 피해를 확정하지 않습니다 — 사람이 먼저 볼 곳을 좁힙니다.' : rv.posthoc_note + ' The system does not confirm damage — it narrows where people should look first.'}</p>
@@ -92,7 +93,7 @@ export default function Landing() {
         <table className="io"><thead><tr><th>{ko ? '넣는 것' : 'you provide'}</th><th>{ko ? '받는 것' : 'you get'}</th></tr></thead><tbody>
           <tr><td>{ko ? 'AOI + 사건 전후 Sentinel-2 장면(12밴드, 10 m)' : 'AOI + before/after Sentinel-2 scenes (12 bands, 10 m)'}</td><td>{ko ? '후보 순위 GeoJSON' : 'ranked candidate GeoJSON'}</td></tr>
           <tr><td>{ko ? 'Earth-embedding model (OlmoEarth v1 Base, frozen — no training)' : 'Earth-embedding model (OlmoEarth v1 Base, frozen — no training)'}</td><td>{ko ? '창별 PRE · POST · AI Δ 이미지' : 'PRE · POST · AI Δ image per window'}</td></tr>
-          <tr><td>{ko ? '평시 관측 기간(2주 쌍 2–3개)' : 'ordinary periods (two or three fortnight pairs)'}</td><td>{ko ? '후보별 변화값·관측 가능성·감사 기록(SHA-256)' : 'per-candidate change, observability and an audit record (SHA-256)'}</td></tr>
+          <tr><td>{ko ? '서로 맞춘 평시 변화 3개(2주 간격)' : 'three matched ordinary fortnight transitions'}</td><td>{ko ? '후보별 변화값·관측 가능성·감사 기록(SHA-256)' : 'per-candidate change, observability and an audit record (SHA-256)'}</td></tr>
         </tbody></table>
         <div className="cta"><a href="/story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</a><a className="btn" href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">CODE ↗</a></div>
       </section>
@@ -100,16 +101,16 @@ export default function Landing() {
       <footer className="landing-foot">
         <div className="foot-cols">
           <div>
-            <b>{ko ? '무엇을 말하고, 무엇을 말하지 않는가' : 'What this says, and what it does not'}</b>
-            <p>{ko ? '이 화면은 후보를 찾지만 피해를 확정하지 않습니다. 사람이 100곳을 모두 보는 대신 먼저 볼 곳을 알려주고, 새로운 재난마다 모델을 다시 학습하지 않습니다. 모든 수치는 위성 관측과 임베딩 비교에서 나온 “검토 우선순위”이며, 피해 면적·원인·확률이 아닙니다.' : 'This page finds candidates; it does not confirm damage. Instead of looking at 100 places, people learn where to look first, and no model is retrained for each new disaster. Every number here is a review priority derived from satellite observations and embedding comparison — not a damaged area, a cause or a probability.'}</p>
+            <b>{ko ? '산사태·홍수 피해 장소 후보 찾기, 하지만' : 'Finding candidate damage sites — with a limit'}</b>
+            <p>{ko ? '피해 후보군을 찾지만 피해 범위나 장소를 명확하게 확정하지는 못합니다. 주변 100곳 중 피해가 있을 만한 장소를 고르는 것이며, AI가 위성 관측과 임베딩 비교로 낸 후보군일 뿐 면적이나 원인을 결정짓지 않습니다. 새로운 재난마다 모델을 다시 학습하지 않습니다.' : 'This page finds candidates; it does not confirm damage. Instead of looking at 100 places, people learn where to look first, and no model is retrained for each new disaster. Every number here is a review priority derived from satellite observations and embedding comparison — not a damaged area, a cause or a probability.'}</p>
           </div>
           <div>
             <b>{ko ? '모델과 자료' : 'Model and data'}</b>
-            <p>{ko ? <>인공지능 모델은 Ai2가 공개한 <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>(공개 가중치)를 학습 없이 그대로 사용했습니다. 위성 자료는 ESA 코페르니쿠스 Sentinel-1·2, 고해상도 참고 영상은 Planet Labs PBC의 Planet Disaster Data(CC-BY-NC-4.0)입니다. 지형은 Copernicus DEM GLO-30, 지도는 MapTiler와 OpenStreetMap 기여자입니다.</> : <>The AI model is <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>, released with open weights by Ai2 and used here frozen. Satellite data are ESA Copernicus Sentinel-1 and Sentinel-2; high-resolution reference imagery is Planet Disaster Data by Planet Labs PBC (CC-BY-NC-4.0). Terrain is Copernicus DEM GLO-30; basemap © MapTiler and OpenStreetMap contributors.</>}</p>
+            <p>{ko ? <>AI 모델은 Ai2가 공개한 <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>를 추가 학습 없이 그대로 썼습니다. 위성 영상은 ESA Sentinel-1·2, 고해상도 참고 영상은 Planet Labs의 Planet Disaster Data(CC-BY-NC-4.0), 지형은 Copernicus DEM, 지도는 MapTiler·OpenStreetMap입니다.</> : <>The AI model is <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>, released with open weights by Ai2 and used here frozen. Satellite data are ESA Copernicus Sentinel-1 and Sentinel-2; high-resolution reference imagery is Planet Disaster Data by Planet Labs PBC (CC-BY-NC-4.0). Terrain is Copernicus DEM GLO-30; basemap © MapTiler and OpenStreetMap contributors.</>}</p>
           </div>
           <div>
             <b>{ko ? '사건과 상태' : 'Event and status'}</b>
-            <p>{ko ? `2026년 8월 26일 네팔 라수와 군, 랑탕 리룽에서 시작된 돌발홍수. 원인은 조사 중이며(rock–ice avalanche 추정) 이 페이지는 원인을 판정하지 않습니다. 마지막 갱신 ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. 코드와 측정 장부(M66–M85)는 GitHub에 있습니다.` : `Flash flood of 26 August 2026 in Rasuwa district, Nepal, starting on Langtang Lirung. The cause is under investigation (suspected rock–ice avalanche); this page does not adjudicate it. Last updated ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. Code and the measurement ledger (M66–M85) are on GitHub.`} <a href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">github ↗</a></p>
+            <p>{ko ? `2026년 8월 26일, 네팔 라수와 군 랑탕 리룽의 빙하와 암반이 무너지며 시작된 돌발홍수입니다. 원인은 아직 조사 중이며 이 페이지는 원인을 판정하지 않습니다. 마지막 갱신 ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. 코드와 실험 기록은 GitHub에 있습니다.` : `Flash flood of 26 August 2026 in Rasuwa district, Nepal, starting on Langtang Lirung. The cause is under investigation (suspected rock–ice avalanche); this page does not adjudicate it. Last updated ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. Code and the measurement ledger (M66–M85) are on GitHub.`} <a href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">github ↗</a></p>
           </div>
         </div>
       </footer>

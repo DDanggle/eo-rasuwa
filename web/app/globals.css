@@ -271,7 +271,7 @@ input[type='range']::-webkit-slider-thumb { width: 12px; height: 12px; border: 2
 .maplibregl-ctrl-attrib a { color: var(--blue) !important; }
 
 /* ── 접근성 · 상태 배너 · 레일 토글 ── */
-button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 2px; }
 .rail-toggle { position: absolute; z-index: 6; top: 98px; display: flex; align-items: center; gap: 6px;
   padding: 8px 9px; color: var(--blue); border: 1px solid var(--line-strong);
@@ -812,7 +812,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 
 /* 후보 카드 */
 .candidate-cards { display: grid; gap: 8px; margin: 6px 0 12px; }
-.candidate-scopes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.candidate-scopes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
 .candidate-scopes button { border: 1px solid var(--line-strong); background: transparent; color: var(--muted); padding: 6px 4px; cursor: pointer; font: 700 9px var(--font-geist-mono); }
 .candidate-scopes button.is-active { background: var(--ink); border-color: var(--ink); color: var(--surface); }
 .cand-help { font-family: var(--font-geist-mono); font-size: 10px; line-height: 1.5; color: var(--muted); margin: 0 0 4px; }
@@ -831,6 +831,8 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .cand-card footer button:hover { color: var(--orange); border-color: var(--orange); }
 
 .retrieval-box { border: 1px solid var(--line-strong, #d5d1c6); background: var(--surface, #fffefb); padding: 8px; margin-top: 4px; }
+.retrieval-box summary { cursor: pointer; color: var(--muted); font: 700 9px/1.4 var(--font-geist-mono); letter-spacing: .04em; }
+.retrieval-box[open] summary { color: var(--ink); margin-bottom: 7px; }
 .retrieval-box ol { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 3px; }
 .retrieval-box li { display: grid; grid-template-columns: 22px 1fr auto auto; gap: 6px; align-items: center; font-family: var(--font-geist-mono); font-size: 10px; padding: 3px 4px; border-bottom: 1px dashed var(--line, #e3e0d8); }
 .retrieval-box li b { color: var(--blue, #2a78d6); }
@@ -1079,6 +1081,8 @@ body.page-scroll .landing { min-height: 100vh; }
   .topbar .story-launch { padding: 8px 10px; font-size: 9px; }
   .topbar .sat-tiles-toggle { display: none; }
   .map-legend { display: none; }
+  .cand-chip { top: 86px; left: 10px; right: 10px; transform: none; flex-wrap: wrap; }
+  .cand-chip.rail-open { display: none; }
 }
 @media (max-width: 720px) {
   .landing table { display: block; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
@@ -1089,3 +1093,9 @@ body.page-scroll .landing { min-height: 100vh; }
 .place-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); font-weight: 600; }
 .place-link:hover { color: var(--orange); border-color: var(--orange); }
 a.brand-lockup { text-decoration: none; color: inherit; }
+
+/* 링크 호버 밑줄 · 한국어 부제 한 흐름으로 */
+.landing a:hover, .story-overlay a:hover { border-bottom: 1px solid currentColor; }
+.landing .btn:hover { border-bottom-width: 1px; }
+.landing .sub { max-width: 78ch; word-break: keep-all; }
+.landing p, .landing li, .landing td { word-break: keep-all; overflow-wrap: anywhere; }

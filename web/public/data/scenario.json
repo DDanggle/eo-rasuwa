@@ -67,7 +67,7 @@
       "story_ko": "암반–빙하 붕괴는 네팔 영내 Langtang Lirung에서 시작했다. 이 빨간 점은 공개자료상 최선의 발원 수색점이며 현장 측량 방출 폴리곤은 아니다. 사건 원점은 여기이고 A·B는 하류 충격/검문소 창이다.",
       "distance_from_a_km": 13.84,
       "nearest_window": "v050",
-      "nearest_window_km": 0.0
+      "nearest_window_km": 0
     },
     {
       "id": "D",
@@ -90,7 +90,7 @@
       "story_ko": "여파 과정에서 토석에 막힌 호수가 생겼다고 보고됐다. 공개 footprint가 없어 보라색 점은 근사 수색구역일 뿐이며, 두 번째 붕괴 원점이나 시뮬레이션 호수 경계가 아니다.",
       "distance_from_a_km": 10.01,
       "nearest_window": "v047",
-      "nearest_window_km": 1.0
+      "nearest_window_km": 1
     },
     {
       "id": "A",
@@ -111,7 +111,7 @@
       "evidence_level": "verified_aoi_reported_impact_corridor",
       "story": "The principal before/after inspection window at the Nepal–China crossing. A is not the collapse origin: it is where the upstream cascade reached infrastructure and where the current satellite time series is centered.",
       "story_ko": "네팔–중국 국경의 핵심 전후 비교창이다. A는 붕괴 원점이 아니라 상류 연쇄가 기반시설에 도달한 곳이며 현재 위성 시계열의 중심이다.",
-      "distance_from_a_km": 0.0,
+      "distance_from_a_km": 0,
       "nearest_window": "v000",
       "nearest_window_km": 0.1
     },
@@ -182,7 +182,7 @@
       "story_ko": "현재 지도 추적선은 Rasuwagadhi에서 하천을 따라 73.7 km 내려온 이 지점에서 끝난다. USGS는 발원지부터 총 약 100 km 이동을 잠정 보고했지만 최종 퇴적 종점 폴리곤은 아직 공개하지 않았다. G는 이 화면의 추적 종점이지 홍수·토석류가 정확히 여기서 끝났다는 증거가 아니다.",
       "distance_from_a_km": 65.05,
       "nearest_window": "v040",
-      "nearest_window_km": 0.0
+      "nearest_window_km": 0
     },
     {
       "id": "C",
@@ -1266,7 +1266,7 @@
         "valid_event_frac": 0.919921875,
         "kind": "river",
         "place": "Bidur, Bidur",
-        "distance_from_a_km": 49.0
+        "distance_from_a_km": 49
       },
       {
         "id": "v022",
@@ -1571,7 +1571,7 @@
             "id": "v000",
             "rank": 25,
             "status": "ranked",
-            "candidate_token_frac": 0.07844946931241348,
+            "candidate_token_frac": 0.046608214120904476,
             "candidate_token_count": 170,
             "d_event_mean": 0.1764376312494278,
             "d_placebo_mean": 0.13552454113960266,
@@ -1580,7 +1580,14 @@
             "center_lonlat": [
               85.3769971,
               28.2780537
-            ]
+            ],
+            "rank_single_pair": 25,
+            "candidate_token_frac_single_pair": 0.07844946931241348,
+            "rank_pooled3": 25,
+            "candidate_token_frac_pooled3": 0.046608214120904476,
+            "place": "Rasuwa Gadhi, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -1616,7 +1623,7 @@
             "id": "v001",
             "rank": 30,
             "status": "ranked",
-            "candidate_token_frac": 0.06566200215285253,
+            "candidate_token_frac": 0.03982777179763186,
             "candidate_token_count": 122,
             "d_event_mean": 0.18557684123516083,
             "d_placebo_mean": 0.15156197547912598,
@@ -1625,7 +1632,14 @@
             "center_lonlat": [
               85.3706772,
               28.2609758
-            ]
+            ],
+            "rank_single_pair": 30,
+            "candidate_token_frac_single_pair": 0.06566200215285253,
+            "rank_pooled3": 30,
+            "candidate_token_frac_pooled3": 0.03982777179763186,
+            "place": "Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -1661,7 +1675,7 @@
             "id": "v002",
             "rank": 5,
             "status": "ranked",
-            "candidate_token_frac": 0.14025131738954194,
+            "candidate_token_frac": 0.0713417105796514,
             "candidate_token_count": 346,
             "d_event_mean": 0.21477912366390228,
             "d_placebo_mean": 0.11853685230016708,
@@ -1670,7 +1684,14 @@
             "center_lonlat": [
               85.3581813,
               28.2411955
-            ]
+            ],
+            "rank_single_pair": 5,
+            "candidate_token_frac_single_pair": 0.14025131738954194,
+            "rank_pooled3": 5,
+            "candidate_token_frac_pooled3": 0.0713417105796514,
+            "place": "Timure, Gosaikunda",
+            "review_status": "lead",
+            "review_rank": 6
           },
           "geometry": {
             "type": "Polygon",
@@ -1706,7 +1727,7 @@
             "id": "v003",
             "rank": 1,
             "status": "ranked",
-            "candidate_token_frac": 0.25432900432900435,
+            "candidate_token_frac": 0.1331168831168831,
             "candidate_token_count": 470,
             "d_event_mean": 0.2569426894187927,
             "d_placebo_mean": 0.10326941311359406,
@@ -1715,7 +1736,14 @@
             "center_lonlat": [
               85.361097,
               28.2255196
-            ]
+            ],
+            "rank_single_pair": 1,
+            "candidate_token_frac_single_pair": 0.25432900432900435,
+            "rank_pooled3": 1,
+            "candidate_token_frac_pooled3": 0.1331168831168831,
+            "place": "Dalphedi, Gosaikunda",
+            "review_status": "lead",
+            "review_rank": 1
           },
           "geometry": {
             "type": "Polygon",
@@ -1751,7 +1779,7 @@
             "id": "v004",
             "rank": 16,
             "status": "ranked",
-            "candidate_token_frac": 0.09777389786119599,
+            "candidate_token_frac": 0.048886948930597994,
             "candidate_token_count": 224,
             "d_event_mean": 0.18584102392196655,
             "d_placebo_mean": 0.09911609441041946,
@@ -1760,7 +1788,14 @@
             "center_lonlat": [
               85.3542477,
               28.2088826
-            ]
+            ],
+            "rank_single_pair": 16,
+            "candidate_token_frac_single_pair": 0.09777389786119599,
+            "rank_pooled3": 16,
+            "candidate_token_frac_pooled3": 0.048886948930597994,
+            "place": "Thuman, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -1796,7 +1831,7 @@
             "id": "v005",
             "rank": 41,
             "status": "ranked",
-            "candidate_token_frac": 0.038065254722381224,
+            "candidate_token_frac": 0.022037779049799658,
             "candidate_token_count": 133,
             "d_event_mean": 0.14805351197719574,
             "d_placebo_mean": 0.11163957417011261,
@@ -1805,7 +1840,14 @@
             "center_lonlat": [
               85.3466022,
               28.1887847
-            ]
+            ],
+            "rank_single_pair": 41,
+            "candidate_token_frac_single_pair": 0.038065254722381224,
+            "rank_pooled3": 41,
+            "candidate_token_frac_pooled3": 0.022037779049799658,
+            "place": "Aamachhodingmo, Aamachhodingmo",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -1841,7 +1883,7 @@
             "id": "v006",
             "rank": 26,
             "status": "ranked",
-            "candidate_token_frac": 0.07827926657263752,
+            "candidate_token_frac": 0.04266572637517631,
             "candidate_token_count": 222,
             "d_event_mean": 0.16718196868896484,
             "d_placebo_mean": 0.1289677768945694,
@@ -1850,7 +1892,14 @@
             "center_lonlat": [
               85.3426869,
               28.1713281
-            ]
+            ],
+            "rank_single_pair": 26,
+            "candidate_token_frac_single_pair": 0.07827926657263752,
+            "rank_pooled3": 26,
+            "candidate_token_frac_pooled3": 0.04266572637517631,
+            "place": "Shyaphru Bensi, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -1886,7 +1935,7 @@
             "id": "v007",
             "rank": 31,
             "status": "ranked",
-            "candidate_token_frac": 0.06417284746855853,
+            "candidate_token_frac": 0.03192518542405676,
             "candidate_token_count": 199,
             "d_event_mean": 0.1694941222667694,
             "d_placebo_mean": 0.13554948568344116,
@@ -1895,7 +1944,14 @@
             "center_lonlat": [
               85.3339434,
               28.1586316
-            ]
+            ],
+            "rank_single_pair": 31,
+            "candidate_token_frac_single_pair": 0.06417284746855853,
+            "rank_pooled3": 31,
+            "candidate_token_frac_pooled3": 0.03192518542405676,
+            "place": "Bahun Danda, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -1931,7 +1987,7 @@
             "id": "v008",
             "rank": 34,
             "status": "ranked",
-            "candidate_token_frac": 0.05756302521008403,
+            "candidate_token_frac": 0.034873949579831934,
             "candidate_token_count": 137,
             "d_event_mean": 0.1628160923719406,
             "d_placebo_mean": 0.13782371580600739,
@@ -1940,7 +1996,14 @@
             "center_lonlat": [
               85.3209984,
               28.1492687
-            ]
+            ],
+            "rank_single_pair": 34,
+            "candidate_token_frac_single_pair": 0.05756302521008403,
+            "rank_pooled3": 34,
+            "candidate_token_frac_pooled3": 0.034873949579831934,
+            "place": "Brabal, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -1976,7 +2039,7 @@
             "id": "v009",
             "rank": 35,
             "status": "ranked",
-            "candidate_token_frac": 0.05651423641069888,
+            "candidate_token_frac": 0.032355478861087146,
             "candidate_token_count": 131,
             "d_event_mean": 0.1617489904165268,
             "d_placebo_mean": 0.13713037967681885,
@@ -1985,7 +2048,14 @@
             "center_lonlat": [
               85.3076233,
               28.1407319
-            ]
+            ],
+            "rank_single_pair": 35,
+            "candidate_token_frac_single_pair": 0.05651423641069888,
+            "rank_pooled3": 35,
+            "candidate_token_frac_pooled3": 0.032355478861087146,
+            "place": "Sano Bharkhu, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2021,7 +2091,7 @@
             "id": "v010",
             "rank": 36,
             "status": "ranked",
-            "candidate_token_frac": 0.05625606207565471,
+            "candidate_token_frac": 0.028612997090203686,
             "candidate_token_count": 116,
             "d_event_mean": 0.1742202341556549,
             "d_placebo_mean": 0.1427212804555893,
@@ -2030,7 +2100,14 @@
             "center_lonlat": [
               85.300565,
               28.1301279
-            ]
+            ],
+            "rank_single_pair": 36,
+            "candidate_token_frac_single_pair": 0.05625606207565471,
+            "rank_pooled3": 36,
+            "candidate_token_frac_pooled3": 0.028612997090203686,
+            "place": "Sano Bharkhu, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2066,7 +2143,7 @@
             "id": "v011",
             "rank": 33,
             "status": "ranked",
-            "candidate_token_frac": 0.0594059405940594,
+            "candidate_token_frac": 0.03230849400729546,
             "candidate_token_count": 114,
             "d_event_mean": 0.18908733129501343,
             "d_placebo_mean": 0.15446804463863373,
@@ -2075,7 +2152,14 @@
             "center_lonlat": [
               85.2911081,
               28.1219667
-            ]
+            ],
+            "rank_single_pair": 33,
+            "candidate_token_frac_single_pair": 0.0594059405940594,
+            "rank_pooled3": 33,
+            "candidate_token_frac_pooled3": 0.03230849400729546,
+            "place": "Gosaikunda, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2111,7 +2195,7 @@
             "id": "v012",
             "rank": 24,
             "status": "ranked",
-            "candidate_token_frac": 0.07951685958731756,
+            "candidate_token_frac": 0.0412682435832914,
             "candidate_token_count": 158,
             "d_event_mean": 0.18780513107776642,
             "d_placebo_mean": 0.15963192284107208,
@@ -2120,7 +2204,14 @@
             "center_lonlat": [
               85.2788483,
               28.1111229
-            ]
+            ],
+            "rank_single_pair": 24,
+            "candidate_token_frac_single_pair": 0.07951685958731756,
+            "rank_pooled3": 24,
+            "candidate_token_frac_pooled3": 0.0412682435832914,
+            "place": "Gosaikunda, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2156,7 +2247,7 @@
             "id": "v013",
             "rank": 32,
             "status": "ranked",
-            "candidate_token_frac": 0.0626204238921002,
+            "candidate_token_frac": 0.028901734104046242,
             "candidate_token_count": 130,
             "d_event_mean": 0.1752428412437439,
             "d_placebo_mean": 0.15193195641040802,
@@ -2165,7 +2256,14 @@
             "center_lonlat": [
               85.2673244,
               28.1024659
-            ]
+            ],
+            "rank_single_pair": 32,
+            "candidate_token_frac_single_pair": 0.0626204238921002,
+            "rank_pooled3": 32,
+            "candidate_token_frac_pooled3": 0.028901734104046242,
+            "place": "Gosaikunda, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2201,7 +2299,7 @@
             "id": "v014",
             "rank": 43,
             "status": "ranked",
-            "candidate_token_frac": 0.03265940902021773,
+            "candidate_token_frac": 0.017107309486780714,
             "candidate_token_count": 42,
             "d_event_mean": 0.16702991724014282,
             "d_placebo_mean": 0.13809962570667267,
@@ -2210,7 +2308,14 @@
             "center_lonlat": [
               85.2503065,
               28.0927968
-            ]
+            ],
+            "rank_single_pair": 43,
+            "candidate_token_frac_single_pair": 0.03265940902021773,
+            "rank_pooled3": 43,
+            "candidate_token_frac_pooled3": 0.017107309486780714,
+            "place": "Aamachhodingmo",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2255,7 +2360,11 @@
             "center_lonlat": [
               85.2335697,
               28.0900483
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2300,7 +2409,11 @@
             "center_lonlat": [
               85.2221988,
               28.082578
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2336,7 +2449,7 @@
             "id": "v017",
             "rank": 42,
             "status": "ranked",
-            "candidate_token_frac": 0.036943744752308987,
+            "candidate_token_frac": 0.014273719563392108,
             "candidate_token_count": 44,
             "d_event_mean": 0.1742263287305832,
             "d_placebo_mean": 0.1538490504026413,
@@ -2345,7 +2458,14 @@
             "center_lonlat": [
               85.2083079,
               28.0710515
-            ]
+            ],
+            "rank_single_pair": 42,
+            "candidate_token_frac_single_pair": 0.036943744752308987,
+            "rank_pooled3": 42,
+            "candidate_token_frac_pooled3": 0.014273719563392108,
+            "place": "Grang, Kalika",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2381,7 +2501,7 @@
             "id": "v018",
             "rank": 37,
             "status": "ranked",
-            "candidate_token_frac": 0.053939714436805924,
+            "candidate_token_frac": 0.026969857218402962,
             "candidate_token_count": 102,
             "d_event_mean": 0.1743401288986206,
             "d_placebo_mean": 0.15300308167934418,
@@ -2390,7 +2510,14 @@
             "center_lonlat": [
               85.2079608,
               28.0606393
-            ]
+            ],
+            "rank_single_pair": 37,
+            "candidate_token_frac_single_pair": 0.053939714436805924,
+            "rank_pooled3": 37,
+            "candidate_token_frac_pooled3": 0.026969857218402962,
+            "place": "Grang, Kalika",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2426,7 +2553,7 @@
             "id": "v019",
             "rank": 19,
             "status": "ranked",
-            "candidate_token_frac": 0.08775731310942579,
+            "candidate_token_frac": 0.04496208017334778,
             "candidate_token_count": 162,
             "d_event_mean": 0.1796252429485321,
             "d_placebo_mean": 0.14973075687885284,
@@ -2435,7 +2562,14 @@
             "center_lonlat": [
               85.2024736,
               28.0484558
-            ]
+            ],
+            "rank_single_pair": 19,
+            "candidate_token_frac_single_pair": 0.08775731310942579,
+            "rank_pooled3": 19,
+            "candidate_token_frac_pooled3": 0.04496208017334778,
+            "place": "Chipleti, Uttargaya",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2471,7 +2605,7 @@
             "id": "v020",
             "rank": 23,
             "status": "ranked",
-            "candidate_token_frac": 0.08015430775825118,
+            "candidate_token_frac": 0.04972138876982426,
             "candidate_token_count": 187,
             "d_event_mean": 0.16251450777053833,
             "d_placebo_mean": 0.11543677002191544,
@@ -2480,7 +2614,14 @@
             "center_lonlat": [
               85.1937336,
               28.0369598
-            ]
+            ],
+            "rank_single_pair": 23,
+            "candidate_token_frac_single_pair": 0.08015430775825118,
+            "rank_pooled3": 23,
+            "candidate_token_frac_pooled3": 0.04972138876982426,
+            "place": "Uttargaya, Uttargaya",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2516,7 +2657,7 @@
             "id": "v021",
             "rank": 13,
             "status": "ranked",
-            "candidate_token_frac": 0.10562890896455872,
+            "candidate_token_frac": 0.06080611535788742,
             "candidate_token_count": 304,
             "d_event_mean": 0.17352977395057678,
             "d_placebo_mean": 0.09726396203041077,
@@ -2525,7 +2666,14 @@
             "center_lonlat": [
               85.1900736,
               28.0259415
-            ]
+            ],
+            "rank_single_pair": 13,
+            "candidate_token_frac_single_pair": 0.10562890896455872,
+            "rank_pooled3": 13,
+            "candidate_token_frac_pooled3": 0.06080611535788742,
+            "place": "Uttargaya, Uttargaya",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2561,7 +2709,7 @@
             "id": "v022",
             "rank": 10,
             "status": "ranked",
-            "candidate_token_frac": 0.1143661971830986,
+            "candidate_token_frac": 0.07295774647887324,
             "candidate_token_count": 406,
             "d_event_mean": 0.16348980367183685,
             "d_placebo_mean": 0.08850929886102676,
@@ -2570,7 +2718,14 @@
             "center_lonlat": [
               85.1846652,
               28.0133953
-            ]
+            ],
+            "rank_single_pair": 10,
+            "candidate_token_frac_single_pair": 0.1143661971830986,
+            "rank_pooled3": 10,
+            "candidate_token_frac_pooled3": 0.07295774647887324,
+            "place": "Shanti Bazar, Kispang",
+            "review_status": "lead",
+            "review_rank": 5
           },
           "geometry": {
             "type": "Polygon",
@@ -2606,7 +2761,7 @@
             "id": "v023",
             "rank": 18,
             "status": "ranked",
-            "candidate_token_frac": 0.0924871168972064,
+            "candidate_token_frac": 0.060211554109031735,
             "candidate_token_count": 341,
             "d_event_mean": 0.14501939713954926,
             "d_placebo_mean": 0.08926485478878021,
@@ -2615,7 +2770,14 @@
             "center_lonlat": [
               85.1838676,
               28.0014652
-            ]
+            ],
+            "rank_single_pair": 18,
+            "candidate_token_frac_single_pair": 0.0924871168972064,
+            "rank_pooled3": 18,
+            "candidate_token_frac_pooled3": 0.060211554109031735,
+            "place": "Karki Gaun, Kispang",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2651,7 +2813,7 @@
             "id": "v024",
             "rank": 4,
             "status": "ranked",
-            "candidate_token_frac": 0.1463225806451613,
+            "candidate_token_frac": 0.10683870967741936,
             "candidate_token_count": 567,
             "d_event_mean": 0.1627393662929535,
             "d_placebo_mean": 0.10497783124446869,
@@ -2660,7 +2822,14 @@
             "center_lonlat": [
               85.1815317,
               27.9786895
-            ]
+            ],
+            "rank_single_pair": 4,
+            "candidate_token_frac_single_pair": 0.1463225806451613,
+            "rank_pooled3": 4,
+            "candidate_token_frac_pooled3": 0.10683870967741936,
+            "place": "Naubisephat, Uttargaya",
+            "review_status": "lead",
+            "review_rank": 3
           },
           "geometry": {
             "type": "Polygon",
@@ -2696,7 +2865,7 @@
             "id": "v025",
             "rank": 3,
             "status": "ranked",
-            "candidate_token_frac": 0.17963910584433074,
+            "candidate_token_frac": 0.1316994344196068,
             "candidate_token_count": 667,
             "d_event_mean": 0.18391652405261993,
             "d_placebo_mean": 0.11969434469938278,
@@ -2705,7 +2874,14 @@
             "center_lonlat": [
               85.1762602,
               27.9649438
-            ]
+            ],
+            "rank_single_pair": 3,
+            "candidate_token_frac_single_pair": 0.17963910584433074,
+            "rank_pooled3": 3,
+            "candidate_token_frac_pooled3": 0.1316994344196068,
+            "place": "Bhainse, Bidur",
+            "review_status": "lead",
+            "review_rank": 2
           },
           "geometry": {
             "type": "Polygon",
@@ -2741,7 +2917,7 @@
             "id": "v026",
             "rank": 20,
             "status": "ranked",
-            "candidate_token_frac": 0.08333333333333333,
+            "candidate_token_frac": 0.06418219461697723,
             "candidate_token_count": 322,
             "d_event_mean": 0.14209167659282684,
             "d_placebo_mean": 0.09037141501903534,
@@ -2750,7 +2926,14 @@
             "center_lonlat": [
               85.1618866,
               27.9544913
-            ]
+            ],
+            "rank_single_pair": 20,
+            "candidate_token_frac_single_pair": 0.08333333333333333,
+            "rank_pooled3": 20,
+            "candidate_token_frac_pooled3": 0.06418219461697723,
+            "place": "Bhainse, Bidur",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2786,7 +2969,7 @@
             "id": "v027",
             "rank": 15,
             "status": "ranked",
-            "candidate_token_frac": 0.103751617076326,
+            "candidate_token_frac": 0.08098318240620957,
             "candidate_token_count": 401,
             "d_event_mean": 0.1454230099916458,
             "d_placebo_mean": 0.09091983735561371,
@@ -2795,7 +2978,14 @@
             "center_lonlat": [
               85.1552937,
               27.9336297
-            ]
+            ],
+            "rank_single_pair": 15,
+            "candidate_token_frac_single_pair": 0.103751617076326,
+            "rank_pooled3": 15,
+            "candidate_token_frac_pooled3": 0.08098318240620957,
+            "place": "Bidur",
+            "review_status": "lead",
+            "review_rank": 4
           },
           "geometry": {
             "type": "Polygon",
@@ -2831,7 +3021,7 @@
             "id": "v028",
             "rank": 29,
             "status": "ranked",
-            "candidate_token_frac": 0.06720160481444333,
+            "candidate_token_frac": 0.05541624874623872,
             "candidate_token_count": 268,
             "d_event_mean": 0.10289616137742996,
             "d_placebo_mean": 0.07100670039653778,
@@ -2840,7 +3030,14 @@
             "center_lonlat": [
               85.1511333,
               27.9249894
-            ]
+            ],
+            "rank_single_pair": 29,
+            "candidate_token_frac_single_pair": 0.06720160481444333,
+            "rank_pooled3": 29,
+            "candidate_token_frac_pooled3": 0.05541624874623872,
+            "place": "Bidur, Bidur",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2876,7 +3073,7 @@
             "id": "v029",
             "rank": 14,
             "status": "ranked",
-            "candidate_token_frac": 0.10426065162907268,
+            "candidate_token_frac": 0.0786967418546366,
             "candidate_token_count": 416,
             "d_event_mean": 0.15554217994213104,
             "d_placebo_mean": 0.09384529292583466,
@@ -2885,7 +3082,14 @@
             "center_lonlat": [
               85.140436,
               27.9173553
-            ]
+            ],
+            "rank_single_pair": 14,
+            "candidate_token_frac_single_pair": 0.10426065162907268,
+            "rank_pooled3": 14,
+            "candidate_token_frac_pooled3": 0.0786967418546366,
+            "place": "Bidur, Bidur",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2921,7 +3125,7 @@
             "id": "v030",
             "rank": 9,
             "status": "ranked",
-            "candidate_token_frac": 0.1173036093418259,
+            "candidate_token_frac": 0.0660828025477707,
             "candidate_token_count": 442,
             "d_event_mean": 0.21086013317108154,
             "d_placebo_mean": 0.14349181950092316,
@@ -2930,7 +3134,14 @@
             "center_lonlat": [
               85.1358053,
               27.8934901
-            ]
+            ],
+            "rank_single_pair": 9,
+            "candidate_token_frac_single_pair": 0.1173036093418259,
+            "rank_pooled3": 9,
+            "candidate_token_frac_pooled3": 0.0660828025477707,
+            "place": "Bidur, Bidur",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -2966,7 +3177,7 @@
             "id": "v031",
             "rank": 6,
             "status": "ranked",
-            "candidate_token_frac": 0.13760041461518527,
+            "candidate_token_frac": 0.07981342316662347,
             "candidate_token_count": 531,
             "d_event_mean": 0.20114029943943024,
             "d_placebo_mean": 0.15569032728672028,
@@ -2975,7 +3186,14 @@
             "center_lonlat": [
               85.122178,
               27.8735468
-            ]
+            ],
+            "rank_single_pair": 6,
+            "candidate_token_frac_single_pair": 0.13760041461518527,
+            "rank_pooled3": 6,
+            "candidate_token_frac_pooled3": 0.07981342316662347,
+            "place": "Bidur, Bidur",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3011,7 +3229,7 @@
             "id": "v032",
             "rank": 11,
             "status": "ranked",
-            "candidate_token_frac": 0.10839532412327312,
+            "candidate_token_frac": 0.04702444208289054,
             "candidate_token_count": 408,
             "d_event_mean": 0.20137833058834076,
             "d_placebo_mean": 0.16953104734420776,
@@ -3020,7 +3238,14 @@
             "center_lonlat": [
               85.1103283,
               27.8618254
-            ]
+            ],
+            "rank_single_pair": 11,
+            "candidate_token_frac_single_pair": 0.10839532412327312,
+            "rank_pooled3": 11,
+            "candidate_token_frac_pooled3": 0.04702444208289054,
+            "place": "Bidur, Bidur",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3056,7 +3281,7 @@
             "id": "v033",
             "rank": 27,
             "status": "ranked",
-            "candidate_token_frac": 0.07674943566591422,
+            "candidate_token_frac": 0.030474040632054177,
             "candidate_token_count": 272,
             "d_event_mean": 0.18328723311424255,
             "d_placebo_mean": 0.16271904110908508,
@@ -3065,7 +3290,14 @@
             "center_lonlat": [
               85.0891822,
               27.8600385
-            ]
+            ],
+            "rank_single_pair": 27,
+            "candidate_token_frac_single_pair": 0.07674943566591422,
+            "rank_pooled3": 27,
+            "candidate_token_frac_pooled3": 0.030474040632054177,
+            "place": "Khadag Bhanjyang, Bidur",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3101,7 +3333,7 @@
             "id": "v034",
             "rank": 17,
             "status": "ranked",
-            "candidate_token_frac": 0.09594953519256308,
+            "candidate_token_frac": 0.05112881806108898,
             "candidate_token_count": 289,
             "d_event_mean": 0.1780288964509964,
             "d_placebo_mean": 0.14766258001327515,
@@ -3110,7 +3342,14 @@
             "center_lonlat": [
               85.0577965,
               27.8586913
-            ]
+            ],
+            "rank_single_pair": 17,
+            "candidate_token_frac_single_pair": 0.09594953519256308,
+            "rank_pooled3": 17,
+            "candidate_token_frac_pooled3": 0.05112881806108898,
+            "place": "Ratmate, Belkotgadhi",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3146,7 +3385,7 @@
             "id": "v035",
             "rank": 38,
             "status": "ranked",
-            "candidate_token_frac": 0.05267581955729896,
+            "candidate_token_frac": 0.02661810030820958,
             "candidate_token_count": 188,
             "d_event_mean": 0.1635851413011551,
             "d_placebo_mean": 0.13581006228923798,
@@ -3155,7 +3394,14 @@
             "center_lonlat": [
               85.0422379,
               27.8567411
-            ]
+            ],
+            "rank_single_pair": 38,
+            "candidate_token_frac_single_pair": 0.05267581955729896,
+            "rank_pooled3": 38,
+            "candidate_token_frac_pooled3": 0.02661810030820958,
+            "place": "Ratmate, Belkotgadhi",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3191,7 +3437,7 @@
             "id": "v036",
             "rank": 44,
             "status": "ranked",
-            "candidate_token_frac": 0.03256552819698173,
+            "candidate_token_frac": 0.020386550172094255,
             "candidate_token_count": 123,
             "d_event_mean": 0.14728647470474243,
             "d_placebo_mean": 0.10060679167509079,
@@ -3200,7 +3446,14 @@
             "center_lonlat": [
               85.0291674,
               27.8501058
-            ]
+            ],
+            "rank_single_pair": 44,
+            "candidate_token_frac_single_pair": 0.03256552819698173,
+            "rank_pooled3": 44,
+            "candidate_token_frac_pooled3": 0.020386550172094255,
+            "place": "Taruka, Tarkeshwar",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3236,7 +3489,7 @@
             "id": "v037",
             "rank": 40,
             "status": "ranked",
-            "candidate_token_frac": 0.04143573502243336,
+            "candidate_token_frac": 0.022697281604645025,
             "candidate_token_count": 157,
             "d_event_mean": 0.15481166541576385,
             "d_placebo_mean": 0.08490926027297974,
@@ -3245,7 +3498,14 @@
             "center_lonlat": [
               85.020553,
               27.8393181
-            ]
+            ],
+            "rank_single_pair": 40,
+            "candidate_token_frac_single_pair": 0.04143573502243336,
+            "rank_pooled3": 40,
+            "candidate_token_frac_pooled3": 0.022697281604645025,
+            "place": "Taruka, Tarkeshwar",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3281,7 +3541,7 @@
             "id": "v038",
             "rank": 22,
             "status": "ranked",
-            "candidate_token_frac": 0.08148148148148149,
+            "candidate_token_frac": 0.04197530864197531,
             "candidate_token_count": 297,
             "d_event_mean": 0.19475767016410828,
             "d_placebo_mean": 0.08470865339040756,
@@ -3290,7 +3550,14 @@
             "center_lonlat": [
               85.0172883,
               27.8250274
-            ]
+            ],
+            "rank_single_pair": 22,
+            "candidate_token_frac_single_pair": 0.08148148148148149,
+            "rank_pooled3": 22,
+            "candidate_token_frac_pooled3": 0.04197530864197531,
+            "place": "Belkotgadhi",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3326,7 +3593,7 @@
             "id": "v039",
             "rank": 12,
             "status": "ranked",
-            "candidate_token_frac": 0.10592011412268189,
+            "candidate_token_frac": 0.04457917261055635,
             "candidate_token_count": 297,
             "d_event_mean": 0.210672065615654,
             "d_placebo_mean": 0.08750823885202408,
@@ -3335,7 +3602,14 @@
             "center_lonlat": [
               85.0120676,
               27.810324
-            ]
+            ],
+            "rank_single_pair": 12,
+            "candidate_token_frac_single_pair": 0.10592011412268189,
+            "rank_pooled3": 12,
+            "candidate_token_frac_pooled3": 0.04457917261055635,
+            "place": "Galchhi, Galchhi",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3371,7 +3645,7 @@
             "id": "v040",
             "rank": 28,
             "status": "ranked",
-            "candidate_token_frac": 0.0673703818689848,
+            "candidate_token_frac": 0.03135672151505744,
             "candidate_token_count": 217,
             "d_event_mean": 0.18909987807273865,
             "d_placebo_mean": 0.10537231713533401,
@@ -3380,7 +3654,14 @@
             "center_lonlat": [
               84.9883085,
               27.805496
-            ]
+            ],
+            "rank_single_pair": 28,
+            "candidate_token_frac_single_pair": 0.0673703818689848,
+            "rank_pooled3": 28,
+            "candidate_token_frac_pooled3": 0.03135672151505744,
+            "place": "Galchhi, Galchhi",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3416,7 +3697,7 @@
             "id": "v041",
             "rank": 8,
             "status": "ranked",
-            "candidate_token_frac": 0.11977401129943503,
+            "candidate_token_frac": 0.08248587570621468,
             "candidate_token_count": 106,
             "d_event_mean": 0.19782942533493042,
             "d_placebo_mean": 0.1513494998216629,
@@ -3425,7 +3706,14 @@
             "center_lonlat": [
               85.39213960269319,
               28.276056586875097
-            ]
+            ],
+            "rank_single_pair": 8,
+            "candidate_token_frac_single_pair": 0.11977401129943503,
+            "rank_pooled3": 8,
+            "candidate_token_frac_pooled3": 0.08248587570621468,
+            "place": "Rasuwa Gadhi, Gosaikunda",
+            "review_status": "reobserve",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3461,7 +3749,7 @@
             "id": "v042",
             "rank": 39,
             "status": "ranked",
-            "candidate_token_frac": 0.047409040793825796,
+            "candidate_token_frac": 0.014332965821389196,
             "candidate_token_count": 43,
             "d_event_mean": 0.21017737686634064,
             "d_placebo_mean": 0.2002166509628296,
@@ -3470,7 +3758,14 @@
             "center_lonlat": [
               85.40627929649673,
               28.27611171006669
-            ]
+            ],
+            "rank_single_pair": 39,
+            "candidate_token_frac_single_pair": 0.047409040793825796,
+            "rank_pooled3": 39,
+            "candidate_token_frac_pooled3": 0.014332965821389196,
+            "place": "Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3515,7 +3810,11 @@
             "center_lonlat": [
               85.4204190803532,
               28.27616536954913
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3560,7 +3859,11 @@
             "center_lonlat": [
               85.43455895320514,
               28.276217565297166
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3600,12 +3903,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.24240460991859436,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "lhende",
             "center_lonlat": [
               85.44869891399506,
               28.276268297285956
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3650,7 +3957,11 @@
             "center_lonlat": [
               85.46283896166544,
               28.27631756549105
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3695,7 +4006,11 @@
             "center_lonlat": [
               85.47697909515874,
               28.27636536988844
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3740,7 +4055,11 @@
             "center_lonlat": [
               85.49111931341736,
               28.276411710454468
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3785,7 +4104,11 @@
             "center_lonlat": [
               85.50525961538366,
               28.27645658716593
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3830,7 +4153,11 @@
             "center_lonlat": [
               85.5194,
               28.2765
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3870,12 +4197,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.17337524890899658,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.44212430133557,
               28.20632753386307
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3915,12 +4246,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.17661425471305847,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.44178889624257,
               28.22942810284554
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -3965,7 +4300,11 @@
             "center_lonlat": [
               85.44145309458432,
               28.25252859009422
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4010,7 +4349,11 @@
             "center_lonlat": [
               85.44111689599697,
               28.275628995562688
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4055,7 +4398,11 @@
             "center_lonlat": [
               85.44078030011613,
               28.298729319204515
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4091,7 +4438,7 @@
             "id": "v056",
             "rank": 7,
             "status": "ranked",
-            "candidate_token_frac": 0.13155080213903744,
+            "candidate_token_frac": 0.057754010695187166,
             "candidate_token_count": 123,
             "d_event_mean": 0.21180787682533264,
             "d_placebo_mean": 0.16006344556808472,
@@ -4100,7 +4447,14 @@
             "center_lonlat": [
               85.44044330657674,
               28.321829560973345
-            ]
+            ],
+            "rank_single_pair": 7,
+            "candidate_token_frac_single_pair": 0.13155080213903744,
+            "rank_pooled3": 7,
+            "candidate_token_frac_pooled3": 0.057754010695187166,
+            "place": "Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4136,7 +4490,7 @@
             "id": "v057",
             "rank": 21,
             "status": "ranked",
-            "candidate_token_frac": 0.08288409703504043,
+            "candidate_token_frac": 0.04784366576819407,
             "candidate_token_count": 123,
             "d_event_mean": 0.2021258920431137,
             "d_placebo_mean": 0.11609774827957153,
@@ -4145,7 +4499,14 @@
             "center_lonlat": [
               85.44010591501316,
               28.344929720822858
-            ]
+            ],
+            "rank_single_pair": 21,
+            "candidate_token_frac_single_pair": 0.08288409703504043,
+            "rank_pooled3": 21,
+            "candidate_token_frac_pooled3": 0.04784366576819407,
+            "place": "Chaggang",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4185,12 +4546,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.13405364751815796,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.46820143426105,
               28.20662199821784
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4230,12 +4595,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.2305913120508194,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.46787163808321,
               28.22972285096794
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4275,12 +4644,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.1427980214357376,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.4675414519683,
               28.25282362210341
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4325,7 +4698,11 @@
             "center_lonlat": [
               85.46721087555858,
               28.275924311578006
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4365,12 +4742,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.23136469721794128,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.46687990849567,
               28.29902491934546
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4415,7 +4796,11 @@
             "center_lonlat": [
               85.46654855042068,
               28.322125445359585
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4451,7 +4836,7 @@
             "id": "v064",
             "rank": 2,
             "status": "ranked",
-            "candidate_token_frac": 0.19217491369390102,
+            "candidate_token_frac": 0.11852704257767549,
             "candidate_token_count": 167,
             "d_event_mean": 0.22466416656970978,
             "d_placebo_mean": 0.1354658305644989,
@@ -4460,7 +4845,14 @@
             "center_lonlat": [
               85.46621680097404,
               28.345225889574237
-            ]
+            ],
+            "rank_single_pair": 2,
+            "candidate_token_frac_single_pair": 0.19217491369390102,
+            "rank_pooled3": 2,
+            "candidate_token_frac_pooled3": 0.11852704257767549,
+            "place": "Salê",
+            "review_status": "reobserve",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4500,12 +4892,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.1147993952035904,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.49427895676638,
               28.206911495821476
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4545,12 +4941,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.1577022522687912,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.49395476986084,
               28.230012627554363
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4590,12 +4990,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.1673358976840973,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.493630199647,
               28.253113677789795
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4640,7 +5044,11 @@
             "center_lonlat": [
               85.49330524577323,
               28.27621464648166
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4685,7 +5093,11 @@
             "center_lonlat": [
               85.49297990788723,
               28.29931553358389
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4730,7 +5142,11 @@
             "center_lonlat": [
               85.49265418563617,
               28.32241633905044
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4775,7 +5191,11 @@
             "center_lonlat": [
               85.4923280786666,
               28.345517062835338
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4820,7 +5240,11 @@
             "center_lonlat": [
               85.5203568622288,
               28.207196026401334
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4860,12 +5284,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.18977364897727966,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.52003828494662,
               28.23029743233183
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4910,7 +5338,11 @@
             "center_lonlat": [
               85.51971933098557,
               28.253398756880035
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -4955,7 +5387,11 @@
             "center_lonlat": [
               85.5194,
               28.2765
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5000,7 +5436,11 @@
             "center_lonlat": [
               85.51908029164376,
               28.299601161645796
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5045,7 +5485,11 @@
             "center_lonlat": [
               85.51876020557008,
               28.322702241771562
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5090,7 +5534,11 @@
             "center_lonlat": [
               85.51843974143162,
               28.345803240331485
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5135,7 +5583,11 @@
             "center_lonlat": [
               85.546435144025,
               28.20747558968943
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5180,7 +5632,11 @@
             "center_lonlat": [
               85.54612217671124,
               28.230577265032043
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5220,12 +5676,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.12258654832839966,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.54580883934854,
               28.253678859105513
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5265,12 +5725,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": null,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.54549513159736,
               28.276780371864046
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5310,12 +5774,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.1606660634279251,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.54518105311763,
               28.299881803261872
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5360,7 +5828,11 @@
             "center_lonlat": [
               85.54486660356868,
               28.322983153253308
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5405,7 +5877,11 @@
             "center_lonlat": [
               85.54455178260925,
               28.346084421792686
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5441,7 +5917,7 @@
             "id": "v086",
             "rank": 46,
             "status": "ranked",
-            "candidate_token_frac": 0.017,
+            "candidate_token_frac": 0.009,
             "candidate_token_count": 17,
             "d_event_mean": 0.17864105105400085,
             "d_placebo_mean": 0.11565303802490234,
@@ -5450,7 +5926,14 @@
             "center_lonlat": [
               85.57251379553108,
               28.207750185422476
-            ]
+            ],
+            "rank_single_pair": 46,
+            "candidate_token_frac_single_pair": 0.017,
+            "rank_pooled3": 46,
+            "candidate_token_frac_pooled3": 0.009,
+            "place": "Kyāṅjiṅ Gompā, Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5495,7 +5978,11 @@
             "center_lonlat": [
               85.57220643852467,
               28.23085212539137
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5535,12 +6022,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.123478002846241,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.57189871809986,
               28.25395398420225
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5585,7 +6076,11 @@
             "center_lonlat": [
               85.57159063392318,
               28.277055761809493
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5621,7 +6116,7 @@
             "id": "v090",
             "rank": 47,
             "status": "ranked",
-            "candidate_token_frac": 0.012242268041237113,
+            "candidate_token_frac": 0.0032216494845360823,
             "candidate_token_count": 19,
             "d_event_mean": 0.15637314319610596,
             "d_placebo_mean": 0.14849691092967987,
@@ -5630,7 +6125,14 @@
             "center_lonlat": [
               85.57128218566064,
               28.300157458167515
-            ]
+            ],
+            "rank_single_pair": 47,
+            "candidate_token_frac_single_pair": 0.012242268041237113,
+            "rank_pooled3": 47,
+            "candidate_token_frac_pooled3": 0.0032216494845360823,
+            "place": "Gosaikunda",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5666,7 +6168,7 @@
             "id": "v091",
             "rank": 45,
             "status": "ranked",
-            "candidate_token_frac": 0.017692852087756547,
+            "candidate_token_frac": 0.009907997169143666,
             "candidate_token_count": 25,
             "d_event_mean": 0.15000082552433014,
             "d_placebo_mean": 0.11790800094604492,
@@ -5675,7 +6177,14 @@
             "center_lonlat": [
               85.57097337297763,
               28.323259073230737
-            ]
+            ],
+            "rank_single_pair": 45,
+            "candidate_token_frac_single_pair": 0.017692852087756547,
+            "rank_pooled3": 45,
+            "candidate_token_frac_pooled3": 0.009907997169143666,
+            "place": "Qusumdo",
+            "review_status": "screened",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5720,7 +6229,11 @@
             "center_lonlat": [
               85.57066419553907,
               28.34636060695368
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5765,7 +6278,11 @@
             "center_lonlat": [
               85.5985928101226,
               28.208019813341828
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5810,7 +6327,11 @@
             "center_lonlat": [
               85.59829106375645,
               28.231122013150838
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5850,12 +6371,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.1625238060951233,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.59798896060298,
               28.254224131910984
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5900,7 +6425,11 @@
             "center_lonlat": [
               85.59768650033479,
               28.27732616957678
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5940,12 +6469,16 @@
             "candidate_token_count": 0,
             "d_event_mean": null,
             "d_placebo_mean": 0.24368686974048615,
-            "valid_event_frac": 0.0,
+            "valid_event_frac": 0,
             "kind": "hillslope",
             "center_lonlat": [
               85.59738368262398,
               28.300428126102783
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -5990,7 +6523,11 @@
             "center_lonlat": [
               85.59708050714208,
               28.3235300014436
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -6035,7 +6572,11 @@
             "center_lonlat": [
               85.59677697356004,
               28.34663179555389
-            ]
+            ],
+            "rank_single_pair": null,
+            "candidate_token_frac_single_pair": null,
+            "review_status": "unobservable",
+            "review_rank": null
           },
           "geometry": {
             "type": "Polygon",
@@ -6732,7 +7273,7 @@
             "event_mean": 0.05011555179953575,
             "placebo_mean": 0.11192216724157333,
             "placebo_p99": 0.2060704231262207,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -6776,7 +7317,7 @@
             "event_mean": 0.042787980288267136,
             "placebo_mean": 0.09485067427158356,
             "placebo_p99": 0.168038472533226,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -6820,7 +7361,7 @@
             "event_mean": 0.04066523164510727,
             "placebo_mean": 0.10077036917209625,
             "placebo_p99": 0.1685669869184494,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -6864,7 +7405,7 @@
             "event_mean": 0.026786666363477707,
             "placebo_mean": 0.051211655139923096,
             "placebo_p99": 0.08120816200971603,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -6908,7 +7449,7 @@
             "event_mean": 0.02574566937983036,
             "placebo_mean": 0.054602690041065216,
             "placebo_p99": 0.07911716401576996,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -6952,7 +7493,7 @@
             "event_mean": 0.025607477873563766,
             "placebo_mean": 0.05298183858394623,
             "placebo_p99": 0.07785574346780777,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -6996,7 +7537,7 @@
             "event_mean": 0.02522333711385727,
             "placebo_mean": 0.050620079040527344,
             "placebo_p99": 0.07420507073402405,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7040,7 +7581,7 @@
             "event_mean": 0.025214117020368576,
             "placebo_mean": 0.0494609959423542,
             "placebo_p99": 0.07584553956985474,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7084,7 +7625,7 @@
             "event_mean": 0.025109879672527313,
             "placebo_mean": 0.0526772066950798,
             "placebo_p99": 0.077932208776474,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7128,7 +7669,7 @@
             "event_mean": 0.025070112198591232,
             "placebo_mean": 0.05399879813194275,
             "placebo_p99": 0.08144174516201019,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7172,7 +7713,7 @@
             "event_mean": 0.0246107317507267,
             "placebo_mean": 0.05406082421541214,
             "placebo_p99": 0.08116438239812851,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7216,7 +7757,7 @@
             "event_mean": 0.02441338077187538,
             "placebo_mean": 0.049649424850940704,
             "placebo_p99": 0.07759714126586914,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7260,7 +7801,7 @@
             "event_mean": 0.024122506380081177,
             "placebo_mean": 0.04854493588209152,
             "placebo_p99": 0.07696888595819473,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7304,7 +7845,7 @@
             "event_mean": 0.024033069610595703,
             "placebo_mean": 0.052437663078308105,
             "placebo_p99": 0.0755685567855835,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7348,7 +7889,7 @@
             "event_mean": 0.023317288607358932,
             "placebo_mean": 0.052982304245233536,
             "placebo_p99": 0.07795177400112152,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7392,7 +7933,7 @@
             "event_mean": 0.02258312702178955,
             "placebo_mean": 0.05264957249164581,
             "placebo_p99": 0.07859619706869125,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7436,7 +7977,7 @@
             "event_mean": 0.02119617722928524,
             "placebo_mean": 0.053412966430187225,
             "placebo_p99": 0.08258504420518875,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7480,7 +8021,7 @@
             "event_mean": 0.021151643246412277,
             "placebo_mean": 0.051874011754989624,
             "placebo_p99": 0.07688983529806137,
-            "exceedance": 0.0
+            "exceedance": 0
           },
           "geometry": {
             "type": "Polygon",
@@ -7658,7 +8199,7 @@
           "candidate": false
         },
         "timure": {
-          "event_frac": 0.0,
+          "event_frac": 0,
           "placebo_max": 0.066650390625,
           "rank": 10,
           "candidate": false
@@ -7670,7 +8211,7 @@
           "candidate": false
         },
         "dhunche": {
-          "event_frac": 0.0,
+          "event_frac": 0,
           "placebo_max": 0.072998046875,
           "rank": 10,
           "candidate": false
@@ -7795,7 +8336,7 @@
         "patches": 43,
         "s2_only": 0.547,
         "s1s2": 0.547,
-        "fusion_gain": 0.0,
+        "fusion_gain": 0,
         "s1_only_ai": 0.553,
         "s1_classical": 0.516
       },
@@ -7837,7 +8378,7 @@
   "downstream_profile": [
     {
       "id": "v040",
-      "km_to_G": 0.0,
+      "km_to_G": 0,
       "candidate_token_frac": 0.0673703818689848,
       "observable": 0.786376953125,
       "rank": 28
@@ -7950,7 +8491,7 @@
     ],
     "half_km": 5,
     "s2_clear_frac": 0.154488,
-    "new_water_km2": 0.0,
+    "new_water_km2": 0,
     "s1_pre_same_orbit": [
       [
         "2026-07-23",
@@ -8148,7 +8689,7 @@
   "geomorph": {
     "zone1": {
       "length_km": 38.09,
-      "drop_m": 3040.0,
+      "drop_m": 3040,
       "mean_slope_deg": 4.6,
       "narrowest": {
         "km_from_source": 19.5,
@@ -8158,423 +8699,423 @@
       },
       "profile": [
         {
-          "km": 0.0,
-          "elev": 4885.0,
+          "km": 0,
+          "elev": 4885,
           "width_km": 1.23,
           "slope_deg": null
         },
         {
           "km": 0.6,
-          "elev": 4411.0,
+          "elev": 4411,
           "width_km": 1.08,
           "slope_deg": 36.7
         },
         {
           "km": 1.16,
-          "elev": 4014.0,
+          "elev": 4014,
           "width_km": 0.78,
           "slope_deg": 11.5
         },
         {
           "km": 1.77,
-          "elev": 3774.0,
+          "elev": 3774,
           "width_km": 0.57,
           "slope_deg": 32.1
         },
         {
           "km": 2.28,
-          "elev": 3690.0,
+          "elev": 3690,
           "width_km": 0.78,
           "slope_deg": 5.5
         },
         {
           "km": 2.93,
-          "elev": 3640.0,
+          "elev": 3640,
           "width_km": 0.6,
           "slope_deg": -0.7
         },
         {
           "km": 3.54,
-          "elev": 3593.0,
+          "elev": 3593,
           "width_km": 0.6,
           "slope_deg": 4.2
         },
         {
           "km": 4.12,
-          "elev": 3501.0,
+          "elev": 3501,
           "width_km": 0.57,
           "slope_deg": 8.9
         },
         {
           "km": 4.71,
-          "elev": 3463.0,
+          "elev": 3463,
           "width_km": 1.26,
-          "slope_deg": 4.0
+          "slope_deg": 4
         },
         {
           "km": 5.33,
-          "elev": 3425.0,
+          "elev": 3425,
           "width_km": 1.74,
           "slope_deg": 3.2
         },
         {
           "km": 5.85,
-          "elev": 3336.0,
+          "elev": 3336,
           "width_km": 1.59,
           "slope_deg": 10.9
         },
         {
           "km": 6.42,
-          "elev": 3181.0,
+          "elev": 3181,
           "width_km": 0.81,
           "slope_deg": 12.1
         },
         {
           "km": 7.01,
-          "elev": 3089.0,
+          "elev": 3089,
           "width_km": 1.08,
           "slope_deg": 6.6
         },
         {
           "km": 7.62,
-          "elev": 3006.0,
+          "elev": 3006,
           "width_km": 0.84,
           "slope_deg": 5.3
         },
         {
           "km": 8.17,
-          "elev": 2912.0,
+          "elev": 2912,
           "width_km": 0.72,
           "slope_deg": 7.5
         },
         {
           "km": 8.68,
-          "elev": 2848.0,
+          "elev": 2848,
           "width_km": 0.48,
           "slope_deg": 6.2
         },
         {
           "km": 9.19,
-          "elev": 2825.0,
+          "elev": 2825,
           "width_km": 0.66,
           "slope_deg": -0.6
         },
         {
           "km": 9.65,
-          "elev": 2754.0,
+          "elev": 2754,
           "width_km": 0.63,
           "slope_deg": 7.4
         },
         {
           "km": 10.17,
-          "elev": 2728.0,
+          "elev": 2728,
           "width_km": 0.6,
           "slope_deg": 4.9
         },
         {
           "km": 10.66,
-          "elev": 2666.0,
+          "elev": 2666,
           "width_km": 0.54,
           "slope_deg": 4.1
         },
         {
           "km": 11.16,
-          "elev": 2637.0,
+          "elev": 2637,
           "width_km": 0.54,
-          "slope_deg": 2.0
+          "slope_deg": 2
         },
         {
           "km": 11.66,
-          "elev": 2608.0,
+          "elev": 2608,
           "width_km": 0.6,
           "slope_deg": 2.4
         },
         {
           "km": 12.18,
-          "elev": 2549.0,
+          "elev": 2549,
           "width_km": 0.57,
           "slope_deg": 11.3
         },
         {
           "km": 12.65,
-          "elev": 2513.0,
+          "elev": 2513,
           "width_km": 0.72,
           "slope_deg": 2.5
         },
         {
           "km": 13.15,
-          "elev": 2451.0,
+          "elev": 2451,
           "width_km": 0.39,
-          "slope_deg": 0.0
+          "slope_deg": 0
         },
         {
           "km": 13.66,
-          "elev": 2434.0,
+          "elev": 2434,
           "width_km": 0.3,
           "slope_deg": 5.5
         },
         {
           "km": 14.14,
-          "elev": 2374.0,
+          "elev": 2374,
           "width_km": 0.48,
-          "slope_deg": 6.0
+          "slope_deg": 6
         },
         {
           "km": 14.65,
-          "elev": 2380.0,
+          "elev": 2380,
           "width_km": 0.48,
           "slope_deg": -2.3
         },
         {
           "km": 15.2,
-          "elev": 2338.0,
+          "elev": 2338,
           "width_km": 0.48,
           "slope_deg": 3.7
         },
         {
           "km": 15.76,
-          "elev": 2279.0,
+          "elev": 2279,
           "width_km": 0.39,
           "slope_deg": 6.1
         },
         {
           "km": 16.26,
-          "elev": 2286.0,
+          "elev": 2286,
           "width_km": 0.45,
           "slope_deg": -2.4
         },
         {
           "km": 16.78,
-          "elev": 2256.0,
+          "elev": 2256,
           "width_km": 0.45,
           "slope_deg": 8.2
         },
         {
           "km": 17.3,
-          "elev": 2217.0,
+          "elev": 2217,
           "width_km": 0.36,
           "slope_deg": 3.6
         },
         {
           "km": 17.84,
-          "elev": 2207.0,
+          "elev": 2207,
           "width_km": 0.6,
           "slope_deg": 1.5
         },
         {
           "km": 18.39,
-          "elev": 2210.0,
+          "elev": 2210,
           "width_km": 0.36,
           "slope_deg": 2.8
         },
         {
           "km": 18.96,
-          "elev": 2217.0,
+          "elev": 2217,
           "width_km": 0.36,
           "slope_deg": -2.6
         },
         {
           "km": 19.5,
-          "elev": 2138.0,
+          "elev": 2138,
           "width_km": 0.24,
           "slope_deg": 10.6
         },
         {
           "km": 20.03,
-          "elev": 2140.0,
+          "elev": 2140,
           "width_km": 0.39,
-          "slope_deg": -2.0
+          "slope_deg": -2
         },
         {
           "km": 20.6,
-          "elev": 2148.0,
+          "elev": 2148,
           "width_km": 0.33,
           "slope_deg": -0.4
         },
         {
           "km": 21.14,
-          "elev": 2133.0,
+          "elev": 2133,
           "width_km": 0.36,
           "slope_deg": 1.2
         },
         {
           "km": 21.7,
-          "elev": 2143.0,
+          "elev": 2143,
           "width_km": 0.51,
-          "slope_deg": -1.0
+          "slope_deg": -1
         },
         {
           "km": 22.22,
-          "elev": 2145.0,
+          "elev": 2145,
           "width_km": 0.48,
           "slope_deg": 3.2
         },
         {
           "km": 22.76,
-          "elev": 2148.0,
+          "elev": 2148,
           "width_km": 0.42,
           "slope_deg": 1.7
         },
         {
           "km": 23.29,
-          "elev": 2161.0,
+          "elev": 2161,
           "width_km": 0.51,
           "slope_deg": 1.3
         },
         {
           "km": 23.9,
-          "elev": 2142.0,
+          "elev": 2142,
           "width_km": 0.45,
           "slope_deg": 3.9
         },
         {
           "km": 24.47,
-          "elev": 2098.0,
+          "elev": 2098,
           "width_km": 0.27,
           "slope_deg": 0.4
         },
         {
           "km": 25.07,
-          "elev": 2078.0,
+          "elev": 2078,
           "width_km": 0.36,
           "slope_deg": 2.2
         },
         {
           "km": 25.67,
-          "elev": 2032.0,
+          "elev": 2032,
           "width_km": 0.36,
-          "slope_deg": 5.0
+          "slope_deg": 5
         },
         {
           "km": 26.23,
-          "elev": 2015.0,
+          "elev": 2015,
           "width_km": 0.3,
           "slope_deg": 6.1
         },
         {
           "km": 26.79,
-          "elev": 2029.0,
+          "elev": 2029,
           "width_km": 0.36,
           "slope_deg": -0.2
         },
         {
           "km": 27.37,
-          "elev": 2028.0,
+          "elev": 2028,
           "width_km": 0.33,
           "slope_deg": -2.4
         },
         {
           "km": 27.98,
-          "elev": 2036.0,
+          "elev": 2036,
           "width_km": 0.33,
           "slope_deg": -0.6
         },
         {
           "km": 28.54,
-          "elev": 2058.0,
+          "elev": 2058,
           "width_km": 0.33,
-          "slope_deg": -2.0
+          "slope_deg": -2
         },
         {
           "km": 29.13,
-          "elev": 2074.0,
+          "elev": 2074,
           "width_km": 0.36,
           "slope_deg": -7.1
         },
         {
           "km": 29.68,
-          "elev": 2048.0,
+          "elev": 2048,
           "width_km": 0.6,
           "slope_deg": 2.7
         },
         {
           "km": 30.26,
-          "elev": 2090.0,
+          "elev": 2090,
           "width_km": 1.8,
           "slope_deg": -7.1
         },
         {
           "km": 30.83,
-          "elev": 2077.0,
+          "elev": 2077,
           "width_km": 1.05,
           "slope_deg": -2.2
         },
         {
           "km": 31.39,
-          "elev": 2046.0,
+          "elev": 2046,
           "width_km": 0.42,
           "slope_deg": 10.8
         },
         {
           "km": 31.94,
-          "elev": 1983.0,
+          "elev": 1983,
           "width_km": 0.33,
-          "slope_deg": 1.0
+          "slope_deg": 1
         },
         {
           "km": 32.5,
-          "elev": 1916.0,
+          "elev": 1916,
           "width_km": 0.3,
           "slope_deg": 6.9
         },
         {
           "km": 33.06,
-          "elev": 1912.0,
+          "elev": 1912,
           "width_km": 0.33,
           "slope_deg": 0.7
         },
         {
           "km": 33.65,
-          "elev": 1920.0,
+          "elev": 1920,
           "width_km": 0.33,
           "slope_deg": 2.7
         },
         {
           "km": 34.22,
-          "elev": 1888.0,
+          "elev": 1888,
           "width_km": 0.51,
           "slope_deg": 10.2
         },
         {
           "km": 34.77,
-          "elev": 1895.0,
+          "elev": 1895,
           "width_km": 0.54,
           "slope_deg": -1.2
         },
         {
           "km": 35.33,
-          "elev": 1915.0,
+          "elev": 1915,
           "width_km": 2.37,
           "slope_deg": -1.2
         },
         {
           "km": 35.88,
-          "elev": 1931.0,
+          "elev": 1931,
           "width_km": 0.48,
           "slope_deg": -2.3
         },
         {
           "km": 36.52,
-          "elev": 1849.0,
+          "elev": 1849,
           "width_km": 0.33,
           "slope_deg": 9.8
         },
         {
           "km": 37.08,
-          "elev": 1814.0,
+          "elev": 1814,
           "width_km": 1.44,
           "slope_deg": 2.7
         },
         {
           "km": 37.71,
-          "elev": 1834.0,
+          "elev": 1834,
           "width_km": 0.39,
           "slope_deg": -0.5
         },
         {
           "km": 38.09,
-          "elev": 1845.0,
-          "width_km": 6.0,
+          "elev": 1845,
+          "width_km": 6,
           "slope_deg": -13.4
         }
       ],
@@ -8982,9 +9523,9 @@
       "rows": [
         {
           "id": "v000",
-          "km_from_A": 0.0,
+          "km_from_A": 0,
           "valley_width_km": 0.42,
-          "relief_m": 1004.0,
+          "relief_m": 1004,
           "channel_slope": 0.0361,
           "candidate_frac": 0.046608214120904476
         },
@@ -8992,7 +9533,7 @@
           "id": "v001",
           "km_from_A": 2.1,
           "valley_width_km": 0.42,
-          "relief_m": 1422.0,
+          "relief_m": 1422,
           "channel_slope": 0.0398,
           "candidate_frac": 0.03982777179763186
         },
@@ -9000,7 +9541,7 @@
           "id": "v002",
           "km_from_A": 4.6,
           "valley_width_km": 0.45,
-          "relief_m": 1186.0,
+          "relief_m": 1186,
           "channel_slope": 0.0263,
           "candidate_frac": 0.0713417105796514
         },
@@ -9008,7 +9549,7 @@
           "id": "v003",
           "km_from_A": 6.3,
           "valley_width_km": 0.33,
-          "relief_m": 1043.0,
+          "relief_m": 1043,
           "channel_slope": 0.0349,
           "candidate_frac": 0.1331168831168831
         },
@@ -9016,7 +9557,7 @@
           "id": "v004",
           "km_from_A": 8.4,
           "valley_width_km": 0.48,
-          "relief_m": 800.0,
+          "relief_m": 800,
           "channel_slope": 0.0242,
           "candidate_frac": 0.048886948930597994
         },
@@ -9024,7 +9565,7 @@
           "id": "v005",
           "km_from_A": 10.7,
           "valley_width_km": 0.36,
-          "relief_m": 982.0,
+          "relief_m": 982,
           "channel_slope": 0.0167,
           "candidate_frac": 0.022037779049799658
         },
@@ -9032,7 +9573,7 @@
           "id": "v006",
           "km_from_A": 12.7,
           "valley_width_km": 0.51,
-          "relief_m": 834.0,
+          "relief_m": 834,
           "channel_slope": 0.0282,
           "candidate_frac": 0.04266572637517631
         },
@@ -9040,7 +9581,7 @@
           "id": "v007",
           "km_from_A": 14.5,
           "valley_width_km": 0.36,
-          "relief_m": 1037.0,
+          "relief_m": 1037,
           "channel_slope": 0.0265,
           "candidate_frac": 0.03192518542405676
         },
@@ -9048,7 +9589,7 @@
           "id": "v008",
           "km_from_A": 16.2,
           "valley_width_km": 0.45,
-          "relief_m": 1162.0,
+          "relief_m": 1162,
           "channel_slope": 0.0219,
           "candidate_frac": 0.034873949579831934
         },
@@ -9056,7 +9597,7 @@
           "id": "v009",
           "km_from_A": 17.8,
           "valley_width_km": 0.42,
-          "relief_m": 1097.0,
+          "relief_m": 1097,
           "channel_slope": 0.0219,
           "candidate_frac": 0.032355478861087146
         },
@@ -9064,7 +9605,7 @@
           "id": "v010",
           "km_from_A": 19.2,
           "valley_width_km": 0.42,
-          "relief_m": 1068.0,
+          "relief_m": 1068,
           "channel_slope": 0.0386,
           "candidate_frac": 0.028612997090203686
         },
@@ -9072,7 +9613,7 @@
           "id": "v011",
           "km_from_A": 20.5,
           "valley_width_km": 0.39,
-          "relief_m": 1080.0,
+          "relief_m": 1080,
           "channel_slope": 0.0193,
           "candidate_frac": 0.03230849400729546
         },
@@ -9080,7 +9621,7 @@
           "id": "v012",
           "km_from_A": 22.2,
           "valley_width_km": 0.66,
-          "relief_m": 1119.0,
+          "relief_m": 1119,
           "channel_slope": 0.0375,
           "candidate_frac": 0.0412682435832914
         },
@@ -9088,7 +9629,7 @@
           "id": "v013",
           "km_from_A": 23.7,
           "valley_width_km": 0.3,
-          "relief_m": 1335.0,
+          "relief_m": 1335,
           "channel_slope": 0.0391,
           "candidate_frac": 0.028901734104046242
         },
@@ -9096,7 +9637,7 @@
           "id": "v014",
           "km_from_A": 25.7,
           "valley_width_km": 0.39,
-          "relief_m": 1069.0,
+          "relief_m": 1069,
           "channel_slope": 0.0324,
           "candidate_frac": 0.017107309486780714
         },
@@ -9104,15 +9645,15 @@
           "id": "v017",
           "km_from_A": 30.7,
           "valley_width_km": 0.51,
-          "relief_m": 996.0,
+          "relief_m": 996,
           "channel_slope": 0.0549,
           "candidate_frac": 0.014273719563392108
         },
         {
           "id": "v018",
-          "km_from_A": 32.0,
+          "km_from_A": 32,
           "valley_width_km": 0.36,
-          "relief_m": 1060.0,
+          "relief_m": 1060,
           "channel_slope": 0.0348,
           "candidate_frac": 0.026969857218402962
         },
@@ -9120,7 +9661,7 @@
           "id": "v019",
           "km_from_A": 33.5,
           "valley_width_km": 0.42,
-          "relief_m": 1116.0,
+          "relief_m": 1116,
           "channel_slope": 0.0322,
           "candidate_frac": 0.04496208017334778
         },
@@ -9128,7 +9669,7 @@
           "id": "v020",
           "km_from_A": 35.1,
           "valley_width_km": 0.57,
-          "relief_m": 1171.0,
+          "relief_m": 1171,
           "channel_slope": 0.0242,
           "candidate_frac": 0.04972138876982426
         },
@@ -9136,15 +9677,15 @@
           "id": "v021",
           "km_from_A": 36.4,
           "valley_width_km": 0.63,
-          "relief_m": 915.0,
+          "relief_m": 915,
           "channel_slope": 0.0329,
           "candidate_frac": 0.06080611535788742
         },
         {
           "id": "v022",
-          "km_from_A": 38.0,
+          "km_from_A": 38,
           "valley_width_km": 0.93,
-          "relief_m": 620.0,
+          "relief_m": 620,
           "channel_slope": 0.0353,
           "candidate_frac": 0.07295774647887324
         },
@@ -9152,15 +9693,15 @@
           "id": "v023",
           "km_from_A": 39.3,
           "valley_width_km": 0.63,
-          "relief_m": 628.0,
+          "relief_m": 628,
           "channel_slope": 0.0189,
           "candidate_frac": 0.060211554109031735
         },
         {
           "id": "v024",
-          "km_from_A": 42.0,
+          "km_from_A": 42,
           "valley_width_km": 1.8,
-          "relief_m": 522.0,
+          "relief_m": 522,
           "channel_slope": 0.0109,
           "candidate_frac": 0.10683870967741936
         },
@@ -9168,7 +9709,7 @@
           "id": "v025",
           "km_from_A": 43.6,
           "valley_width_km": 1.02,
-          "relief_m": 849.0,
+          "relief_m": 849,
           "channel_slope": 0.0164,
           "candidate_frac": 0.1316994344196068
         },
@@ -9176,7 +9717,7 @@
           "id": "v026",
           "km_from_A": 45.4,
           "valley_width_km": 0.9,
-          "relief_m": 507.0,
+          "relief_m": 507,
           "channel_slope": 0.0081,
           "candidate_frac": 0.06418219461697723
         },
@@ -9184,7 +9725,7 @@
           "id": "v027",
           "km_from_A": 47.8,
           "valley_width_km": 1.83,
-          "relief_m": 562.0,
+          "relief_m": 562,
           "channel_slope": 0.0157,
           "candidate_frac": 0.08098318240620957
         },
@@ -9192,7 +9733,7 @@
           "id": "v028",
           "km_from_A": 49.3,
           "valley_width_km": 2.01,
-          "relief_m": 446.0,
+          "relief_m": 446,
           "channel_slope": 0.0047,
           "candidate_frac": 0.05541624874623872
         },
@@ -9200,7 +9741,7 @@
           "id": "v029",
           "km_from_A": 50.8,
           "valley_width_km": 1.41,
-          "relief_m": 346.0,
+          "relief_m": 346,
           "channel_slope": 0.0073,
           "candidate_frac": 0.0786967418546366
         },
@@ -9208,7 +9749,7 @@
           "id": "v030",
           "km_from_A": 53.6,
           "valley_width_km": 3.03,
-          "relief_m": 504.0,
+          "relief_m": 504,
           "channel_slope": 0.0093,
           "candidate_frac": 0.0660828025477707
         },
@@ -9216,15 +9757,15 @@
           "id": "v031",
           "km_from_A": 56.2,
           "valley_width_km": 3.75,
-          "relief_m": 256.0,
+          "relief_m": 256,
           "channel_slope": -0.0043,
           "candidate_frac": 0.07981342316662347
         },
         {
           "id": "v032",
-          "km_from_A": 58.0,
+          "km_from_A": 58,
           "valley_width_km": 2.73,
-          "relief_m": 386.0,
+          "relief_m": 386,
           "channel_slope": 0.0134,
           "candidate_frac": 0.04702444208289054
         },
@@ -9232,7 +9773,7 @@
           "id": "v033",
           "km_from_A": 60.1,
           "valley_width_km": 1.71,
-          "relief_m": 477.0,
+          "relief_m": 477,
           "channel_slope": 0.0047,
           "candidate_frac": 0.030474040632054177
         },
@@ -9240,7 +9781,7 @@
           "id": "v034",
           "km_from_A": 63.2,
           "valley_width_km": 1.71,
-          "relief_m": 537.0,
+          "relief_m": 537,
           "channel_slope": 0.0045,
           "candidate_frac": 0.05112881806108898
         },
@@ -9248,7 +9789,7 @@
           "id": "v035",
           "km_from_A": 64.7,
           "valley_width_km": 1.47,
-          "relief_m": 550.0,
+          "relief_m": 550,
           "channel_slope": 0.0044,
           "candidate_frac": 0.02661810030820958
         },
@@ -9256,7 +9797,7 @@
           "id": "v036",
           "km_from_A": 66.2,
           "valley_width_km": 1.38,
-          "relief_m": 805.0,
+          "relief_m": 805,
           "channel_slope": 0.0051,
           "candidate_frac": 0.020386550172094255
         },
@@ -9264,7 +9805,7 @@
           "id": "v037",
           "km_from_A": 67.7,
           "valley_width_km": 0.66,
-          "relief_m": 564.0,
+          "relief_m": 564,
           "channel_slope": 0.0022,
           "candidate_frac": 0.022697281604645025
         },
@@ -9272,23 +9813,23 @@
           "id": "v038",
           "km_from_A": 69.3,
           "valley_width_km": 1.08,
-          "relief_m": 491.0,
+          "relief_m": 491,
           "channel_slope": 0.0012,
           "candidate_frac": 0.04197530864197531
         },
         {
           "id": "v039",
-          "km_from_A": 71.0,
+          "km_from_A": 71,
           "valley_width_km": 1.32,
-          "relief_m": 569.0,
+          "relief_m": 569,
           "channel_slope": 0.0045,
           "candidate_frac": 0.04457917261055635
         },
         {
           "id": "v040",
           "km_from_A": 73.6,
-          "valley_width_km": 6.0,
-          "relief_m": 511.0,
+          "valley_width_km": 6,
+          "relief_m": 511,
           "channel_slope": null,
           "candidate_frac": 0.03135672151505744
         }
@@ -9507,8 +10048,15 @@
         }
       }
     ],
-    "download": "/data/candidates.geojson",
-    "posthoc_note": "External reports were compared after ranking and never used to tune it; links are user-provided and not independently verified by this build."
+    "download": "/data/review-leads.geojson",
+    "posthoc_note": "External reports were compared after ranking and never used to tune it; links are user-provided and not independently verified by this build.",
+    "all_observable_download": "/data/candidates.geojson",
+    "contract": {
+      "score": "1 - cosine(z_before, z_after)",
+      "ordinary_threshold": "pooled p99 from three non-event fortnight transitions",
+      "minimum_observable_fraction_for_lead": 0.4,
+      "lead_deduplication": "one lead per place name"
+    }
   },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",
@@ -9554,7 +10102,7 @@
             256,
             4
           ],
-          "valid_pixel_fraction": 1.0
+          "valid_pixel_fraction": 1
         }
       },
       {
@@ -9587,7 +10135,7 @@
             256,
             4
           ],
-          "valid_pixel_fraction": 1.0
+          "valid_pixel_fraction": 1
         }
       }
     ]

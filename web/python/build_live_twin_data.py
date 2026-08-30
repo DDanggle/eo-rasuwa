@@ -1358,15 +1358,30 @@ def review_leads_block(candidates: dict[str, Any] | None, placebo_ext: dict[str,
                       "external_reports": {"urls": hits, "verified_by_this_build": False}})
         if len(leads) == 6: break
     observable_total = sum(v["observable"] for v in by_kind.values())
-    # 다운로드용 GeoJSON (판정된 창만, 속성 포함)
-    out = {"type": "FeatureCollection", "name": "olmoearth_nepal_rasuwa_2026_candidates", "license": "CC-BY-4.0 derived from ESA Copernicus Sentinel-2; OlmoEarth v1 Base (Ai2)",
-           "claim": "candidate change (representation moved more than its ordinary range) — not damage, not cause, not probability",
-           "features": [{"type": "Feature", "geometry": f["geometry"], "properties": {**{k: f["properties"].get(k) for k in ("id", "kind", "status", "rank", "candidate_token_frac", "valid_event_frac", "d_event_mean", "d_placebo_mean", "center_lonlat")},
-                          "candidate_token_frac_pooled3": next((r["candidate_frac_pooled3"] for r in rows if r["id"] == f["properties"]["id"]), None), "place": places.get(f["properties"]["id"]) if isinstance(places.get(f["properties"]["id"]), str) else None}}
-                        for f in feats if (f["properties"].get("status") or next((r.get("status") for r in rows if r["id"] == f["properties"].get("id")), None)) == "ranked"]}
-    (PUBLIC_DATA / "candidates.geojson").write_text(json.dumps(out))
+    row_by_id = {r["id"]: r for r in rows}
+    lead_by_id = {r["id"]: r for r in leads}; reobserve_by_id = {r["id"]: r for r in reobserve}
+    # 지도·첫 화면·다운로드가 같은 pooled-three-pair 계약을 쓰도록 원본 단일쌍 값은
+    # *_single_pair 로 보존하고, 공개 rank/score 를 M82 값으로 교체한다.
+    for f in feats:
+        p = f["properties"]; row = row_by_id.get(p["id"]); lead = lead_by_id.get(p["id"]); reobs = reobserve_by_id.get(p["id"])
+        p["rank_single_pair"] = p.get("rank"); p["candidate_token_frac_single_pair"] = p.get("candidate_token_frac")
+        if row:
+            p["rank_pooled3"] = row.get("rank_pooled3"); p["candidate_token_frac_pooled3"] = row.get("candidate_frac_pooled3")
+            p["rank"] = p["rank_pooled3"]; p["candidate_token_frac"] = p["candidate_token_frac_pooled3"]; p["status"] = row.get("status", p.get("status"))
+        p["place"] = places.get(p["id"]) if isinstance(places.get(p["id"]), str) else None
+        p["review_status"] = "lead" if lead else "reobserve" if reobs else "screened" if row and row.get("status") == "ranked" else "unobservable"
+        p["review_rank"] = lead.get("rank") if lead else None
+    contract = {"score": "1 - cosine(z_before, z_after)", "ordinary_threshold": "pooled p99 from three non-event fortnight transitions",
+                "minimum_observable_fraction_for_lead": 0.4, "lead_deduplication": "one lead per place name"}
+    common = {"type": "FeatureCollection", "license": "CC-BY-4.0 derived from ESA Copernicus Sentinel-2; OlmoEarth v1 Base (Ai2)",
+              "claim": "review priority from pooled three-pair ordinary-change calibration — not damage, cause, area, or probability", "contract": contract}
+    observable_features = [f for f in feats if f["properties"].get("status") == "ranked"]
+    lead_features = [next(f for f in feats if f["properties"]["id"] == lead["id"]) for lead in leads]
+    (PUBLIC_DATA / "candidates.geojson").write_text(json.dumps({**common, "name": "olmoearth_nepal_rasuwa_2026_observable_windows", "features": observable_features}))
+    (PUBLIC_DATA / "review-leads.geojson").write_text(json.dumps({**common, "name": "olmoearth_nepal_rasuwa_2026_review_leads", "features": lead_features}))
     return {"funnel": {"scanned": len(feats), "observable": observable_total, "leads": len(leads), "confirmed_damage_labels": 0}, "by_zone": by_kind,
-            "threshold": placebo_ext["threshold_pooled3"] if placebo_ext else None, "leads": leads, "reobserve": reobserve, "download": "/data/candidates.geojson",
+            "threshold": placebo_ext["threshold_pooled3"] if placebo_ext else None, "leads": leads, "reobserve": reobserve,
+            "download": "/data/review-leads.geojson", "all_observable_download": "/data/candidates.geojson", "contract": contract,
             "posthoc_note": "External reports were compared after ranking and never used to tune it; links are user-provided and not independently verified by this build."}
 
 

@@ -1,0 +1,11 @@
+packages:
+  - .
+
+allowBuilds:
+  sharp: set this to true or false
+  unrs-resolver: set this to true or false
+
+# eslint-config-next currently resolves the just-published zod 4.5.4.
+# Pin the audited, policy-eligible patch until the minimum release-age window passes.
+overrides:
+  zod: 4.5.2

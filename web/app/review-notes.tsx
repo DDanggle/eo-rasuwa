@@ -18,14 +18,20 @@ export function ReviewNotes({ candidateIds }: { candidateIds: string[] }) {
     const { data, error } = await sb.from('candidate_reviews').select('*').order('created_at', { ascending: false }).limit(50);
     if (!error && data) setRows(data as CandidateReview[]);
   }, [sb]);
-  useEffect(() => { void load(); }, [load]);
-  useEffect(() => { if (!cid && candidateIds[0]) setCid(candidateIds[0]); }, [candidateIds, cid]);
+  useEffect(() => {
+    if (!sb) return;
+    let active = true;
+    void sb.from('candidate_reviews').select('*').order('created_at', { ascending: false }).limit(50)
+      .then(({ data, error }) => { if (active && !error && data) setRows(data as CandidateReview[]); });
+    return () => { active = false; };
+  }, [sb]);
 
   if (!sb) return null;
+  const activeCandidateId = cid || candidateIds[0] || '';
   const submit = async () => {
-    if (!cid || !note.trim()) { setStatus('Pick a window and write a note.'); return; }
+    if (!activeCandidateId || !note.trim()) { setStatus('Pick a window and write a note.'); return; }
     setStatus('Saving…');
-    const { error } = await sb.from('candidate_reviews').insert({ candidate_id: cid, verdict, note: note.trim().slice(0, 1000), author: author.trim().slice(0, 80) || 'anonymous' });
+    const { error } = await sb.from('candidate_reviews').insert({ candidate_id: activeCandidateId, verdict, note: note.trim().slice(0, 1000), author: author.trim().slice(0, 80) || 'anonymous' });
     if (error) { setStatus(`Not saved: ${error.message}`); return; }
     setNote(''); setStatus('Saved.'); void load();
   };
@@ -33,7 +39,7 @@ export function ReviewNotes({ candidateIds }: { candidateIds: string[] }) {
     <div className="review-notes">
       <span className="ops-title">HUMAN REVIEW · notes on AI candidates</span>
       <div className="review-form">
-        <select value={cid} onChange={(e) => setCid(e.target.value)} aria-label="Candidate window">{candidateIds.map((id) => <option key={id} value={id}>{id}</option>)}</select>
+        <select value={activeCandidateId} onChange={(e) => setCid(e.target.value)} aria-label="Candidate window">{candidateIds.map((id) => <option key={id} value={id}>{id}</option>)}</select>
         <select value={verdict} onChange={(e) => setVerdict(e.target.value as CandidateReview['verdict'])} aria-label="Verdict">
           <option value="confirmed_change">change confirmed</option><option value="no_change">no change</option><option value="cloud">cloud / unreadable</option><option value="unsure">unsure</option>
         </select>

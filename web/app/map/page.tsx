@@ -372,6 +372,57 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
   const [rightOpen, setRightOpen] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
 
+  // Map camera helpers are declared before effects that capture them. This is
+  // important with the React compiler: a callback referenced before its
+  // declaration can otherwise freeze an older closure during a style reload.
+  const scenePadding = useCallback(() => {
+    const wide = window.innerWidth > 1100;
+    const { left, right } = railsRef.current;
+    return {
+      top: 96,
+      bottom: window.innerWidth > 720 ? 158 : 190,
+      left: wide && left ? 372 : 24,
+      right: wide && right ? 372 : 24,
+    };
+  }, []);
+
+  const fitCorridor = useCallback(() => {
+    userSelectedSceneRef.current = false;
+    if (zoneRef.current !== 0) return;
+    mapRef.current?.fitBounds(new LngLatBounds([84.96, 27.77], [85.55, 28.36]), {
+      padding: scenePadding(),
+      pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0,
+      bearing: viewDimRef.current === '3d' ? -18 : 0,
+      duration: prefersReducedMotion() ? 0 : 1100,
+    });
+  }, [scenePadding]);
+
+  // GO TO MAP: 후보 창의 위성 사진(전/후/AI Δ)을 지도 위에 실제 좌표로 깔아 보여줌.
+  const showCandidate = useCallback((id: string, mode: 'pre' | 'post' | 'delta', meta?: { rank?: number; place?: string; center?: [number, number] }) => {
+    const map = mapRef.current;
+    const fc = scenario?.candidates?.geojson;
+    if (!map || !fc) return;
+    const feature = fc.features.find((item) => item.properties?.id === id);
+    if (!feature || feature.geometry.type !== 'Polygon') return;
+    const ring = feature.geometry.coordinates[0] as [number, number][]; // SW, SE, NE, NW, SW
+    const coordinates: [[number, number], [number, number], [number, number], [number, number]] = [ring[3], ring[2], ring[1], ring[0]];
+    if (map.getLayer('cand-scene')) map.removeLayer('cand-scene');
+    if (map.getSource('cand-scene')) map.removeSource('cand-scene');
+    map.addSource('cand-scene', { type: 'image', url: `/data/candidates/${id}_${mode}.png`, coordinates });
+    const before = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : (map.getLayer('point-halo') ? 'point-halo' : undefined);
+    map.addLayer({ id: 'cand-scene', type: 'raster', source: 'cand-scene', paint: { 'raster-opacity': 1, 'raster-fade-duration': 120 } }, before);
+    const center = meta?.center ?? (feature.properties?.center_lonlat as [number, number] | undefined);
+    if (center) map.flyTo({ center, zoom: 14.2, pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : 900 });
+    setCandView({ id, mode, rank: meta?.rank, place: meta?.place });
+  }, [scenario]);
+
+  const clearCandidate = useCallback(() => {
+    const map = mapRef.current;
+    if (map?.getLayer('cand-scene')) map.removeLayer('cand-scene');
+    if (map?.getSource('cand-scene')) map.removeSource('cand-scene');
+    setCandView(null);
+  }, []);
+
   useEffect(() => {
     const syncStoryHash = () => { if (!storyDefault) setStoryOpen(window.location.hash === '#story'); };
     // Defer the client-only hash read so the first hydrated tree remains identical to SSR.
@@ -381,7 +432,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       window.cancelAnimationFrame(frame);
       window.removeEventListener('hashchange', syncStoryHash);
     };
-  }, []);
+  }, [storyDefault]);
 
   useEffect(() => { railsRef.current = { left: leftOpen, right: rightOpen }; }, [leftOpen, rightOpen]);
 
@@ -684,7 +735,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       map.off('mouseenter', 'point-core', onPointEnter);
       map.off('mouseleave', 'point-core', onPointLeave);
     };
-  }, [mapReady, points, researchPoints, styleRevision]);
+  }, [mapReady, points, researchPoints, scenario?.lake_search, styleRevision]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -823,7 +874,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       }
       if (!map.getLayer('olmo-anchor-line')) map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch((e) => console.error('[diag] candidates effect failed (this is why the boxes/cyan dots were missing):', e));
-  }, [mapReady, styleRevision, scenario?.candidates?.geojson, scenario?.candidates?.retrieval?.top10, scenario?.corridor_sealed, satTiles, openLightbox]);
+  }, [mapReady, styleRevision, scenario, satTiles, openLightbox, showCandidate]);
 
   // 두 구역 모드(2026-08-30): 1 = 빙하 발원→충격(렌데 계곡·산사면 격자), 2 = 충격→하류(강 창). 레이어 필터 + 카메라.
   useEffect(() => {
@@ -835,7 +886,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       if (map.getLayer('ai-candidate-fill')) map.setFilter('ai-candidate-fill', kindFilter ? ['all', ['==', ['get', 'status'], 'ranked'], kindFilter] : ['==', ['get', 'status'], 'ranked']);
       if (map.getLayer('scan-center-dot')) map.setFilter('scan-center-dot', kindFilter);
       if (map.getLayer('ai-candidate-rank')) map.setFilter('ai-candidate-rank', kindFilter ? ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6], kindFilter] : ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6]]);
-      for (const id of ['olmo-canonical-fill', 'olmo-canonical-line', 'olmo-canonical-rank']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', zone === 1 ? 'none' : 'visible');
+      for (const id of ['olmo-canonical-fill', 'olmo-canonical-line', 'olmo-canonical-rank', 'ai-similar-line']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', 'none');  // 2026-08-30: 봉인 27창·검색 윤곽은 지도에서 숨김(방법 문서로)
       const b = zone !== 0 ? scenario?.geomorph?.zone_bounds?.[String(zone)] : null;
       zoneRef.current = zone;  // 장면 효과가 구역 카메라를 덮어쓰지 않게(아래 fitScene 가드)
       if (b) map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: scenePadding(), duration: prefersReducedMotion() ? 0 : 900, pitch: 0, bearing: 0, maxZoom: 12.5 });
@@ -847,19 +898,6 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
     if (map.getLayer('ai-candidate-fill')) apply(); else map.once('idle', apply);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zone, mapReady, styleRevision]);
-
-  // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
-  // 이전 버전은 패널이 항상 보인다고 가정한 고정 패딩을 썼다.
-  const scenePadding = useCallback(() => {
-    const wide = window.innerWidth > 1100;
-    const { left, right } = railsRef.current;
-    return {
-      top: 96,
-      bottom: window.innerWidth > 720 ? 158 : 190,
-      left: wide && left ? 372 : 24,
-      right: wide && right ? 372 : 24,
-    };
-  }, []);
 
   const fitScene = useCallback((scene: SceneRecord, duration = 900) => {
     const map = mapRef.current;
@@ -988,31 +1026,6 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
     return () => { cancelled = true; wasmRef.current = null; cancelAnimationFrame(animationFrame); };
   }, [hydrography, mapReady]);
 
-  const liveDelta = useMemo(() => {
-    const ped = scenario?.olmoearth?.post_event_delta;
-    return typeof ped === 'object' && ped && (ped as Record<string, unknown>).live_mode ? (ped as Record<string, unknown>) : null;
-  }, [scenario]);
-  // GO TO MAP: 후보 창의 위성 사진(전/후/AI Δ)을 지도 위에 실제 좌표로 깔아 보여줌.
-  const showCandidate = useCallback((id: string, mode: 'pre' | 'post' | 'delta', meta?: { rank?: number; place?: string; center?: [number, number] }) => {
-    const map = mapRef.current; const fc = scenario?.candidates?.geojson;
-    if (!map || !fc) return;
-    const f = fc.features.find((x) => x.properties?.id === id);
-    if (!f || f.geometry.type !== 'Polygon') return;
-    const ring = f.geometry.coordinates[0] as [number, number][];  // SW, SE, NE, NW, SW
-    const coords: [[number, number], [number, number], [number, number], [number, number]] = [ring[3], ring[2], ring[1], ring[0]];
-    if (map.getLayer('cand-scene')) map.removeLayer('cand-scene');
-    if (map.getSource('cand-scene')) map.removeSource('cand-scene');
-    map.addSource('cand-scene', { type: 'image', url: `/data/candidates/${id}_${mode}.png`, coordinates: coords });
-    const before = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : (map.getLayer('point-halo') ? 'point-halo' : undefined);
-    map.addLayer({ id: 'cand-scene', type: 'raster', source: 'cand-scene', paint: { 'raster-opacity': 1, 'raster-fade-duration': 120 } }, before);
-    const center = meta?.center ?? (f.properties?.center_lonlat as [number, number] | undefined);
-    if (center) map.flyTo({ center, zoom: 14.2, pitch: 0, bearing: 0, duration: 900 });
-    setCandView({ id, mode, rank: meta?.rank, place: meta?.place });
-  }, [scenario]);
-  const clearCandidate = useCallback(() => {
-    const map = mapRef.current; if (map?.getLayer('cand-scene')) map.removeLayer('cand-scene'); if (map?.getSource('cand-scene')) map.removeSource('cand-scene'); setCandView(null);
-  }, []);
-
   // 위성 타일 토글: 모든 스캔 창의 08-27 128px 썸네일을 실제 좌표에 드레이프
   useEffect(() => {
     const map = mapRef.current; const fc = scenario?.candidates?.geojson;
@@ -1102,13 +1115,6 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
     });
   };
 
-  const fitCorridor = () => {
-    userSelectedSceneRef.current = false;
-    if (zoneRef.current !== 0) return;  // 구역 모드: 회랑 맞춤 금지
-    mapRef.current?.fitBounds(new LngLatBounds([84.96, 27.77], [85.55, 28.36]), {
-      padding: scenePadding(), pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0, duration: prefersReducedMotion() ? 0 : 1100,
-    });
-  };
   const replayEventChain = () => {
     wasmRef.current?.reset(20260826);
     setFlowPlaying(true);
@@ -1203,12 +1209,10 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
       {scenario?.candidates && mapStatus === 'ready' && (
         <div className="map-legend" aria-label="Map legend">
-          <span><i className="sw orange" />contract-correct sealed S1+S2 OLMo screening</span>
-          <span><i className="sw amber" />S2-only optical discovery scan</span>
-          <span><i className="sw purple" />off-river hillslope window</span>
-          <span><i className="sw blue" />same kind of change as the top candidates (embedding search)</span>
-          <span><i className="sw grey" />cloud/snow · not judged</span>
-          <span><i className="sw teal" />A–G inspection points · click any box or point for before/after</span>
+          <span><i className="sw amber" />river window · fill = share of cells above ordinary p99</span>
+          <span><i className="sw purple" />hillslope window (off-river)</span>
+          <span><i className="sw grey" />cloud or snow · not judged</span>
+          <span><i className="sw teal" />A–G points · click a box or point for before/after</span>
         </div>
       )}
       {candView && (
@@ -1234,10 +1238,10 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       )}
 
       <header className="topbar">
-        <div className="brand-lockup">
+        <a className="brand-lockup" href="/" title="Home">
           <div className="brand-mark"><span /></div>
           <div><p className="eyebrow">EVIDENCE MAP · RASUWA 2026</p><h1>Nepal <span>AI Twin</span></h1></div>
-        </div>
+        </a>
         <div className="map-mode-switch zone-switch" role="group" aria-label="Zone">
           <button className={zone === 0 ? 'is-active' : ''} onClick={() => setZone(0)} disabled={mapStatus !== 'ready'}>WHOLE CHAIN</button>
           <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
@@ -1248,7 +1252,6 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
           <button className={viewDim === '3d' ? 'is-active' : ''} onClick={() => setDimension('3d')} disabled={mapStatus !== 'ready'}>3D</button>
         </div>
-        <a className="story-launch back-home" href="/">100 → 6</a>
         <button className="story-launch" onClick={() => setStoryOpen(true)}>METHODS &amp; STORY</button>
         <div className="event-status"><span className="live-dot" /><div><strong>RASUWA · NEPAL</strong><small>{scenario ? `${shortDate(scenario.event.occurred_at)} 2026 · INVESTIGATION` : 'LOADING'}</small></div></div>
       </header>
@@ -1366,7 +1369,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
             <div className="candidate-cards">
               
               <div className="candidate-scopes" role="group" aria-label="Filter AI candidate windows">
-                {(['all', 'river', 'hillslope'] as const).map((scope) => <button key={scope} className={candidateScope === scope ? 'is-active' : ''} onClick={() => setCandidateScope(scope)}>{scope === 'all' ? '6 LEADS' : scope === 'river' ? 'RIVER' : 'RE-OBSERVE'}</button>)}
+                {(['all', 'hillslope'] as const).map((scope) => <button key={scope} className={candidateScope === scope ? 'is-active' : ''} onClick={() => setCandidateScope(scope)}>{scope === 'all' ? '6 LEADS' : scope === 'river' ? 'RIVER' : 'RE-OBSERVE'}</button>)}
               </div>
               {candidateRows.slice(0, 6).map((c) => (
                 <article key={c.id} className="cand-card">
@@ -1462,7 +1465,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
             <table className="ai-vs-table"><thead><tr><th>region</th><th>Presto S2</th><th>OLMo S2</th><th>Δ</th></tr></thead><tbody>
               {scenario.presto_control.rows.map((r) => <tr key={r.region} className={(r.gap_s2 ?? 0) >= 0.03 ? 'win' : ''}><td>{r.region}</td><td>{r.presto_s2.toFixed(2)}</td><td>{r.olmo_s2?.toFixed(2) ?? '—'}</td><td>{r.gap_s2 != null ? (r.gap_s2 >= 0 ? '+' : '') + r.gap_s2.toFixed(2) : '—'}</td></tr>)}
             </tbody></table>
-            <small>Presto embeds each 10 m pixel's time series (128-d) with no spatial context; its 4×4 mean is compared on the same 40 m token grid. This separates "any foundation-model embedding delta works" from "OLMoEarth's spatial representation works". Presto is used outside its native 12-month contract (four dates per side, real months passed), so its number is a lower bound for Presto, not a verdict on Presto.</small>
+            <small>{'Presto embeds each 10 m pixel\'s time series (128-d) with no spatial context; its 4×4 mean is compared on the same 40 m token grid. This separates "any foundation-model embedding delta works" from "OLMoEarth\'s spatial representation works". Presto is used outside its native 12-month contract (four dates per side, real months passed), so its number is a lower bound for Presto, not a verdict on Presto.'}</small>
           </div>
         )}
         {scenario?.radar_value && (
@@ -1472,7 +1475,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
             <table className="ai-vs-table"><thead><tr><th>region</th><th>S1 classical</th><th>S1 AI</th><th>S2 AI</th><th>S1+S2</th></tr></thead><tbody>
               {scenario.radar_value.rows.map((r) => <tr key={r.region} className={r.s1_only_ai >= 0.7 ? 'win' : ''}><td>{r.region}</td><td>{r.s1_classical.toFixed(2)}</td><td>{r.s1_only_ai.toFixed(2)}</td><td>{r.s2_only.toFixed(2)}</td><td>{r.s1s2.toFixed(2)}</td></tr>)}
             </tbody></table>
-            <small>Same patches, dates and labels as the table above; S1 ascending in dB, four scenes per side. Radar is not a universal cloud-piercer under this 40 m contract — it works for some events (Hokkaido, Hiroshima) and sits at chance for others. Nepal's corridor radar screen (post dB fix) found nothing above variability; whether that is the event type or the contract is open.</small>
+            <small>{'Same patches, dates and labels as the table above; S1 ascending in dB, four scenes per side. Radar is not a universal cloud-piercer under this 40 m contract — it works for some events (Hokkaido, Hiroshima) and sits at chance for others. Nepal\'s corridor radar screen (post dB fix) found nothing above variability; whether that is the event type or the contract is open.'}</small>
           </div>
         )}
         <div className="olmo-outcomes">

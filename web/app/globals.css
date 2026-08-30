@@ -1085,3 +1085,7 @@ body.page-scroll .landing { min-height: 100vh; }
   .leads table { min-width: 0; }
   .leads table thead, .leads table tbody { display: table; width: max-content; min-width: 100%; }
 }
+
+.place-link { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); font-weight: 600; }
+.place-link:hover { color: var(--orange); border-color: var(--orange); }
+a.brand-lockup { text-decoration: none; color: inherit; }

@@ -150,6 +150,7 @@ type Scenario = {
     geojson: FeatureCollection;
   } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
+  placebo_extended?: { threshold_pooled3: number; threshold_each: Record<string, number>; spearman_vs_single_pair: number | null; ranked_windows: number; top: { id: string; rank: number; frac_pooled3: number | null; frac_p1: number | null; frac_local3: number | null; observable: number }[] } | null;
   lake_search?: { aoi_center: [number, number]; half_km: number; s2_clear_frac: number; new_water_km2: number; s1_drop_px?: number; candidate_basis?: string; components_top5: { px: number; km2: number; center_lonlat: [number, number] }[]; images: { ndwi_pre: string; ndwi_post: string; candidates: string } } | null;
   presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
   downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
@@ -1389,6 +1390,16 @@ export default function Home() {
             <small>AUROC = probability a landslide token outranks a non-landslide token. no-AI = best of normalized band difference and |ΔNDVI|+|ΔNBR|, identical patches and pre/post scene choice (label-blind). Labels used for scoring only.{scenario.ai_vs_classical.corridor ? ` Nepal corridor (no labels): top-10 reported-place hits AI ${scenario.ai_vs_classical.corridor.reported_hits.ai} vs no-AI ${scenario.ai_vs_classical.corridor.reported_hits.classical}.` : ''}</small>
           </div>
         )}
+        {scenario?.placebo_extended && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">ORDINARY RANGE · three placebo fortnights instead of one</p>
+            <strong>Threshold {scenario.placebo_extended.threshold_pooled3.toFixed(3)} (single pair {scenario.placebo_extended.threshold_each.P1?.toFixed(3)}) · candidate shares roughly halve · ranking holds (Spearman {scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2) ?? '—'})</strong>
+            <table className="ai-vs-table"><thead><tr><th>window</th><th>3-pair</th><th>1-pair</th><th>local</th></tr></thead><tbody>
+              {scenario.placebo_extended.top.map((r) => <tr key={r.id}><td>#{r.rank} {r.id}</td><td>{r.frac_pooled3 != null ? (100 * r.frac_pooled3).toFixed(1) + '%' : '—'}</td><td>{r.frac_p1 != null ? (100 * r.frac_p1).toFixed(1) + '%' : '—'}</td><td>{r.frac_local3 != null ? (100 * r.frac_local3).toFixed(1) + '%' : '—'}</td></tr>)}
+            </tbody></table>
+            <small>The June→July pair (monsoon onset) has the widest ordinary variability (p99 {scenario.placebo_extended.threshold_each.P2?.toFixed(3)}); it was missing from the single-pair threshold. Read the percentages as threshold-dependent and the order as the stable part.</small>
+          </div>
+        )}
         {scenario?.presto_control && (
           <div className="ai-vs-card">
             <p className="eyebrow">SECOND MODEL · Presto pixel time-series FM, same patches, dates and labels</p>
@@ -1651,6 +1662,7 @@ export default function Home() {
               </div>
             )}
             <h3>{ko ? '네팔에서는' : 'In Nepal'}</h3>
+            {scenario?.placebo_extended && <p>{ko ? `“평소 범위”를 2주 한 쌍이 아니라 세 쌍(5월 중순→7월 초까지)으로 넓혀 다시 재봤다. 몬순이 시작되는 6→7월이 평소 변동이 가장 커서 문턱은 ${scenario.placebo_extended.threshold_each.P1?.toFixed(3)}에서 ${scenario.placebo_extended.threshold_pooled3.toFixed(3)}으로 올라갔고, 후보 격자 비율은 대략 절반이 됐다. 그러나 순서는 그대로다(순위 상관 ${scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2)}). 이 페이지가 퍼센트보다 순위를 앞세우는 이유다.` : `We then widened the "ordinary range" from one fortnight pair to three (mid-May to early July). The June→July pair, when the monsoon arrives, is the noisiest, so the threshold rose from ${scenario.placebo_extended.threshold_each.P1?.toFixed(3)} to ${scenario.placebo_extended.threshold_pooled3.toFixed(3)} and the flagged share roughly halved. The order did not move (rank correlation ${scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2)}). That is why this page leads with order, not percentages.`}</p>}
             <p>{ko
               ? '강을 따라 2.56km 창 100개를 자동으로 잘라 같은 계산을 했다. 구름으로 판정 불가한 창을 빼면 47개가 남았고, 상위는 달페디(Dalphedi, 국경에서 6km)와 비두르 부근이다. 강 밖 산사면으로 격자를 넓혀 찾은 살레(Salê) 창도 후보에 올랐다. 사건이 없는 타디 콜라(Tadi Khola) 대조 창에서는 사건 전후 거리 0.129, 평소 거리 0.125로 사실상 같았고 후보 격자는 3.6%였다. 회랑 1위 창의 25%와 견주면 “아무 일 없음”이 어떻게 보이는지 알 수 있다.'
               : 'Along the river we cut 100 windows of 2.56 km automatically and ran the same computation. Removing windows that cloud made unjudgeable leaves 47; the top are Dalphedi (6 km from the border) and the Bidur reach. Widening the grid onto hillslopes away from the river added Salê. In the Tadi Khola control window, where nothing happened, the before/after distance was 0.129 against an ordinary 0.125 — practically equal — and 3.6% of cells were flagged, against 25% in the top corridor window. That is what "no change" looks like under the same recipe.'}</p>

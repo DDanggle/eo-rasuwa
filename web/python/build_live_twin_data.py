@@ -1315,6 +1315,16 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def placebo_extended_block() -> dict[str, Any] | None:
+    """M82: 평시 쌍 3개(pooled p99)로 임계를 다시 잡았을 때의 후보 비율·순위 안정성."""
+    rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_placebo_ext/report.json"
+    if not rp.exists():
+        return None
+    rj = json.loads(rp.read_text())
+    top = [{"id": r["id"], "rank": r["rank_pooled3"], "frac_pooled3": r["candidate_frac_pooled3"], "frac_p1": r["candidate_frac_P1only"], "frac_local3": r.get("candidate_frac_local3"), "observable": r["event_valid_frac"], "center_lonlat": r["center_lonlat"]} for r in rj["top10"][:6]]
+    return {"threshold_pooled3": rj["threshold_pooled3_p99"], "threshold_each": rj["threshold_each_p99"], "pairs": rj["pairs"], "spearman_vs_single_pair": rj["spearman_vs_scan_v2"], "ranked_windows": rj["ranked_windows"], "top": top, "report_sha256": sha256(rp)}
+
+
 def lake_search_block() -> dict[str, Any] | None:
     """M83: 언색호 D 수색 — NDWI 신규 수체 ∩ 같은 궤도 S1 급감 (모델 없음)."""
     rp = WORK_ROOT / "artifacts/lake_search_d/report.json"
@@ -1604,6 +1614,7 @@ def build(refresh_osm: bool) -> None:
         "downstream_profile": downstream_profile_block(),
         "presto_control": presto_control_block(),
         "lake_search": lake_search_block(),
+        "placebo_extended": placebo_extended_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {

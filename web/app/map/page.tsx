@@ -318,6 +318,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
   const [zone, setZone] = useState<0 | 1 | 2>(0);  // 0 overview · 1 source→impact · 2 impact→downstream
   const zoneRef = useRef<0 | 1 | 2>(0);
   const focusDoneRef = useRef(false);
+  const prevZoneRef = useRef<0 | 1 | 2>(0);
   // SSR과 첫 client render는 반드시 같은 값이어야 한다. window.hash를 state initializer에서
   // 읽으면 /#story 직링크에서 hydration mismatch가 난다(2026-08-29 브라우저 QA 실측).
   const [storyOpen, setStoryOpen] = useState(storyDefault);
@@ -838,7 +839,8 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       const b = zone !== 0 ? scenario?.geomorph?.zone_bounds?.[String(zone)] : null;
       zoneRef.current = zone;  // 장면 효과가 구역 카메라를 덮어쓰지 않게(아래 fitScene 가드)
       if (b) map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: scenePadding(), duration: prefersReducedMotion() ? 0 : 900, pitch: 0, bearing: 0, maxZoom: 12.5 });
-      else if (zone === 0 && scenario) fitCorridor();
+      else if (zone === 0 && scenario && prevZoneRef.current !== 0) fitCorridor();  // 구역이 실제로 0으로 돌아올 때만 (styleRevision 재실행마다 회랑으로 튀던 결함 수정)
+      prevZoneRef.current = zone;
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).__map = map;

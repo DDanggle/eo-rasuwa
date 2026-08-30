@@ -1056,3 +1056,8 @@ body.page-scroll .landing { min-height: 100vh; }
 
 /* 후보 칩은 키 문장 아래로 */
 .cand-chip { top: 150px; }
+
+/* 2026-08-30 사용자 요청: 범례는 왼쪽 가장자리(AOI 토글 아래), 스토리 닫기는 왼쪽 위 */
+.map-legend { left: 18px; top: 150px; max-width: 300px; }
+.story-close { left: 22px; right: auto; }
+.story-lang { right: 22px; }

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 // 첫 화면(2026-08-30 개편): 메시지 하나 — 100개 창 → 47개 판독 가능 → 6곳 우선 검토. 증거 전체는 /map 과 STORY 로.
 type Lead = { id: string; rank: number; place: string; kind: string; candidate_token_frac: number; candidate_token_frac_single_pair: number | null; observable: number; center_lonlat: [number, number]; images: { pre: string; post: string; delta: string }; external_reports: { urls: string[]; verified_by_this_build: boolean } };
-type Review = { funnel: { scanned: number; observable: number; leads: number; confirmed_damage_labels: number }; by_zone: Record<string, { total: number; observable: number }>; threshold: number | null; leads: Lead[]; reobserve: { id: string; place: string; candidate_token_frac: number; observable: number; images: { pre: string; post: string; delta: string } }[]; download: string; posthoc_note: string };
+type Review = { funnel: { scanned: number; observable: number; leads: number; confirmed_damage_labels: number }; by_zone: Record<string, { total: number; observable: number }>; threshold: number | null; leads: Lead[]; reobserve: { id: string; place: string; candidate_token_frac: number; observable: number; images: { pre: string; post: string; delta: string } }[]; download: string; all_observable_download?: string; posthoc_note: string };
 type Scenario = { generated_at: string; review?: Review | null; placebo_extended?: { threshold_pooled3: number } | null };
 
 export default function Landing() {
@@ -33,7 +33,7 @@ export default function Landing() {
         </div>
         <div className="cta">
           <a href="/map" className="btn primary">{ko ? '후보 6곳 탐색' : 'EXPLORE 6 CANDIDATES'}</a>
-          <a href={rv?.download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '후보 GeoJSON 내려받기' : 'DOWNLOAD CANDIDATE GEOJSON'}</a>
+          <a href={rv?.download ?? '/data/review-leads.geojson'} className="btn" download>{ko ? '리드 6곳 GeoJSON' : 'DOWNLOAD 6 REVIEW LEADS'}</a>
           <a href="#reuse" className="btn">{ko ? '이 방법 재사용하기' : 'REUSE THIS RECIPE'}</a>
         </div>
       </section>
@@ -82,6 +82,7 @@ export default function Landing() {
         <p className="note">{ko ? '외부 보고는 순위를 낸 뒤에 대조했고 순위 조정에 쓰지 않았습니다. 링크는 제공받은 것이며 이 빌드가 독립 검증하지 않았습니다. 이 시스템은 피해를 확정하지 않습니다 — 사람이 먼저 볼 곳을 좁힙니다.' : rv.posthoc_note + ' The system does not confirm damage — it narrows where people should look first.'}</p>
         {rv.reobserve.length > 0 && <p className="note">{ko ? '판단 보류(구름): ' : 'Held for re-observation (cloud): '}{rv.reobserve.map((r, i) => <span key={r.id}>{i ? ' · ' : ''}<a href={`/map?focus=${r.id}`}>{r.place}</a> ({pct(r.candidate_token_frac)} exceedance, {pct(r.observable)} cloud-free)</span>)}{ko ? ' — 다음 맑은 광학 또는 레이더로 먼저 재관측할 산사면.' : ' — hillslopes to re-observe first with the next clear optical pass or radar.'}</p>}
         <p className="note">{ko ? `탐색 범위: 강 회랑 ${rv.by_zone.river?.total ?? 41}창(판독 ${rv.by_zone.river?.observable ?? 39}), 주변 산사면 ${rv.by_zone.hillslope?.total ?? 49}창(판독 ${rv.by_zone.hillslope?.observable ?? 6}), 렌데 상류 ${rv.by_zone.lhende?.total ?? 10}창(판독 ${rv.by_zone.lhende?.observable ?? 2}). 결과가 강에 몰린 것은 강만 봤기 때문이 아니라 사건 후 광학영상에서 강 회랑이 훨씬 잘 보였기 때문입니다.` : `Search extent: ${rv.by_zone.river?.total ?? 41} river windows (${rv.by_zone.river?.observable ?? 39} observable), ${rv.by_zone.hillslope?.total ?? 49} hillslope windows (${rv.by_zone.hillslope?.observable ?? 6}), ${rv.by_zone.lhende?.total ?? 10} upstream Lhende windows (${rv.by_zone.lhende?.observable ?? 2}). Results cluster on the river not because only the river was searched, but because the river corridor was far better observed after the event.`}</p>
+        <p className="note"><a href={rv.all_observable_download ?? '/data/candidates.geojson'} download>{ko ? '판독 가능한 47개 창 전체 GeoJSON 내려받기' : 'Download all 47 observable windows as GeoJSON'}</a>{ko ? ' — 6개 리드와 나머지 판독 창을 섞지 않도록 별도 파일로 제공합니다.' : ' — kept separate so the six review leads are not confused with every screened window.'}</p>
       </section>
       )}
 

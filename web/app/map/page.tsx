@@ -150,7 +150,7 @@ type Scenario = {
     geojson: FeatureCollection;
   } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
-  review?: { funnel: { scanned: number; observable: number; leads: number }; threshold: number | null; leads: { id: string; rank: number; place: string; kind: string; candidate_token_frac: number; observable: number; center_lonlat: [number, number] }[]; reobserve: { id: string; place: string; candidate_token_frac: number; observable: number; center_lonlat: [number, number] }[] } | null;
+  review?: { funnel: { scanned: number; observable: number; leads: number; confirmed_damage_labels?: number }; threshold: number | null; leads: { id: string; rank: number; place: string; kind: string; candidate_token_frac: number; observable: number; center_lonlat: [number, number] }[]; reobserve: { id: string; place: string; candidate_token_frac: number; observable: number; center_lonlat: [number, number] }[]; download?: string; all_observable_download?: string } | null;
   geomorph?: { zone1: { length_km: number; drop_m: number; mean_slope_deg: number; narrowest: { km_from_source: number; valley_width_km: number; lon: number; lat: number }; profile: { km: number; elev: number; width_km: number; slope_deg: number | null }[]; path_lonlat: [number, number][]; note: string }; zone2: { correlations: Record<string, { spearman: number; p: number; n: number }>; n_windows: number; rows: { id: string; km_from_A: number; valley_width_km: number; relief_m: number | null; channel_slope: number | null; candidate_frac: number | null }[] }; zone_bounds: Record<string, [number, number, number, number]>; claim_boundary: string } | null;
   placebo_extended?: { threshold_pooled3: number; threshold_each: Record<string, number>; spearman_vs_single_pair: number | null; ranked_windows: number; top: { id: string; rank: number; frac_pooled3: number | null; frac_p1: number | null; frac_local3: number | null; observable: number }[] } | null;
   lake_search?: { aoi_center: [number, number]; half_km: number; s2_clear_frac: number; new_water_km2: number; s1_drop_px?: number; candidate_basis?: string; components_top5: { px: number; km2: number; center_lonlat: [number, number] }[]; images: { ndwi_pre: string; ndwi_post: string; candidates: string } } | null;
@@ -805,14 +805,14 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
         map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
           paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 2.2, 12, 4, 15, 7], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 1.5, 'circle-opacity': 0.95 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
-          filter: ['==', ['get', 'status'], 'ranked'],  // 2026-08-30: 판정된 창만 채움 — 구름 창은 청록 점만 남겨 회랑이 벽이 되지 않게
-          paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'],
+          filter: ['in', ['get', 'review_status'], ['literal', ['lead', 'reobserve']]],
+          paint: { 'fill-color': ['case', ['==', ['get', 'review_status'], 'reobserve'], '#7b3fbf', '#d99a24'],
                    'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.0, 0.05, 0.14, 0.2, 0.38, 0.5, 0.55] } }, before);
         try { map.addLayer({ id: 'ai-candidate-rank', type: 'symbol', source: 'ai-candidates',
-          filter: ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6]],  // 2026-08-30: 100개 전부 번호를 찍으니 회랑이 벽이 됨 → 상위 6개만
-          layout: { 'text-field': ['concat', '#', ['to-string', ['get', 'rank']]], 'text-size': ['case', ['<=', ['get', 'rank'], 6], 15, 11],
+          filter: ['==', ['get', 'review_status'], 'lead'],
+          layout: { 'text-field': ['concat', '#', ['to-string', ['get', 'review_rank']]], 'text-size': 15,
                     'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true, 'text-anchor': 'center' },
-          paint: { 'text-color': ['case', ['<=', ['get', 'rank'], 6], '#b77708', '#7a4a2e'], 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
+          paint: { 'text-color': '#b77708', 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
         catch (e) { console.warn('[diag] candidate rank labels skipped', e); }
         const simIds = (scenario?.candidates?.retrieval?.top10 ?? []).map((r) => r.id);
         if (simIds.length) {
@@ -821,7 +821,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
         }
         map.on('click', 'ai-candidate-fill', (e) => {
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
-          const id = String(pr.id); const rank = pr.rank ? `#${pr.rank}` : 'not judged (cloud/snow)';
+          const id = String(pr.id); const rank = pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : 'screened';
           if (satTiles) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
             openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% cells above ordinary p99 tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
             return;
@@ -841,11 +841,11 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id);
           if (satTiles) {
-            openLightbox({ title: `Scan window ${id}`, sub: pr.rank ? `rank #${pr.rank}` : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
+            openLightbox({ title: `Scan window ${id}`, sub: pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : pr.status === 'ranked' ? 'screened — not in the six review leads' : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
             return;
           }
           new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
-            .setHTML(`<p class="pp-eyebrow">SCAN WINDOW · ${pr.rank ? '#' + pr.rank : 'not judged'}</p><h3>${id}</h3>`
+            .setHTML(`<p class="pp-eyebrow">SCAN WINDOW · ${pr.review_rank ? 'review lead #' + pr.review_rank : pr.review_status === 'reobserve' ? 're-observe' : pr.status === 'ranked' ? 'screened' : 'not judged'}</p><h3>${id}</h3>`
               + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="" title="Click to compare large">`
               + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
               + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
@@ -869,7 +869,9 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
         } catch { /* ignore */ }
         console.log('[diag] candidate layers attached | windows =', scenario.candidates.geojson.features.length, '| layers =', (map.getStyle()?.layers ?? []).map((l) => l.id).filter((id) => /scan|ai-|olmo|river|point/.test(id)).join(','));
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
-          paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
+          paint: { 'line-color': ['case', ['==', ['get', 'review_status'], 'reobserve'], '#7b3fbf', ['==', ['get', 'review_status'], 'lead'], '#d99a24', '#72908a'],
+                   'line-width': ['case', ['in', ['get', 'review_status'], ['literal', ['lead', 'reobserve']]], 2.2, 0.6],
+                   'line-opacity': ['case', ['in', ['get', 'review_status'], ['literal', ['lead', 'reobserve']]], 0.9, ['==', ['get', 'status'], 'ranked'], 0.18, 0.08] } }, before);
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
       }
       if (!map.getLayer('olmo-anchor-line')) map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
@@ -883,9 +885,9 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const kindFilter: any = kinds ? ['in', ['get', 'kind'], ['literal', kinds]] : null;
     const apply = () => {
-      if (map.getLayer('ai-candidate-fill')) map.setFilter('ai-candidate-fill', kindFilter ? ['all', ['==', ['get', 'status'], 'ranked'], kindFilter] : ['==', ['get', 'status'], 'ranked']);
+      if (map.getLayer('ai-candidate-fill')) map.setFilter('ai-candidate-fill', kindFilter ? ['all', ['in', ['get', 'review_status'], ['literal', ['lead', 'reobserve']]], kindFilter] : ['in', ['get', 'review_status'], ['literal', ['lead', 'reobserve']]]);
       if (map.getLayer('scan-center-dot')) map.setFilter('scan-center-dot', kindFilter);
-      if (map.getLayer('ai-candidate-rank')) map.setFilter('ai-candidate-rank', kindFilter ? ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6], kindFilter] : ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6]]);
+      if (map.getLayer('ai-candidate-rank')) map.setFilter('ai-candidate-rank', kindFilter ? ['all', ['==', ['get', 'review_status'], 'lead'], kindFilter] : ['==', ['get', 'review_status'], 'lead']);
       for (const id of ['olmo-canonical-fill', 'olmo-canonical-line', 'olmo-canonical-rank', 'ai-similar-line']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', 'none');  // 2026-08-30: 봉인 27창·검색 윤곽은 지도에서 숨김(방법 문서로)
       const b = zone !== 0 ? scenario?.geomorph?.zone_bounds?.[String(zone)] : null;
       zoneRef.current = zone;  // 장면 효과가 구역 카메라를 덮어쓰지 않게(아래 fitScene 가드)
@@ -1209,10 +1211,10 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
       {scenario?.candidates && mapStatus === 'ready' && (
         <div className="map-legend" aria-label="Map legend">
-          <span><i className="sw amber" />river window · fill = share of cells above ordinary p99</span>
-          <span><i className="sw purple" />hillslope window (off-river)</span>
-          <span><i className="sw grey" />cloud or snow · not judged</span>
-          <span><i className="sw teal" />A–G points · click a box or point for before/after</span>
+          <span><i className="sw amber" />six review leads · pooled three-pair threshold</span>
+          <span><i className="sw purple" />re-observe · strong change, insufficient clear pixels</span>
+          <span><i className="sw grey" />thin outline = screened; no fill = not a lead</span>
+          <span><i className="sw teal" />100 scanned centers · click any point for before/after</span>
         </div>
       )}
       {candView && (
@@ -1369,7 +1371,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
             <div className="candidate-cards">
               
               <div className="candidate-scopes" role="group" aria-label="Filter AI candidate windows">
-                {(['all', 'hillslope'] as const).map((scope) => <button key={scope} className={candidateScope === scope ? 'is-active' : ''} onClick={() => setCandidateScope(scope)}>{scope === 'all' ? '6 LEADS' : scope === 'river' ? 'RIVER' : 'RE-OBSERVE'}</button>)}
+                {(['all', 'hillslope'] as const).map((scope) => <button key={scope} className={candidateScope === scope ? 'is-active' : ''} onClick={() => setCandidateScope(scope)}>{scope === 'all' ? '6 LEADS' : 'RE-OBSERVE'}</button>)}
               </div>
               {candidateRows.slice(0, 6).map((c) => (
                 <article key={c.id} className="cand-card">

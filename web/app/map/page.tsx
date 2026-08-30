@@ -288,7 +288,7 @@ setWorkerUrl('/maplibre-gl-worker.mjs');
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-export default function Home() {
+export default function Home({ storyDefault = false }: { storyDefault?: boolean } = {}) {
   const mapNode = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -319,7 +319,7 @@ export default function Home() {
   const zoneRef = useRef<0 | 1 | 2>(0);
   // SSR과 첫 client render는 반드시 같은 값이어야 한다. window.hash를 state initializer에서
   // 읽으면 /#story 직링크에서 hydration mismatch가 난다(2026-08-29 브라우저 QA 실측).
-  const [storyOpen, setStoryOpen] = useState(false);
+  const [storyOpen, setStoryOpen] = useState(storyDefault);
   const [storyLang, setStoryLang] = useState<'en' | 'ko'>('en');
   // 큰 비교 뷰어(라이트박스): 어떤 작은 사진이든 클릭하면 전·후 슬라이더로 크게 봄.
   type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string }[] };
@@ -371,7 +371,7 @@ export default function Home() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    const syncStoryHash = () => setStoryOpen(window.location.hash === '#story');
+    const syncStoryHash = () => { if (!storyDefault) setStoryOpen(window.location.hash === '#story'); };
     // Defer the client-only hash read so the first hydrated tree remains identical to SSR.
     const frame = window.requestAnimationFrame(syncStoryHash);
     window.addEventListener('hashchange', syncStoryHash);
@@ -387,7 +387,7 @@ export default function Home() {
   // rAF로 페인트 뒤에 미룬다 — effect 내 동기 setState는 연쇄 렌더를 유발한다(lint).
   useEffect(() => {
     const id = requestAnimationFrame(() => {
-      if (window.innerWidth < 1100) { setLeftOpen(false); setRightOpen(false); }
+      if (window.innerWidth < 1100) { setLeftOpen(false); }  // 2026-08-30: 리드 패널(우측)은 어느 폭에서도 유지
     });
     return () => cancelAnimationFrame(id);
   }, []);
@@ -1553,7 +1553,7 @@ export default function Home() {
             <button className={!ko ? 'is-active' : ''} onClick={() => setStoryLang('en')}>EN</button>
             <button className={ko ? 'is-active' : ''} onClick={() => setStoryLang('ko')}>한국어</button>
           </div>
-          <button className="story-close x-icon" onClick={() => setStoryOpen(false)} aria-label="Close story"></button>
+          <button className="story-close x-icon" onClick={() => { if (storyDefault) window.location.href = '/map'; else setStoryOpen(false); }} aria-label="Close story"></button>
 
           <section className="story-hero story-step">
             <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '갱신' : 'UPDATED'} {scenario ? kstStamp(scenario.generated_at) : '—'} KST</p>

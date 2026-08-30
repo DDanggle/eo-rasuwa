@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 // 첫 화면(2026-08-30 개편): 메시지 하나 — 100개 창 → 47개 판독 가능 → 6곳 우선 검토. 증거 전체는 /map 과 STORY 로.
 type Lead = { id: string; rank: number; place: string; kind: string; candidate_token_frac: number; candidate_token_frac_single_pair: number | null; observable: number; center_lonlat: [number, number]; images: { pre: string; post: string; delta: string }; external_reports: { urls: string[]; verified_by_this_build: boolean } };
@@ -10,6 +9,7 @@ type Scenario = { generated_at: string; review?: Review | null; placebo_extended
 export default function Landing() {
   const [sc, setSc] = useState<Scenario | null>(null);
   const [ko, setKo] = useState(false);
+  const [swipe, setSwipe] = useState(50);
   useEffect(() => { document.body.classList.add('page-scroll'); return () => document.body.classList.remove('page-scroll'); }, []);
   useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); }, []);
   const rv = sc?.review ?? null; const lead = rv?.leads[0];
@@ -18,7 +18,7 @@ export default function Landing() {
     <main className="landing">
       <nav className="landing-nav">
         <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026</span>
-        <div><button className={!ko ? 'is-active' : ''} onClick={() => setKo(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => setKo(true)}>한국어</button><Link href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</Link></div>
+        <div><button className={!ko ? 'is-active' : ''} onClick={() => setKo(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => setKo(true)}>한국어</button><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
       </nav>
 
       <section className="hero">
@@ -32,7 +32,7 @@ export default function Landing() {
           <div className="zero"><b>0</b><span>{ko ? '확정 피해 라벨' : 'confirmed damage labels'}</span></div>
         </div>
         <div className="cta">
-          <Link href="/map" className="btn primary">{ko ? '후보 6곳 탐색' : 'EXPLORE 6 CANDIDATES'}</Link>
+          <a href="/map" className="btn primary">{ko ? '후보 6곳 탐색' : 'EXPLORE 6 CANDIDATES'}</a>
           <a href={rv?.download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '후보 GeoJSON 내려받기' : 'DOWNLOAD CANDIDATE GEOJSON'}</a>
           <a href="#reuse" className="btn">{ko ? '이 방법 재사용하기' : 'REUSE THIS RECIPE'}</a>
         </div>
@@ -40,10 +40,14 @@ export default function Landing() {
 
       <section className="how">
         <p className="kicker">{ko ? '어떻게 작동하나' : 'HOW IT WORKS'}</p>
-        <div className="three">
-          <figure><img src={lead?.images.pre ?? '/data/candidates/v003_pre.png'} alt="before" /><figcaption><b>{ko ? '사건 전' : 'BEFORE'}</b> 12 Aug{ko ? ' — 같은 장소의 평소 모습' : ' — the place as it usually looks'}</figcaption></figure>
-          <figure><img src={lead?.images.post ?? '/data/candidates/v003_post.png'} alt="after" /><figcaption><b>{ko ? '사건 후' : 'AFTER'}</b> 27 Aug</figcaption></figure>
-          <figure><img src={lead?.images.delta ?? '/data/candidates/v003_delta.png'} alt="embedding change" /><figcaption><b>{ko ? '임베딩 변화' : 'EMBEDDING CHANGE'}</b>{ko ? ' — 평소 범위를 넘은 40 m 토큰(주황)' : ' — 40 m tokens beyond their ordinary range (orange)'}</figcaption></figure>
+        <div className="how-grid">
+          <div className="story-swipe landing-swipe" style={{ ['--swipe' as string]: `${swipe}%` }}>
+            <img src={lead?.images.post ?? '/data/candidates/v003_post.png'} alt="after, 27 Aug" />
+            <div className="swipe-clip"><img src={lead?.images.pre ?? '/data/candidates/v003_pre.png'} alt="before, 12 Aug" /></div>
+            <div className="swipe-bar" /><span className="swipe-label pre">{ko ? '사건 전 · 8월 12일' : 'BEFORE · 12 Aug'}</span><span className="swipe-label post">{ko ? '사건 후 · 8월 27일' : 'AFTER · 27 Aug'}</span>
+            <input type="range" min={0} max={100} value={swipe} aria-label="Compare before and after" onChange={(e) => setSwipe(Number(e.target.value))} />
+          </div>
+          <figure><img src={lead?.images.delta ?? '/data/candidates/v003_delta.png'} alt="embedding change" /><figcaption><b>{ko ? '임베딩 변화' : 'EMBEDDING CHANGE'}</b>{ko ? ' — 평소 범위를 넘은 40 m 토큰(주황). 왼쪽 손잡이를 끌어 전후를 비교하세요.' : ' — 40 m tokens beyond their ordinary range (orange). Drag the handle on the left to compare.'}</figcaption></figure>
         </div>
         <ul className="plain">
           <li><b>Δz</b> — {ko ? '같은 장소가 사건 전후에 얼마나 다르게 표현됐는가' : 'how differently the same place is represented before and after'}</li>
@@ -89,7 +93,7 @@ export default function Landing() {
           <tr><td>{ko ? 'Earth-embedding model (OlmoEarth v1 Base, frozen — no training)' : 'Earth-embedding model (OlmoEarth v1 Base, frozen — no training)'}</td><td>{ko ? '창별 PRE · POST · AI Δ 이미지' : 'PRE · POST · AI Δ image per window'}</td></tr>
           <tr><td>{ko ? '평시 관측 기간(2주 쌍 2–3개)' : 'ordinary periods (two or three fortnight pairs)'}</td><td>{ko ? '후보별 변화값·관측 가능성·감사 기록(SHA-256)' : 'per-candidate change, observability and an audit record (SHA-256)'}</td></tr>
         </tbody></table>
-        <div className="cta"><Link href="/map#story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</Link><a className="btn" href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">CODE ↗</a></div>
+        <div className="cta"><a href="/story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</a><a className="btn" href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">CODE ↗</a></div>
       </section>
 
       <footer className="landing-foot">

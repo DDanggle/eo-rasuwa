@@ -9,6 +9,9 @@ create table if not exists public.candidate_reviews (
 );
 create index if not exists candidate_reviews_candidate_idx on public.candidate_reviews (candidate_id, created_at desc);
 alter table public.candidate_reviews enable row level security;
--- 공개 읽기 + 익명 삽입만 허용. 수정/삭제는 대시보드(서비스 키)에서만.
-create policy "public read" on public.candidate_reviews for select using (true);
-create policy "anon insert" on public.candidate_reviews for insert with check (true);
+-- 공개 페이지에서는 이 기능을 기본으로 끈다. 켤 경우에도 읽기·삽입은 인증 사용자만 허용한다.
+-- CAPTCHA/속도제한 없는 anon insert 정책은 공개 배포에서 스팸·사칭 경로가 된다.
+create policy "authenticated read" on public.candidate_reviews
+  for select to authenticated
+  using (auth.uid() is not null);
+create policy "authenticated insert" on public.candidate_reviews for insert to authenticated with check (auth.uid() is not null);

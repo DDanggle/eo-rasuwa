@@ -114,7 +114,7 @@ for (const feature of observableGeojson.features) {
   assert.ok(Number.isInteger(feature.properties.rank_pooled3));
   assert.equal(feature.properties.rank, feature.properties.rank_pooled3);
   assert.equal(feature.properties.candidate_token_frac, feature.properties.candidate_token_frac_pooled3);
-  assert.ok(['lead', 'screened'].includes(feature.properties.review_status));
+  assert.ok(['lead', 'screened', 'reobserve'].includes(feature.properties.review_status));
 }
 for (const feature of scenario.candidates.geojson.features) {
   const id = feature.properties.id;

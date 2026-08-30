@@ -5,9 +5,10 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 let client: SupabaseClient | null | undefined;
 export function supabase(): SupabaseClient | null {
   if (client !== undefined) return client;
+  const enabled = process.env.NEXT_PUBLIC_ENABLE_REVIEW_NOTES === 'true';
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  client = url && key ? createClient(url, key) : null;
+  client = enabled && url && key ? createClient(url, key) : null;
   return client;
 }
 

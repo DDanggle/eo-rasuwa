@@ -1,46 +1,28 @@
-# OLMoEarth Nepal Live Twin
+# Web application
 
-A deployable GIS interface for the 26 August 2026 Rasuwa–Bhote Koshi event. It joins real
-pre-event Sentinel-1/2 windows, the OLMoEarth input contract, an acquisition timeline, and a
-browser-native Rust/WASM flow preview.
+This directory contains the public Next.js interface for the Nepal AI Twin. The release contract is:
 
-## What is real vs pending
+> 100 Sentinel-2 windows scanned → 47 observable → 6 review leads → 0 confirmed damage labels.
 
-- **Real:** eight locally materialized Sentinel scenes at the Rasuwagadhi anchor, five 2.56 km
-  OLMoEarth input windows, and the OSM Bhote Koshi→Trishuli river centerline.
-- **Pending:** the first usable post-event open scene and its OLMoEarth embedding delta.
-- **Illustrative:** the Rust/WASM particles. They follow the verified river centerline but do not
-  estimate water depth, velocity, arrival time, or hazard.
-- **Separated:** the user-supplied Rishing point is 113.79 km from Rasuwagadhi and is not treated
-  as the same event-flow endpoint.
+The six leads rank places for human inspection; they are not damage detections, probabilities, or mapped impact area. The application reads the sealed public derivatives in `public/data/` and does not rebuild research data during deployment.
 
-## Architecture
+## Local release check
 
-```text
-research GeoTIFF + items.json
-           │
-           ▼
-Python compiler ──► RGBA overlays + GeoJSON + provenance manifest
-                                              │
-OSM river ways ───────────────────────────────┤
-                                              ▼
-                               MapLibre / React GIS
-                                              ▲
-                                    Rust → raw WASM
-                                    particle preview
-```
-
-Python is an offline build/data plane so the hosted Cloudflare application remains self-contained.
-The raw WASM ABI has no JavaScript glue dependency.
-
-## Rebuild
+Node.js 22.13+ and pnpm 11.19.0 are expected.
 
 ```bash
-/Users/dgyi/dong/ai_projects/olmoearth_projects/.venv/bin/python python/build_live_twin_data.py
-bash scripts/build-wasm.sh
-/Users/dgyi/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/verify-assets.mjs
-/Users/dgyi/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node node_modules/vinext/dist/cli.js build
+pnpm install --frozen-lockfile
+pnpm check
+pnpm start
 ```
 
-Use `--refresh-osm` on the Python compiler only when intentionally refreshing OSM ways
-`201928141`, `809865767`, and `24624604`.
+`pnpm check` verifies the public data contract and all 300 candidate images, then runs ESLint, TypeScript, and a production Next.js build.
+
+## Routes
+
+- `/` — concise 100 → 47 → 6 explanation and downloadable review list
+- `/map` — interactive evidence map and scene timeline
+- `/map?focus=v003` — deep link to the first review lead
+- `/story` — bilingual methods and evidence narrative
+
+Environment variables and production hosting steps are documented in [`../DEPLOYMENT.md`](../DEPLOYMENT.md). Scientific claims, boundaries, and source links are documented in the repository [`README`](../README.md) and [`../THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md).

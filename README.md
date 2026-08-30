@@ -1,49 +1,64 @@
-# Nepal Live Twin — Rasuwa 2026-08-26 (suspected rock–ice avalanche · flash flood) × OlmoEarth
+# Nepal AI Twin — Rasuwa 2026 × OlmoEarth
 
-이 저장소는 `olmoearth_projects/_work`(연구 작업공간)에서 **네팔 사건과 관련된 것만** 떼어낸 공개용 모음임.
-앱(`web/`), 조사 문서(`docs/`), 실험 코드(`code/`), 봉인 보고서(`artifacts/`), Supabase 스키마(`supabase/`)로 구성함.
-사건 표기는 "suspected rock–ice avalanche (under investigation)"로 고정하고, 피해·확률·원인 주장은 하지 않음.
+2026년 8월 26일 라수와–Bhote Koshi 돌발홍수에 대해, **범용 Earth embedding을 새 재난 탐지기로 재학습하지 않고** 사건 전후 변화의 검토 순위를 만든 공개 연구 데모입니다.
 
-## 구조
+핵심 결과는 하나입니다.
+
+> Sentinel-2 관측창 100개를 같은 계약으로 비교했고, 47개를 판독할 수 있었으며, 세 개 평시 전이의 p99를 넘은 6곳을 사람이 먼저 볼 리드로 남겼다. 리드는 피해 확정·피해 면적·원인·확률이 아니다.
+
+## 공개 화면과 산출물
+
 | 경로 | 내용 |
 |---|---|
-| `web/` | Next.js 16 앱(Vercel 배포용). 지도(MapLibre) + 스토리 + AI 후보 + 사람 검토 노트(Supabase, 선택) |
-| `web/public/data/` | 봉인된 산출물(장면 PNG, 후보 창 pre/post/Δ, scenario.json). 123 MB, 정적 서빙 |
-| `web/python/build_live_twin_data.py` | scenario.json 생성기. 원본 `artifacts/external_data/…`가 필요하므로 이 저장소에서는 재생성보다 **동봉된 scenario.json 사용**을 기본으로 함 |
-| `docs/` | NEPAL_* 조사·상태·리스크 문서, 측정 장부 전체 사본(`MEASURED_FINDINGS_full.md`, M66–M80) |
-| `code/` | 회랑 100창 스캔·검색·대조군·Sen12 실험(M66·M73·M78·M79·M80)·감사 스크립트 |
-| `artifacts/` | 위 실험의 report.json (수치의 1차 출처) |
-| `supabase/migrations/` | `candidate_reviews` 테이블 + RLS(공개 읽기·익명 삽입) |
+| `web/app/page.tsx` | 100 → 47 → 6 메시지를 전달하는 첫 화면 |
+| `web/app/map/page.tsx` | MapLibre 증거 지도, 전후 장면, 100개 스캔 중심, 6개 리드, 재관측 목록, 방법 스토리 |
+| `web/public/data/review-leads.geojson` | 공개 우선 검토 리드 6개 |
+| `web/public/data/candidates.geojson` | 판독 가능한 전체 47개 창(리드와 분리) |
+| `web/public/data/scenario.json` | 앱이 읽는 통합 결과·출처·계약·정정 장부 |
+| `artifacts/` | 실험별 1차 `report.json` |
+| `docs/MEASURED_FINDINGS_full.md` | M66–M85 측정·반증·정정 기록 |
+| `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
 
-## 배포 (Vercel + Supabase)
-1. Supabase 프로젝트 생성 → SQL editor에 `supabase/migrations/0001_candidate_reviews.sql` 실행.
-2. Vercel에서 이 저장소 import, **Root Directory = `web`**, Framework = Next.js. 환경변수:
-   `NEXT_PUBLIC_MAPTILER_KEY`(선택, 없으면 Esri 래스터 폴백), `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`(선택, 없으면 검토 노트 UI 숨김).
-3. MapTiler 키는 대시보드에서 배포 도메인을 allowed origin에 추가해야 함(이전에 키가 채팅에 노출된 적 있으므로 **새 키 발급 권장**).
-4. 로컬: `cd web && pnpm install && pnpm build && pnpm start`. `pnpm verify`로 자산 불변식 검사.
+`web/public/data/`는 약 125 MB입니다. 연구 원본이 아니라 공개 UI에 필요한 파생 PNG·GeoJSON·JSON·WASM만 포함합니다.
 
-## 잘된 것 (근거 있음)
-- **AI vs 고전, 같은 조건 9/9 우위**(M73): Sen12-Landslides 9지역, 같은 패치·시점·라벨에서 OlmoEarth Δz AUROC가 밴드차·|ΔNDVI|+|ΔNBR|보다 높음(8/9 ≥ +0.05).
-- **두 번째 모델 대조군**(M79): Presto(픽셀 시계열 FM)를 같은 계약에 넣었을 때 OlmoEarth가 6/7에서 ≥ +0.03 앞섬 → "아무 임베딩 Δ"가 아니라 공간 표현의 기여.
-- **레이더 단독 신호**(M78·M80): Hokkaido·Hiroshima에서 S1만으로 0.77/0.73, 흐린 post(clear 10%)에서도 Hokkaido 0.770 유지.
-- **네팔 회랑 후보 목록**(M69·M71): 100창 자동 스캔, 구름 판정 불가 제외 47창, 상위 Dalphedi·Bidur·Salê(강 밖). 대조 창 Tadi Khola는 3.6%(회랑 1위 25%).
-- **정정을 남김**(M75·M76): 레이더 선형/dB 단위 오류로 초기 양성(9.8%) 철회, 재계산 후 미검출을 그대로 공개.
-- 앱: 청록 점/후보 사각형 결함 원인을 헤드리스로 재현·수정, 스토리 5장(정정 포함), 팝업 위성 3장 + Planet 3.8 m.
+## 지금 말할 수 있는 것
 
-## 부족한 것 (먼저 읽을 것)
-- **네팔 사건 자체의 라벨이 없음**: USGS/UNOSAT 피해 경계 미공개 → 후보의 정밀도를 셀 수 없음. "검토 후보"까지만.
-- **레이더 결합 이득 0/7**: 광학이 있으면 S1을 보태도 +0.03 미만. 네팔 레이더 화면(dB 교정 후)은 미검출.
-- **구름 층화는 2지역뿐**: Sen12가 맑은 장면 위주라 "구름 투시" 일반화 불가. PC에서 흐린 장면을 직접 모아야 함.
-- **대조 창은 사후 선택**(관측성 기준) — specificity 근거로 쓰지 않음. Rishing은 구름 100%로 판정 불가.
-- **Presto 계약 불리**(12개월 모델에 4시점) → Presto 하한. Prithvi/Clay/TerraMind 미실행.
-- 평시 기준이 한 쌍(2주)뿐, spatial-block CI 없음, 시드 반복 없음.
-- 물리 시뮬레이션(r.avaflow/D-Claw) 미실행, 언색호(D) 위치 미확정, 발원지(E)는 구름·눈.
-- 앱: 회랑 100창 사각형이 겹쳐 빽빽함, 한국어 스토리 일부는 영문 대비 검수 부족, 공개 후 사용자 테스트 없음.
+- **네팔 우선 검토 목록:** 100개 창 중 47개 판독 가능, 6개 리드. 1위 Dalphedi는 pooled-three-pair 기준 13.3%; Tadi Khola 대조 창은 1.3%.
+- **과거 라벨 평가(M73):** Sen12-Landslides 9개 지역의 같은 패치·시점·라벨에서 OlmoEarth Δz가 고전 band/index change보다 9/9 높았습니다. 그중 8/9가 사전 기준 +0.05 이상입니다.
+- **두 번째 표현 대조(M79):** 같은 네 시점 계약에서 OlmoEarth가 Presto보다 6/7 지역에서 +0.03 이상 높았습니다. 다만 12개월 모델인 Presto에 불리한 하한 비교입니다.
+- **레이더의 제한(M78·M80):** S1-only 신호는 Hokkaido·Hiroshima에서만 강했습니다. 실제 10% clear 장면에서는 Hokkaido 0.770, Alaska 0.497이므로 보편적 “구름 투시” 주장이 아닙니다. S1+S2 이득도 모든 지역에서 +0.03 미만입니다.
+- **정정(M75·M76):** Sentinel-1 선형 강도를 dB 입력 계약으로 잘못 넣어 나온 초기 9.8% 결과와 관련 후보를 철회했습니다. 현재 페이지는 교정 후 산출물만 공개 결과에 사용합니다.
 
-## 여러 작업공간에서 한 일 (합본)
-- **이 세션(메인)**: 앱 UX·스토리, M77(대조 창), M78(레이더), M79(Presto), M80(구름 층화), 확장 리서치(`docs/NEPAL_EXPANSION_RESEARCH.md`).
-- **병렬 세션**: 레이더 dB 계약 감사(M75/M76 재실행), M77/M78 독립 재계산(`code/audit_nepal_m77_m78.py`, SHA 재현), 연구 상태판(`docs/NEPAL_OLMO_RESEARCH_STATUS_2026_08_30.md`), 리스크·출처 감사, 봉인 테스트.
-- **서버(nx, GPU1)**: 모든 임베딩·Sen12 실험. 로그는 서버 `logs/`, 로컬은 report.json만 동기화.
+## 아직 말할 수 없는 것
 
-## 라이선스·출처
-Sentinel-1/2 © ESA Copernicus. PlanetScope/SkySat © Planet Labs PBC, CC-BY-NC-4.0 (Planet Disaster Data, source.coop). Basemap © MapTiler / OpenStreetMap contributors. OlmoEarth © Ai2. Presto © NASA Harvest.
+- 6곳이 실제 피해라는 주장. 현재 확정 피해 라벨은 0개입니다.
+- 13.3%를 피해 면적이나 발생 확률로 해석하는 것.
+- 물리 시뮬레이션으로 수심·유속·도달시간을 예측했다는 주장. Rust/WASM 입자는 OSM 중심선을 따르는 **설명용 운동학 시각화**입니다.
+- OlmoEarth가 모든 GeoFM보다 우월하다는 주장. Prithvi·Clay·TerraMind는 같은 계약에서 실행하지 않았습니다.
+- 네팔 1개 사건의 지형 상관을 일반 위험 모델로 확장하는 것.
+
+USGS는 2026년 8월 27일 잠정 산사태·홍수 범위 지도를 공개했고, Sentinel Asia는 8월 28일 Sentinel-1 피해 프록시와 Planet 기반 부가 산출물을 게시했습니다. 다음 과학 관문은 이 외부 범위를 동결한 뒤, 현재 순위·문턱을 바꾸지 않고 precision@k를 계산하는 것입니다.
+
+## 로컬 검증
+
+Node.js 22.13+와 pnpm 11.19.0을 사용합니다.
+
+```bash
+cd web
+pnpm install --frozen-lockfile
+pnpm check
+pnpm start
+```
+
+`pnpm check`는 공개 자산 불변식, ESLint, TypeScript, production build를 모두 실행합니다. 데이터 생성기는 원 연구 작업공간을 요구하므로 공개 저장소에서는 동봉된 `scenario.json`을 기본으로 사용합니다. 결과 계약을 갱신했을 때는 `node scripts/sync-review-contract.mjs`로 첫 화면·지도·두 GeoJSON을 맞춘 뒤 `pnpm verify`를 실행합니다.
+
+배포 절차와 롤백은 [DEPLOYMENT.md](./DEPLOYMENT.md), 출처·재배포 경계는 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)를 따릅니다.
+
+## 외부 출처
+
+- [USGS preliminary extent map](https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map)
+- [Sentinel Asia activation and products](https://sentinel-asia.org/EO/2026/article20260826NP.html)
+- [WHO Nepal health response](https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods)
+- [Ai2 OlmoEarth embeddings](https://allenai.org/blog/olmoearth-embeddings)
+
+코드 저장소 자체의 오픈소스 라이선스는 아직 선언하지 않았습니다. 라이선스 파일을 추가하기 전에는 제3자의 재사용 권한을 암시하지 않습니다.

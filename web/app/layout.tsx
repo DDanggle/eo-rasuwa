@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { IBM_Plex_Mono, IBM_Plex_Sans_KR, Source_Serif_4 } from 'next/font/google';
 import './globals.css';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
 // Ai2 종이 톤 전환(2026-08-28): 폰트만 IBM Plex로 교체하고 CSS 변수 이름은 유지함
 // (--font-geist-* 를 참조하는 규칙 50여 곳을 건드리지 않기 위해).
 const geistSans = IBM_Plex_Sans_KR({
@@ -16,8 +18,24 @@ const storySerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: 'Nepal AI Twin — Rasuwa 2026',
+  metadataBase: new URL(siteUrl ?? 'https://olmoearth-nepal-live-twin.seeso.chatgpt.site'),
+  title: { default: 'Nepal AI Twin — Rasuwa 2026', template: '%s · Nepal AI Twin' },
   description: 'An independent AI twin of the 26 Aug 2026 Rasuwa flash flood: satellite windows compared with a general Earth-embedding model to rank places to inspect first.',
+  applicationName: 'Nepal AI Twin',
+  authors: [{ name: 'Nepal AI Twin research project' }],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    title: '100 satellite windows → 6 places to inspect first',
+    description: 'OlmoEarth embedding change ranks review priority. It does not confirm damage.',
+    siteName: 'Nepal AI Twin',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '100 satellite windows → 6 places to inspect first',
+    description: 'OlmoEarth embedding change ranks review priority. It does not confirm damage.',
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

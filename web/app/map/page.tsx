@@ -1,10 +1,12 @@
 'use client';
+/* eslint-disable @next/next/no-img-element -- scientific raster tiles must be served byte-for-byte from the sealed public bundle */
 import { ReviewNotes } from '../review-notes';
 
 import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, Popup, setWorkerUrl } from 'maplibre-gl';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection } from 'geojson';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -365,7 +367,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
   const [visibleParticles, setVisibleParticles] = useState<number | null>(null);
   const visibleLogRef = useRef(0);
   const [flowSpeed, setFlowSpeed] = useState(0.034);
-  const [candidateScope, setCandidateScope] = useState<'all' | 'river' | 'hillslope'>('all');
+  const [candidateScope, setCandidateScope] = useState<'all' | 'hillslope'>('all');
   const [satTiles, setSatTiles] = useState(false);
   const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const [leftOpen, setLeftOpen] = useState(false);  // 2026-08-30: 패널 하나로 — 포인트는 지도 위 라벨로 충분
@@ -607,6 +609,10 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       // 외부 context tile 실패는 진단만 남긴다. 실제 S2 backdrop과 로컬 evidence layer는 독립이다.
       map.on('error', (e) => {
         const msg = e?.error?.message ?? String(e);
+        // The handler above already converts a rejected MapTiler style into the
+        // key-free Esri raster style. Do not report that expected recovery as a
+        // second uncaught-looking error in production diagnostics.
+        if (maptilerStyleUrl && /style|403|Forbidden|Failed to fetch/i.test(msg)) return;
         console.error('[map] error:', msg);
       });
       mapRef.current = map;
@@ -784,7 +790,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
           paint: { 'line-color': '#ff5a1f', 'line-width': ['case', ['<=', ['get', 'rank'], 6], 3.2, 1.1], 'line-opacity': ['case', ['<=', ['get', 'rank'], 6], 0.98, 0.38] } }, before);
         try { map.addLayer({ id: 'olmo-canonical-rank', type: 'symbol', source: 'olmo-canonical', filter: ['<=', ['get', 'rank'], 6],
           layout: { 'text-field': ['concat', 'O', ['to-string', ['get', 'rank']]], 'text-size': 15,
-                    'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true },
+                    'text-font': ['Noto Sans Bold'], 'text-allow-overlap': true },
           paint: { 'text-color': '#ff5a1f', 'text-halo-color': '#fffaf3', 'text-halo-width': 2.5 } }); }
         catch (e) { console.warn('[diag] canonical OLMo labels skipped', e); }
         map.on('click', 'olmo-canonical-fill', (e) => {
@@ -811,7 +817,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
         try { map.addLayer({ id: 'ai-candidate-rank', type: 'symbol', source: 'ai-candidates',
           filter: ['==', ['get', 'review_status'], 'lead'],
           layout: { 'text-field': ['concat', '#', ['to-string', ['get', 'review_rank']]], 'text-size': 15,
-                    'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true, 'text-anchor': 'center' },
+                    'text-font': ['Noto Sans Bold'], 'text-allow-overlap': true, 'text-anchor': 'center' },
           paint: { 'text-color': '#b77708', 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
         catch (e) { console.warn('[diag] candidate rank labels skipped', e); }
         const simIds = (scenario?.candidates?.retrieval?.top10 ?? []).map((r) => r.id);
@@ -1068,32 +1074,18 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
   };
 
   const backdropScene = activeScene && shortSensor(activeScene.sensor) === 'S2' ? activeScene : latestOpticalScene;
-  const missedCoverage = scenario?.scheduled_scenes.find((scene) => scene.state === 'missed_coverage') ?? null;
   const nextScheduled = scenario?.scheduled_scenes.find((scene) => scene.state !== 'missed_coverage') ?? null;
-  const nextRadar = scenario?.scheduled_scenes.find((scene) => scene.state !== 'missed_coverage' && shortSensor(scene.sensor) === 'S1') ?? null;
   const liveObservation = scenario?.live_observation ?? null;
   const decision = scenario?.decision ?? null;
   const transfer = scenario?.research.confirmatory_transfer ?? null;
   const livePeriodText = liveObservation
     ? `S1 ${liveObservation.period_readiness?.sentinel1 ?? '?'}⁄4 · S2 ${liveObservation.period_readiness?.sentinel2_l2a ?? '?'}⁄4`
     : '—';
-  const liveReadinessLabel = !liveObservation
-    ? 'NO LIVE OBSERVATION'
-    : liveObservation.olmo_ready
-      ? 'OLMo INPUT SEALED'
-      : liveObservation.materialization_status === 'partial_cube_contract_failed'
-        ? 'PIXELS READY · CUBE INCOMPLETE'
-        : liveObservation.materialization_status === 'blocked_provider_selection'
-          ? 'OFFICIAL 5/5 · PROVIDER INDEX WAIT'
-        : liveObservation.materialization_status === 'selected_not_materialized'
-          ? 'SCENE SELECTED · MATERIALIZE WAIT'
-          : 'INPUT CONTRACT BLOCKED';
   const selectedCard = points.find((item) => item.id === selectedPoint) ?? points[0] ?? null;
   const eventPoints = points.filter((point) => point.in_event_chain);
   const controlPoints = points.filter((point) => !point.in_event_chain);
   const bidurPre = scenario?.downstream_visual.records.find((record) => record.label === 'pre') ?? null;
   const bidurPost = scenario?.downstream_visual.records.find((record) => record.label === 'post') ?? null;
-  const providerSyncBlocked = liveObservation?.materialization_status === 'blocked_provider_selection';
   const corridorContract = scenario?.corridor_contract ?? null;
   const canonicalTop = scenario?.corridor_sealed?.top[0] ?? null;
   // 2026-08-30: 카드 순서는 첫 화면과 같은 리드(평시 3쌍 문턱, 관측 가능성 ≥ 40%, 마을 중복 제거). OFF-RIVER 는 재관측 대상.
@@ -1101,10 +1093,8 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
   const reobserveRows = (scenario?.review?.reobserve ?? []).map((l, i) => ({ id: l.id, rank: i + 1, place: l.place, kind: 'hillslope', center_lonlat: l.center_lonlat, candidate_token_frac: l.candidate_token_frac, valid_event_frac: l.observable, distance_from_a_km: undefined as number | undefined }));
   const candidateRows = !scenario?.candidates ? []
     : candidateScope === 'hillslope'
-      ? (reobserveRows.length ? reobserveRows : (scenario.candidates.hillslope_top ?? []))
-      : candidateScope === 'river'
-        ? (leadRows.length ? leadRows.filter((c) => c.kind === 'river') : scenario.candidates.top10.filter((candidate) => candidate.kind !== 'hillslope'))
-        : (leadRows.length ? leadRows : scenario.candidates.top10);
+      ? reobserveRows
+      : leadRows;
 
   const focusPoint = (id: string) => {
     setSelectedPoint(id);
@@ -1218,7 +1208,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
         </div>
       )}
       {candView && (
-        <div className="cand-chip" role="status">
+        <div className={`cand-chip ${rightOpen ? 'rail-open' : ''}`} role="status">
           <b>{candView.rank ? `#${candView.rank}` : candView.id}</b><span>{candView.place ?? ''}</span>
           <div className="cand-chip-modes">
             {(['pre', 'post', 'delta'] as const).map((m) => <button key={m} className={candView.mode === m ? 'is-active' : ''} onClick={() => showCandidate(candView.id, m, candView)}>{m === 'pre' ? 'PRE 08-12' : m === 'post' ? 'POST 08-27' : 'AI Δ'}</button>)}
@@ -1240,10 +1230,10 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       )}
 
       <header className="topbar">
-        <a className="brand-lockup" href="/" title="Home">
+        <Link className="brand-lockup" href="/" title="Home">
           <div className="brand-mark"><span /></div>
           <div><p className="eyebrow">EVIDENCE MAP · RASUWA 2026</p><h1>Nepal <span>AI Twin</span></h1></div>
-        </a>
+        </Link>
         <div className="map-mode-switch zone-switch" role="group" aria-label="Zone">
           <button className={zone === 0 ? 'is-active' : ''} onClick={() => setZone(0)} disabled={mapStatus !== 'ready'}>WHOLE CHAIN</button>
           <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
@@ -1375,10 +1365,10 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
               </div>
               {candidateRows.slice(0, 6).map((c) => (
                 <article key={c.id} className="cand-card">
-                  <header><b>#{c.rank}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{c.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE · ' : c.kind === 'lhende' ? 'LHENDE UPSTREAM · ' : ''}{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
+                  <header><b>{candidateScope === 'hillslope' ? `R${c.rank}` : `#${c.rank}`}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{candidateScope === 'hillslope' ? 'RE-OBSERVE · BELOW 40% CLEAR · ' : c.kind === 'lhende' ? 'LHENDE UPSTREAM · ' : ''}{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
                   <div className="cand-strip" role="button" tabIndex={0}
                        onClick={() => openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% of cloud-free 40 m cells with Δz above the ordinary p99 · ${(c.valid_event_frac * 100).toFixed(0)}% observable`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] })}
-                       onKeyDown={(e) => { if (e.key === 'Enter') (e.currentTarget as HTMLElement).click(); }}>
+                       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); (e.currentTarget as HTMLElement).click(); } }}>
                     <figure><img src={`/data/candidates/${c.id}_pre.png`} alt="before" loading="lazy" /><figcaption>PRE 08-12</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_post.png`} alt="after" loading="lazy" /><figcaption>POST 08-27</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change tokens" loading="lazy" /><figcaption>AI Δ</figcaption></figure>
@@ -1387,27 +1377,17 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
                     <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>GO TO MAP</button></footer>
                 </article>
               ))}
-              {scenario.candidates.hillslope_top && scenario.candidates.hillslope_top.length > 0 && (
-                <div className="retrieval-box hillslope-box">
-                  <p className="cand-help"><b>OFF-RIVER · hillslope grid around the source</b> — 49 windows ±7.7 km around Langtang Lirung; most are cloud/snow and not judged. Ranked ones below (low observability — treat as leads only).</p>
-                  <ol>
-                    {scenario.candidates.hillslope_top.map((r) => (
-                      <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.candidate_token_frac * 100).toFixed(0)}% cells above ordinary p99 · {(r.valid_event_frac * 100).toFixed(0)}% visible</em>
-                        <button onClick={() => showCandidate(r.id, 'post', { rank: r.rank, place: r.place, center: r.center_lonlat })}>GO</button></li>
-                    ))}
-                  </ol>
-                </div>
-              )}
               {scenario.candidates.retrieval && (
-                <div className="retrieval-box">
-                  <p className="cand-help"><b>SEARCH · same kind of change</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} cells above ordinary p99; every window&apos;s tokens scored by cosine to that query, threshold = placebo p99.</p>
+                <details className="retrieval-box">
+                  <summary>EXPLORATORY SIMILARITY SEARCH · NOT THE 6-LEAD RANKING</summary>
+                  <p className="cand-help"><b>Legacy single-pair retrieval</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} cells above the earlier single-pair p99. Kept for provenance; its Δ ranks are not used in the pooled-three-pair review list.</p>
                   <ol>
                     {scenario.candidates.retrieval.top10.slice(0, 8).map((r) => (
                       <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.similar_token_frac * 100).toFixed(0)}% similar{r.delta_rank ? ` · Δ rank #${r.delta_rank}` : ''}</em>
                         {r.center_lonlat && <button onClick={() => showCandidate(r.id, 'post', { rank: r.rank, place: r.place, center: r.center_lonlat! })}>GO</button>}</li>
                     ))}
                   </ol>
-                </div>
+                </details>
               )}
             </div>
           )}
@@ -1454,6 +1434,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
           <div className="ai-vs-card">
             <p className="eyebrow">ORDINARY RANGE · three placebo fortnights instead of one</p>
             <strong>Threshold {scenario.placebo_extended.threshold_pooled3.toFixed(3)} (single pair {scenario.placebo_extended.threshold_each.P1?.toFixed(3)}) · candidate shares roughly halve · ranking holds (Spearman {scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2) ?? '—'})</strong>
+            <small>Diagnostic top six before the 40% observability and place-deduplication review filter. This is not the final six-lead list.</small>
             <table className="ai-vs-table"><thead><tr><th>window</th><th>3-pair</th><th>1-pair</th><th>local</th></tr></thead><tbody>
               {scenario.placebo_extended.top.map((r) => <tr key={r.id}><td>#{r.rank} {r.id}</td><td>{r.frac_pooled3 != null ? (100 * r.frac_pooled3).toFixed(1) + '%' : '—'}</td><td>{r.frac_p1 != null ? (100 * r.frac_p1).toFixed(1) + '%' : '—'}</td><td>{r.frac_local3 != null ? (100 * r.frac_local3).toFixed(1) + '%' : '—'}</td></tr>)}
             </tbody></table>
@@ -1502,7 +1483,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
         <div className="field-review-links">
           <span>FIELD / OFFICIAL REVIEW · OPENS SEPARATELY</span>
           <a href="https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map" target="_blank" rel="noreferrer">USGS extent map ↗</a>
-          <a href="https://www.unosat.org/products/" target="_blank" rel="noreferrer">UNOSAT Rasuwa / Nuwakot products ↗</a>
+          <a href="https://sentinel-asia.org/EO/2026/article20260826NP.html" target="_blank" rel="noreferrer">Sentinel Asia products ↗</a>
           <a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noreferrer">Planet crisis imagery ↗</a>
         </div>
         {/* O/E/P/H 4-layer 계약 — 설계 문서의 관측/증거/물리/공식 분리를 UI에 명시함.
@@ -1512,7 +1493,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
           <div className="layer-contract-row on"><b>O</b><span>Observation — S1 VV/VH · S2 12-band · masks</span><em>ACTIVE</em></div>
           <div className={`layer-contract-row ${scenario?.corridor_sealed ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · matched-location Δz screening</span><em>{scenario?.corridor_sealed ? 'ACTIVE' : 'PENDING'}</em></div>
           <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow ensemble · D-Claw check</span><em>DESIGNED</em></div>
-          <div className="layer-contract-row off"><b>H</b><span>Human/official — Charter · CEMS · USGS review</span><em>EXTERNAL</em></div>
+          <div className="layer-contract-row off"><b>H</b><span>Human/official — USGS · Sentinel Asia · Charter review</span><em>EXTERNAL</em></div>
         </div>
         <div className="flow-control">
           <button onClick={replayEventChain} aria-label="Replay the event-chain corridor animation">REPLAY CHAIN</button>

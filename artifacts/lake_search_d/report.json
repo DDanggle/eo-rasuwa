@@ -1,0 +1,97 @@
+{
+ "aoi_center": [
+  85.48,
+  28.285
+ ],
+ "half_km": 5,
+ "s2_pre": "S2C_MSIL2A_20260812T045701_R119_T45RUM_20260812T100317",
+ "s2_post": "S2B_MSIL2A_20260827T045659_R119_T45RUM_20260827T084453",
+ "s2_clear_frac": 0.154488,
+ "new_water_px": 0,
+ "new_water_km2": 0.0,
+ "s1_pre_same_orbit": [
+  [
+   "2026-07-23",
+   85,
+   "ascending"
+  ],
+  [
+   "2026-08-04",
+   85,
+   "ascending"
+  ],
+  [
+   "2026-08-16",
+   85,
+   "ascending"
+  ]
+ ],
+ "s1_post": [
+  [
+   "2026-08-28",
+   85,
+   "ascending"
+  ]
+ ],
+ "s1_all_orbits": [
+  [
+   19,
+   "descending"
+  ],
+  [
+   85,
+   "ascending"
+  ],
+  [
+   121,
+   "descending"
+  ]
+ ],
+ "s1_drop_px": 13328,
+ "both_px": 0,
+ "both_km2": 0.0,
+ "candidate_basis": "s1_drop_only_optical_unavailable",
+ "components_top5": [
+  {
+   "px": 943,
+   "km2": 0.37720000000000004,
+   "center_lonlat": [
+    85.50698,
+    28.25075
+   ]
+  },
+  {
+   "px": 745,
+   "km2": 0.298,
+   "center_lonlat": [
+    85.51528,
+    28.29102
+   ]
+  },
+  {
+   "px": 652,
+   "km2": 0.26080000000000003,
+   "center_lonlat": [
+    85.51912,
+    28.28579
+   ]
+  },
+  {
+   "px": 267,
+   "km2": 0.1068,
+   "center_lonlat": [
+    85.52895,
+    28.28666
+   ]
+  },
+  {
+   "px": 203,
+   "km2": 0.08120000000000001,
+   "center_lonlat": [
+    85.50826,
+    28.25938
+   ]
+  }
+ ],
+ "components_total": 287
+}

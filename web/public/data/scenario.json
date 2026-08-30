@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-30T02:32:05.195548+00:00",
+  "generated_at": "2026-08-30T04:53:21.536298+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -86,7 +86,7 @@
       "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
       "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
       "evidence_level": "reported_hazard_position_illustrative",
-      "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary.",
+      "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary. A model-free search of the ±5 km zone found the 27 Aug optical scene 85% cloud, so new water cannot be confirmed; same-orbit Sentinel-1 (23 Jul·4 Aug·16 Aug median vs 28 Aug) shows ≥3 dB backscatter drops clustered in the Lhende valley south-west of the source (largest 0.38 km² at 85.507E 28.251N). Radar alone cannot tell standing water from wet debris, so these are search targets, not a lake outline.",
       "story_ko": "여파 과정에서 토석에 막힌 호수가 생겼다고 보고됐다. 공개 footprint가 없어 보라색 점은 근사 수색구역일 뿐이며, 두 번째 붕괴 원점이나 시뮬레이션 호수 경계가 아니다.",
       "distance_from_a_km": 10.01,
       "nearest_window": "v047",
@@ -7942,6 +7942,89 @@
     "olmo_ahead_by_003": 6,
     "presto_above_chance_060": 2,
     "report_sha256": "d3517ab77f04816819a82086bdea88eca1467e283b771a7765e1fa6065c148f6"
+  },
+  "lake_search": {
+    "aoi_center": [
+      85.48,
+      28.285
+    ],
+    "half_km": 5,
+    "s2_clear_frac": 0.154488,
+    "new_water_km2": 0.0,
+    "s1_pre_same_orbit": [
+      [
+        "2026-07-23",
+        85,
+        "ascending"
+      ],
+      [
+        "2026-08-04",
+        85,
+        "ascending"
+      ],
+      [
+        "2026-08-16",
+        85,
+        "ascending"
+      ]
+    ],
+    "s1_post": [
+      [
+        "2026-08-28",
+        85,
+        "ascending"
+      ]
+    ],
+    "s1_drop_px": 13328,
+    "candidate_basis": "s1_drop_only_optical_unavailable",
+    "components_top5": [
+      {
+        "px": 943,
+        "km2": 0.37720000000000004,
+        "center_lonlat": [
+          85.50698,
+          28.25075
+        ]
+      },
+      {
+        "px": 745,
+        "km2": 0.298,
+        "center_lonlat": [
+          85.51528,
+          28.29102
+        ]
+      },
+      {
+        "px": 652,
+        "km2": 0.26080000000000003,
+        "center_lonlat": [
+          85.51912,
+          28.28579
+        ]
+      },
+      {
+        "px": 267,
+        "km2": 0.1068,
+        "center_lonlat": [
+          85.52895,
+          28.28666
+        ]
+      },
+      {
+        "px": 203,
+        "km2": 0.08120000000000001,
+        "center_lonlat": [
+          85.50826,
+          28.25938
+        ]
+      }
+    ],
+    "images": {
+      "ndwi_pre": "/data/story/lake_ndwi_pre0812.png",
+      "ndwi_post": "/data/story/lake_ndwi_post0827.png",
+      "candidates": "/data/story/lake_candidates.png"
+    },
+    "report_sha256": "eaf0c7e7233f72aaa44dabefd66516ee78bbc489d67871609db2c9e140036425"
   },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",

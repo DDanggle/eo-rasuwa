@@ -150,6 +150,7 @@ type Scenario = {
     geojson: FeatureCollection;
   } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
+  lake_search?: { aoi_center: [number, number]; half_km: number; s2_clear_frac: number; new_water_km2: number; s1_drop_px?: number; candidate_basis?: string; components_top5: { px: number; km2: number; center_lonlat: [number, number] }[]; images: { ndwi_pre: string; ndwi_post: string; candidates: string } } | null;
   presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
   downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
   radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
@@ -637,6 +638,12 @@ export default function Home() {
             + `<figure><img src="/data/candidates/${cw}_delta.png" alt="AI change"/><figcaption>AI Δ · win ${cw}</figcaption></figure>`
             + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '')
             + `</div><p class="pp-hint">▲ nearest scan window ${cw} (${pt.nearest_window_km} km)${pt.id === 'G' ? ' · AI change cells 6.7% here vs 25% at Dalphedi; 27 Aug is hazy, so read as weak signal, not absence' : ''} · click to open the large slider</p>`
+          : pt.id === 'D' && scenario?.lake_search
+          ? `<div class="pp-thumbs" data-lake="1" title="Click to compare large">`
+            + `<figure><img src="${scenario.lake_search.images.ndwi_pre}" alt="NDWI pre"/><figcaption>NDWI 08-12</figcaption></figure>`
+            + `<figure><img src="${scenario.lake_search.images.ndwi_post}" alt="NDWI post"/><figcaption>NDWI 08-27 (${Math.round(100 * scenario.lake_search.s2_clear_frac)}% clear)</figcaption></figure>`
+            + `<figure><img src="${scenario.lake_search.images.candidates}" alt="radar drop candidates"/><figcaption>S1 ≥3 dB drop · same orbit</figcaption></figure>`
+            + `</div><p class="pp-hint">▲ lake search ±5 km: optical too cloudy to confirm water; radar drops cluster in the Lhende valley (largest ${scenario.lake_search.components_top5[0] ? scenario.lake_search.components_top5[0].km2.toFixed(2) + ' km² at ' + scenario.lake_search.components_top5[0].center_lonlat[1].toFixed(3) + 'N ' + scenario.lake_search.components_top5[0].center_lonlat[0].toFixed(3) + 'E' : '—'}) — search targets, not a lake outline</p>`
           : pt.id === 'C'
           ? `<div class="pp-thumbs" data-cand="x001" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/candidates/x001_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`

@@ -94,7 +94,7 @@ POINTS = [
         "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
         "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
         "evidence_level": "reported_hazard_position_illustrative",
-        "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary.",
+        "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary. A model-free search of the ±5 km zone found the 27 Aug optical scene 85% cloud, so new water cannot be confirmed; same-orbit Sentinel-1 (23 Jul·4 Aug·16 Aug median vs 28 Aug) shows ≥3 dB backscatter drops clustered in the Lhende valley south-west of the source (largest 0.38 km² at 85.507E 28.251N). Radar alone cannot tell standing water from wet debris, so these are search targets, not a lake outline.",
         "story_ko": "여파 과정에서 토석에 막힌 호수가 생겼다고 보고됐다. 공개 footprint가 없어 보라색 점은 근사 수색구역일 뿐이며, 두 번째 붕괴 원점이나 시뮬레이션 호수 경계가 아니다.",
     },
     {
@@ -1315,6 +1315,17 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def lake_search_block() -> dict[str, Any] | None:
+    """M83: 언색호 D 수색 — NDWI 신규 수체 ∩ 같은 궤도 S1 급감 (모델 없음)."""
+    rp = WORK_ROOT / "artifacts/lake_search_d/report.json"
+    if not rp.exists():
+        return None
+    rj = json.loads(rp.read_text())
+    return {"aoi_center": rj["aoi_center"], "half_km": rj["half_km"], "s2_clear_frac": rj["s2_clear_frac"], "new_water_km2": rj["new_water_km2"],
+            "s1_pre_same_orbit": rj.get("s1_pre_same_orbit"), "s1_post": rj.get("s1_post"), "s1_drop_px": rj.get("s1_drop_px"), "candidate_basis": rj.get("candidate_basis"),
+            "components_top5": rj.get("components_top5", []), "images": {"ndwi_pre": "/data/story/lake_ndwi_pre0812.png", "ndwi_post": "/data/story/lake_ndwi_post0827.png", "candidates": "/data/story/lake_candidates.png"}, "report_sha256": sha256(rp)}
+
+
 def presto_control_block() -> dict[str, Any] | None:
     """M79: Presto(픽셀 시계열 FM) 대조군 — 같은 패치·시점·라벨에서 Δz AUROC, OlmoEarth 와의 차."""
     rp = WORK_ROOT / "artifacts/sen12_presto_control/report.json"
@@ -1592,6 +1603,7 @@ def build(refresh_osm: bool) -> None:
         "radar_value": radar_value_block(),
         "downstream_profile": downstream_profile_block(),
         "presto_control": presto_control_block(),
+        "lake_search": lake_search_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {

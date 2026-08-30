@@ -44,6 +44,13 @@ const normalize = (feature) => {
 
 scenario.candidates.geojson.features = scenario.candidates.geojson.features.map(normalize);
 const normalizedById = new Map(scenario.candidates.geojson.features.map((feature) => [feature.properties.id, feature]));
+for (const row of scenario.downstream_profile ?? []) {
+  const properties = normalizedById.get(row.id)?.properties;
+  if (!properties) continue;
+  row.candidate_token_frac = properties.candidate_token_frac;
+  row.observable = properties.valid_event_frac;
+  row.rank = properties.rank;
+}
 const observableFeatures = observable.features.map((feature) => normalize(normalizedById.get(feature.properties.id) ?? feature));
 const leadFeatures = review.leads.map((lead) => {
   const feature = normalizedById.get(lead.id);

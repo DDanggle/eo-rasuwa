@@ -8379,42 +8379,42 @@
     {
       "id": "v040",
       "km_to_G": 0,
-      "candidate_token_frac": 0.0673703818689848,
+      "candidate_token_frac": 0.03135672151505744,
       "observable": 0.786376953125,
       "rank": 28
     },
     {
       "id": "v039",
       "km_to_G": 2.4,
-      "candidate_token_frac": 0.10592011412268189,
+      "candidate_token_frac": 0.04457917261055635,
       "observable": 0.6845703125,
       "rank": 12
     },
     {
       "id": "v038",
       "km_to_G": 3.6,
-      "candidate_token_frac": 0.08148148148148149,
+      "candidate_token_frac": 0.04197530864197531,
       "observable": 0.889892578125,
       "rank": 22
     },
     {
       "id": "v037",
       "km_to_G": 4.9,
-      "candidate_token_frac": 0.04143573502243336,
+      "candidate_token_frac": 0.022697281604645025,
       "observable": 0.925048828125,
       "rank": 40
     },
     {
       "id": "v036",
       "km_to_G": 6.4,
-      "candidate_token_frac": 0.03256552819698173,
+      "candidate_token_frac": 0.020386550172094255,
       "observable": 0.922119140625,
       "rank": 44
     },
     {
       "id": "v035",
       "km_to_G": 7.8,
-      "candidate_token_frac": 0.05267581955729896,
+      "candidate_token_frac": 0.02661810030820958,
       "observable": 0.871337890625,
       "rank": 38
     }

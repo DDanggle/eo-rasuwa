@@ -1447,12 +1447,14 @@ def presto_control_block() -> dict[str, Any] | None:
 
 
 def downstream_profile_block() -> list[dict[str, Any]]:
-    """G(갈치) 쪽으로 갈수록 AI 변화 토큰 비율이 어떻게 줄어드는지 — 스캔 v2 강 창 중 G 에서 가까운 순 6개."""
+    """G 인접 강 창 6개. 공개 점수·순위는 M82 pooled-three-pair 계약으로 맞춘다."""
     rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_scan_v2/report.json"
+    pp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_placebo_ext/report.json"
     wm = WORK_ROOT / "artifacts/corridor_s2_candidates/prepare_v2/windows_manifest.json"
     if not (rp.exists() and wm.exists()):
         return []
     rj = json.loads(rp.read_text()); rows = {r["id"]: r for r in rj.get("windows", rj.get("ranked", []))}
+    pooled = {r["id"]: r for r in json.loads(pp.read_text()).get("windows", [])} if pp.exists() else {}
     man = json.loads(wm.read_text()); wins = man.get("windows", man)
     G = (84.9883085, 27.8054960)
     out = []
@@ -1460,9 +1462,10 @@ def downstream_profile_block() -> list[dict[str, Any]]:
         wid = w.get("id") or w.get("window_id"); c = w.get("center_lonlat") or w.get("center")
         if not (wid and c and wid in rows and str(wid).startswith("v")):
             continue
-        r = rows[wid]
+        r = rows[wid]; pr = pooled.get(wid, {})
         km = math.hypot((c[0] - G[0]) * math.cos(math.radians(27.9)) * 111.0, (c[1] - G[1]) * 111.0)
-        out.append({"id": wid, "km_to_G": round(km, 1), "candidate_token_frac": r.get("candidate_token_frac"), "observable": r.get("valid_event_frac"), "rank": r.get("rank")})
+        out.append({"id": wid, "km_to_G": round(km, 1), "candidate_token_frac": pr.get("candidate_frac_pooled3", r.get("candidate_token_frac")),
+                    "observable": pr.get("event_valid_frac", r.get("valid_event_frac")), "rank": pr.get("rank_pooled3", r.get("rank"))})
     out.sort(key=lambda x: x["km_to_G"])
     return out[:6]
 

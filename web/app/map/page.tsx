@@ -1182,7 +1182,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       <div className="key-strip" role="note">
         <b>{zone === 0 ? 'KEY' : zone === 1 ? 'ZONE 1' : 'ZONE 2'}</b>
         <span>{zone === 0
-          ? (scenario?.review?.leads?.length ? `${scenario.review.funnel.scanned} windows scanned · ${scenario.review.funnel.observable} observable · ${scenario.review.funnel.leads} to inspect first: ${scenario.review.leads.slice(0, 3).map((c) => c.place.split(',')[0]).join(' · ')} … Ranked by how far each place moved from its own ordinary change in OlmoEarth's representation. Nothing here is confirmed damage.` : 'Where to look first, ranked by OlmoEarth change. Nothing here is confirmed damage.')
+          ? (scenario?.review?.leads?.length ? `${scenario.review.funnel.scanned} windows scanned · ${scenario.review.funnel.observable} observable · ${scenario.review.funnel.leads} to inspect first: ${scenario.review.leads.slice(0, 3).map((c) => c.place.split(',')[0]).join(' · ')} … Ranked by the share of 40 m cells whose before/after embedding distance exceeds that place's ordinary 99th percentile. Nothing here is confirmed damage.` : 'Where to look first, ranked by OlmoEarth change. Nothing here is confirmed damage.')
           : zone === 1
           ? (scenario?.geomorph ? `Glacier source to the border: ${scenario.geomorph.zone1.length_km} km of gorge, ${scenario.geomorph.zone1.drop_m.toFixed(0)} m of drop; the valley pinches to ${scenario.geomorph.zone1.narrowest.valley_width_km} km at km ${scenario.geomorph.zone1.narrowest.km_from_source}. The hillslope grid around the source is cloud-limited; Salê is its only judged off-river candidate.` : 'Glacier source to the border.')
           : (scenario?.geomorph ? `Border to Galchhi: ${scenario.geomorph.zone2.n_windows} judged river windows. Wider valley floors carry more change (ρ ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}); confined, high-relief reaches carry less (ρ ${scenario.geomorph.zone2.correlations.relief_m?.spearman.toFixed(2)}). Look first at Dalphedi and the Bidur reach.` : 'Border to Galchhi.')}</span>
@@ -1359,13 +1359,13 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
                 <article key={c.id} className="cand-card">
                   <header><b>#{c.rank}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{c.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE · ' : c.kind === 'lhende' ? 'LHENDE UPSTREAM · ' : ''}{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
                   <div className="cand-strip" role="button" tabIndex={0}
-                       onClick={() => openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% of judged tokens above placebo p99 · ${(c.valid_event_frac * 100).toFixed(0)}% observable`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] })}
+                       onClick={() => openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% of cloud-free 40 m cells with Δz above the ordinary p99 · ${(c.valid_event_frac * 100).toFixed(0)}% observable`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] })}
                        onKeyDown={(e) => { if (e.key === 'Enter') (e.currentTarget as HTMLElement).click(); }}>
                     <figure><img src={`/data/candidates/${c.id}_pre.png`} alt="before" loading="lazy" /><figcaption>PRE 08-12</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_post.png`} alt="after" loading="lazy" /><figcaption>POST 08-27</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change tokens" loading="lazy" /><figcaption>AI Δ</figcaption></figure>
                   </div>
-                  <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% candidate tokens · {(c.valid_event_frac * 100).toFixed(0)}% visible</span>
+                  <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% cells above ordinary p99 · {(c.valid_event_frac * 100).toFixed(0)}% cloud-free</span>
                     <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>GO TO MAP</button></footer>
                 </article>
               ))}

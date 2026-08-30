@@ -52,6 +52,7 @@ export default function Landing() {
         <ul className="plain">
           <li><b>Δz</b> — {ko ? '같은 장소가 사건 전후에 얼마나 다르게 표현됐는가' : 'how differently the same place is represented before and after'}</li>
           <li><b>placebo</b> — {ko ? '사건이 없던 평범한 기간에도 보통 얼마나 달라지는가(세 개의 2주 쌍)' : 'how much it usually differs across ordinary fortnights (three pairs)'}</li>
+          <li><b>{ko ? '초과 비율' : 'exceedance'}</b> — {ko ? '한 창(2.56 km, 64×64 격자) 안에서 Δz가 평시 99퍼센타일을 넘은 40 m 격자의 비율. 표의 “임베딩 변화 초과 비율”이 이것이다. 피해 면적이 아니다.' : 'the share of 40 m cells in a 2.56 km window (64×64 cells) whose Δz exceeds the ordinary 99th percentile. This is the number in the table. It is not a damaged area.'}</li>
           <li><b>{ko ? '판정' : 'rule'}</b> — {ko ? '사건 변화가 평시 변화의 99퍼센타일을 넘을 때만 검토 후보로 남긴다' : 'a token is a candidate only when the event change exceeds the 99th percentile of ordinary change'}</li>
         </ul>
       </section>
@@ -65,8 +66,8 @@ export default function Landing() {
           <figure><img src={lead.images.delta} alt="delta" /><figcaption>AI Δ</figcaption></figure>
           <div className="example-text">
             <h2>#{lead.rank} {lead.place}</h2>
-            <p>{ko ? `이 창에서는 40 m 토큰의 ${pct(lead.candidate_token_frac)}가 평시 범위를 넘었고, 27일 영상의 ${pct(lead.observable)}가 구름 없이 판독됐습니다. 강 회랑 6 km 아래, 국경 충격 지점에서 토사가 넓은 계곡 바닥에 깔린 구간입니다.` : `${pct(lead.candidate_token_frac)} of this window's 40 m tokens moved beyond their ordinary range, and ${pct(lead.observable)} of the 27 Aug scene was readable through cloud. Six kilometres below the border impact, this is where debris spread across a wide valley floor.`}</p>
-            <dl><div><dt>{ko ? '후보 토큰' : 'candidate tokens'}</dt><dd>{pct(lead.candidate_token_frac)}</dd></div><div><dt>{ko ? '관측 가능' : 'observable'}</dt><dd>{pct(lead.observable)}</dd></div><div><dt>{ko ? '문턱(평시 p99)' : 'threshold (ordinary p99)'}</dt><dd>{rv?.threshold?.toFixed(3) ?? '—'}</dd></div></dl>
+            <p>{ko ? `이 2.56 km 창의 40 m 격자 중 ${pct(lead.candidate_token_frac)}에서 사건 전후 임베딩 거리 Δz가 평시 99퍼센타일 문턱을 넘었고, 27일 영상 격자의 ${pct(lead.observable)}가 구름 없이 판독됐습니다. 강 회랑 6 km 아래, 국경 충격 지점에서 토사가 넓은 계곡 바닥에 깔린 구간입니다.` : `In ${pct(lead.candidate_token_frac)} of this 2.56 km window's 40 m cells the before/after embedding distance Δz exceeded the ordinary 99th-percentile threshold, and ${pct(lead.observable)} of the 27 Aug scene was cloud-free. Six kilometres below the border impact, this is where debris spread across a wide valley floor.`}</p>
+            <dl><div><dt>{ko ? '임베딩 변화 초과 비율' : 'exceedance (cells with Δz > ordinary p99)'}</dt><dd>{pct(lead.candidate_token_frac)}</dd></div><div><dt>{ko ? '관측 가능 비율(구름 제외)' : 'cloud-free share'}</dt><dd>{pct(lead.observable)}</dd></div><div><dt>{ko ? '평시 p99 문턱(코사인 거리)' : 'ordinary p99 threshold (cosine distance)'}</dt><dd>{rv?.threshold?.toFixed(3) ?? '—'}</dd></div></dl>
           </div>
         </div>
       </section>
@@ -76,7 +77,7 @@ export default function Landing() {
       <section className="leads">
         <p className="kicker">{ko ? '우선 검토 6곳 · 세 가지 증거를 나란히' : 'SIX REVIEW LEADS · three kinds of evidence side by side'}</p>
         <table>
-          <thead><tr><th>#</th><th>{ko ? '장소' : 'place'}</th><th>{ko ? 'AI 변화 · 후보 토큰' : 'AI change · candidate tokens'}</th><th>{ko ? '관측 신뢰도' : 'observability'}</th><th>{ko ? '외부 보고(사후 대조)' : 'external reports (post-hoc)'}</th></tr></thead>
+          <thead><tr><th>#</th><th>{ko ? '장소' : 'place'}</th><th>{ko ? '임베딩 변화 초과 비율' : 'embedding-change exceedance'}<small>{ko ? 'Δz > 평시 p99 인 40 m 격자의 비율' : 'share of 40 m cells with Δz above the ordinary 99th percentile'}</small></th><th>{ko ? '관측 가능 비율' : 'cloud-free share'}<small>{ko ? '27일 장면 중 구름 아닌 격자(SCL)' : 'cells of the 27 Aug scene not cloud (SCL)'}</small></th><th>{ko ? '외부 보고(사후 대조)' : 'external reports (post-hoc)'}</th></tr></thead>
           <tbody>{rv.leads.map((l) => <tr key={l.id}><td>{l.rank}</td><td>{l.place}<small>{l.id} · {l.kind}</small></td><td><i style={{ width: `${Math.min(100, 100 * l.candidate_token_frac / 0.15)}%` }} />{pct(l.candidate_token_frac)}</td><td>{pct(l.observable)}{l.observable < 0.6 && <small>{ko ? ' 절반 가까이 구름' : ' partly cloud'}</small>}</td><td>{l.external_reports.urls.length ? l.external_reports.urls.map((u, i) => <a key={u} href={u} target="_blank" rel="noreferrer">{new URL(u).hostname.replace('www.', '')}{i < l.external_reports.urls.length - 1 ? ' · ' : ''}</a>) : <span className="muted">—</span>}</td></tr>)}</tbody>
         </table>
         <p className="note">{ko ? '외부 보고는 순위를 낸 뒤에 대조했고 순위 조정에 쓰지 않았습니다. 링크는 제공받은 것이며 이 빌드가 독립 검증하지 않았습니다. 이 시스템은 피해를 확정하지 않습니다 — 사람이 먼저 볼 곳을 좁힙니다.' : rv.posthoc_note + ' The system does not confirm damage — it narrows where people should look first.'}</p>

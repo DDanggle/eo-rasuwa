@@ -770,11 +770,11 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id); const rank = pr.rank ? `#${pr.rank}` : 'not judged (cloud/snow)';
           if (satTiles) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
-            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% candidate tokens tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
+            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% cells above ordinary p99 tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
             return;
           }
           const kindLabel = pr.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE' : pr.kind === 'lhende' ? 'LHENDE UPSTREAM' : 'RIVER';
-          const frac = typeof pr.candidate_token_frac === 'number' ? `${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% candidate tokens tokens` : 'not judged';
+          const frac = typeof pr.candidate_token_frac === 'number' ? `${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% cells above ordinary p99 tokens` : 'not judged';
           const vis = typeof pr.valid_event_frac === 'number' ? `${(100 * (pr.valid_event_frac as number)).toFixed(0)}% observable` : '';
           new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
             .setHTML(`<p class="pp-eyebrow">${kindLabel} · ${rank}</p><h3>Scan window ${id}</h3><p class="pp-place">${frac} · ${vis}</p>`
@@ -1374,7 +1374,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
                   <p className="cand-help"><b>OFF-RIVER · hillslope grid around the source</b> — 49 windows ±7.7 km around Langtang Lirung; most are cloud/snow and not judged. Ranked ones below (low observability — treat as leads only).</p>
                   <ol>
                     {scenario.candidates.hillslope_top.map((r) => (
-                      <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.candidate_token_frac * 100).toFixed(0)}% candidate tokens · {(r.valid_event_frac * 100).toFixed(0)}% visible</em>
+                      <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.candidate_token_frac * 100).toFixed(0)}% cells above ordinary p99 · {(r.valid_event_frac * 100).toFixed(0)}% visible</em>
                         <button onClick={() => showCandidate(r.id, 'post', { rank: r.rank, place: r.place, center: r.center_lonlat })}>GO</button></li>
                     ))}
                   </ol>
@@ -1382,7 +1382,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
               )}
               {scenario.candidates.retrieval && (
                 <div className="retrieval-box">
-                  <p className="cand-help"><b>SEARCH · same kind of change</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} candidate tokens; every window&apos;s tokens scored by cosine to that query, threshold = placebo p99.</p>
+                  <p className="cand-help"><b>SEARCH · same kind of change</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} cells above ordinary p99; every window&apos;s tokens scored by cosine to that query, threshold = placebo p99.</p>
                   <ol>
                     {scenario.candidates.retrieval.top10.slice(0, 8).map((r) => (
                       <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.similar_token_frac * 100).toFixed(0)}% similar{r.delta_rank ? ` · Δ rank #${r.delta_rank}` : ''}</em>

@@ -1584,7 +1584,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
             <p className="story-kicker">01 · {ko ? '사건 구조' : 'THE CHAIN OF PLACES'}</p>
             <h2>{ko ? '무너진 곳과 덮친 곳은 20km 떨어져 있다' : 'The collapse and the impact are twenty kilometres apart'}</h2>
             <div className="event-chain-cards">{eventPoints.map((point) => <article key={point.id} style={{ '--point-color': point.marker_color } as CSSProperties}><b>{point.stage}</b><span>{point.display_label}</span><strong>{point.name}</strong><small>{point.id} · {point.distance_from_a_km.toFixed(1)} km from impact A</small><p>{ko ? point.story_ko : point.story}</p></article>)}</div>
-            <div className="control-explainer"><b>C · {ko ? '대조 창' : 'CONTROL WINDOW'}</b><p>{ko ? controlPoints[0]?.story_ko : controlPoints[0]?.story}</p></div>
+            <div className="control-explainer"><b>C · {ko ? '대조 창' : 'CONTROL WINDOW'}</b><p>{(ko ? controlPoints[0]?.story_ko : undefined) ?? controlPoints[0]?.story}</p></div>
             <p className="story-caption">{ko ? 'E→A·B→F→G는 사람이 정리한 사건 경로다. C는 사건 밖 대조 창이다. 인공지능이 고른 것은 알파벳 점이 아니라 지도 위 사각형 6곳이다.' : 'E→A/B→F→G is the human-assembled event chain; C is the off-event control. The AI proposed the six map squares, not the lettered points.'}</p>
           </section>
 

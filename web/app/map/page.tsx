@@ -317,6 +317,7 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
   const [viewDim, setViewDim] = useState<'2d' | '3d'>('2d');
   const [zone, setZone] = useState<0 | 1 | 2>(0);  // 0 overview · 1 source→impact · 2 impact→downstream
   const zoneRef = useRef<0 | 1 | 2>(0);
+  const focusDoneRef = useRef(false);
   // SSR과 첫 client render는 반드시 같은 값이어야 한다. window.hash를 state initializer에서
   // 읽으면 /#story 직링크에서 hydration mismatch가 난다(2026-08-29 브라우저 QA 실측).
   const [storyOpen, setStoryOpen] = useState(storyDefault);
@@ -804,6 +805,16 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
         map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
+        // /map?focus=v003 — 첫 화면 리드 표의 "지도에서 보기"
+        try {
+          const focus = new URLSearchParams(window.location.search).get('focus');
+          if (focus && !focusDoneRef.current) {
+            const lead = scenario.review?.leads.find((l) => l.id === focus) ?? scenario.review?.reobserve.map((r, i) => ({ ...r, rank: i + 1 })).find((l) => l.id === focus);
+            const feat = scenario.candidates.geojson.features.find((f) => String(f.properties?.id) === focus);
+            const center = (lead?.center_lonlat ?? (feat?.properties?.center_lonlat as [number, number] | undefined));
+            if (center) { focusDoneRef.current = true; setTimeout(() => showCandidate(focus, 'post', { rank: lead?.rank, place: lead?.place, center }), 400); }
+          }
+        } catch { /* ignore */ }
         console.log('[diag] candidate layers attached | windows =', scenario.candidates.geojson.features.length, '| layers =', (map.getStyle()?.layers ?? []).map((l) => l.id).filter((id) => /scan|ai-|olmo|river|point/.test(id)).join(','));
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
           paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);

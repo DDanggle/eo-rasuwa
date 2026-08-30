@@ -1022,7 +1022,12 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .landing .note { font: 12px/1.6 var(--font-geist-sans); color: #4b4a45; max-width: 80ch; margin: 14px 0 0; }
 .reuse h2 { font-family: var(--font-serif); font-size: 22px; line-height: 1.25; max-width: 40ch; margin: 0 0 12px; text-wrap: balance; }
 table.io { border-collapse: collapse; width: 100%; max-width: 760px; font-size: 13px; margin-bottom: 20px; } table.io th, table.io td { text-align: left; padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line, #e3e0d8); } table.io th { font: 600 10px var(--font-geist-mono); letter-spacing: .08em; color: var(--muted); border-bottom-color: var(--ink); }
-.landing-foot { padding-top: 36px; border-top: 1px solid var(--ink); display: grid; gap: 6px; font-size: 14px; } .landing-foot b { font-family: var(--font-geist-mono); font-size: 11px; letter-spacing: .1em; margin-right: 8px; color: var(--muted); }
+.landing-foot { padding-top: 28px; border-top: 1px solid var(--ink); }
+.foot-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.foot-cols p { margin: 8px 0 0; font: 13px/1.65 var(--font-geist-sans); color: #33322e; }
+.foot-cols a { color: var(--ink); }
+@media (max-width: 860px) { .foot-cols { grid-template-columns: 1fr; } }
+.leads td .goto { white-space: nowrap; font: 700 10px var(--font-geist-mono); letter-spacing: .08em; text-decoration: none; border-bottom: 1px solid var(--ink); } .landing-foot b { display: block; font-family: var(--font-geist-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .landing-foot small { margin-top: 14px; font: 10px var(--font-geist-mono); color: var(--muted); }
 @media (max-width: 860px) { .three, .example-grid { grid-template-columns: 1fr 1fr; } .example-text { grid-column: 1 / -1; } }
 

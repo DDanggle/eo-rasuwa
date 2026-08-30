@@ -77,11 +77,11 @@ export default function Landing() {
       <section className="leads">
         <p className="kicker">{ko ? '우선 검토 6곳 · 세 가지 증거를 나란히' : 'SIX REVIEW LEADS · three kinds of evidence side by side'}</p>
         <table>
-          <thead><tr><th>#</th><th>{ko ? '장소' : 'place'}</th><th>{ko ? '임베딩 변화 초과 비율' : 'embedding-change exceedance'}<small>{ko ? 'Δz > 평시 p99 인 40 m 격자의 비율' : 'share of 40 m cells with Δz above the ordinary 99th percentile'}</small></th><th>{ko ? '관측 가능 비율' : 'cloud-free share'}<small>{ko ? '27일 장면 중 구름 아닌 격자(SCL)' : 'cells of the 27 Aug scene not cloud (SCL)'}</small></th><th>{ko ? '외부 보고(사후 대조)' : 'external reports (post-hoc)'}</th></tr></thead>
-          <tbody>{rv.leads.map((l) => <tr key={l.id}><td>{l.rank}</td><td>{l.place}<small>{l.id} · {l.kind}</small></td><td><i style={{ width: `${Math.min(100, 100 * l.candidate_token_frac / 0.15)}%` }} />{pct(l.candidate_token_frac)}</td><td>{pct(l.observable)}{l.observable < 0.6 && <small>{ko ? ' 절반 가까이 구름' : ' partly cloud'}</small>}</td><td>{l.external_reports.urls.length ? l.external_reports.urls.map((u, i) => <a key={u} href={u} target="_blank" rel="noreferrer">{new URL(u).hostname.replace('www.', '')}{i < l.external_reports.urls.length - 1 ? ' · ' : ''}</a>) : <span className="muted">—</span>}</td></tr>)}</tbody>
+          <thead><tr><th>#</th><th>{ko ? '장소' : 'place'}</th><th>{ko ? '임베딩 변화 초과 비율' : 'embedding-change exceedance'}<small>{ko ? 'Δz > 평시 p99 인 40 m 격자의 비율' : 'share of 40 m cells with Δz above the ordinary 99th percentile'}</small></th><th>{ko ? '관측 가능 비율' : 'cloud-free share'}<small>{ko ? '27일 장면 중 구름 아닌 격자(SCL)' : 'cells of the 27 Aug scene not cloud (SCL)'}</small></th><th>{ko ? '외부 보고(사후 대조)' : 'external reports (post-hoc)'}</th><th></th></tr></thead>
+          <tbody>{rv.leads.map((l) => <tr key={l.id}><td>{l.rank}</td><td>{l.place}<small>{l.id} · {l.kind}</small></td><td><i style={{ width: `${Math.min(100, 100 * l.candidate_token_frac / 0.15)}%` }} />{pct(l.candidate_token_frac)}</td><td>{pct(l.observable)}{l.observable < 0.6 && <small>{ko ? ' 절반 가까이 구름' : ' partly cloud'}</small>}</td><td>{l.external_reports.urls.length ? l.external_reports.urls.map((u, i) => <a key={u} href={u} target="_blank" rel="noreferrer">{new URL(u).hostname.replace('www.', '')}{i < l.external_reports.urls.length - 1 ? ' · ' : ''}</a>) : <span className="muted">—</span>}</td><td><a className="goto" href={`/map?focus=${l.id}`}>{ko ? '지도에서 보기 →' : 'VIEW ON MAP →'}</a></td></tr>)}</tbody>
         </table>
         <p className="note">{ko ? '외부 보고는 순위를 낸 뒤에 대조했고 순위 조정에 쓰지 않았습니다. 링크는 제공받은 것이며 이 빌드가 독립 검증하지 않았습니다. 이 시스템은 피해를 확정하지 않습니다 — 사람이 먼저 볼 곳을 좁힙니다.' : rv.posthoc_note + ' The system does not confirm damage — it narrows where people should look first.'}</p>
-        {rv.reobserve.length > 0 && <p className="note">{ko ? '판단 보류(구름): ' : 'Held for re-observation (cloud): '}{rv.reobserve.map((r) => `${r.place} (${pct(r.candidate_token_frac)} tokens, ${pct(r.observable)} observable)`).join(' · ')}{ko ? ' — 다음 맑은 광학 또는 레이더로 먼저 재관측할 산사면.' : ' — hillslopes to re-observe first with the next clear optical pass or radar.'}</p>}
+        {rv.reobserve.length > 0 && <p className="note">{ko ? '판단 보류(구름): ' : 'Held for re-observation (cloud): '}{rv.reobserve.map((r, i) => <span key={r.id}>{i ? ' · ' : ''}<a href={`/map?focus=${r.id}`}>{r.place}</a> ({pct(r.candidate_token_frac)} exceedance, {pct(r.observable)} cloud-free)</span>)}{ko ? ' — 다음 맑은 광학 또는 레이더로 먼저 재관측할 산사면.' : ' — hillslopes to re-observe first with the next clear optical pass or radar.'}</p>}
         <p className="note">{ko ? `탐색 범위: 강 회랑 ${rv.by_zone.river?.total ?? 41}창(판독 ${rv.by_zone.river?.observable ?? 39}), 주변 산사면 ${rv.by_zone.hillslope?.total ?? 49}창(판독 ${rv.by_zone.hillslope?.observable ?? 6}), 렌데 상류 ${rv.by_zone.lhende?.total ?? 10}창(판독 ${rv.by_zone.lhende?.observable ?? 2}). 결과가 강에 몰린 것은 강만 봤기 때문이 아니라 사건 후 광학영상에서 강 회랑이 훨씬 잘 보였기 때문입니다.` : `Search extent: ${rv.by_zone.river?.total ?? 41} river windows (${rv.by_zone.river?.observable ?? 39} observable), ${rv.by_zone.hillslope?.total ?? 49} hillslope windows (${rv.by_zone.hillslope?.observable ?? 6}), ${rv.by_zone.lhende?.total ?? 10} upstream Lhende windows (${rv.by_zone.lhende?.observable ?? 2}). Results cluster on the river not because only the river was searched, but because the river corridor was far better observed after the event.`}</p>
       </section>
       )}
@@ -98,10 +98,20 @@ export default function Landing() {
       </section>
 
       <footer className="landing-foot">
-        <p><b>{ko ? '과학적 경계' : 'Scientific boundary'}</b> {ko ? '후보를 찾지만 피해를 확정하지 않습니다.' : 'Finds candidates; does not confirm damage.'}</p>
-        <p><b>{ko ? '사용자 가치' : 'User value'}</b> {ko ? '사람이 100곳을 모두 보는 대신 먼저 볼 곳을 알려줍니다.' : 'Instead of looking at 100 places, people know where to look first.'}</p>
-        <p><b>{ko ? '재사용 가치' : 'Reuse value'}</b> {ko ? '새로운 재난마다 모델을 다시 학습하지 않습니다.' : 'No retraining for each new disaster.'}</p>
-        <small>Model: <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a> (Ai2, open weights, used frozen) · Sentinel-1/2 © ESA Copernicus · PlanetScope © Planet Labs PBC (CC-BY-NC-4.0) · suspected rock–ice avalanche, under investigation · {sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}</small>
+        <div className="foot-cols">
+          <div>
+            <b>{ko ? '무엇을 말하고, 무엇을 말하지 않는가' : 'What this says, and what it does not'}</b>
+            <p>{ko ? '이 화면은 후보를 찾지만 피해를 확정하지 않습니다. 사람이 100곳을 모두 보는 대신 먼저 볼 곳을 알려주고, 새로운 재난마다 모델을 다시 학습하지 않습니다. 모든 수치는 위성 관측과 임베딩 비교에서 나온 “검토 우선순위”이며, 피해 면적·원인·확률이 아닙니다.' : 'This page finds candidates; it does not confirm damage. Instead of looking at 100 places, people learn where to look first, and no model is retrained for each new disaster. Every number here is a review priority derived from satellite observations and embedding comparison — not a damaged area, a cause or a probability.'}</p>
+          </div>
+          <div>
+            <b>{ko ? '모델과 자료' : 'Model and data'}</b>
+            <p>{ko ? <>인공지능 모델은 Ai2가 공개한 <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>(공개 가중치)를 학습 없이 그대로 사용했습니다. 위성 자료는 ESA 코페르니쿠스 Sentinel-1·2, 고해상도 참고 영상은 Planet Labs PBC의 Planet Disaster Data(CC-BY-NC-4.0)입니다. 지형은 Copernicus DEM GLO-30, 지도는 MapTiler와 OpenStreetMap 기여자입니다.</> : <>The AI model is <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">OlmoEarth v1 Base</a>, released with open weights by Ai2 and used here frozen. Satellite data are ESA Copernicus Sentinel-1 and Sentinel-2; high-resolution reference imagery is Planet Disaster Data by Planet Labs PBC (CC-BY-NC-4.0). Terrain is Copernicus DEM GLO-30; basemap © MapTiler and OpenStreetMap contributors.</>}</p>
+          </div>
+          <div>
+            <b>{ko ? '사건과 상태' : 'Event and status'}</b>
+            <p>{ko ? `2026년 8월 26일 네팔 라수와 군, 랑탕 리룽에서 시작된 돌발홍수. 원인은 조사 중이며(rock–ice avalanche 추정) 이 페이지는 원인을 판정하지 않습니다. 마지막 갱신 ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. 코드와 측정 장부(M66–M85)는 GitHub에 있습니다.` : `Flash flood of 26 August 2026 in Rasuwa district, Nepal, starting on Langtang Lirung. The cause is under investigation (suspected rock–ice avalanche); this page does not adjudicate it. Last updated ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. Code and the measurement ledger (M66–M85) are on GitHub.`} <a href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">github ↗</a></p>
+          </div>
+        </div>
       </footer>
     </main>
   );

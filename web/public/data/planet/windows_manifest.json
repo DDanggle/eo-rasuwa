@@ -1,0 +1,688 @@
+{
+  "schema": "planet-window-crops-v1",
+  "generated_at_utc": "2026-08-31T07:31:23Z",
+  "source": "https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26",
+  "license": "CC-BY-NC-4.0 \u00a9 Planet Labs PBC",
+  "note": "visual RGB crops per 2.56 km scan window; 2026-08-28 preferred, 2026-08-26 fallback; not analytic data, display only",
+  "windows": {
+    "v000": {
+      "file": "/data/planet/v000_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v001": {
+      "file": "/data/planet/v001_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v002": {
+      "file": "/data/planet/v002_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v003": {
+      "file": "/data/planet/v003_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v004": {
+      "file": "/data/planet/v004_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v005": {
+      "file": "/data/planet/v005_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v006": {
+      "file": "/data/planet/v006_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v007": {
+      "file": "/data/planet/v007_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v008": {
+      "file": "/data/planet/v008_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v009": {
+      "file": "/data/planet/v009_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v010": {
+      "file": "/data/planet/v010_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v011": {
+      "file": "/data/planet/v011_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v012": {
+      "file": "/data/planet/v012_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v013": {
+      "file": "/data/planet/v013_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v014": {
+      "file": "/data/planet/v014_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v015": {
+      "file": "/data/planet/v015_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v016": {
+      "file": "/data/planet/v016_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v017": {
+      "file": "/data/planet/v017_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v018": {
+      "file": "/data/planet/v018_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v019": {
+      "file": "/data/planet/v019_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045746_81_2544",
+      "datetime": "2026-08-28T04:57:46.818334Z",
+      "clear_percent": null
+    },
+    "v020": {
+      "file": "/data/planet/v020_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v021": {
+      "file": "/data/planet/v021_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v022": {
+      "file": "/data/planet/v022_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v023": {
+      "file": "/data/planet/v023_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v024": {
+      "file": "/data/planet/v024_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v025": {
+      "file": "/data/planet/v025_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v026": {
+      "file": "/data/planet/v026_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v027": {
+      "file": "/data/planet/v027_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v028": {
+      "file": "/data/planet/v028_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v029": {
+      "file": "/data/planet/v029_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045749_15_2544",
+      "datetime": "2026-08-28T04:57:49.154803Z",
+      "clear_percent": null
+    },
+    "v030": {
+      "file": "/data/planet/v030_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v031": {
+      "file": "/data/planet/v031_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v032": {
+      "file": "/data/planet/v032_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v033": {
+      "file": "/data/planet/v033_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v034": {
+      "file": "/data/planet/v034_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v035": {
+      "file": "/data/planet/v035_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v036": {
+      "file": "/data/planet/v036_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v037": {
+      "file": "/data/planet/v037_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v038": {
+      "file": "/data/planet/v038_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v039": {
+      "file": "/data/planet/v039_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v040": {
+      "file": "/data/planet/v040_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_050143_19_2520",
+      "datetime": "2026-08-28T05:01:43.195327Z",
+      "clear_percent": null
+    },
+    "v041": {
+      "file": "/data/planet/v041_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v042": {
+      "file": "/data/planet/v042_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v043": {
+      "file": "/data/planet/v043_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v044": {
+      "file": "/data/planet/v044_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v045": {
+      "file": "/data/planet/v045_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v046": {
+      "file": "/data/planet/v046_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v047": {
+      "file": "/data/planet/v047_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v048": {
+      "file": "/data/planet/v048_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v049": {
+      "file": "/data/planet/v049_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v050": {
+      "file": "/data/planet/v050_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v051": {
+      "file": "/data/planet/v051_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v052": {
+      "file": "/data/planet/v052_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v053": {
+      "file": "/data/planet/v053_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v054": {
+      "file": "/data/planet/v054_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v055": {
+      "file": "/data/planet/v055_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v056": {
+      "file": "/data/planet/v056_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v057": {
+      "file": "/data/planet/v057_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v058": {
+      "file": "/data/planet/v058_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v059": {
+      "file": "/data/planet/v059_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v060": {
+      "file": "/data/planet/v060_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v061": {
+      "file": "/data/planet/v061_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v062": {
+      "file": "/data/planet/v062_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v063": {
+      "file": "/data/planet/v063_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v064": {
+      "file": "/data/planet/v064_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v065": {
+      "file": "/data/planet/v065_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v066": {
+      "file": "/data/planet/v066_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v067": {
+      "file": "/data/planet/v067_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v068": {
+      "file": "/data/planet/v068_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v069": {
+      "file": "/data/planet/v069_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v070": {
+      "file": "/data/planet/v070_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v071": {
+      "file": "/data/planet/v071_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v072": {
+      "file": "/data/planet/v072_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v073": {
+      "file": "/data/planet/v073_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v074": {
+      "file": "/data/planet/v074_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v075": {
+      "file": "/data/planet/v075_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045744_48_2544",
+      "datetime": "2026-08-28T04:57:44.481921Z",
+      "clear_percent": null
+    },
+    "v076": {
+      "file": "/data/planet/v076_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v077": {
+      "file": "/data/planet/v077_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v078": {
+      "file": "/data/planet/v078_ps.webp",
+      "collection": "planetscope-2026-08-28",
+      "item_id": "20260828_045742_14_2544",
+      "datetime": "2026-08-28T04:57:42.145508Z",
+      "clear_percent": null
+    },
+    "v079": {
+      "file": "/data/planet/v079_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v080": {
+      "file": "/data/planet/v080_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v081": {
+      "file": "/data/planet/v081_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v082": {
+      "file": "/data/planet/v082_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v083": {
+      "file": "/data/planet/v083_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v084": {
+      "file": "/data/planet/v084_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v085": {
+      "file": "/data/planet/v085_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v086": {
+      "file": "/data/planet/v086_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v087": {
+      "file": "/data/planet/v087_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v088": {
+      "file": "/data/planet/v088_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v089": {
+      "file": "/data/planet/v089_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054458_74_251f",
+      "datetime": "2026-08-26T05:44:58.741089Z",
+      "clear_percent": null
+    },
+    "v090": {
+      "file": "/data/planet/v090_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v091": {
+      "file": "/data/planet/v091_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v092": {
+      "file": "/data/planet/v092_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v096": {
+      "file": "/data/planet/v096_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v097": {
+      "file": "/data/planet/v097_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v098": {
+      "file": "/data/planet/v098_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    },
+    "v099": {
+      "file": "/data/planet/v099_ps.webp",
+      "collection": "planetscope-2026-08-26",
+      "item_id": "20260826_054456_67_251f",
+      "datetime": "2026-08-26T05:44:56.678410Z",
+      "clear_percent": null
+    }
+  }
+}

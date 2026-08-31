@@ -6,7 +6,7 @@
 |---|---|---|
 | Sentinel-1 / Sentinel-2 | 사건 전후 입력과 공개 파생 시각화 | © European Union, Copernicus Sentinel data. Copernicus data access terms 적용 |
 | OlmoEarth v1 Base | frozen 768-d Earth embedding 추출 | Allen Institute for AI. 모델 카드와 upstream 라이선스 적용 |
-| Planet Disaster Data | 고해상도 참고 장면 일부 | © Planet Labs PBC, Disaster Data Program. 번들에 표시된 CC-BY-NC-4.0 조건과 귀속 유지 |
+| Planet Disaster Data | 고해상도 참고 장면 — 앵커 3프레임 + 스캔 창별 크롭 97장 (`web/public/data/planet/`, 표시용 visual RGB만) | © Planet Labs PBC, Disaster Data Program. CC-BY-NC-4.0, 모든 노출 지점에 귀속 표기 |
 | Copernicus DEM GLO-30 | 지형 단면·탐색적 계곡 지표 | Copernicus DEM 조건 적용 |
 | OpenStreetMap | 하천 중심선·베이스 지리 | © OpenStreetMap contributors, ODbL |
 | MapTiler / Esri | 대화형 베이스맵 | 각 제공자 attribution과 이용약관 적용 |

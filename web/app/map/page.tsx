@@ -198,6 +198,16 @@ type TimelineItem = {
 };
 
 const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+// Planet Disaster Data 프레임(3.8 m, 08-28). 창/지점이 프레임 중심 ±2 km 안이면 비교 탭으로 노출.
+const PLANET_FRAMES: Record<string, { src: string; lonlat: [number, number] }> = {
+  rasuwagadhi: { src: '/data/story/planet/ps_rasuwagadhi_0828.png', lonlat: [85.378, 28.276] },
+  timure: { src: '/data/story/planet/ps_timure_0828.png', lonlat: [85.363, 28.235] },
+  syabrubesi: { src: '/data/story/planet/ps_syabrubesi_0828.png', lonlat: [85.347, 28.164] },
+};
+const PLANET_LABEL = 'PlanetScope 3.8 m · 08-28 · © Planet Labs PBC CC-BY-NC-4.0';
+const planetFigure = (key: string | null): string => key && PLANET_FRAMES[key]
+  ? `<figure><img src="${PLANET_FRAMES[key].src}" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0 · source.coop</a></figcaption></figure>` : '';
+
 const shortDate = (iso: string) => {
   const d = new Date(iso);
   return `${String(d.getUTCDate()).padStart(2, '0')} ${MONTHS[d.getUTCMonth()]}`;
@@ -328,9 +338,17 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 큰 비교 뷰어(라이트박스): 어떤 작은 사진이든 클릭하면 전·후 슬라이더로 크게 봄.
   type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string }[] };
   const [lightbox, setLightbox] = useState<Lightbox | null>(null);
+  // 창별 PlanetScope 크롭 (97/100 창, 08-28 우선·08-26 폴백). CC-BY-NC-4.0 © Planet Labs PBC.
+  const planetWinsRef = useRef<Record<string, { file: string; datetime: string }>>({});
+  useEffect(() => {
+    fetch('/data/planet/windows_manifest.json').then((r) => r.ok ? r.json() : null)
+      .then((m) => { if (m?.windows) planetWinsRef.current = m.windows; }).catch(() => {});
+  }, []);
   const [lbSwipe, setLbSwipe] = useState(50);
+  // PlanetScope 3.8 m 프레임 검수용 확대: 클릭 지점을 중심으로 2.6배. 다시 클릭하면 해제.
+  const [lbZoom, setLbZoom] = useState<{ x: number; y: number } | null>(null);
   const [lbExtra, setLbExtra] = useState<number | null>(null);
-  const openLightbox = useCallback((lb: Lightbox) => { setLbSwipe(50); setLbExtra(null); setLightbox(lb); }, []);
+  const openLightbox = useCallback((lb: Lightbox) => { setLbSwipe(50); setLbExtra(null); setLbZoom(null); setLightbox(lb); }, []);
   useEffect(() => {
     if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightbox(null); };
@@ -342,6 +360,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       const el = (e.target as HTMLElement).closest('.pp-thumbs') as HTMLElement | null;
       if (!el) return;
       const win = el.dataset.win; const name = el.dataset.name ?? ''; const place = el.dataset.place ?? '';
+      const planetFile = el.dataset.planetfile || null; const planetDate = el.dataset.planetdate || '';
       if (el.dataset.ptc) {
         openLightbox({ title: name, sub: `${place} · negative-control window, 114 km from Rasuwagadhi`, before: '/data/candidates/ptC_pre.png', after: '/data/candidates/ptC_post.png', beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27 (cloud)' });
         return;
@@ -349,11 +368,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       const cand = el.dataset.cand;
       if (cand) {
         openLightbox({ title: name, sub: `${place} · scan window ${cand}`, before: `/data/candidates/${cand}_pre.png`, after: `/data/candidates/${cand}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-                       extra: [{ src: `/data/candidates/${cand}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(win === 'rasuwagadhi' ? [{ src: '/data/story/planet/ps_rasuwagadhi_0828.png', label: 'PlanetScope 3.8 m · 08-28 · © Planet Labs PBC CC-BY-NC-4.0' }] : [])] });
+                       extra: [{ src: `/data/candidates/${cand}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(planetFile ? [{ src: planetFile, label: `PlanetScope 3.8 m · ${planetDate} · © Planet Labs PBC CC-BY-NC-4.0` }] : win && PLANET_FRAMES[win] ? [{ src: PLANET_FRAMES[win].src, label: PLANET_LABEL }] : [])] });
         return;
       }
       if (!win) return;
-      const extra = win === 'rasuwagadhi' ? [{ src: '/data/story/planet/ps_rasuwagadhi_0828.png', label: 'PlanetScope 3.8 m · 08-28' }] : [];
+      const extra = win && PLANET_FRAMES[win] ? [{ src: PLANET_FRAMES[win].src, label: PLANET_LABEL }] : [];
       openLightbox({ title: name, sub: place, before: `/data/story/anchors/${win}_pre.png`, after: `/data/story/anchors/${win}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra });
     };
     document.addEventListener('click', h); return () => document.removeEventListener('click', h);
@@ -686,6 +705,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       });
     }
     const onPointClick = (event: MapLayerMouseEvent) => {
+      const oe = event.originalEvent as MouseEvent & { _popupHandled?: boolean };
+      if (oe._popupHandled) return; oe._popupHandled = true;
       const id = event.features?.[0]?.properties?.id;
       if (!id) return;
       setSelectedPoint(String(id));
@@ -700,7 +721,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             + `<figure><img src="/data/candidates/${cw}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
             + `<figure><img src="/data/candidates/${cw}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
             + `<figure><img src="/data/candidates/${cw}_delta.png" alt="AI change"/><figcaption>AI Δ · win ${cw}</figcaption></figure>`
-            + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '')
+            + planetFigure(win ?? null)
             + `</div><p class="pp-hint">▲ nearest scan window ${cw} (${pt.nearest_window_km} km)${pt.id === 'G' ? ' · pooled-baseline change cells 3.1% here vs 13.3% at Dalphedi; read as a lower-priority review signal, not absence' : ''} · click to open the large slider</p>`
           : pt.id === 'D' && scenario?.lake_search
           ? `<div class="pp-thumbs" data-lake="1" title="Click to compare large">`
@@ -718,7 +739,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           ? `<div class="pp-thumbs" data-win="${win}" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/story/anchors/${win}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
             + `<figure><img src="/data/story/anchors/${win}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
-            + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0 · source.coop</a></figcaption></figure>` : '')
+            + planetFigure(win ?? null)
             + `</div><p class="pp-hint">▲ click any frame to open the large before/after slider</p>`
           : '';
         new Popup({ closeButton: true, maxWidth: '400px', className: 'story-popup' })
@@ -742,6 +763,22 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       map.off('mouseleave', 'point-core', onPointLeave);
     };
   }, [mapReady, points, researchPoints, scenario?.lake_search, styleRevision]);
+
+  // 빈 지도 클릭 → 타임라인에서 올린 위성 장면 오버레이 해제 (2026-08-31 사용자 요청:
+  // 장면을 한 번 올리면 내릴 방법이 없었음). 마커·창 등 상호작용 레이어 클릭은 제외.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map) return;
+    const interactive = ['point-core', 'scan-center-dot', 'ai-candidate-fill', 'olmo-canonical-fill'];
+    const onMapClick = (event: MapLayerMouseEvent) => {
+      const layers = interactive.filter((l) => map.getLayer(l));
+      const hits = layers.length ? map.queryRenderedFeatures(event.point, { layers }) : [];
+      // 기본 배경 장면(자동 선택)은 유지하고, 사용자가 타임라인에서 직접 올린 장면만 내린다.
+      if (hits.length === 0 && userSelectedSceneRef.current) { userSelectedSceneRef.current = false; setActiveSceneId(null); }
+    };
+    map.on('click', onMapClick);
+    return () => { map.off('click', onMapClick); };
+  }, [mapReady]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -807,7 +844,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       if (scenario?.candidates?.geojson && !map.getSource('ai-candidates')) {
         map.addSource('ai-candidates', { type: 'geojson', data: scenario.candidates.geojson });
         // 모든 스캔 창 중심: 작은 청록 점 (위성이 찍힌 모든 자리)
-        map.addSource('scan-centers', { type: 'geojson', data: { type: 'FeatureCollection', features: scenario.candidates.geojson.features.map((f) => ({ type: 'Feature', properties: f.properties, geometry: { type: 'Point', coordinates: (f.properties?.center_lonlat as [number, number]) } })) } });
+        // 연구 지점(A~G)과 사실상 같은 자리(±300 m)의 스캔 중심점은 표시하지 않는다 —
+        // E(SOURCE ESTIMATE) 위에 v050/v075가 겹쳐 클릭 팝업이 중복되던 원인 (2026-08-31 사용자 보고).
+        const pointCoords = (scenario.points ?? []).map((pt) => pt.coordinates);
+        const nearResearchPoint = (c: [number, number]) => pointCoords.some(([lon, lat]) => Math.abs(lon - c[0]) < 0.003 && Math.abs(lat - c[1]) < 0.003);
+        map.addSource('scan-centers', { type: 'geojson', data: { type: 'FeatureCollection', features: scenario.candidates.geojson.features.filter((f) => !nearResearchPoint(f.properties?.center_lonlat as [number, number])).map((f) => ({ type: 'Feature', properties: f.properties, geometry: { type: 'Point', coordinates: (f.properties?.center_lonlat as [number, number]) } })) } });
         map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
           paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 2.2, 12, 4, 15, 7], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 1.5, 'circle-opacity': 0.95 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
@@ -826,10 +867,13 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             paint: { 'line-color': '#2a78d6', 'line-width': 2.2, 'line-dasharray': [1.5, 1.2], 'line-opacity': 0.9 } }, before);
         }
         map.on('click', 'ai-candidate-fill', (e) => {
+          const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+          if (oe._popupHandled) return; oe._popupHandled = true;
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id); const rank = pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : 'screened';
+          const pw = planetWinsRef.current[id];
           if (satTiles) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
-            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% cells above ordinary p99 tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
+            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% cells above ordinary p99 tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
             return;
           }
           const kindLabel = pr.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE' : pr.kind === 'lhende' ? 'LHENDE UPSTREAM' : 'RIVER';
@@ -837,25 +881,30 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           const vis = typeof pr.valid_event_frac === 'number' ? `${(100 * (pr.valid_event_frac as number)).toFixed(0)}% observable` : '';
           new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
             .setHTML(`<p class="pp-eyebrow">${kindLabel} · ${rank}</p><h3>Scan window ${id}</h3><p class="pp-place">${frac} · ${vis}</p>`
-              + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="${kindLabel} · ${rank}" title="Click to compare large">`
+              + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="${kindLabel} · ${rank}" data-planetfile="${pw?.file ?? ''}" data-planetdate="${pw?.datetime?.slice(0, 10) ?? ''}" title="Click to compare large">`
               + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
               + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
-              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure></div>`
+              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure>`
+              + (pw ? `<figure><img src="${pw.file}" alt="PlanetScope"/><figcaption>PLANETSCOPE 3.8 m · ${pw.datetime.slice(5, 10)}<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '') + `</div>`
               + `<p class="pp-hint">▲ click to open the large slider · orange = changed more than any ordinary fortnight · grey = cloud/snow</p>`).addTo(map);
         });
         map.on('click', 'scan-center-dot', (e) => {
+          const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+          if (oe._popupHandled) return; oe._popupHandled = true;
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id);
+          const pw = planetWinsRef.current[id];
           if (satTiles) {
-            openLightbox({ title: `Scan window ${id}`, sub: pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : pr.status === 'ranked' ? 'screened — not in the six review leads' : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
+            openLightbox({ title: `Scan window ${id}`, sub: pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : pr.status === 'ranked' ? 'screened — not in the six review leads' : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
             return;
           }
           new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
             .setHTML(`<p class="pp-eyebrow">SCAN WINDOW · ${pr.review_rank ? 'review lead #' + pr.review_rank : pr.review_status === 'reobserve' ? 're-observe' : pr.status === 'ranked' ? 'screened' : 'not judged'}</p><h3>${id}</h3>`
-              + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="" title="Click to compare large">`
+              + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="" data-planetfile="${pw?.file ?? ''}" data-planetdate="${pw?.datetime?.slice(0, 10) ?? ''}" title="Click to compare large">`
               + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
               + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
-              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure></div>`
+              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure>`
+              + (pw ? `<figure><img src="${pw.file}" alt="PlanetScope"/><figcaption>PLANETSCOPE 3.8 m · ${pw.datetime.slice(5, 10)}<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '') + `</div>`
               + `<p class="pp-hint">▲ click to open the large slider</p>`).addTo(map);
         });
         map.on('mouseenter', 'scan-center-dot', () => { map.getCanvas().style.cursor = 'pointer'; });
@@ -920,7 +969,12 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !scenario || !activeSceneId) return;
+    if (!mapReady || !map || !scenario) return;
+    if (!activeSceneId) {  // 빈 지도 클릭으로 장면을 내렸을 때 오버레이도 함께 제거
+      if (map.getLayer('satellite-scene')) map.removeLayer('satellite-scene');
+      if (map.getSource('satellite-scene')) map.removeSource('satellite-scene');
+      return;
+    }
     // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도 (2026-08-29 실측: 강·점·장면이 영영 안 붙던 원인)
     if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
     const scene = scenario.scene_records.find((item) => item.id === activeSceneId);
@@ -1752,11 +1806,21 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
                 <input type="range" min={0} max={100} value={lbSwipe} aria-label="Compare" onChange={(e) => setLbSwipe(Number(e.target.value))} />
               </div>
             ) : (
-              <div className="lb-single"><img src={lightbox.extra![lbExtra].src} alt={lightbox.extra![lbExtra].label} /><span className="swipe-label post">{lightbox.extra![lbExtra].label}</span></div>
+              <div className={lbZoom ? 'lb-single zoomed' : 'lb-single'}
+                onClick={(e) => {
+                  if (lbZoom) { setLbZoom(null); return; }
+                  const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                  setLbZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
+                }}>
+                <img src={lightbox.extra![lbExtra].src} alt={lightbox.extra![lbExtra].label}
+                  style={lbZoom ? { transform: 'scale(2.6)', transformOrigin: `${lbZoom.x}% ${lbZoom.y}%` } : undefined} />
+                <span className="swipe-label post">{lightbox.extra![lbExtra].label}</span>
+                <span className="lb-zoom-hint">{lbZoom ? 'CLICK TO RESET' : 'CLICK TO ZOOM ×2.6'}</span>
+              </div>
             )}
             <footer>
-              <button className={lbExtra === null ? 'is-active' : ''} onClick={() => setLbExtra(null)}>BEFORE ⇄ AFTER</button>
-              {(lightbox.extra ?? []).map((x, i) => <button key={x.src} className={lbExtra === i ? 'is-active' : ''} onClick={() => setLbExtra(i)}>{x.label}</button>)}
+              <button className={lbExtra === null ? 'is-active' : ''} onClick={() => { setLbExtra(null); setLbZoom(null); }}>BEFORE ⇄ AFTER</button>
+              {(lightbox.extra ?? []).map((x, i) => <button key={x.src} className={lbExtra === i ? 'is-active' : ''} onClick={() => { setLbExtra(i); setLbZoom(null); }}>{x.label}</button>)}
               <span className="lb-tip">drag the handle · ESC closes</span>
             </footer>
           </div>

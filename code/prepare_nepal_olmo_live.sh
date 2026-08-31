@@ -22,6 +22,7 @@ else
   DATASET_ROOT="${2:-$ARTIFACT_ROOT/external_data/nepal_olmo_live_v1/materialized/$MODE/dataset}"
 fi
 RSLEARN_BIN="${RSLEARN_BIN:-$WORKSPACE_DIR/.venv/bin/rslearn}"
+PYTHON_BIN="${PYTHON_BIN:-$WORKSPACE_DIR/.venv/bin/python}"
 
 case "$MODE" in
   baseline)
@@ -45,6 +46,14 @@ case "$MODE" in
     #   periods: 7/14~7/28, 7/28~8/11, 8/11~8/25(8/24 포함), 8/25~9/8(8/28 S1D만)
     START="2026-07-14T00:00:00+00:00"
     END="2026-09-08T00:00:00+00:00"
+    PREPARE_FORCE_ARGS=(--force)
+    ;;
+  s1_live_0831)
+    # 2026-08-31 재관측: 봉인된 s1_live(8/28 asc orbit 85) 계약은 그대로 두고,
+    # 8/31 desc orbit 121 pass를 별도 모드로 추가한다. 마지막 기간 8/29~9/12에는
+    # 카탈로그상 8/31 하나만 존재하므로 선택이 결정적이다.
+    START="2026-07-17T00:00:00+00:00"
+    END="2026-09-12T00:00:00+00:00"
     PREPARE_FORCE_ARGS=(--force)
     ;;
   placebo_a)
@@ -138,8 +147,8 @@ fi
 # download unless every anchor actually selected the required post-event scene.
 # preflight는 "특정 post-event 장면이 5/5 앵커에 선택됐는가" 검사이므로 live 모드 전용임.
 # placebo는 사건 전 창이라 그런 장면이 없어야 정상 — 대신 seal의 cutoff 규칙이 검증함.
-if [[ "$MODE" == "s1_live" || "$MODE" == "s2_live" ]]; then
-  "$WORKSPACE_DIR/.venv/bin/python" "$SCRIPT_DIR/check_nepal_live_selection.py" \
+if [[ "$MODE" == "s1_live" || "$MODE" == "s2_live" || "$MODE" == "s1_live_0831" ]]; then
+  "$PYTHON_BIN" "$SCRIPT_DIR/check_nepal_live_selection.py" \
     --dataset "$DATASET_ROOT" --mode "$MODE"
 fi
 
@@ -154,5 +163,5 @@ fi
   --root "$DATASET_ROOT" --group nepal --workers 2 --no-use-initial-job \
   --disabled-layers embeddings --retry-max-attempts 5 --retry-backoff-seconds 5
 
-"$WORKSPACE_DIR/.venv/bin/python" "$SCRIPT_DIR/seal_nepal_olmo_dataset.py" \
+"$PYTHON_BIN" "$SCRIPT_DIR/seal_nepal_olmo_dataset.py" \
   --dataset "$DATASET_ROOT" --mode "$MODE" --start "$START" --end "$END"

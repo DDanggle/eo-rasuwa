@@ -26,7 +26,7 @@ Vercel 기준:
 필수 환경변수는 없습니다. 권장값:
 
 ```text
-NEXT_PUBLIC_SITE_URL=https://your-domain.example
+NEXT_PUBLIC_SITE_URL=https://eo-rasuwa.dev
 NEXT_PUBLIC_MAPTILER_KEY=domain-restricted-key
 NEXT_PUBLIC_ENABLE_REVIEW_NOTES=false
 ```
@@ -49,7 +49,7 @@ Supabase 리뷰는 공개 릴리스에서 끕니다. 내부 인증 리뷰가 필
 
 ```bash
 cd web
-pnpm smoke -- https://your-domain.example
+pnpm smoke -- https://eo-rasuwa.dev
 ```
 
 이후 실제 브라우저에서 다음을 확인합니다.

@@ -109,6 +109,12 @@ def main() -> None:
             for audit in period_audit.values()
         )
         required_scene_rule = "every anchor includes Sentinel-1 2026-08-28"
+    elif args.mode == "s1_live_0831":
+        required_scene_present = all(
+            "2026-08-31" in audit["selected_dates"].get("sentinel1", [])
+            for audit in period_audit.values()
+        )
+        required_scene_rule = "every anchor includes Sentinel-1 2026-08-31"
     elif args.mode in ("placebo_a", "placebo_b") or args.mode.startswith("placebo_2026"):
         # placebo는 사건 전 구간만 담아야 한다. END는 각각 08-12 / 08-19 —
         # 어느 쪽이든 이벤트(08-26)와 그 이후 관측이 섞이면 placebo가 아니다.

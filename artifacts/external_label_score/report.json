@@ -1,0 +1,717 @@
+{
+  "schema": "external-label-score-v1",
+  "measurement_id": "M86",
+  "generated_at_utc": "2026-08-31T05:37:24Z",
+  "claim_boundary": "window-level intersection with frozen third-party flood/damage proxies at 2.56 km scale; not damage confirmation, not area, not per-structure accuracy; labels are proxies frozen as published",
+  "labels_frozen_at": "2026-08-31",
+  "label_files_sha256": {
+    "sealed_archives": [
+      "290a851307dcb57d1e8f3d72eb817142c98528fb607755d6d44febde66c45ad0  Affected_Flood_in_Rasuwa_District_Nepal.zip",
+      "3e3aff73fa6b3850859f35691dee2d56fa16df1878a3e43d32e1e543d661d7e4  EOS-RS_20260828_DPM_S1_Nepal_GLOF_v0.9.kmz",
+      "9476f4086bd6490d11cc0304ab3bf7d971f81e418415c18307b68c0b2cc3c1a5  IWM_2026_08_26_Nepal_Flood_VAP02.zip",
+      "4180d20fed464fecafae5fc5b3ee47cc70afe11b8bcf1e7035ecbcdc3e6e1e5f  JAXA_20250828_FPM_ALOS2_Nepal_FLDEXT.zip"
+    ]
+  },
+  "ranking_unchanged": true,
+  "excluded_labels": {
+    "eosrs_s1_dpm_20260828": "KMZ is a NetworkLink TMS pyramid (remote tiles) with only a coverage outline; no embedded raster to score offline. Archive still sealed in SHA256SUMS."
+  },
+  "observable_windows": 47,
+  "label_positive_windows": 42,
+  "precision_at_k_vector_union": {
+    "1": 1.0,
+    "2": 1.0,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0
+  },
+  "non_lead_base_rate_vector_union": 0.8780487804878049,
+  "union_overlap_area_fraction": {
+    "lead_mean_overlap_frac": 0.05985000000000001,
+    "non_lead_mean_overlap_frac": 0.06310414634146341,
+    "lead_overlaps": {
+      "v003": 0.08882,
+      "v025": 0.04104,
+      "v024": 0.05245,
+      "v027": 0.05948,
+      "v022": 0.00973,
+      "v002": 0.10758
+    }
+  },
+  "leads": [
+    {
+      "id": "v003",
+      "review_rank": 1,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true
+    },
+    {
+      "id": "v025",
+      "review_rank": 2,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true
+    },
+    {
+      "id": "v024",
+      "review_rank": 3,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true
+    },
+    {
+      "id": "v027",
+      "review_rank": 4,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true
+    },
+    {
+      "id": "v022",
+      "review_rank": 5,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true
+    },
+    {
+      "id": "v002",
+      "review_rank": 6,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true
+    }
+  ],
+  "windows": [
+    {
+      "id": "v003",
+      "review_rank": 1,
+      "is_lead": true,
+      "rank_pooled3": 1,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.08882
+    },
+    {
+      "id": "v025",
+      "review_rank": 2,
+      "is_lead": true,
+      "rank_pooled3": 2,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.04104
+    },
+    {
+      "id": "v064",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 3,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.1665
+    },
+    {
+      "id": "v024",
+      "review_rank": 3,
+      "is_lead": true,
+      "rank_pooled3": 4,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.05245
+    },
+    {
+      "id": "v041",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 5,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.06408
+    },
+    {
+      "id": "v027",
+      "review_rank": 4,
+      "is_lead": true,
+      "rank_pooled3": 6,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.05948
+    },
+    {
+      "id": "v031",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 7,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.08471
+    },
+    {
+      "id": "v029",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 8,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.0642
+    },
+    {
+      "id": "v022",
+      "review_rank": 5,
+      "is_lead": true,
+      "rank_pooled3": 9,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.00973
+    },
+    {
+      "id": "v002",
+      "review_rank": 6,
+      "is_lead": true,
+      "rank_pooled3": 10,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.10758
+    },
+    {
+      "id": "v030",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 11,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.0646
+    },
+    {
+      "id": "v026",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 12,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.02952
+    },
+    {
+      "id": "v021",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 13,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.01471
+    },
+    {
+      "id": "v023",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 14,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.01438
+    },
+    {
+      "id": "v056",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 15,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.05126
+    },
+    {
+      "id": "v028",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 16,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.05925
+    },
+    {
+      "id": "v034",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 17,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.13941
+    },
+    {
+      "id": "v020",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 18,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.01322
+    },
+    {
+      "id": "v004",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 19,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.07492
+    },
+    {
+      "id": "v057",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 20,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.13618
+    },
+    {
+      "id": "v032",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 21,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.0982
+    },
+    {
+      "id": "v000",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 22,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.17828
+    },
+    {
+      "id": "v019",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 23,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": false,
+      "union_overlap_frac": 0.0
+    },
+    {
+      "id": "v039",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 24,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.01261
+    },
+    {
+      "id": "v006",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 25,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.12641
+    },
+    {
+      "id": "v038",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 26,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.01247
+    },
+    {
+      "id": "v012",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 27,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.05097
+    },
+    {
+      "id": "v001",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 28,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.14133
+    },
+    {
+      "id": "v008",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 29,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.09921
+    },
+    {
+      "id": "v009",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 30,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.09901
+    },
+    {
+      "id": "v011",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 31,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.09974
+    },
+    {
+      "id": "v007",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 32,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.12848
+    },
+    {
+      "id": "v040",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 33,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.0038
+    },
+    {
+      "id": "v033",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 34,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.10041
+    },
+    {
+      "id": "v013",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 35,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.00199
+    },
+    {
+      "id": "v010",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 36,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.09911
+    },
+    {
+      "id": "v018",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 37,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.00031
+    },
+    {
+      "id": "v035",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 38,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.11068
+    },
+    {
+      "id": "v037",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 39,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.06661
+    },
+    {
+      "id": "v005",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 40,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.09158
+    },
+    {
+      "id": "v036",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 41,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.08375
+    },
+    {
+      "id": "v014",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 42,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": false,
+      "union_overlap_frac": 0.0
+    },
+    {
+      "id": "v042",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 43,
+      "hits": {
+        "iwm_planetscope_vap02": true,
+        "tasa_formosat5_0816_0828": true,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.00041
+    },
+    {
+      "id": "v017",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 44,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": true
+      },
+      "hit_vector_union": true,
+      "union_overlap_frac": 0.00497
+    },
+    {
+      "id": "v091",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 45,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": false,
+      "union_overlap_frac": 0.0
+    },
+    {
+      "id": "v086",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 46,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": false,
+      "union_overlap_frac": 0.0
+    },
+    {
+      "id": "v090",
+      "review_rank": null,
+      "is_lead": false,
+      "rank_pooled3": 47,
+      "hits": {
+        "iwm_planetscope_vap02": false,
+        "tasa_formosat5_0816_0828": false,
+        "jaxa_alos2_fldext_20260828": false
+      },
+      "hit_vector_union": false,
+      "union_overlap_frac": 0.0
+    }
+  ]
+}

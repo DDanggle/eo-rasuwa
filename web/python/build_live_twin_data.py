@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import shutil
 import urllib.parse
 import urllib.request
@@ -25,7 +26,16 @@ from rasterio.warp import transform_bounds
 
 
 APP_ROOT = Path(__file__).resolve().parents[1]
-WORK_ROOT = APP_ROOT.parents[1]
+# 아티팩트 루트 계약은 code/nepal_paths.py 와 동일: NEPAL_ARTIFACT_ROOT 환경변수 →
+# 레거시 <repo>/../artifacts → 표준 <repo>/research-private/artifacts 순으로 찾는다.
+_REPO_ROOT = APP_ROOT.parent
+_configured = os.environ.get("NEPAL_ARTIFACT_ROOT")
+if _configured:
+    WORK_ROOT = Path(_configured).expanduser().resolve().parent
+elif (APP_ROOT.parents[1] / "artifacts/external_data/nepal_olmo_live_v1").exists():
+    WORK_ROOT = APP_ROOT.parents[1]
+else:
+    WORK_ROOT = _REPO_ROOT / "research-private"
 MATERIALIZED_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/materialized"
 # 씬으로 렌더할 모드. placebo_*는 baseline의 shifted 사본이라 씬 목록에 넣지 않음
 # (같은 관측이 중복 표기됨). 나중 모드가 같은 (센서, 촬영시각) 씬을 이기며 state가 live가 됨.

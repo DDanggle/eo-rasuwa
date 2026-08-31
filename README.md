@@ -39,13 +39,46 @@
 
 ## 아직 말할 수 없는 것
 
-- 6곳이 실제 피해라는 주장. 현재 확정 피해 라벨은 0개입니다.
+- 6곳이 실제 피해라는 주장. 현재 확정 피해 라벨은 0개이며, 동결한 외부 홍수 범위와의 창 규모 대조(M86)는 무판별로 끝났습니다.
 - 13.3%를 피해 면적이나 발생 확률로 해석하는 것.
 - 물리 시뮬레이션으로 수심·유속·도달시간을 예측했다는 주장. Rust/WASM 입자는 OSM 중심선을 따르는 **설명용 운동학 시각화**입니다.
 - OlmoEarth가 모든 GeoFM보다 우월하다는 주장. Prithvi·Clay·TerraMind는 같은 계약에서 실행하지 않았습니다.
 - 네팔 1개 사건의 지형 상관을 일반 위험 모델로 확장하는 것.
 
-USGS는 2026년 8월 27일 잠정 산사태·홍수 범위 지도를 공개했고, Sentinel Asia는 8월 28일 Sentinel-1 피해 프록시와 Planet 기반 부가 산출물을 게시했습니다. 다음 과학 관문은 이 외부 범위를 동결한 뒤, 현재 순위·문턱을 바꾸지 않고 precision@k를 계산하는 것입니다.
+**M86 (2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 다음 관문은 같은 동결 라벨과의 40 m 토큰 규모 대조입니다.
+
+## AI 파이프라인 — 코드로 따라가기
+
+모델은 Ai2의 [OlmoEarth v1 Base](https://huggingface.co/allenai/OlmoEarth-v1-Base) frozen encoder 하나이며,
+이 사건을 위해 어떤 재학습·미세조정도 하지 않았습니다. 파이프라인 전체가 이 저장소의 코드로 재현됩니다.
+
+```text
+Copernicus 카탈로그 봉인 → 씬 선택 preflight → 픽셀 materialize (rslearn)
+      → frozen OlmoEarth 임베딩 (768ch × 64×64 토큰, 40 m/토큰)
+      → Δz = 1 − cos(z_before, z_after)
+      → 평시 세 전이의 pooled p99 문턱 → 검토 순위 (탐지 주장 아님)
+      → web/public/data 파생 자산 생성
+```
+
+| 단계 | 코드 | 산출물 |
+|---|---|---|
+| 관측 카탈로그 봉인 (메타데이터만) | `code/build_nepal_live_catalog.py` | `catalog/<snapshot>/` + SHA-256 seal |
+| 필수 씬 선택 검사 (다운로드 전 차단) | `code/check_nepal_live_selection.py` | `selection_preflight.json` |
+| 4×14일 S1+S2 cube materialize | `code/prepare_nepal_olmo_live.sh` | `materialized/<mode>/dataset` |
+| frozen 임베딩 추출 | `code/run_nepal_olmo_embeddings.sh` + `code/model.yaml` | embedding GeoTIFF + manifest seal |
+| 회랑 창 Δz·평시 문턱·순위 | `code/analyze_corridor_sealed.py`, `code/corridor_change_retrieval.py` | `report.json` (100→47→6) |
+| 과거 라벨 대조 (M73/M78/M79) | `code/sen12_*.py` | `artifacts/sen12_*/report.json` |
+| 공개 자산 빌드 | `web/python/build_live_twin_data.py` | `web/public/data/*` |
+
+수식과 계약은 짧습니다: 같은 위치의 사건 전/후 임베딩 토큰 `z_before, z_after`에 대해
+`score = 1 − cosine(z_before, z_after)`를 계산하고, 사전 등록한 세 개의 평시 2주 전이에서 얻은
+pooled p99를 넘는 토큰 비율로 창을 정렬합니다. 순위는 사람이 먼저 볼 순서이지 피해 판정이 아닙니다.
+
+무엇이 AI 계산이고 무엇이 제품 계층(지도·스토리·WASM 입자)인지의 상세 구분, 실행됨/실행 안 됨의
+전체 장부는 [`docs/NEPAL_WHAT_THE_AI_ACTUALLY_DOES_2026_08_29.md`](./docs/NEPAL_WHAT_THE_AI_ACTUALLY_DOES_2026_08_29.md)와
+[`docs/MEASURED_FINDINGS_full.md`](./docs/MEASURED_FINDINGS_full.md)에 있습니다.
+재실행에는 rslearn 환경과 `research-private/`(약 5.9 GB, Git 미포함) 원본이 필요하며,
+경로 계약은 `code/nepal_paths.py`와 `NEPAL_ARTIFACT_ROOT`가 관리합니다.
 
 ## 로컬 검증
 

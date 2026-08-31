@@ -61,7 +61,16 @@ assert.ok(scenario.ops_log.some((event) => event.type === 'SEAL_INVALID'));
 assert.ok(scenario.ops_log.some((event) => event.type === 'COVERAGE_PASS'));
 assert.ok(scenario.ops_log.some((event) => event.type === (rerunDone ? 'DELTA_REPORT' : 'DELTA_SUPERSEDED')));
 assert.ok(scenario.ops_log.some((event) => event.type === 'S1DB_SCREENING'));
-assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's2c_20260829')?.state, 'acquired_pending_catalog');
+// 2026-08-31 카탈로그 스냅샷 20260831T041914Z: s2c 8/29, s1d 8/31 모두 published 확인.
+assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's2c_20260829')?.state, 'published');
+assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's1d_20260831')?.state, 'published');
+assert.equal(scenario.provenance.catalog_snapshot, '20260831T041914Z');
+// M86 외부 라벨 채점 (2026-08-31): 동결 라벨, 순위 불변, 창 규모 무판별 판정.
+assert.equal(scenario.external_label_score?.measurement_id, 'M86');
+assert.equal(scenario.external_label_score?.ranking_unchanged, true);
+assert.equal(scenario.external_label_score?.precision_at_6_vector_union, 1);
+assert.ok(scenario.external_label_score?.non_lead_base_rate_vector_union > 0.85);
+assert.equal(scenario.external_label_score?.verdict, 'window_scale_not_discriminative');
 assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scenario.ops_log.length);
 assert.equal(scenario.live_observation.cloud_cover_tile_pct, null);
 assert.match(scenario.live_observation.product_name, /^S1D_IW_GRDH_1SDV_20260828/);

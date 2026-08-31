@@ -9,6 +9,6 @@
   `pnpm check` 게이트 통과 확인함.
 - Vercel: Root Directory=`web`, env `NEXT_PUBLIC_SITE_URL`(필수·layout metadataBase 기본값 덮어쓰기),
   `NEXT_PUBLIC_MAPTILER_KEY`(새 키 권장, origin 제한). DB(Supabase)는 1차 공개에서 OFF.
-- GitHub 원격은 아직 없음 — 저장소 만들면 push 필요. 도메인 후보로 rasuwa.watch 선택됨.
+- GitHub 원격은 아직 없음 — 저장소 만들면 push 필요. 도메인은 eo-rasuwa.dev로 결정됨 (2026-08-31).
 - 수치·문구를 바꿀 때는 `web/scripts/verify-assets.mjs` 불변식과 `scripts/sync-review-contract.mjs`를
   함께 갱신할 것 (rank == rank_pooled3 등).

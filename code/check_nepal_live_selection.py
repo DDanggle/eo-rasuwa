@@ -19,6 +19,7 @@ from typing import Any
 REQUIREMENTS = {
     "s2_live": ("sentinel2_l2a", "20260827"),
     "s1_live": ("sentinel1", "20260828"),
+    "s1_live_0831": ("sentinel1", "20260831"),
 }
 
 

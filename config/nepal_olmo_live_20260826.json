@@ -1,0 +1,124 @@
+{
+  "schema": "nepal-olmo-live-config-v1",
+  "event": {
+    "name": "Rasuwa–Lhende / Bhote Koshi flash flood",
+    "time_utc_window": [
+      "2026-08-26T03:15:00Z",
+      "2026-08-26T03:30:00Z"
+    ],
+    "cause_status": "under_investigation_suspected_rock_ice_avalanche",
+    "source_anchor_status": "provisional_not_a_damage_label",
+    "source_anchor_lon_lat": [
+      85.5194,
+      28.2765
+    ]
+  },
+  "catalog": {
+    "start_utc": "2026-06-28T00:00:00Z",
+    "end_utc": "2026-09-01T00:00:00Z",
+    "query_point_lon_lat": [
+      85.5194,
+      28.2765
+    ],
+    "endpoint": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products"
+  },
+  "olmo_contract": {
+    "model_id": "OLMOEARTH_V1_BASE",
+    "temporal_memory": "4 x 14-day periods before the event",
+    "tile_span_m": 2560,
+    "resolution_m": 10,
+    "embedding_dim": 768,
+    "sentinel2_bands_model_order": [
+      "B02",
+      "B03",
+      "B04",
+      "B08",
+      "B05",
+      "B06",
+      "B07",
+      "B8A",
+      "B11",
+      "B12",
+      "B01",
+      "B09"
+    ],
+    "sentinel1_bands": [
+      "vv",
+      "vh"
+    ]
+  },
+  "operational_anchors": [
+    {
+      "id": "source_provisional",
+      "name": "Lhende source search anchor",
+      "lon": 85.5194,
+      "lat": 28.2765,
+      "role": "provisional source search; not a verified failure polygon"
+    },
+    {
+      "id": "rasuwagadhi",
+      "name": "Rasuwagadhi border corridor",
+      "lon": 85.378,
+      "lat": 28.276,
+      "role": "border impact and debris-flow corridor"
+    },
+    {
+      "id": "timure",
+      "name": "Timure",
+      "lon": 85.363,
+      "lat": 28.235,
+      "role": "settlement and transport exposure anchor"
+    },
+    {
+      "id": "syabrubesi",
+      "name": "Syabrubesi",
+      "lon": 85.347,
+      "lat": 28.164,
+      "role": "downstream transfer anchor"
+    },
+    {
+      "id": "dhunche",
+      "name": "Dhunche",
+      "lon": 85.296,
+      "lat": 28.102,
+      "role": "downstream negative/control anchor"
+    }
+  ],
+  "planned_acquisitions": [
+    {
+      "id": "s2b_20260827",
+      "sensor": "Sentinel-2B L2A",
+      "start_utc": "2026-08-27T04:56:52Z",
+      "end_utc": "2026-08-27T05:17:15Z",
+      "expected_product_substring": "S2B_MSIL2A_20260827"
+    },
+    {
+      "id": "s1d_20260828",
+      "sensor": "Sentinel-1D IW GRD",
+      "start_utc": "2026-08-28T12:19:28Z",
+      "end_utc": "2026-08-28T12:26:54Z",
+      "expected_product_substring": "S1D_IW_GRDH_1SDV_20260828"
+    },
+    {
+      "id": "s2c_20260829",
+      "sensor": "Sentinel-2C L2A",
+      "start_utc": "2026-08-29T04:47:23Z",
+      "end_utc": "2026-08-29T05:04:50Z",
+      "expected_product_substring": "S2C_MSIL2A_20260829"
+    },
+    {
+      "id": "s1d_20260831",
+      "sensor": "Sentinel-1D IW GRD",
+      "start_utc": "2026-08-31T00:07:34Z",
+      "end_utc": "2026-08-31T00:13:38Z",
+      "expected_product_substring": "S1D_IW_GRDH_1SDV_20260831"
+    },
+    {
+      "id": "s2a_20260831",
+      "sensor": "Sentinel-2A L2A",
+      "start_utc": "2026-08-31T04:52:38Z",
+      "end_utc": "2026-08-31T05:04:44Z",
+      "expected_product_substring": "S2A_MSIL2A_20260831"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse, glob, json, os, time
 from datetime import datetime
 from pathlib import Path
+from nepal_paths import ARTIFACT_ROOT
 
 MODEL_BANDS = ["B02", "B03", "B04", "B08",
                "B05", "B06", "B07", "B8A", "B11", "B12",
@@ -39,8 +40,8 @@ def main():
     from rslearn.train.model_context import ModelContext, RasterImage
 
     p = argparse.ArgumentParser()
-    p.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
-    p.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_susceptibility_probe"))
+    p.add_argument("--data-root", type=Path, default=Path(os.environ.get("SEN12_DATA_ROOT", "/home/work/data/sen12landslides/extracted")))
+    p.add_argument("--out", type=Path, default=ARTIFACT_ROOT / "sen12_susceptibility_probe")
     p.add_argument("--per-region", type=int, default=120)
     args = p.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)

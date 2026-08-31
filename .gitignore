@@ -7,3 +7,17 @@ dist/
 web/rust-flow/target/
 __pycache__/
 .DS_Store
+
+# Local research workspace migrated out of olmoearth_projects/_work.
+# It contains raw Sentinel cubes, embeddings, intermediate arrays, old build
+# caches, and source snapshots. Public manifests and compact reports stay in
+# artifacts/, code/, config/, docs/, and tests/.
+/research-private/
+
+# Local agent/session and analysis caches are never project evidence.
+/.claude/
+/.codex/
+/.pytest_cache/
+/.ruff_cache/
+/.venv/
+*.log

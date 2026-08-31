@@ -11,6 +11,7 @@ import argparse, glob, json, os, time
 from datetime import datetime
 from pathlib import Path
 import numpy as np, xarray as xr
+from nepal_paths import ARTIFACT_ROOT
 S2_IN = ["B02","B03","B04","B05","B06","B07","B08","B8A","B11","B12"]
 S2_PRESTO = ["B2","B3","B4","B5","B6","B7","B8","B8A","B11","B12"]
 KEEP=4; CLEAR={4,5,6,7}
@@ -30,9 +31,9 @@ def main():
     from presto.dataops.pipelines.dynamicworld import DynamicWorld2020_2021 as DW
     ap=argparse.ArgumentParser()
     ap.add_argument("--regions", nargs="+", default=["hokkaido","hiroshima","dominicamaria","italy","itogon","usa_alaska","usa_puertorico"])
-    ap.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
-    ap.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_presto_control"))
-    ap.add_argument("--olmo-report", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_radar_value/report.json"))
+    ap.add_argument("--data-root", type=Path, default=Path(os.environ.get("SEN12_DATA_ROOT", "/home/work/data/sen12landslides/extracted")))
+    ap.add_argument("--out", type=Path, default=ARTIFACT_ROOT / "sen12_presto_control")
+    ap.add_argument("--olmo-report", type=Path, default=ARTIFACT_ROOT / "sen12_radar_value/report.json")
     ap.add_argument("--per-region", type=int, default=120)
     a=ap.parse_args(); a.out.mkdir(parents=True, exist_ok=True)
     device=torch.device("cuda"); model=Presto.load_pretrained().to(device).eval()
@@ -42,12 +43,11 @@ def main():
         # s2cube: (10,T,128,128) reflectance; s1cube: (2,T,128,128) dB. → (128,32,32) token grid
         T=len(s2times); H=W=128; n=H*W
         s2=torch.from_numpy(s2cube).permute(2,3,1,0).reshape(n,T,len(S2_IN)).float()  # n,T,B
-        xs=[]; ms=[]
         s1=torch.from_numpy(s1cube).permute(2,3,1,0).reshape(n,T,2).float() if s1cube is not None else None
         # construct_single_presto_input 은 픽셀 단위 → 벡터화: 한 픽셀로 마스크/매핑을 얻고 배치로 확장
         x0,m0,dw0=construct_single_presto_input(s2=s2[0], s2_bands=S2_PRESTO, s1=(s1[0] if s1 is not None else None), s1_bands=(["VV","VH"] if s1 is not None else None), normalize=True)
         # 정규화는 밴드별 선형(shift/div) + NDVI 이므로 배치에 같은 함수 적용
-        from presto.dataops.pipelines.s1_s2_era5_srtm import BANDS, S1_S2_ERA5_SRTM, NORMED_BANDS, S1_BANDS, S2_BANDS, REMOVED_BANDS
+        from presto.dataops.pipelines.s1_s2_era5_srtm import BANDS, S1_S2_ERA5_SRTM, NORMED_BANDS, S1_BANDS
         X=torch.zeros(n,T,len(BANDS))
         idx_s2=[BANDS.index(b) for b in S2_PRESTO]; X[:,:,idx_s2]=s2
         if s1 is not None: idx_s1=[BANDS.index(b) for b in S1_BANDS]; X[:,:,idx_s1]=s1

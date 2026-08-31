@@ -1,0 +1,20 @@
+{
+  "schema": "sen12-crossregion-retrieval-correction-v1",
+  "corrects_report_sha256": "0ebc25ab6a4a357f7716c338de7a8936b1d406d08e763592ababa31ac9ca458d",
+  "corrects_code_sha256": "c55a08bda56d7676588820c5b44903fb7c331a984f321fd7311c6749acc21ff9",
+  "affected_fields": [
+    "raw_spectral.macro_ap_at_100",
+    "olmo_whole.macro_ap_at_100",
+    "olmo_masked.macro_ap_at_100",
+    "*.per_region.*.ap_at_100"
+  ],
+  "status": "invalid_metric_pending_recomputation",
+  "reason": "The original implementation divided precision-at-positive-ranks by the number of positives retrieved inside the top 100 instead of min(total relevant gallery items, 100). It can overstate retrieval quality when few relevant items are retrieved.",
+  "unaffected_fields": [
+    "macro_p_at_10",
+    "macro_base_rate",
+    "macro_lift",
+    "preregistered_verdict"
+  ],
+  "replacement": "Re-run code/sen12_retrieval_probe.py schema v2 and report standard AP@100 together with Recall@100."
+}

@@ -4,15 +4,22 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+if [[ -n "${NEPAL_ARTIFACT_ROOT:-}" ]]; then
+  ARTIFACT_ROOT="$NEPAL_ARTIFACT_ROOT"
+elif [[ -d "$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1" ]]; then
+  ARTIFACT_ROOT="$REPO_DIR/artifacts"
+else
+  ARTIFACT_ROOT="$REPO_DIR/research-private/artifacts"
+fi
 WORKSPACE_DIR="$(cd "$REPO_DIR/.." && pwd)"
 MODE="${1:-baseline}"
 # ANCHOR_SET=five(기본, 사용자 앵커 5개) | corridor(M69의 27 자동 창, 봉인 계약 재실행용)
 ANCHOR_SET="${ANCHOR_SET:-five}"
 if [[ "$ANCHOR_SET" == "corridor" ]]; then
-  DATASET_ROOT="${2:-$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1/materialized_corridor/$MODE/dataset}"
+  DATASET_ROOT="${2:-$ARTIFACT_ROOT/external_data/nepal_olmo_live_v1/materialized_corridor/$MODE/dataset}"
   export EXPECTED_ANCHORS=27
 else
-  DATASET_ROOT="${2:-$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1/materialized/$MODE/dataset}"
+  DATASET_ROOT="${2:-$ARTIFACT_ROOT/external_data/nepal_olmo_live_v1/materialized/$MODE/dataset}"
 fi
 RSLEARN_BIN="${RSLEARN_BIN:-$WORKSPACE_DIR/.venv/bin/rslearn}"
 

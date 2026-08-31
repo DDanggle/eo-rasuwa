@@ -4,10 +4,10 @@ D 수색 구역(28.285N 85.48E) 중심 ±5 km, 20 m 격자. 출력: 후보 픽�
 import json, numpy as np, rasterio, pystac_client, planetary_computer as pc
 from rasterio.windows import from_bounds
 from rasterio.warp import transform
-from pathlib import Path
 from PIL import Image
 from scipy import ndimage
-ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/"artifacts/lake_search_d"; OUT.mkdir(parents=True,exist_ok=True); IMG=ROOT/"apps/nepal-olmo-gis/public/data/story"; IMG.mkdir(parents=True,exist_ok=True)
+from nepal_paths import ARTIFACT_ROOT, WEB_DATA_ROOT
+OUT=ARTIFACT_ROOT/"lake_search_d"; OUT.mkdir(parents=True,exist_ok=True); IMG=WEB_DATA_ROOT/"story"; IMG.mkdir(parents=True,exist_ok=True)
 LON,LAT=85.48,28.285; HALF=5000; UTM="EPSG:32645"; SIZE=500
 x,y=transform("EPSG:4326",UTM,[LON],[LAT]); B=[x[0]-HALF,y[0]-HALF,x[0]+HALF,y[0]+HALF]
 cat=pystac_client.Client.open("https://planetarycomputer.microsoft.com/api/stac/v1")

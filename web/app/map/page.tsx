@@ -290,7 +290,7 @@ setWorkerUrl('/maplibre-gl-worker.mjs');
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-export default function Home({ storyDefault = false }: { storyDefault?: boolean } = {}) {
+function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const mapNode = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -1766,4 +1766,8 @@ export default function Home({ storyDefault = false }: { storyDefault?: boolean 
       <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? '—'} UTC · OSM ODbL · ESA COPERNICUS · PLANET DISASTER DATA (CC-BY-NC-4.0)</div>
     </main>
   );
+}
+
+export default function MapPage() {
+  return <MapExperience />;
 }

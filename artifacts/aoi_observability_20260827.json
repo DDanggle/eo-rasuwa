@@ -1,0 +1,46 @@
+{
+  "anchors": {
+    "dhunche": {
+      "bright_frac_of_valid": 0.5416,
+      "nodata_frac": 0.0,
+      "not_bright_frac_of_valid": 0.4584,
+      "pixels": 65536,
+      "source_raster_sha256": "2b9cc27c79c43749733644ebdbc3e2834a4c7949b8ea7464029452262b005121"
+    },
+    "rasuwagadhi": {
+      "bright_frac_of_valid": 0.0252,
+      "nodata_frac": 0.0,
+      "not_bright_frac_of_valid": 0.9748,
+      "pixels": 65536,
+      "source_raster_sha256": "586c4d7e9b90644f532bb540c5194c9401510fe3e0c22f867d94d11824f15985"
+    },
+    "source_provisional": {
+      "bright_frac_of_valid": 0.5648,
+      "nodata_frac": 0.0,
+      "not_bright_frac_of_valid": 0.4352,
+      "pixels": 65536,
+      "source_raster_sha256": "86fad47ccad688f2e144857a32db88e78fcd0913036293c57c805e6ba1f2326e"
+    },
+    "syabrubesi": {
+      "bright_frac_of_valid": 0.0863,
+      "nodata_frac": 0.0,
+      "not_bright_frac_of_valid": 0.9137,
+      "pixels": 65536,
+      "source_raster_sha256": "8e05838fca62cfe287917f6f22538a0d6a60ba119f282490a1be32ef5833beb2"
+    },
+    "timure": {
+      "bright_frac_of_valid": 0.0566,
+      "nodata_frac": 0.0,
+      "not_bright_frac_of_valid": 0.9434,
+      "pixels": 65536,
+      "source_raster_sha256": "9772806b0a55baac9583752111f9efa6e86edb44291477b85856626d7bdf5860"
+    }
+  },
+  "claim_boundary": "bright fraction is not cloud fraction; not-bright pixels are not necessarily cloud-free",
+  "created_at_utc": "2026-08-28T06:32:06Z",
+  "method": "B02 > 2600 DN → bright(cloud OR snow); zero-all-bands → nodata. SCL 없음 — 휴리스틱임",
+  "metric": "b02_bright_pixel_fraction",
+  "scene_id": "S2B_MSIL2A_20260827T045659_R119_T45RUM_20260827T084453",
+  "schema": "aoi-observability-20260827-v2",
+  "threshold_dn": 2600
+}

@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse, glob, json, os, time
 from datetime import datetime
 from pathlib import Path
+from nepal_paths import ARTIFACT_ROOT
 
 MODEL_BANDS = ["B02", "B03", "B04", "B08",
                "B05", "B06", "B07", "B8A", "B11", "B12",
@@ -35,8 +36,8 @@ CLEAR_SCL = {4, 5, 6, 7}
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--regions", nargs="+", default=["hokkaido", "hiroshima", "dominicamaria", "nepal", "kyrgyzstan1", "kyrgyzstan2", "italy", "china", "newzealand", "indonesia", "itogon", "lanaodelnorte", "thrissur", "usa_alaska", "usa_puertorico"])
-    p.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
-    p.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_event_delta_all"))
+    p.add_argument("--data-root", type=Path, default=Path(os.environ.get("SEN12_DATA_ROOT", "/home/work/data/sen12landslides/extracted")))
+    p.add_argument("--out", type=Path, default=ARTIFACT_ROOT / "sen12_event_delta_all")
     p.add_argument("--per-region", type=int, default=120)
     return p.parse_args()
 
@@ -51,7 +52,7 @@ def auroc(scores, labels):
     ranks = np.empty(len(order)); ranks[order] = np.arange(1, len(order) + 1)
     # 동률 평균 순위
     allv = np.concatenate([pos, neg])
-    sv = np.sort(allv); import numpy as _np
+    import numpy as _np
     uniq, inv, cnts = _np.unique(allv, return_inverse=True, return_counts=True)
     start = _np.zeros(len(uniq)); start[1:] = _np.cumsum(cnts)[:-1]
     ranks = start[inv] + (cnts[inv] + 1) / 2.0

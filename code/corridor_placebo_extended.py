@@ -10,6 +10,7 @@ import argparse, json, os, time
 from datetime import datetime
 from pathlib import Path
 import numpy as np
+from nepal_paths import ARTIFACT_ROOT
 PATCH, CROP = 4, 64
 def main():
     if os.environ.get("CUDA_VISIBLE_DEVICES") != "1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
@@ -17,7 +18,7 @@ def main():
     from olmoearth_pretrain_minimal import ModelID
     from rslearn.models.olmoearth_pretrain.model import OlmoEarth
     from rslearn.train.model_context import ModelContext, RasterImage
-    ap=argparse.ArgumentParser(); R=Path("/home/work/data/olmoearth/artifacts/corridor_s2_candidates")
+    ap=argparse.ArgumentParser(); R=ARTIFACT_ROOT / "corridor_s2_candidates"
     ap.add_argument("--main", type=Path, default=R/"prepare_v2"); ap.add_argument("--early", type=Path, default=R/"prepare_v2_early")
     ap.add_argument("--scan-report", type=Path, default=R/"embed_scan_v2/report.json"); ap.add_argument("--out", type=Path, default=R/"embed_placebo_ext")
     a=ap.parse_args(); a.out.mkdir(parents=True, exist_ok=True)

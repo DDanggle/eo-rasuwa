@@ -1,7 +1,6 @@
-'use client';
-import MapApp from '../map/page';
+import { redirect } from 'next/navigation';
 
-// 스토리(방법·근거 서사)를 별도 URL 로. 지도 컴포넌트를 재사용하되 서사를 처음부터 연다.
+// Page 모듈끼리 컴포넌트를 import하지 않고 canonical map story로 넘긴다.
 export default function StoryPage() {
-  return <MapApp storyDefault />;
+  redirect('/map#story');
 }

@@ -9,9 +9,11 @@
   창 순위 = 후보 토큰 비율. 판정 문구는 "candidate change (S2-only, unsealed)"까지만.
 """
 from __future__ import annotations
-import argparse, json, os, time, hashlib
+import argparse, json, os, time
 from datetime import datetime
 from pathlib import Path
+
+from nepal_paths import ARTIFACT_ROOT
 
 MODEL_BANDS = ["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12","B01","B09"]
 PATCH, CROP = 4, 64
@@ -24,8 +26,8 @@ def main():
     from rslearn.models.olmoearth_pretrain.model import OlmoEarth
     from rslearn.train.model_context import ModelContext, RasterImage
     ap = argparse.ArgumentParser()
-    ap.add_argument("--inp", type=Path, default=Path("/home/work/data/olmoearth/artifacts/corridor_s2_candidates/prepare"))
-    ap.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/corridor_s2_candidates/embed_v2"))
+    ap.add_argument("--inp", type=Path, default=ARTIFACT_ROOT / "corridor_s2_candidates/prepare")
+    ap.add_argument("--out", type=Path, default=ARTIFACT_ROOT / "corridor_s2_candidates/embed_v2")
     a = ap.parse_args(); a.out.mkdir(parents=True, exist_ok=True)
     device = torch.device("cuda"); torch.cuda.set_device(0)
     wrapper = OlmoEarth(patch_size=PATCH, model_id=ModelID.OLMOEARTH_V1_BASE, token_pooling=True,

@@ -53,10 +53,10 @@
   },
   "schema": "nepal-m77-m78-audit-v1",
   "sha256": {
-    "artifacts/corridor_s2_candidates/embed_ctrl/deltas/x001_delta.npz": "44a3a02f02a6b0fac5d13c1880cc88c7f7d846e6357c41327374cec7f79e1bde",
-    "artifacts/corridor_s2_candidates/embed_ctrl/report.json": "78aed2c348a44b2163b4118bbaa47e0cd9b6dc70633f707f1189faa92e923b77",
-    "artifacts/corridor_s2_candidates/embed_scan_v2/report.json": "e2870c8d080032890db8d3752f8d1ed5be58fb27d5488b15ed887f267a4f104f",
-    "artifacts/sen12_radar_value/report.json": "afab015e8b0efad5bab88314703377dd481466ac22cf72567f06db8218ccd244",
-    "code/sen12_radar_value.py": "d5080c268dfcfd288a521814e1c1c8a7a7b73a22180ed16f4d1b047a222387b5"
+    "code/sen12_radar_value.py": "05f2bd340097a4f32a299f36e0b8531b987e5eb0d258b8188a62bbc121582afb",
+    "corridor_s2_candidates/embed_ctrl/deltas/x001_delta.npz": "44a3a02f02a6b0fac5d13c1880cc88c7f7d846e6357c41327374cec7f79e1bde",
+    "corridor_s2_candidates/embed_ctrl/report.json": "78aed2c348a44b2163b4118bbaa47e0cd9b6dc70633f707f1189faa92e923b77",
+    "corridor_s2_candidates/embed_scan_v2/report.json": "e2870c8d080032890db8d3752f8d1ed5be58fb27d5488b15ed887f267a4f104f",
+    "sen12_radar_value/report.json": "afab015e8b0efad5bab88314703377dd481466ac22cf72567f06db8218ccd244"
   }
 }

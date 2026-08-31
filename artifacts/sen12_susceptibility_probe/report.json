@@ -1,0 +1,48 @@
+{
+  "schema": "sen12-susceptibility-probe-v1",
+  "keep_pre": 4,
+  "label_rule": "token mask mean >= 0.25",
+  "probe": "torch logistic LBFGS, balanced, L2 1e-4",
+  "loco": {
+    "hokkaido": {
+      "olmoearth": {
+        "auroc": 0.5823905216894046,
+        "test_pos": 22881,
+        "test_tokens": 122880
+      },
+      "raw": {
+        "auroc": 0.6094463215074876,
+        "test_pos": 22881,
+        "test_tokens": 122880
+      },
+      "verdict": "not detected"
+    },
+    "hiroshima": {
+      "olmoearth": {
+        "auroc": 0.6061850627686026,
+        "test_pos": 4973,
+        "test_tokens": 122880
+      },
+      "raw": {
+        "auroc": 0.5805376665943307,
+        "test_pos": 4973,
+        "test_tokens": 122880
+      },
+      "verdict": "not detected"
+    },
+    "dominicamaria": {
+      "olmoearth": {
+        "auroc": 0.5333809562559069,
+        "test_pos": 5675,
+        "test_tokens": 122880
+      },
+      "raw": {
+        "auroc": 0.5664860037582405,
+        "test_pos": 5675,
+        "test_tokens": 122880
+      },
+      "verdict": "not detected"
+    }
+  },
+  "overall": "not detected"
+}

@@ -11,6 +11,7 @@ import argparse, glob, json, os, time
 from datetime import datetime
 from pathlib import Path
 import numpy as np, xarray as xr
+from nepal_paths import ARTIFACT_ROOT
 BANDS = ["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12"]
 KEEP = 4; CLEAR = {4,5,6,7}
 
@@ -24,9 +25,9 @@ def auroc(s, y):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--regions", nargs="+", default=["hokkaido","hiroshima","dominicamaria","italy","indonesia","itogon","thrissur","usa_alaska","usa_puertorico"])
-    ap.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
-    ap.add_argument("--ai", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_event_delta_all/report.json"))
-    ap.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_classical_baseline"))
+    ap.add_argument("--data-root", type=Path, default=Path(os.environ.get("SEN12_DATA_ROOT", "/home/work/data/sen12landslides/extracted")))
+    ap.add_argument("--ai", type=Path, default=ARTIFACT_ROOT / "sen12_event_delta_all/report.json")
+    ap.add_argument("--out", type=Path, default=ARTIFACT_ROOT / "sen12_classical_baseline")
     ap.add_argument("--per-region", type=int, default=120)
     a=ap.parse_args(); a.out.mkdir(parents=True, exist_ok=True)
     ai=json.load(open(a.ai))["regions"] if a.ai.exists() else {}

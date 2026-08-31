@@ -8,14 +8,14 @@ from pathlib import Path
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from analyze_nepal_delta import load_cube, cosine_delta  # noqa
-REPO = Path(__file__).resolve().parents[1]
-CROOT = REPO / "artifacts/external_data/nepal_olmo_live_v1/materialized_corridor"
+from nepal_paths import ARTIFACT_ROOT
+CROOT = ARTIFACT_ROOT / "external_data/nepal_olmo_live_v1/materialized_corridor"
 EMB = os.environ.get("EMB_LAYER", "embeddings"); OUT = os.environ.get("OUT_NAME", "corridor_matched")
 def emb(mode, wid):
     base = CROOT / mode / "dataset/windows/nepal" / wid / ("layers/" + EMB); tifs = sorted(base.rglob("*.tif")) if base.exists() else []
     return load_cube(tifs[0]) if len(tifs) == 1 else None
 def main():
-    wm = json.loads((REPO / "artifacts/corridor_s2_candidates/prepare/windows_manifest.json").read_text())
+    wm = json.loads((ARTIFACT_ROOT / "corridor_s2_candidates/prepare/windows_manifest.json").read_text())
     ids = [w["id"] for w in wm["windows"]]; centers = {w["id"]: w["center_lonlat"] for w in wm["windows"]}
     ev, pl = {}, {}
     for wid in ids:
@@ -23,7 +23,7 @@ def main():
         if zb is None or zl is None or za is None: continue
         ev[wid] = cosine_delta(zb, zl); pl[wid] = cosine_delta(za, zb)
     # 관측성: 광학 스캔(embed_v2)의 유효 마스크로 구름·눈 창을 풀에서 제외 (봉인 계약엔 마스크가 없어 구름 Δ가 임계를 폭주시킴)
-    vdir = REPO / "artifacts/corridor_s2_candidates/embed_v2"
+    vdir = ARTIFACT_ROOT / "corridor_s2_candidates/embed_v2"
     def valid(wid):
         if os.environ.get("NO_OPTICAL_MASK"): return None   # 레이더 단독 분석: 광학 구름 마스크를 적용하지 않음
         f = vdir / f"{wid}_delta.npz"
@@ -54,7 +54,7 @@ def main():
     out = {"schema": "corridor-matched-own-v1", "embedding_layer": EMB, "threshold_own_p99": thr, "placebo_pair": ["placebo_a", "baseline"],
            "n_windows": len(rows), "n_unobservable": len(rows_all) - len(rows), "placebo_frac_max": max(pl_fracs), "windows": rows, "unobservable": [r["id"] for r in rows_all if r["status"] != "ranked"],
            "claim": "candidate change (own 1-period placebo, 27-window pool); not damage"}
-    od = REPO / "artifacts/external_data/nepal_olmo_live_v1" / OUT; od.mkdir(parents=True, exist_ok=True)
+    od = ARTIFACT_ROOT / "external_data/nepal_olmo_live_v1" / OUT; od.mkdir(parents=True, exist_ok=True)
     (od / "report.json").write_text(json.dumps(out, indent=1))
     print("own thr %.4f · placebo max frac %.3f · candidates: %s" % (thr, max(pl_fracs), [r["id"] for r in rows if r["label"].startswith("candidate")]))
     for r in rows[:10]: print(r["rank"], r["id"], "event %.3f (own-win %.3f) placebo %.3f obs %.2f → %s" % (r["event_frac"], r["event_frac_own_window"] or 0, r["placebo_frac"] or 0, r["observable_event"], r["label"]))

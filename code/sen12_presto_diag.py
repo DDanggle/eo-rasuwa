@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Presto 파이프라인 정합성 진단(히로시마 5패치): Presto Δ 가 고전 |ΔNDVI| 와 양의 상관인가,
 라벨 토큰의 Δ 가 비라벨보다 큰가, 임베딩 분산이 살아있는가, eval_task=False(토큰 전체) 와 차이."""
-import os, glob, json, numpy as np, xarray as xr, torch, importlib.util, sys
+import os, glob, numpy as np, xarray as xr, torch, importlib.util, sys
+from pathlib import Path
 sys.argv=[sys.argv[0]]
-spec=importlib.util.spec_from_file_location("pc","/home/work/data/olmoearth/code/sen12_presto_control.py"); pc=importlib.util.module_from_spec(spec); spec.loader.exec_module(pc)
+SCRIPT_DIR = Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location("pc", SCRIPT_DIR / "sen12_presto_control.py"); pc=importlib.util.module_from_spec(spec); spec.loader.exec_module(pc)
 from datetime import datetime
 from presto.presto import Presto
 from presto.dataops.pipelines.dynamicworld import DynamicWorld2020_2021 as DW
@@ -22,7 +24,8 @@ def emb(s2cube, month, eval_task=True):
             sl=slice(i,i+4096); o=model.encoder(Xn[sl].to(device),dynamic_world=dw[sl].to(device),latlons=ll[sl].to(device),mask=mask[sl].to(device),month=month,eval_task=eval_task)
             out.append(o.float().cpu() if eval_task else o.mean(1).float().cpu())
     return torch.cat(out).reshape(128,128,-1)
-files=sorted(glob.glob("/home/work/data/sen12landslides/extracted/hiroshima_s2_*.nc")); k=0
+sen12_root = Path(os.environ.get("SEN12_DATA_ROOT", "/home/work/data/sen12landslides/extracted"))
+files=sorted(glob.glob(str(sen12_root / "hiroshima_s2_*.nc"))); k=0
 print("Xn stats check"); 
 for f in files:
     with xr.open_dataset(f) as ds:

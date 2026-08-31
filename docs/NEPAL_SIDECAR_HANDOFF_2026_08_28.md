@@ -2,6 +2,10 @@
 
 상태: **PARKED / 자동 재개 금지**
 
+> **2026-08-31 저장소 이관:** 아래 `artifacts/...` 표기는 역사적 실행 경로다. 로컬 원본은
+> 현재 `research-private/artifacts/...`에 있으며, 분석 코드는 `NEPAL_ARTIFACT_ROOT` 또는
+> `code/nepal_paths.py`로 해석한다. 공개용 작은 보고서만 최상위 `artifacts/`에 남아 있다.
+
 동결 시각: 2026-08-28 KST
 
 역할: CVPR transfer 본 실험과 분리된 prospective operations·portfolio sidecar

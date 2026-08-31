@@ -8,12 +8,12 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from corridor_s2_candidates_prepare import find_items, read_cube, DATES, HALF_M, UTM, MODEL_BANDS
 from rasterio.warp import transform
-import pystac_client, planetary_computer as pc
+import pystac_client
 from PIL import Image
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "artifacts/corridor_s2_candidates/prepare_ctrl_prereg"; OUT.mkdir(parents=True, exist_ok=True)
-IMG = ROOT / "apps/nepal-olmo-gis/public/data/candidates"
-h = json.loads((ROOT/"apps/nepal-olmo-gis/public/data/hydrography.geojson").read_text()); route = h["simulation_route"] + [[85.5194, 28.2765]]
+from nepal_paths import ARTIFACT_ROOT, WEB_DATA_ROOT
+OUT = ARTIFACT_ROOT / "corridor_s2_candidates/prepare_ctrl_prereg"; OUT.mkdir(parents=True, exist_ok=True)
+IMG = WEB_DATA_ROOT / "candidates"; IMG.mkdir(parents=True, exist_ok=True)
+h = json.loads((WEB_DATA_ROOT / "hydrography.geojson").read_text()); route = h["simulation_route"] + [[85.5194, 28.2765]]
 def km(a, b): return math.hypot((a[0]-b[0])*math.cos(math.radians(27.9))*111.0, (a[1]-b[1])*111.0)
 rng = random.Random(20260830); sites = []
 while len(sites) < 10:

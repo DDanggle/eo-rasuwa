@@ -4,9 +4,16 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+if [[ -n "${NEPAL_ARTIFACT_ROOT:-}" ]]; then
+  ARTIFACT_ROOT="$NEPAL_ARTIFACT_ROOT"
+elif [[ -d "$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1" ]]; then
+  ARTIFACT_ROOT="$REPO_DIR/artifacts"
+else
+  ARTIFACT_ROOT="$REPO_DIR/research-private/artifacts"
+fi
 WORKSPACE_DIR="$(cd "$REPO_DIR/.." && pwd)"
 MODE="${1:-baseline}"
-RUN_ROOT="$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1/${MATERIALIZED_DIR:-materialized}/$MODE"
+RUN_ROOT="$ARTIFACT_ROOT/external_data/nepal_olmo_live_v1/${MATERIALIZED_DIR:-materialized}/$MODE"
 DATASET_PATH="$RUN_ROOT/dataset"
 MODEL_CONFIG="${MODEL_CONFIG:-$REPO_DIR/code/model.yaml}"
 EMBEDDING_LAYER="${EMBEDDING_LAYER:-embeddings}"

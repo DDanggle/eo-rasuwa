@@ -1,5 +1,9 @@
 # Nepal AI Twin — Rasuwa 2026 × OlmoEarth
 
+> 새 세션은 [`RESTART_HERE.md`](./RESTART_HERE.md)부터 읽습니다. 대용량 연구 원본과 중간
+> 산출물은 Git에서 제외한 `research-private/`에 있고, 경로 계약은
+> [`docs/RESEARCH_STORAGE.md`](./docs/RESEARCH_STORAGE.md)에 있습니다.
+
 2026년 8월 26일 라수와–Bhote Koshi 돌발홍수에 대해, **범용 Earth embedding을 새 재난 탐지기로 재학습하지 않고** 사건 전후 변화의 검토 순위를 만든 공개 연구 데모입니다.
 
 핵심 결과는 하나입니다.
@@ -18,6 +22,10 @@
 | `artifacts/` | 실험별 1차 `report.json` |
 | `docs/MEASURED_FINDINGS_full.md` | M66–M85 측정·반증·정정 기록 |
 | `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
+
+대용량 raw cube·embedding·delta는 `research-private/artifacts/`로 분리되어 있으며
+`NEPAL_ARTIFACT_ROOT`로 서버 위치를 명시할 수 있습니다. `artifacts/` 표의 보고서는 공개 검토에
+필요한 작은 결과만 뜻합니다.
 
 `web/public/data/`는 약 125 MB입니다. 연구 원본이 아니라 공개 UI에 필요한 파생 PNG·GeoJSON·JSON·WASM만 포함합니다.
 

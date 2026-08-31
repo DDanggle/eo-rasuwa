@@ -3,14 +3,13 @@
 (2) 강 창(v000~)별 경사·계곡 폭·굴곡도(tortuosity)·기복 → OlmoEarth 후보 비율(M82 pooled3)과 Spearman 상관.
 모델 없음, 물리 시뮬레이션 없음. 상관은 n≈40 탐색적 결과이며 예측 주장 아님."""
 import json, math, numpy as np, rasterio, pystac_client, planetary_computer as pc
-from rasterio.windows import from_bounds
 from rasterio.warp import transform
 from rasterio.merge import merge
-from pathlib import Path
 from scipy.stats import spearmanr
-ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/"artifacts/corridor_geomorph"; OUT.mkdir(parents=True,exist_ok=True)
+from nepal_paths import ARTIFACT_ROOT, WEB_DATA_ROOT
+OUT=ARTIFACT_ROOT/"corridor_geomorph"; OUT.mkdir(parents=True,exist_ok=True)
 UTM="EPSG:32645"
-h=json.loads((ROOT/"apps/nepal-olmo-gis/public/data/hydrography.geojson").read_text()); route=h["simulation_route"]
+h=json.loads((WEB_DATA_ROOT/"hydrography.geojson").read_text()); route=h["simulation_route"]
 E=(85.5194,28.2765); A=(85.378,28.276)
 # --- DEM mosaic over bbox
 lons=[p[0] for p in route]+[E[0],A[0]]; lats=[p[1] for p in route]+[E[1],A[1]]
@@ -73,8 +72,8 @@ zone1={"profile":z1,"length_km":z1[-1]["km_from_source"],"drop_m":drop,"mean_slo
        "narrowest":{"km_from_source":narrow["km_from_source"],"valley_width_km":narrow["valley_width_km"],"lon":narrow["lon"],"lat":narrow["lat"]},
        "path_lonlat":zone1_path,"note":"D8 steepest-descent path on GLO-30 from the source estimate toward A (target-weighted pit escape); widths = perpendicular distance to +150 m on both sides; no runout physics"}
 # --- Zone 2: per river window parameters
-rep=json.loads((ROOT/"artifacts/corridor_s2_candidates/embed_placebo_ext/report.json").read_text()); wins={w["id"]:w for w in rep["windows"]}
-man=json.loads((ROOT/"artifacts/corridor_s2_candidates/prepare_v2/windows_manifest.json").read_text())["windows"]
+rep=json.loads((ARTIFACT_ROOT/"corridor_s2_candidates/embed_placebo_ext/report.json").read_text()); wins={w["id"]:w for w in rep["windows"]}
+man=json.loads((ARTIFACT_ROOT/"corridor_s2_candidates/prepare_v2/windows_manifest.json").read_text())["windows"]
 rx,ry=transform("EPSG:4326",UTM,[p[0] for p in route],[p[1] for p in route]); rxy=np.array(list(zip(rx,ry)))
 cum=np.concatenate([[0],np.cumsum(np.hypot(np.diff(rxy[:,0]),np.diff(rxy[:,1])))])
 rows=[]

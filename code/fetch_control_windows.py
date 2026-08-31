@@ -7,9 +7,9 @@ from corridor_s2_candidates_prepare import find_items, read_cube, DATES, HALF_M,
 import pystac_client
 from rasterio.warp import transform
 from PIL import Image
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "artifacts/corridor_s2_candidates/prepare_ctrl"; OUT.mkdir(parents=True, exist_ok=True)
-IMG = ROOT / "apps/nepal-olmo-gis/public/data/candidates"
+from nepal_paths import ARTIFACT_ROOT, WEB_DATA_ROOT
+OUT = ARTIFACT_ROOT / "corridor_s2_candidates/prepare_ctrl"; OUT.mkdir(parents=True, exist_ok=True)
+IMG = WEB_DATA_ROOT / "candidates"; IMG.mkdir(parents=True, exist_ok=True)
 # 후보: 같은 히말라야 전면 산지, 강 회랑과 무관, 사건 전후 보도 없음
 CANDS = {"x000": ("Melamchi valley (Helambu)", 85.560, 27.960), "x001": ("Tadi Khola, Nuwakot east", 85.290, 27.930),
          "x002": ("Ankhu Khola, Dhading north", 84.990, 28.070), "x003": ("Rishing (legacy C)", 84.3103107, 27.8790412)}

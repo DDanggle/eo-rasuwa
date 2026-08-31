@@ -11,6 +11,7 @@ import argparse, glob, json, os, time
 from datetime import datetime
 from pathlib import Path
 import numpy as np, xarray as xr
+from nepal_paths import ARTIFACT_ROOT
 S2_BANDS = ["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12","B01","B09"]
 KEEP = 4; CLEAR = {4,5,6,7}; PATCH, CROP = 4, 64
 
@@ -29,8 +30,8 @@ def main():
     from rslearn.train.model_context import ModelContext, RasterImage
     ap=argparse.ArgumentParser()
     ap.add_argument("--regions", nargs="+", default=["hokkaido","hiroshima","dominicamaria","italy","indonesia","itogon","thrissur","usa_alaska","usa_puertorico"])
-    ap.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
-    ap.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_radar_value"))
+    ap.add_argument("--data-root", type=Path, default=Path(os.environ.get("SEN12_DATA_ROOT", "/home/work/data/sen12landslides/extracted")))
+    ap.add_argument("--out", type=Path, default=ARTIFACT_ROOT / "sen12_radar_value")
     ap.add_argument("--per-region", type=int, default=120)
     # M80 구름 층화: post 쪽 S2 시점을 clear fraction 구간에서 고름(결과 보기 전 고정). 기본은 M78 그대로(가장 맑은 4개).
     ap.add_argument("--post-clear-min", type=float, default=None)

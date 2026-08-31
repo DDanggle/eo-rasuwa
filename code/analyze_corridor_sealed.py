@@ -19,14 +19,14 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from analyze_nepal_delta import cosine_delta, load_cube  # noqa: E402
+from nepal_paths import ARTIFACT_ROOT
 
 
-REPO = Path(__file__).resolve().parents[1]
-CROOT = REPO / "artifacts/external_data/nepal_olmo_live_v1/materialized_corridor"
+CROOT = ARTIFACT_ROOT / "external_data/nepal_olmo_live_v1/materialized_corridor"
 EMB_LAYER = os.environ.get("EMB_LAYER", "embeddings")
 OUT_NAME = os.environ.get("OUT_NAME", "corridor_sealed_s1db")
-WINDOWS_MANIFEST = REPO / "artifacts/corridor_s2_candidates/prepare/windows_manifest.json"
-S2_REPORT = REPO / "artifacts/corridor_s2_candidates/embed_v2/report.json"
+WINDOWS_MANIFEST = ARTIFACT_ROOT / "corridor_s2_candidates/prepare/windows_manifest.json"
+S2_REPORT = ARTIFACT_ROOT / "corridor_s2_candidates/embed_v2/report.json"
 
 WINDOW_NAMES = {
     "w00": "Rasuwagadhi impact corridor",
@@ -79,7 +79,7 @@ def main() -> None:
         if found_count != len(windows) or expected_count != len(windows):
             raise ValueError(f"unexpected embedding count: {mode}")
 
-    output_root = REPO / "artifacts/external_data/nepal_olmo_live_v1" / OUT_NAME
+    output_root = ARTIFACT_ROOT / "external_data/nepal_olmo_live_v1" / OUT_NAME
     delta_root = output_root / "deltas"
     delta_root.mkdir(parents=True, exist_ok=True)
     rows: list[dict] = []

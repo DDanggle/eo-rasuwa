@@ -13,15 +13,15 @@ import json
 from pathlib import Path
 
 import numpy as np
+from nepal_paths import ARTIFACT_ROOT, REPO_ROOT
 
 
-ROOT = Path(__file__).resolve().parents[1]
-CONTROL_REPORT = ROOT / "artifacts/corridor_s2_candidates/embed_ctrl/report.json"
-CONTROL_DELTA = ROOT / "artifacts/corridor_s2_candidates/embed_ctrl/deltas/x001_delta.npz"
-CORRIDOR_REPORT = ROOT / "artifacts/corridor_s2_candidates/embed_scan_v2/report.json"
-RADAR_REPORT = ROOT / "artifacts/sen12_radar_value/report.json"
-RADAR_CODE = ROOT / "code/sen12_radar_value.py"
-OUT = ROOT / "artifacts/nepal_m77_m78_audit.json"
+CONTROL_REPORT = ARTIFACT_ROOT / "corridor_s2_candidates/embed_ctrl/report.json"
+CONTROL_DELTA = ARTIFACT_ROOT / "corridor_s2_candidates/embed_ctrl/deltas/x001_delta.npz"
+CORRIDOR_REPORT = ARTIFACT_ROOT / "corridor_s2_candidates/embed_scan_v2/report.json"
+RADAR_REPORT = ARTIFACT_ROOT / "sen12_radar_value/report.json"
+RADAR_CODE = REPO_ROOT / "code/sen12_radar_value.py"
+OUT = REPO_ROOT / "artifacts/nepal_m77_m78_audit.json"
 
 
 def sha256(path: Path) -> str:
@@ -122,11 +122,11 @@ def main() -> None:
             ],
         },
         "sha256": {
-            str(CONTROL_REPORT.relative_to(ROOT)): sha256(CONTROL_REPORT),
-            str(CONTROL_DELTA.relative_to(ROOT)): sha256(CONTROL_DELTA),
-            str(CORRIDOR_REPORT.relative_to(ROOT)): sha256(CORRIDOR_REPORT),
-            str(RADAR_REPORT.relative_to(ROOT)): sha256(RADAR_REPORT),
-            str(RADAR_CODE.relative_to(ROOT)): sha256(RADAR_CODE),
+            "corridor_s2_candidates/embed_ctrl/report.json": sha256(CONTROL_REPORT),
+            "corridor_s2_candidates/embed_ctrl/deltas/x001_delta.npz": sha256(CONTROL_DELTA),
+            "corridor_s2_candidates/embed_scan_v2/report.json": sha256(CORRIDOR_REPORT),
+            "sen12_radar_value/report.json": sha256(RADAR_REPORT),
+            "code/sen12_radar_value.py": sha256(RADAR_CODE),
         },
     }
 

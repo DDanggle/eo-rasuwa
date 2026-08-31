@@ -9,9 +9,8 @@
   - 이 산출물은 "S2-only 후보 지도"이며 봉인된 S1+S2 계약이 아님. 라벨은 candidate까지만.
 """
 from __future__ import annotations
-import json, math, hashlib, sys, time, os
+import json, math, hashlib, time, os
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
 import numpy as np
 import planetary_computer as pc
 import pystac_client
@@ -19,8 +18,9 @@ import rasterio
 from rasterio.windows import from_bounds
 from rasterio.warp import transform
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / ("artifacts/corridor_s2_candidates/prepare_v2" if os.environ.get("SCAN","v1") == "v2" else "artifacts/corridor_s2_candidates/prepare")
+from nepal_paths import ARTIFACT_ROOT, WEB_DATA_ROOT
+
+OUT = ARTIFACT_ROOT / ("corridor_s2_candidates/prepare_v2" if os.environ.get("SCAN","v1") == "v2" else "corridor_s2_candidates/prepare")
 OUT.mkdir(parents=True, exist_ok=True)
 MODEL_BANDS = ["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12","B01","B09"]
 DATES = ["2026-07-03","2026-07-23","2026-08-07","2026-08-12","2026-08-27"]
@@ -31,7 +31,7 @@ import os
 SCAN = os.environ.get("SCAN", "v1")  # v1: 2 km 샘플 27창 / v2: 연속 1.28 km + 발원 주변 격자
 
 def build_windows_v2():
-    h = json.loads((ROOT/"apps/nepal-olmo-gis/public/data/hydrography.geojson").read_text())
+    h = json.loads((WEB_DATA_ROOT / "hydrography.geojson").read_text())
     route = h["simulation_route"]
     xs, ys = transform("EPSG:4326", UTM, [p[0] for p in route], [p[1] for p in route])
     pts, acc, last = [], 0.0, None
@@ -56,7 +56,7 @@ def build_windows_v2():
     return wins
 
 def build_windows():
-    h = json.loads((ROOT/"apps/nepal-olmo-gis/public/data/hydrography.geojson").read_text())
+    h = json.loads((WEB_DATA_ROOT / "hydrography.geojson").read_text())
     route = h["simulation_route"]
     xs, ys = transform("EPSG:4326", UTM, [p[0] for p in route], [p[1] for p in route])
     pts, acc, last = [], 0.0, None

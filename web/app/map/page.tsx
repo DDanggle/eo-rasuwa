@@ -357,13 +357,13 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       const m = document.cookie.match(/(?:^|; )lang=(ko|en)/);
       // eslint-disable-next-line react-hooks/set-state-in-effect -- 하이드레이션 후 1회 언어 동기화
       if (m) setStoryLang(m[1] as 'en' | 'ko');
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- 위와 동일
+       
       else if (!navigator.language.toLowerCase().startsWith('ko')) setStoryLang('en');
     } catch { /* noop */ }
   }, []);
   const chooseStoryLang = (lang: 'en' | 'ko') => { setStoryLang(lang); try { document.cookie = `lang=${lang};path=/;max-age=31536000`; } catch { /* noop */ } };
   // 큰 비교 뷰어(라이트박스): 어떤 작은 사진이든 클릭하면 전·후 슬라이더로 크게 봄.
-  type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string }[] };
+  type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string }[]; leadIndex?: number };
   const [lightbox, setLightbox] = useState<Lightbox | null>(null);
   // 창별 PlanetScope 크롭 (97/100 창, 08-28 우선·08-26 폴백). CC-BY-NC-4.0 © Planet Labs PBC.
   const planetWinsRef = useRef<Record<string, { file: string; datetime: string }>>({});
@@ -375,10 +375,30 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // PlanetScope 3.8 m 프레임 검수용 확대: 클릭 지점을 중심으로 2.6배. 다시 클릭하면 해제.
   const [lbZoom, setLbZoom] = useState<{ x: number; y: number } | null>(null);
   const [lbExtra, setLbExtra] = useState<number | null>(null);
-  const openLightbox = useCallback((lb: Lightbox) => { setLbSwipe(50); setLbExtra(null); setLbZoom(null); setLightbox(lb); }, []);
+  // 발견성: 지도 도형이 클릭 가능함을 알리는 일회성 힌트 (localStorage로 재방문 시 생략)
+  const [tapHint, setTapHint] = useState(false);
+  useEffect(() => {
+    try {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- 마운트 1회 힌트 노출 판단
+      if (!localStorage.getItem('map-hint-seen')) setTapHint(true);
+    } catch { /* noop */ }
+  }, []);
+  const dismissTapHint = useCallback(() => {
+    setTapHint(false);
+    try { localStorage.setItem('map-hint-seen', '1'); } catch { /* noop */ }
+  }, []);
+  const openLightbox = useCallback((lb: Lightbox) => { setLbSwipe(50); setLbExtra(null); setLbZoom(null); setLightbox(lb); dismissTapHint(); }, [dismissTapHint]);
+  // 리드 스테퍼: 라이트박스가 리드 컨텍스트(leadIndex)로 열리면 PREV/NEXT·←/→로 6곳을 왕복 없이 순회
+  const openLeadRef = useRef<(index: number) => void>(() => {});
+  const openWindowPopupRef = useRef<(id: string) => void>(() => {});
+  const leadIndexByIdRef = useRef<Record<string, number>>({});
   useEffect(() => {
     if (!lightbox) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightbox(null); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightbox(null);
+      if (lightbox.leadIndex != null && e.key === 'ArrowLeft') openLeadRef.current(lightbox.leadIndex - 1);
+      if (lightbox.leadIndex != null && e.key === 'ArrowRight') openLeadRef.current(lightbox.leadIndex + 1);
+    };
     window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
   }, [lightbox]);
   // 팝업(HTML 문자열) 안의 썸네일 클릭 → 라이트박스 (이벤트 위임)
@@ -393,6 +413,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         return;
       }
       const cand = el.dataset.cand;
+      if (cand != null && leadIndexByIdRef.current[cand] != null) { openLeadRef.current(leadIndexByIdRef.current[cand]); return; }
       if (cand) {
         openLightbox({ title: name, sub: `${place} · scan window ${cand}`, before: `/data/candidates/${cand}_pre.png`, after: `/data/candidates/${cand}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
                        extra: [{ src: `/data/candidates/${cand}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(planetFile ? [{ src: planetFile, label: `PlanetScope 3.8 m · ${planetDate} · © Planet Labs PBC CC-BY-NC-4.0` }] : win && PLANET_FRAMES[win] ? [{ src: PLANET_FRAMES[win].src, label: PLANET_LABEL }] : [])] });
@@ -414,6 +435,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const visibleLogRef = useRef(0);
   const [flowSpeed, setFlowSpeed] = useState(0.034);
   const [candidateScope, setCandidateScope] = useState<'all' | 'hillslope'>('all');
+  // 우측 레일 2탭 (2026-09-01 UX): 기본은 리드 6장만, 검증 블록 전체는 EVIDENCE 탭 뒤로.
+  const [railTab, setRailTab] = useState<'leads' | 'evidence'>('leads');
   const [satTiles, setSatTiles] = useState(false);
   const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const [leftOpen, setLeftOpen] = useState(false);  // 2026-08-30: 패널 하나로 — 포인트는 지도 위 라벨로 충분
@@ -461,6 +484,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     map.addLayer({ id: 'cand-scene', type: 'raster', source: 'cand-scene', paint: { 'raster-opacity': 1, 'raster-fade-duration': 120 } }, before);
     const center = meta?.center ?? (feature.properties?.center_lonlat as [number, number] | undefined);
     if (center) map.flyTo({ center, zoom: 14.2, pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : 900 });
+    // GO TO MAP 한 번으로 이동+팝업까지: 카메라가 멈추면 해당 창의 상세 팝업을 바로 연다 (2026-09-01, 심플 원칙)
+    map.once('moveend', () => openWindowPopupRef.current(id));
     setCandView({ id, mode, rank: meta?.rank, place: meta?.place });
   }, [scenario]);
 
@@ -893,27 +918,35 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           map.addLayer({ id: 'ai-similar-line', type: 'line', source: 'ai-candidates', filter: ['in', ['get', 'id'], ['literal', simIds]],
             paint: { 'line-color': '#2a78d6', 'line-width': 2.2, 'line-dasharray': [1.5, 1.2], 'line-opacity': 0.9 } }, before);
         }
-        map.on('click', 'ai-candidate-fill', (e) => {
-          const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
-          if (oe._popupHandled) return; oe._popupHandled = true;
-          const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
+        const openWindowPopup = (pr: Record<string, unknown>, lngLat: { lng: number; lat: number }) => {
           const id = String(pr.id); const rank = pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : 'screened';
           const pw = planetWinsRef.current[id];
           if (satTiles) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
-            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% cells above ordinary p99 tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
+            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% changed beyond its ordinary range' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
             return;
           }
           const kindLabel = pr.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE' : pr.kind === 'lhende' ? 'LHENDE UPSTREAM' : 'RIVER';
-          const frac = typeof pr.candidate_token_frac === 'number' ? `${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% cells above ordinary p99 tokens` : 'not judged';
+          const frac = typeof pr.candidate_token_frac === 'number' ? `${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% changed beyond its ordinary range` : 'not judged';
           const vis = typeof pr.valid_event_frac === 'number' ? `${(100 * (pr.valid_event_frac as number)).toFixed(0)}% observable` : '';
-          new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
-            .setHTML(`<p class="pp-eyebrow">${kindLabel} · ${rank}</p><h3>Scan window ${id}</h3><p class="pp-place">${frac} · ${vis}</p>`
+          new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(lngLat)
+            .setHTML(`<p class="pp-eyebrow">${kindLabel} · ${rank}</p><h3>${pr.place ? String(pr.place) : `Scan window ${id}`}</h3><p class="pp-place">${frac} · ${vis}</p>`
               + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="${kindLabel} · ${rank}" data-planetfile="${pw?.file ?? ''}" data-planetdate="${pw?.datetime?.slice(0, 10) ?? ''}" title="Click to compare large">`
               + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
               + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
               + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure>`
               + (pw ? `<figure><img src="${pw.file}" alt="PlanetScope"/><figcaption>PLANETSCOPE 3.8 m · ${pw.datetime.slice(5, 10)}<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '') + `</div>`
               + `<p class="pp-hint">▲ click to open the large slider · orange = changed more than any ordinary fortnight · grey = cloud/snow</p>`).addTo(map);
+        };
+        openWindowPopupRef.current = (id: string) => {
+          const feat = scenario?.candidates?.geojson.features.find((f) => f.properties?.id === id);
+          const c = feat?.properties?.center_lonlat as [number, number] | undefined;
+          if (feat && c) openWindowPopup(feat.properties as Record<string, unknown>, { lng: c[0], lat: c[1] });
+        };
+        map.on('click', 'ai-candidate-fill', (e) => {
+          const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+          if (oe._popupHandled) return; oe._popupHandled = true;
+          const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
+          openWindowPopup(pr, e.lngLat);
         });
         map.on('click', 'scan-center-dot', (e) => {
           const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
@@ -1172,6 +1205,26 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 2026-08-30: 카드 순서는 첫 화면과 같은 리드(평시 3쌍 문턱, 관측 가능성 ≥ 40%, 마을 중복 제거). OFF-RIVER 는 재관측 대상.
   const leadRows = (scenario?.review?.leads ?? []).map((l) => ({ id: l.id, rank: l.rank, place: l.place, kind: l.kind, center_lonlat: l.center_lonlat, candidate_token_frac: l.candidate_token_frac, valid_event_frac: l.observable, distance_from_a_km: undefined as number | undefined }));
   const reobserveRows = (scenario?.review?.reobserve ?? []).map((l, i) => ({ id: l.id, rank: i + 1, place: l.place, kind: 'hillslope', center_lonlat: l.center_lonlat, candidate_token_frac: l.candidate_token_frac, valid_event_frac: l.observable, distance_from_a_km: undefined as number | undefined }));
+  // 리드 하나를 라이트박스로 — 스테퍼 컨텍스트 포함. 카드·지도 팝업·키보드가 전부 이 함수를 쓴다.
+  const openLeadLightbox = useCallback((index: number) => {
+    if (!leadRows.length) return;
+    const i = ((index % leadRows.length) + leadRows.length) % leadRows.length;
+    const c = leadRows[i];
+    const pw = planetWinsRef.current[c.id];
+    openLightbox({
+      title: `#${c.rank} · ${c.place || c.id}`,
+      sub: `${(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · ${(c.valid_event_frac * 100).toFixed(0)}% cloud-free`,
+      before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`,
+      beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+      extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change cells (orange) on 08-27' },
+              ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])],
+      leadIndex: i,
+    });
+  }, [leadRows, openLightbox]);
+  useEffect(() => {
+    openLeadRef.current = openLeadLightbox;
+    leadIndexByIdRef.current = Object.fromEntries(leadRows.map((l, i) => [l.id, i]));
+  }, [openLeadLightbox, leadRows]);
   const candidateRows = !scenario?.candidates ? []
     : candidateScope === 'hillslope'
       ? reobserveRows
@@ -1297,6 +1350,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className="cand-chip-close x-icon" onClick={clearCandidate} aria-label="Remove overlay"></button>
         </div>
       )}
+      {tapHint && (
+        <button className="tap-hint" onClick={dismissTapHint}>
+          {'사각형·청록 점을 클릭하면 전후 비교가 열립니다 · Click any rectangle or dot to compare ✕'}
+        </button>
+      )}
       {mapStatus !== 'unsupported' && <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />}
       <div className="terrain-wash" aria-hidden="true" />
       {mapStatus === 'unsupported' && (
@@ -1320,7 +1378,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
           <button className={zone === 2 ? 'is-active' : ''} onClick={() => setZone(2)} disabled={mapStatus !== 'ready'}>2 · IMPACT → DOWNSTREAM</button>
         </div>
-        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : ''}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE TILES ON' : 'SATELLITE TILES'}</button>
+        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : ''}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? <>SATELLITE TILES ON<em className="toggle-sub">click opens the large comparison</em></> : 'SATELLITE TILES'}</button>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
           <button className={viewDim === '3d' ? 'is-active' : ''} onClick={() => setDimension('3d')} disabled={mapStatus !== 'ready'}>3D</button>
@@ -1342,7 +1400,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         aria-expanded={leftOpen}
         aria-label={leftOpen ? 'Hide area panel' : 'Show area panel'}
         onClick={() => setLeftOpen((v) => !v)}
-      >{leftOpen ? '⟨' : '⟩'}<em>AOI</em></button>
+      >{leftOpen ? '⟨' : '⟩'}<em>PLACES</em></button>
 
       <button
         className={`rail-toggle right ${rightOpen ? 'open' : ''}`}
@@ -1438,27 +1496,34 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       {rightOpen && (
       <aside className="right-rail glass-panel">
         <div className="panel-heading"><span>6</span><div><p>REVIEW LEADS</p><strong>Where to look first</strong></div></div>
-        {scenario?.candidates && (
+        <div className="rail-tabs" role="tablist" aria-label="Right rail sections">
+          <button role="tab" aria-selected={railTab === 'leads'} className={railTab === 'leads' ? 'is-active' : ''} onClick={() => setRailTab('leads')}>LEADS</button>
+          <button role="tab" aria-selected={railTab === 'evidence'} className={railTab === 'evidence' ? 'is-active' : ''} onClick={() => setRailTab('evidence')}>EVIDENCE &amp; METHODS</button>
+        </div>
+        {railTab === 'leads' && scenario?.candidates && (
             <div className="candidate-cards">
               
               <div className="candidate-scopes" role="group" aria-label="Filter AI candidate windows">
                 {(['all', 'hillslope'] as const).map((scope) => <button key={scope} className={candidateScope === scope ? 'is-active' : ''} onClick={() => setCandidateScope(scope)}>{scope === 'all' ? '6 LEADS' : 'RE-OBSERVE'}</button>)}
               </div>
-              {candidateRows.slice(0, 6).map((c) => (
+              {candidateRows.slice(0, 6).map((c, ci) => (
                 <article key={c.id} className="cand-card">
                   <header><b>{candidateScope === 'hillslope' ? `R${c.rank}` : `#${c.rank}`}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{candidateScope === 'hillslope' ? 'RE-OBSERVE · BELOW 40% CLEAR · ' : c.kind === 'lhende' ? 'LHENDE UPSTREAM · ' : ''}{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
                   <div className="cand-strip" role="button" tabIndex={0}
-                       onClick={() => openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% of cloud-free 40 m cells with Δz above the ordinary p99 · ${(c.valid_event_frac * 100).toFixed(0)}% observable`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] })}
+                       onClick={() => { if (candidateScope === 'all') { openLeadLightbox(ci); return; } openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · ${(c.valid_event_frac * 100).toFixed(0)}% cloud-free`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change cells (orange) on 08-27' }] }); }}
                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); (e.currentTarget as HTMLElement).click(); } }}>
                     <figure><img src={`/data/candidates/${c.id}_pre.png`} alt="before" loading="lazy" /><figcaption>PRE 08-12</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_post.png`} alt="after" loading="lazy" /><figcaption>POST 08-27</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change tokens" loading="lazy" /><figcaption>AI Δ</figcaption></figure>
                   </div>
-                  <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% cells above ordinary p99 · {(c.valid_event_frac * 100).toFixed(0)}% cloud-free</span>
+                  <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · {(c.valid_event_frac * 100).toFixed(0)}% cloud-free</span>
                     <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>GO TO MAP</button></footer>
                 </article>
               ))}
-              {scenario.candidates.retrieval && (
+            </div>
+          )}
+        {railTab === 'evidence' && (<>
+              {scenario?.candidates?.retrieval && (
                 <details className="retrieval-box">
                   <summary>EXPLORATORY SIMILARITY SEARCH · NOT THE 6-LEAD RANKING</summary>
                   <p className="cand-help"><b>Legacy single-pair retrieval</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} cells above the earlier single-pair p99. Kept for provenance; its Δ ranks are not used in the pooled-three-pair review list.</p>
@@ -1470,8 +1535,6 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
                   </ol>
                 </details>
               )}
-            </div>
-          )}
         {decision && (
           <div className={`decision-card compact ${decision.status}`} role="status">
             <span>LIVE NEPAL GATE · NOT THE WHOLE MODEL</span>
@@ -1586,6 +1649,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         <button className="flow-pause" onClick={() => setFlowPlaying((value) => !value)}>{flowPlaying ? 'PAUSE PARTICLES' : 'RESUME PARTICLES'}</button>
         <div className="truth-box"><span>CLAIM BOUNDARY</span><p>Particles follow the mapped OSM Bhote Koshi→Trishuli→Galchhi centerline. Blue is river geometry; the offset red dash is a preliminary reach-inspection corridor informed by USGS&apos;s ≈100 km report. Neither shows flood width, depth, arrival time, nor a confirmed terminal deposit.</p></div>
         <ReviewNotes candidateIds={(scenario?.review?.leads ?? []).map((l) => l.id)} />
+        </>)}
       </aside>
       )}
 
@@ -1861,6 +1925,13 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               </div>
             )}
             <footer>
+              {lightbox.leadIndex != null && (
+                <span className="lb-stepper">
+                  <button onClick={() => openLeadLightbox(lightbox.leadIndex! - 1)} aria-label="Previous lead">‹ PREV</button>
+                  <b>LEAD {lightbox.leadIndex + 1} / {leadRows.length || 6}</b>
+                  <button onClick={() => openLeadLightbox(lightbox.leadIndex! + 1)} aria-label="Next lead">NEXT ›</button>
+                </span>
+              )}
               <button className={lbExtra === null ? 'is-active' : ''} onClick={() => { setLbExtra(null); setLbZoom(null); }}>BEFORE ⇄ AFTER</button>
               {(lightbox.extra ?? []).map((x, i) => <button key={x.src} className={lbExtra === i ? 'is-active' : ''} onClick={() => { setLbExtra(i); setLbZoom(null); }}>{x.label}</button>)}
               <span className="lb-tip">drag the handle · ESC closes</span>

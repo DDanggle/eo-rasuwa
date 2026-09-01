@@ -313,7 +313,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .eyebrow { display: none; }
   h1 { font-size: 16px; }
   .event-status small { display: none; }
-  .map-mode-switch, .map-readout { display: none; }
+  .map-mode-switch.dim-switch, .map-readout { display: none; }
+  .map-mode-switch.zone-switch button { padding: 5px 7px; font-size: 8.5px; }
   .map-stage, .terrain-wash { height: 100svh; }
   .left-rail, .right-rail { left: 10px; right: 10px; width: auto; max-height: calc(100svh - 200px); }
   .right-rail { display: block; top: 86px; }
@@ -1005,7 +1006,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .map-legend .sw.purple { background: rgba(123,63,191,.55); }
 .map-legend .sw.blue { background: transparent; border: 2px dashed #2a78d6; } .map-legend .sw.grey { background: rgba(120,120,120,.4); }
 .map-legend .sw.teal { background: #5fffd7; border-radius: 50%; }
-@media (max-width: 900px) { .map-legend { display: none; } }
+@media (max-width: 900px) { .map-legend { display: flex; gap: 10px; overflow-x: auto; white-space: nowrap; max-width: calc(100vw - 24px); padding: 6px 10px; } .map-legend span { font-size: 9px; } }
 .sat-tiles-toggle { position: absolute; left: calc(50% + 258px); top: 50%; transform: translateY(-50%); padding: 10px 14px; font-family: var(--font-geist-mono); font-size: 9.5px; letter-spacing: .1em; background: var(--surface, #fffefb); color: var(--muted); border: 1px solid var(--line-strong, #d5d1c6); cursor: pointer; }
 .sat-tiles-toggle.is-active { background: #0b3d33; color: #5fffd7; border-color: #0b3d33; }
 
@@ -1161,7 +1162,6 @@ body.page-scroll .landing { min-height: 100vh; }
   .key-strip { display: none; }
   .topbar .story-launch { padding: 8px 10px; font-size: 9px; }
   .topbar .sat-tiles-toggle { display: none; }
-  .map-legend { display: none; }
   .cand-chip { top: 86px; left: 10px; right: 10px; transform: none; flex-wrap: wrap; }
   .cand-chip.rail-open { display: none; }
 }
@@ -1208,3 +1208,18 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .donate-float .donate-add a { border: 0; padding: 0; text-decoration: underline; font: inherit; color: var(--ink, #16151a); }
 
 .foot-disclaimer { margin-top: 6px; font: 10px/1.5 var(--font-geist-sans); color: var(--muted, #6f6c64); }
+
+/* ─── 리드 스테퍼 (라이트박스) & 우레일 탭 ─── */
+.lb-stepper { display: inline-flex; align-items: center; gap: 8px; margin-right: 10px; padding-right: 12px; border-right: 1px solid var(--line, #e3e0d8); }
+.lb-stepper b { font: 700 10.5px var(--font-geist-mono); letter-spacing: .08em; white-space: nowrap; }
+.lb-stepper button { font: 700 10.5px var(--font-geist-mono); letter-spacing: .06em; padding: 7px 10px; border: 1px solid var(--ink, #16151a); background: transparent; cursor: pointer; }
+.lb-stepper button:hover { background: var(--ink, #16151a); color: #fffefb; }
+.rail-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 10px 0 12px; }
+.rail-tabs button { font: 700 9.5px var(--font-geist-mono); letter-spacing: .07em; padding: 8px 6px; border: 1px solid var(--line-strong, #cfcbc2); background: transparent; color: var(--muted, #6f6c64); cursor: pointer; }
+.rail-tabs button.is-active { background: var(--ink, #16151a); color: #fffefb; border-color: var(--ink, #16151a); }
+
+/* 발견성 (2026-09-01) */
+.tap-hint { position: absolute; left: 50%; bottom: 118px; transform: translateX(-50%); z-index: 30;
+  font: 600 11.5px var(--font-geist-sans); color: var(--ink, #16151a); background: var(--surface, #fffefb);
+  border: 1px solid var(--line-strong, #d5d1c6); box-shadow: 0 6px 18px rgba(0,0,0,.14); padding: 9px 14px; cursor: pointer; }
+.toggle-sub { display: block; font: 400 8.5px var(--font-geist-mono); letter-spacing: .03em; opacity: .8; font-style: normal; }

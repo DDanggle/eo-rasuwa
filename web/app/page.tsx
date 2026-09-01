@@ -16,7 +16,7 @@ export default function Landing() {
       const m = document.cookie.match(/(?:^|; )lang=(ko|en)/);
       // eslint-disable-next-line react-hooks/set-state-in-effect -- 하이드레이션 후 1회 언어 동기화
       if (m) setKo(m[1] === 'ko');
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- 위와 동일
+       
       else if (!navigator.language.toLowerCase().startsWith('ko')) setKo(false);
     } catch { /* noop */ }
   }, []);

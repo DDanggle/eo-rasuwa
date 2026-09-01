@@ -1,4 +1,8 @@
-# pnpm 10+: 빌드 스크립트 허용 목록 (next 의 sharp, eslint 의 unrs-resolver)
+# 빌드 스크립트 허용 목록 (next 의 sharp, eslint 의 unrs-resolver).
+# pnpm 11.19+ 는 allowBuilds 를, 10.x 는 onlyBuiltDependencies 를 읽는다 — 둘 다 유지.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
 onlyBuiltDependencies:
   - sharp
   - unrs-resolver

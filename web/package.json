@@ -36,5 +36,14 @@
     "eslint-config-next": "16.2.6",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "unrs-resolver"
+    ],
+    "overrides": {
+      "zod": "4.5.2"
+    }
   }
 }

@@ -46,7 +46,7 @@ export default function Landing() {
         <div className="cta">
           <a href="/map" className="btn primary">{ko ? '후보 6곳 탐색' : 'EXPLORE 6 CANDIDATES'}</a>
           <a href={rv?.all_observable_download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '측정된 47곳 GeoJSON 내려받기(후보 순)' : 'DOWNLOAD ALL 47 WINDOWS (RANKED GEOJSON)'}</a>
-          <a href="https://github.com/DDanggle/eo_olmo_earth_project" className="btn" target="_blank" rel="noreferrer">GITHUB ↗</a>
+          <a href="https://github.com/DDanggle/eo-rasuwa" className="btn" target="_blank" rel="noreferrer">GITHUB ↗</a>
         </div>
       </section>
 
@@ -105,7 +105,7 @@ export default function Landing() {
           <tr><td>{ko ? '지구 임베딩 모델(OlmoEarth v1 Base, 추가 학습 없음)' : 'Earth-embedding model (OlmoEarth v1 Base, frozen — no training)'}</td><td>{ko ? '창별 PRE · POST · AI Δ 이미지' : 'PRE · POST · AI Δ image per window'}</td></tr>
           <tr><td>{ko ? '서로 맞춘 평시 변화 3개(2주 간격)' : 'three matched ordinary fortnight transitions'}</td><td>{ko ? '후보별 변화값·관측 가능성·감사 기록(SHA-256)' : 'per-candidate change, observability and an audit record (SHA-256)'}</td></tr>
         </tbody></table>
-        <div className="cta"><a href="/story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</a><a className="btn" href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">CODE ↗</a></div>
+        <div className="cta"><a href="/story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</a><a className="btn" href="https://github.com/DDanggle/eo-rasuwa" target="_blank" rel="noreferrer">CODE ↗</a></div>
       </section>
 
       <aside className="donate-float" aria-label={ko ? '긴급 구호 후원' : 'Emergency relief donations'}>
@@ -131,7 +131,7 @@ export default function Landing() {
           </div>
           <div>
             <b>{ko ? '사건과 상태' : 'Event and status'}</b>
-            <p>{ko ? `2026년 8월 26일, 네팔 라수와 군 랑탕 리룽의 빙하와 암반이 무너지며 시작된 돌발 산사태·홍수입니다. 원인은 아직 조사 중이며 이 페이지는 원인을 판정하지 않습니다. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. 코드와 실험 기록은 GitHub에 있습니다.` : `Flash flood of 26 August 2026 in Rasuwa district, Nepal, starting on Langtang Lirung. The cause is under investigation (suspected rock–ice avalanche); this page does not adjudicate it. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. Code and the measurement ledger (M66–M85) are on GitHub.`} <a href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">github ↗</a></p>
+            <p>{ko ? `2026년 8월 26일, 네팔 라수와 군 랑탕 리룽의 빙하와 암반이 무너지며 시작된 돌발 산사태·홍수입니다. 원인은 아직 조사 중이며 이 페이지는 원인을 판정하지 않습니다. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. 코드와 실험 기록은 GitHub에 있습니다.` : `Flash flood of 26 August 2026 in Rasuwa district, Nepal, starting on Langtang Lirung. The cause is under investigation (suspected rock–ice avalanche); this page does not adjudicate it. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. Code and the measurement ledger (M66–M85) are on GitHub.`} <a href="https://github.com/DDanggle/eo-rasuwa" target="_blank" rel="noreferrer">github ↗</a></p>
           </div>
           <div>
             <b>{ko ? '돕고 싶다면' : 'How to help'}</b>

@@ -140,6 +140,9 @@ export default function Landing() {
           </div>
         </div>
         <p className="foot-contact">{ko ? '문의' : 'Contact'}: <a href="mailto:iameastroot@gmail.com">{ko ? '이메일' : 'email'}</a></p>
+        <p className="foot-disclaimer">{ko
+          ? '독립 개인 연구 데모입니다. Ai2·ESA/Copernicus·Planet Labs, 그리고 위에 링크된 구호 기관과 제휴하거나 승인·보증을 받은 프로젝트가 아닙니다.'
+          : 'An independent personal research demo. Not affiliated with, endorsed by, or acting for Ai2, ESA/Copernicus, Planet Labs, or any relief organisation linked above.'}</p>
       </footer>
     </main>
   );

@@ -1206,3 +1206,5 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 
 .donate-float .donate-add { display: block; margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--line, #e3e0d8); font: 10px/1.5 var(--font-geist-sans); color: var(--muted, #6f6c64); }
 .donate-float .donate-add a { border: 0; padding: 0; text-decoration: underline; font: inherit; color: var(--ink, #16151a); }
+
+.foot-disclaimer { margin-top: 6px; font: 10px/1.5 var(--font-geist-sans); color: var(--muted, #6f6c64); }

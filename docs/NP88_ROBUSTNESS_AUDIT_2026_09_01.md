@@ -32,3 +32,12 @@ conditional AUROC was 0.8006 for OlmoEarth and 0.7518 for post-event NDWI.
 The reproducible audit implementation and compact source-hashed result live in the main research
 repository as `code/audit_nepal_m88_robustness.py` and
 `artifacts/nepal_np89_robustness_audit_v1.json`.
+
+## Route-buffer follow-up
+
+The later legacy-M89 sensitivity retained AUROC 0.8458 and 0.8726 after excluding tokens within
+300 m and 600 m of the single mapped OSM `simulation_route`. This makes distance to that one
+centreline an insufficient explanation. It is not a complete hydrographic-network control:
+unmapped tributaries, floodplains, elevation and the single-event dependence remain. Its only
+classical comparator was absolute NDVI change, so the stronger post-event NDWI and spatial-block
+limitations above remain authoritative.

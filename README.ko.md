@@ -19,7 +19,7 @@
 | `web/public/data/candidates.geojson` | 판독 가능한 전체 47개 창(리드와 분리) |
 | `web/public/data/scenario.json` | 앱이 읽는 통합 결과·출처·계약·정정 장부 |
 | `artifacts/` | 실험별 1차 `report.json` |
-| `docs/MEASURED_FINDINGS_full.md` | M66–M88 측정·반증·정정 기록 |
+| `docs/MEASURED_FINDINGS_full.md` | M66–M89 측정·반증·정정 기록 |
 | `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
 
 대용량 raw cube·embedding·delta는 `research-private/artifacts/`로 분리되어 있으며
@@ -44,7 +44,9 @@
 - OlmoEarth가 모든 GeoFM보다 우월하다는 주장. Prithvi·Clay·TerraMind는 같은 계약에서 실행하지 않았습니다.
 - 네팔 1개 사건의 지형 상관을 일반 위험 모델로 확장하는 것.
 
-**NP-86 (기존 M86, 2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 그 다음 40 m 토큰 대조 **NP-88 (기존 M88, 2026-09-01)** 에서는 OlmoEarth Δz가 외부 proxy와 정합했습니다(AUROC **0.846**, AUPRC **0.255**, 기저율 5.5%; 기관별 AUROC IWM 0.887/TASA 0.878/JAXA 0.796). 다만 122,558 토큰은 겹치는 창의 공간상관 표본이고 독립 사건은 1개입니다. 사후 강건성 감사 **NP-89**에서 사건 후 NDWI가 AUPRC 0.291로 Olmo를 이겼고, 5.12 km block-macro AUROC는 0.850 vs 0.857, Olmo−NDWI bootstrap CI가 0을 포함했습니다. 따라서 **외부 라벨 정합은 생존하지만 “AI가 고전 flood mapping보다 우월”하다는 주장은 하지 않습니다.** 같은 창·같은 80 m 강거리 구간 조건부 AUROC는 Olmo 0.801 vs NDWI 0.752로 후속 가설만 남습니다.
+**NP-86 (기존 M86, 2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 그 다음 40 m 토큰 대조 **NP-88 (기존 M88, 2026-09-01)** 에서는 OlmoEarth Δz가 외부 proxy와 정합했습니다(AUROC **0.846**, AUPRC **0.255**, 기저율 5.5%; 기관별 AUROC IWM 0.887/TASA 0.878/JAXA 0.796). 다만 122,558 토큰은 겹치는 창의 공간상관 표본이고 독립 사건은 1개입니다. 사후 강건성 감사 **NP-89A**에서 사건 후 NDWI가 AUPRC 0.291로 Olmo를 이겼고, 5.12 km block-macro AUROC는 0.850 vs 0.857, Olmo−NDWI bootstrap CI가 0을 포함했습니다. 따라서 **외부 라벨 정합은 생존하지만 “AI가 고전 flood mapping보다 우월”하다는 주장은 하지 않습니다.** 같은 창·같은 80 m 강거리 구간 조건부 AUROC는 Olmo 0.801 vs NDWI 0.752로 후속 가설만 남습니다.
+
+**NP-89B route-buffer sensitivity(기존 M89):** 앱의 물리 애니메이션에 사용한 OSM `simulation_route` 한 줄에서 300/600 m 밖을 남겨도 AUROC 0.846/0.873이었습니다. 이 결과는 그 중심선까지의 거리 하나만 외운 설명을 약화하지만, 전체 수계·누락 지류를 통제한 것은 아니며 강한 post-event NDWI보다 우월하다는 증거도 아닙니다.
 
 ## AI 파이프라인 — 코드로 따라가기
 

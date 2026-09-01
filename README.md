@@ -24,7 +24,7 @@ The single headline result:
 | `web/public/data/candidates.geojson` | all 47 observable windows (kept separate from leads) |
 | `web/public/data/scenario.json` | the single contract the app reads: results, provenance, corrections ledger |
 | `artifacts/` | primary `report.json` per experiment |
-| `docs/MEASURED_FINDINGS_full.md` | the M66–M88 measurement, refutation and correction ledger |
+| `docs/MEASURED_FINDINGS_full.md` | the M66–M89 measurement, refutation and correction ledger |
 | `code/` | candidate scan, controls, Sen12 validation, radar, terrain, external-label scoring |
 
 `web/public/data/` is ~130 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw
@@ -75,6 +75,10 @@ transitions. The ranking is an order for human review, not a damage verdict.
 - **NP-88 (2026-09-01):** at the 40 m token scale, OlmoEarth change distance agrees with the frozen
   proxies (pooled AUROC 0.846) but does not beat a strong post-event NDWI baseline; see
   `docs/NP88_ROBUSTNESS_AUDIT_2026_09_01.md`.
+- **NP-89B route-buffer sensitivity (legacy M89):** the agreement remains outside 300/600 m buffers
+  around the single OSM `simulation_route` (AUROC 0.846/0.873). This weakens a one-centreline
+  explanation, but it is not a complete river-network control and does not establish superiority
+  over the stronger post-event NDWI baseline.
 - **Corrections (M75·M76):** an early 9.8% result and related candidates were retracted after a
   linear-vs-dB radar unit error was found and fixed. Public results use corrected artifacts only.
 

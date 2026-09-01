@@ -44,7 +44,17 @@ git push -u origin master
 
 ## 3. 환경변수
 
-`web/.env.example` 의 5개를 Production + Preview 양쪽에 입력.
+`web/.env.example` 의 항목을 Production + Preview 양쪽에 입력. 확정값:
+
+```text
+NEXT_PUBLIC_SITE_URL=https://eo-rasuwa.dev
+NEXT_PUBLIC_MAPTILER_KEY=<새로 발급, eo-rasuwa.dev origin 제한>
+NEXT_PUBLIC_GA_ID=G-QX7EXFJ7V3
+NEXT_PUBLIC_ENABLE_REVIEW_NOTES=false
+NEXT_PUBLIC_SUPABASE_URL=        (1차 공개에서는 비움)
+NEXT_PUBLIC_SUPABASE_ANON_KEY=   (1차 공개에서는 비움)
+```
+
 `NEXT_PUBLIC_SITE_URL` 은 처음엔 Vercel 기본 도메인, 커스텀 도메인 연결 후 교체하고 **재배포**해야 반영된다
 (빌드 타임에 번들로 굳는 값이라 env 만 바꾸면 안 바뀜).
 

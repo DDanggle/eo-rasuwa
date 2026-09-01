@@ -21,3 +21,7 @@ __pycache__/
 /.ruff_cache/
 /.venv/
 *.log
+
+# 내부 세션 인수인계 문서 — 공개 저장소에서 제외
+/RESTART_HERE.md
+/SESSION_NOTES.md

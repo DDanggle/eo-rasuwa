@@ -10159,7 +10159,7 @@
     "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw"
   },
   "provenance": {
-    "source_root": "/Users/dgyi/dong/ai_projects/olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
+    "source_root": "olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
     "hydrography_sha256": "cb2c956e75a7fb90d0a31e682f4a41419bd39755077e28640f8664c0467dd2fd",

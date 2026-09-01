@@ -102,4 +102,4 @@ pnpm start
 - [WHO Nepal health response](https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods)
 - [Ai2 OlmoEarth embeddings](https://allenai.org/blog/olmoearth-embeddings)
 
-코드 저장소 자체의 오픈소스 라이선스는 아직 선언하지 않았습니다. 라이선스 파일을 추가하기 전에는 제3자의 재사용 권한을 암시하지 않습니다.
+이 저장소의 코드와 문서는 [Apache License 2.0](./LICENSE)입니다 — OlmoEarth를 공개한 Ai2와 같은 조건입니다. 단 `web/public/data/` 안의 제3자 파생 자산은 각자의 원 라이선스를 따릅니다: Planet 크롭은 CC-BY-NC-4.0(비상업), Sentinel 파생물은 CC-BY-4.0(ESA Copernicus 귀속), 지도 지오메트리는 ODbL(OSM). 상세는 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).

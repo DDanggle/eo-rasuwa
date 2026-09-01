@@ -1748,7 +1748,8 @@ def build(refresh_osm: bool) -> None:
             "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw",
         },
         "provenance": {
-            "source_root": str(SOURCE_ROOT),
+            # 공개 provenance에는 절대 홈 경로를 남기지 않는다 (사용자명 노출 방지).
+            "source_root": str(SOURCE_ROOT).replace(str(Path.home()) + "/dong/ai_projects/", ""),
             "metadata_sha256": sha256(SOURCE_ROOT / "metadata.json"),
             "items_sha256": sha256(SOURCE_ROOT / "items.json"),
             "hydrography_sha256": sha256(hydrography_path),

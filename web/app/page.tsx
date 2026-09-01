@@ -10,6 +10,17 @@ type Scenario = { generated_at: string; review?: Review | null; placebo_extended
 export default function Landing() {
   const [sc, setSc] = useState<Scenario | null>(null);
   const [ko, setKo] = useState(true);
+  // 언어: middleware가 IP 국가로 심은 lang 쿠키 → 없으면 브라우저 언어
+  useEffect(() => {
+    try {
+      const m = document.cookie.match(/(?:^|; )lang=(ko|en)/);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- 하이드레이션 후 1회 언어 동기화
+      if (m) setKo(m[1] === 'ko');
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- 위와 동일
+      else if (!navigator.language.toLowerCase().startsWith('ko')) setKo(false);
+    } catch { /* noop */ }
+  }, []);
+  const chooseLang = (isKo: boolean) => { setKo(isKo); try { document.cookie = `lang=${isKo ? 'ko' : 'en'};path=/;max-age=31536000`; } catch { /* noop */ } };
   const [swipe, setSwipe] = useState(50);
   useEffect(() => { document.body.classList.add('page-scroll'); return () => document.body.classList.remove('page-scroll'); }, []);
   useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); }, []);
@@ -19,12 +30,12 @@ export default function Landing() {
     <main className="landing">
       <nav className="landing-nav">
         <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026</span>
-        <div><button className={!ko ? 'is-active' : ''} onClick={() => setKo(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => setKo(true)}>한국어</button><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
+        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
       </nav>
 
       <section className="hero">
         <p className="kicker">{ko ? '재난 전용 모델을 학습하지 않은, 범용 지구 임베딩 모델의 재사용' : 'A general Earth-embedding model, reused — no disaster-specific detector was trained'}</p>
-        <h1>{ko ? <>위성 관측창 <em>100개.</em><br />먼저 확인할 곳 <em>6곳.</em></> : <><em>100</em> satellite windows.<br /><em>6</em> places to inspect first.</>}</h1>
+        <h1>{ko ? <>위성이 찍은 이미지 <em>100곳</em>의 장소.<br />먼저 확인할 곳 <em>6곳.</em></> : <><em>100 places</em> imaged from orbit.<br /><em>6</em> to check first.</>}</h1>
         <p className="sub">{ko ? <>사건 전후의 센티넬 관측을 범용 지구 임베딩 모델(<a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2 OlmoEarth v1 Base</a>, 학습 없이 사용)로 비교해, 평소 변화보다 크게 달라진 장소만 남겼습니다. “달라진 곳”이 아니라 “평소보다 더 달라진 곳”입니다.</> : <>A general Earth-embedding model — <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2&apos;s OlmoEarth v1 Base</a>, used frozen — compares before-and-after Sentinel observations with each place&apos;s ordinary change. Not &quot;what changed&quot; — &quot;what changed more than it usually does.&quot;</>}</p>
         <div className="funnel" role="img" aria-label="100 scanned, 47 observable, 6 review leads, 0 confirmed damage labels">
           <div><b>{rv?.funnel.scanned ?? 100}</b><span>{ko ? '스캔한 창' : 'scanned'}</span></div><i>→</i>
@@ -52,7 +63,7 @@ export default function Landing() {
         </div>
         <ul className="plain">
           <li><b>Δz</b> — {ko ? '같은 장소가 사건 전후에 얼마나 달라졌는지를 AI 임베딩으로 측정한 값' : 'how much the same place changed before vs after, measured in the AI embedding'}</li>
-          <li><b>placebo</b> — {ko ? '사건이 없던 일반적인 기간(5~8월)에도 같은 장소가 얼마나 달라지는지 측정한 값 — 이것이 “평소 변화”의 기준' : 'how much the same place changes in ordinary periods without an event (May–August) — the baseline for "ordinary change"'}</li>
+          <li><b>placebo</b> — {ko ? '사건이 없던 일반적인 기간(5~8월)에도 같은 장소가 얼마나 달라지는지 측정한 값으로, 평소 변화의 기준이 됩니다' : 'how much the same place changes in ordinary periods without an event (May–August) — the baseline for "ordinary change"'}</li>
           <li><b>{ko ? '평소보다 다르게 보이는 비율' : 'share unlike its ordinary self'}</b> — {ko ? '한 창(2.56 km) 안에서 평소 변화 범위를 넘어선 40 m 격자의 비율. 표의 숫자가 이것이며, 피해 면적이 아닙니다.' : 'the share of 40 m cells in a 2.56 km window that moved beyond their ordinary range. This is the number in the table; it is not a damaged area.'}</li>
         </ul>
       </section>
@@ -66,7 +77,7 @@ export default function Landing() {
           <figure><img src={lead.images.delta} alt="delta" /><figcaption>AI Δ</figcaption></figure>
           <div className="example-text">
             <h2>#{lead.rank} {lead.place}</h2>
-            <p>{ko ? `이 2.56 km 창의 40 m 격자 중 ${pct(lead.candidate_token_frac)}가 평소 변화 기준값을 넘어 달라졌고, 27일 영상은 ${pct(lead.observable)}가 구름 없이 관측됐습니다. 빙하가 무너져 산사태가 시작된 지점을 기준으로 강을 따라 흘러내린 구간에 있으며, 실제 피해 여부가 더 의심되는 곳으로 보입니다.` : `In ${pct(lead.candidate_token_frac)} of this 2.56 km window's 40 m cells the before/after embedding distance Δz exceeded the ordinary 99th-percentile threshold, and ${pct(lead.observable)} of the 27 Aug scene was cloud-free. About six kilometres down the river corridor from the border impact, this broad valley floor is the first place for a person to check—not a confirmed deposit.`}</p>
+            <p>{ko ? `이 2.56 km 창에서는 40 m 격자의 ${pct(lead.candidate_token_frac)}가 평소 변화 기준을 넘어 크게 달라졌습니다. 27일 영상은 ${pct(lead.observable)}만 구름 없이 관측되어, 보이는 부분을 최대한 살려 판독한 결과입니다. 빙하가 무너져 산사태가 시작된 지점에서 강을 따라 흘러내린 구간에 있어, 실제 피해가 의심되는 곳입니다.` : `In ${pct(lead.candidate_token_frac)} of this 2.56 km window's 40 m cells the before/after embedding distance Δz exceeded the ordinary 99th-percentile threshold, and ${pct(lead.observable)} of the 27 Aug scene was cloud-free. About six kilometres down the river corridor from the border impact, this broad valley floor is the first place for a person to check—not a confirmed deposit.`}</p>
             <dl><div><dt>{ko ? '임베딩 기준 이상 비율' : 'share unlike its ordinary self'}</dt><dd>{pct(lead.candidate_token_frac)}</dd></div><div><dt>{ko ? '관측된 비율(구름 제외)' : 'observed share (cloud-free)'}</dt><dd>{pct(lead.observable)}</dd></div><div><dt>{ko ? '평소 변화 기준값(코사인 거리)' : 'ordinary-change reference (cosine distance)'}</dt><dd>{rv?.threshold?.toFixed(3) ?? '—'}</dd></div></dl>
           </div>
         </div>
@@ -97,6 +108,17 @@ export default function Landing() {
         <div className="cta"><a href="/story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</a><a className="btn" href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">CODE ↗</a></div>
       </section>
 
+      <aside className="donate-float" aria-label={ko ? '긴급 구호 후원' : 'Emergency relief donations'}>
+        <b>{ko ? '후원을 부탁드립니다' : 'Please consider donating'}</b>
+        <p>{ko ? '이 페이지는 기부를 받지 않지만, 네팔의 피해에 힘을 보태주시면 훨씬 더 빠른 수색과 회복에 도움이 됩니다. 아래는 네팔 현장에 직접 나가 있는 공인 단체의 후원 링크입니다.' : 'This page takes no donations. If you can help, these accredited organisations are on the ground in Nepal right now — your support speeds the search and the recovery.'}</p>
+        <div>
+          <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>
+          <a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC</a>
+          <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">{ko ? '네팔 적십자사' : 'Nepal Red Cross'}</a>
+          <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF</a>
+        </div>
+      </aside>
+
       <footer className="landing-foot">
         <div className="foot-cols">
           <div>
@@ -116,7 +138,7 @@ export default function Landing() {
             <p>{ko ? <>이 페이지는 개인 분석 프로젝트이며 기부를 받지 않습니다. 긴급 구호와 관련한 공식 페이지가 열려 있습니다 — 꼭 확인해보세요: <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">네팔 적십자사</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></> : <>This is a personal analysis project and accepts no donations. Official emergency-relief pages are open — please have a look: <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">Nepal Red Cross</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></>}</p>
           </div>
         </div>
-        <p className="foot-contact">{ko ? '문의' : 'Contact'}: <a href="mailto:iameastroot@gmail.com">iameastroot@gmail.com</a></p>
+        <p className="foot-contact">{ko ? '문의' : 'Contact'}: <a href="mailto:iameastroot@gmail.com">{ko ? '이메일' : 'email'}</a></p>
       </footer>
     </main>
   );

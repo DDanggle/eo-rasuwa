@@ -205,6 +205,14 @@ const PLANET_FRAMES: Record<string, { src: string; lonlat: [number, number] }> =
   syabrubesi: { src: '/data/story/planet/ps_syabrubesi_0828.png', lonlat: [85.347, 28.164] },
 };
 // 사건 사슬 한 줄 요약 — 카드 문단 대신 스크롤로 하나씩 읽히는 문장.
+const CHAIN_LINE_EN: Record<string, string> = {
+  E: 'The collapse began on Langtang Lirung — a best-estimate source point from public data',
+  D: 'Debris reportedly dammed the river and formed a lake; the purple dot marks a rough search area',
+  A: 'The flow reached the border bridge and its infrastructure — the centre of the before/after record',
+  B: 'The checkpoint next door anchors how many people and assets were exposed',
+  F: '47 km downstream, the river still changed width and colour',
+  G: 'The mapped trace stops at 73.7 km; the flow itself almost certainly went further',
+};
 const CHAIN_LINE_KO: Record<string, string> = {
   E: '랑탕 리룽에서 빙하와 암반이 무너지며 시작됐다',
   D: '토사가 물길을 막아 호수가 생겼다는 보고가 뒤따랐다',
@@ -344,6 +352,16 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 읽으면 /#story 직링크에서 hydration mismatch가 난다(2026-08-29 브라우저 QA 실측).
   const [storyOpen, setStoryOpen] = useState(storyDefault);
   const [storyLang, setStoryLang] = useState<'en' | 'ko'>('ko');
+  useEffect(() => {  // 언어: middleware가 IP 국가로 심은 lang 쿠키 → 없으면 브라우저 언어
+    try {
+      const m = document.cookie.match(/(?:^|; )lang=(ko|en)/);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- 하이드레이션 후 1회 언어 동기화
+      if (m) setStoryLang(m[1] as 'en' | 'ko');
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- 위와 동일
+      else if (!navigator.language.toLowerCase().startsWith('ko')) setStoryLang('en');
+    } catch { /* noop */ }
+  }, []);
+  const chooseStoryLang = (lang: 'en' | 'ko') => { setStoryLang(lang); try { document.cookie = `lang=${lang};path=/;max-age=31536000`; } catch { /* noop */ } };
   // 큰 비교 뷰어(라이트박스): 어떤 작은 사진이든 클릭하면 전·후 슬라이더로 크게 봄.
   type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string }[] };
   const [lightbox, setLightbox] = useState<Lightbox | null>(null);
@@ -1612,18 +1630,18 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         <div className={`story-overlay ${ko ? 'is-ko' : 'is-en'}`} ref={storyRef} role="dialog" aria-modal="true" aria-label="How to read this service">
           <div className="story-progress" style={{ width: `${storyProgress * 100}%` }} />
           <div className="story-lang" role="group" aria-label="Story language">
-            <button className={!ko ? 'is-active' : ''} onClick={() => setStoryLang('en')}>EN</button>
-            <button className={ko ? 'is-active' : ''} onClick={() => setStoryLang('ko')}>한국어</button>
+            <button className={!ko ? 'is-active' : ''} onClick={() => chooseStoryLang('en')}>EN</button>
+            <button className={ko ? 'is-active' : ''} onClick={() => chooseStoryLang('ko')}>한국어</button>
           </div>
           <button className="story-close x-icon" onClick={() => { if (storyDefault) window.location.href = '/map'; else setStoryOpen(false); }} aria-label="Close story"></button>
 
           <section className="story-hero story-step">
             <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '갱신' : 'UPDATED'} {scenario ? kstStamp(scenario.generated_at) : '—'} KST</p>
-            <h1>{ko ? <>네팔 산사태 이후,<br />AI가 위성사진 <em>100곳</em>을 훑었다</> : <>After the mountain fell,<br />satellites scanned <em>100 places</em></>}</h1>
+            <h1>{ko ? <>네팔 산사태 이후,<br />AI가 위성사진 <em>100곳</em>을 훑었다</> : <>After the mountain fell,<br />an AI searched <em>100 places</em> from orbit</>}</h1>
             <p className="story-deck">{ko
               ? '재난 탐지용으로 따로 학습시킨 AI가 아니라, 지구 관측용 범용 AI였다. 사건 전후 위성사진을 비교해 사람이 먼저 확인할 6곳을 추려냈다.'
-              : 'No disaster detector was trained. A general Earth embedding compared before and after, leaving six places for people to inspect first.'}</p>
-            <div className="story-funnel" role="img" aria-label={ko ? '100곳을 훑어 47곳을 판독했고, 그중 6곳을 우선순위로 남겼다. 피해로 확정한 곳은 아직 없다.' : '100 scanned, 47 observable, 6 review leads, 0 independently confirmed labels'}>
+              : 'This was not a purpose-built disaster detector. A general Earth model compared before and after, and left six places for people to check first.'}</p>
+            <div className="story-funnel" role="img" aria-label={ko ? '100곳을 훑어 47곳을 판독했고, 그중 6곳을 우선순위로 남겼다. 피해로 확정한 곳은 아직 없다.' : 'We scanned 100 windows, could read 47, and kept six as priorities. No damage has been confirmed yet.'}>
               <div><b>{scenario?.review?.funnel.scanned ?? 100}</b><span>{ko ? '스캔' : 'scanned'}</span></div><i>→</i>
               <div><b>{scenario?.review?.funnel.observable ?? 47}</b><span>{ko ? '판독 가능' : 'observable'}</span></div><i>→</i>
               <div className="lead"><b>{scenario?.review?.funnel.leads ?? 6}</b><span>{ko ? '먼저 볼 곳' : 'inspect first'}</span></div><i>·</i>
@@ -1631,17 +1649,17 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             </div>
             <p className="story-lede">{ko
               ? '8월 26일 랑탕 리룽에서 무너져 내린 바위와 얼음, 물이 렌데 계곡을 타고 국경 마을 라수와가디를 덮친 뒤 트리슐리 강 하류로 흘러갔다. 센티넬-2 위성이 사건 다음 날 계곡을 다시 찍었고, 이 페이지는 그 사진에서 평소와 유난히 달라진 곳을 좁혀 나간 과정을 담았다.'
-              : 'On 26 August, rock, ice and water descended from Langtang Lirung through the Lhende valley toward Rasuwagadhi and the lower Trishuli. Sentinel-2 saw the valley again the next day. This page shows how those images narrowed the search to places that looked more unusual than their own ordinary change.'}</p>
-            <div className="hero-answer"><span>{ko ? '한 줄 결론' : 'THE ANSWER IN ONE LINE'}</span><strong>{ko ? 'AI가 피해를 판정하지는 않았다. 다만 100곳을 전부 살펴야 했던 일이, 근거가 뚜렷한 6곳부터 보는 일로 바뀌었다.' : 'The AI did not confirm damage. It changed a 100-place search into a six-place review queue with visible evidence.'}</strong></div>
+              : 'On 26 August, rock, ice and meltwater broke loose on Langtang Lirung, swept down the Lhende valley through the border village of Rasuwagadhi, and ran on down the Trishuli. Sentinel-2 imaged the valley the next day; this page follows how that picture was narrowed to the places most unlike their ordinary selves.'}</p>
+            <div className="hero-answer"><span>{ko ? '한 줄 결론' : 'THE ANSWER IN ONE LINE'}</span><strong>{ko ? 'AI가 피해를 판정하지는 않았다. 다만 100곳을 전부 살펴야 했던 일이, 근거가 뚜렷한 6곳부터 보는 일로 바뀌었다.' : 'The AI did not judge damage. It turned the job of checking all 100 places into checking six well-evidenced ones first.'}</strong></div>
             <p className="story-disclosure">{ko ? <>모델: <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2 OlmoEarth v1 Base</a>, 추가 학습 없음 · 입력: ESA Sentinel-2 · 참고: Sentinel-1, Planet</> : <>Model: <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2 OlmoEarth v1 Base</a>, frozen · input: ESA Sentinel-2 · references: Sentinel-1, Planet</>}</p>
           </section>
 
           <section className="story-section story-step story-wide" id="story-chain">
             <p className="story-kicker">01 · {ko ? '사건 구조' : 'THE CHAIN OF PLACES'}</p>
-            <h2>{ko ? '빙하가 무너져 내리며 바위와 녹은 물, 얼음이 뒤섞였고 20km를 흘러내려 마을을 덮쳤다' : 'The collapse and the impact are twenty kilometres apart'}</h2>
-            <ol className="event-chain-list">{eventPoints.map((point, i) => <li key={point.id} className="chain-row" style={{ '--point-color': point.marker_color, '--reveal-delay': `${i * 90}ms` } as CSSProperties}><b>{point.stage}</b><div><strong>{point.name}</strong><span>{ko ? (CHAIN_LINE_KO[point.id] ?? point.story_ko) : point.story}</span></div><em>{point.distance_from_a_km.toFixed(1)} km</em></li>)}</ol>
+            <h2>{ko ? '빙하가 무너져 내리며 바위와 녹은 물, 얼음이 뒤섞였고 20km를 흘러내려 마을을 덮쳤다' : 'The glacier gave way; rock, ice and water travelled twenty kilometres to the villages below'}</h2>
+            <ol className="event-chain-list">{eventPoints.map((point, i) => <li key={point.id} className="chain-row" style={{ '--point-color': point.marker_color, '--reveal-delay': `${i * 90}ms` } as CSSProperties}><b>{point.stage}</b><div><strong>{point.name}</strong><span>{ko ? (CHAIN_LINE_KO[point.id] ?? point.story_ko) : (CHAIN_LINE_EN[point.id] ?? point.story)}</span></div><em>{point.distance_from_a_km.toFixed(1)} km</em></li>)}</ol>
             <div className="control-explainer"><b>C · {ko ? '비교할 대조 지역' : 'CONTROL WINDOW'}</b><p>{ko ? '사건과 상관없는 조용한 계곡에도 같은 계산을 적용했다. 평소 수준이 어느 정도인지 보여주는 비교 기준이다.' : controlPoints[0]?.story}</p></div>
-            <p className="story-caption">{ko ? '여기까지는 사람이 정리한 경로이고, C는 사건과 무관한 비교 대상 지역이다. 반면 AI가 고른 것은 알파벳으로 표시한 지점이 아니라 지도 위 사각형 6곳이다.' : 'E→A/B→F→G is the human-assembled event chain; C is the off-event control. The AI proposed the six map squares, not the lettered points.'}</p>
+            <p className="story-caption">{ko ? '여기까지는 사람이 정리한 경로이고, C는 사건과 무관한 비교 대상 지역이다. 반면 AI가 고른 것은 알파벳으로 표시한 지점이 아니라 지도 위 사각형 6곳이다.' : 'Everything above is a chain assembled by people; C is the off-event control. What the AI actually chose are the six rectangles on the map.'}</p>
           </section>
 
           <section className="story-section story-step story-wide" id="story-satellite">
@@ -1651,7 +1669,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               <article><header><span>A · IMPACT</span><strong>Rasuwagadhi</strong></header>{sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && <div className="story-swipe compact" style={{ ['--swipe' as string]: `${swipe}%` }}><img src={sceneById('s2-2026-08-27')!.image} alt="Rasuwagadhi Sentinel-2 post-event" /><div className="swipe-clip"><img src={sceneById('s2-2026-08-12')!.image} alt="Rasuwagadhi Sentinel-2 pre-event" /></div><div className="swipe-bar" /><span className="swipe-label pre">08-12</span><span className="swipe-label post">08-27</span><input type="range" min={0} max={100} value={swipe} aria-label="Compare Rasuwagadhi before and after" onChange={(e) => setSwipe(Number(e.target.value))} /></div>}<p>{ko ? '센티넬-2 위성이 8월 12일과 27일에 찍은 사진이다. 가운데 손잡이를 끌면 사건 전후가 바뀐다.' : 'Sentinel-2, 12 and 27 August. Drag the handle.'}</p></article>
               <article><header><span>F · DOWNSTREAM</span><strong>Bidur / Trishuli</strong></header><div className="fixed-pair zoomable" role="button" tabIndex={0} onClick={() => bidurPre && bidurPost && openLightbox({ title: 'F · Bidur / Trishuli', sub: 'Sentinel-2 · 2.56 km · tile 45RUL', before: bidurPre.image, after: bidurPost.image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27' })}>{bidurPre && <figure><img src={bidurPre.image} alt="Bidur Sentinel-2 before event" /><figcaption>PRE · 08-12</figcaption></figure>}{bidurPost && <figure><img src={bidurPost.image} alt="Bidur Sentinel-2 after event" /><figcaption>POST · 08-27</figcaption></figure>}<span className="zoom-hint">⤢ enlarge</span></div><p>{ko ? '국경에서 47km 떨어진 하류다. 원래 수집 목록에는 없었지만 옆 구역 사진을 뒤지다 찾아냈다.' : '47 km below the border, recovered from the adjacent tile 45RUL that the original catalog missed.'}</p></article>
             </div>
-            <p className="story-takeaway">{ko ? '사건 다음 날 사진에서는 국경 지역과 47km 하류 모두 강 주변의 폭과 색이 달라져 있었다. 상류에서 시작된 흐름이 어디까지 내려갔는지, 위성은 그 궤적을 회색 띠로 이어 보여준다. 다만 위성사진만으로 피해 범위를 확정하기는 어렵다. 그래서 다음 차례는 사람의 눈이다.' : 'Key point: the day-after image changes in width and colour at both the border and 47 km downstream. Satellite imagery alone does not make either a confirmed damage boundary.'}</p>
+            <p className="story-takeaway">{ko ? '사건 다음 날 사진에서는 국경 지역과 47km 하류 모두 강 주변의 폭과 색이 달라져 있었다. 상류에서 시작된 흐름이 어디까지 내려갔는지, 위성은 그 궤적을 회색 띠로 이어 보여준다. 다만 위성사진만으로 피해 범위를 확정하기는 어렵다.' : 'In the day-after image the river had changed width and colour both at the border and 47 km downstream — the satellite draws the track of the flow as one grey band. Imagery alone, though, cannot fix the boundary of damage.'}</p>
             <details className="story-details story-gallery-details">
               <summary>{ko ? '추가 위성 증거 보기 · 6개 지점, Planet 3.8m, SWIR·NDWI' : 'See more satellite evidence · six locations, Planet 3.8 m, SWIR and NDWI'}</summary>
             <div className="distance-matrix">
@@ -1673,18 +1691,18 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               ? '같은 창을 세 가지 눈으로 다시 그렸다. 트루컬러는 사람 눈이고, 단파적외(SWIR) 합성은 식생을 초록, 젖은 퇴적물을 분홍빛 갈색, 물을 짙은 청색으로 갈라 보여준다. 토사 판 안에 아직 물이 흐르는 자리는 SWIR과 NDWI에서만 분명하다. 인공지능 모델이 12개 밴드를 전부 입력받는 이유가 이것이다. 사람 눈에 같아 보이는 픽셀이 스펙트럼에서는 다르다.'
               : 'The same window drawn three ways. True colour is what the eye sees; the shortwave-infrared composite separates vegetation (green), wet sediment (pink-brown) and water (deep blue). Where water still runs inside the debris sheet is only clear in SWIR and NDWI. This is why the model ingests all twelve bands: pixels that look alike to the eye differ in spectrum.'}</p>
             </details>
-            <p className="story-caption">{ko ? '모든 비교는 8월 12일과 27일 사진으로 이뤄졌다. 넓어진 회색 띠는 토사가 쓸고 간 자리로 보이지만, 사람이 직접 확인하기 전까지는 변화 후보로만 다뤘다. 발원지와 둔체는 구름과 눈에 가려 판독이 어려웠다.' : 'Every pair is Sentinel-2, 12→27 August. The widened grey band looks like the path of the debris, but this page does not call it damage. Until someone checks on the ground it is a candidate change. The source and Dhunche stay hidden under cloud and snow.'}</p>
+            <p className="story-caption">{ko ? '모든 비교는 8월 12일과 27일 사진으로 이뤄졌다. 넓어진 회색 띠는 토사가 쓸고 간 자리로 보이지만, 사람이 직접 확인하기 전까지는 변화 후보로만 다뤘다. 발원지와 둔체는 구름과 눈에 가려 판독이 어려웠다.' : 'Every pair compares 12 and 27 August. The widened grey band reads like the wake of debris, but until people confirm it on the ground it is treated as a candidate for change, nothing more. The source area and Dhunche stayed hidden under cloud and snow.'}</p>
           </section>
 
           <section className="story-section story-step story-wide" id="story-ai">
             <p className="story-kicker">03 · {ko ? 'AI 모델이 계산한 것' : 'WHAT THE AI COMPUTED'}</p>
-            <h2>{ko ? 'AI는 평시 상황과 어떻게 달라졌는지만 살펴본다' : 'The model answers one question: where is this place unlike its own past'}</h2>
+            <h2>{ko ? 'AI는 평시 상황과 어떻게 달라졌는지만 살펴본다' : 'The AI asks one question: how unlike its ordinary self has this place become'}</h2>
             <p>{ko
-              ? 'Ai2에서 만든 OlmoEarth에 최신 위성영상을 적용해, 40m 격자마다 그동안 쌓인 관측을 768개의 숫자로 요약한다. 같은 장소의 사건 전 숫자와 사건 후 숫자가 얼마나 벌어졌는지 재고, 그 장소가 평소 2주 사이에 변하던 폭과 견줬다. 이 재난을 위해 새로 학습시킨 것은 없다. 이미 지구를 배워둔 모델에게 이 계곡의 어제와 오늘을 보여주고, 평소보다 얼마나 낯설어졌는지 물었을 뿐이다. 낯선 격자가 많은 구역부터 사람이 보도록 순서를 매겼다.'
-              : 'OlmoEarth compresses the satellite time series into 768 numbers per 40 m cell. We measured the distance (Δz) between the same place before and after the event, then compared it with how far that place normally moves over a fortnight. Windows with more cells beyond their ordinary range move to the front of the human review queue.'}</p>
+              ? 'Ai2에서 만든 OlmoEarth에 최신 위성영상을 적용해, 40m 격자마다 그동안 쌓인 관측을 768개의 숫자로 요약한다. 같은 장소의 사건 전 숫자와 사건 후 숫자가 얼마나 달라졌는지 측정하고, 평소라면 2주 사이에 어떻게 변했는지와 견줬다. 이 재난을 위해 새로 학습시킨 것은 없다. 이미 지구를 배워둔 모델에게 이 계곡의 어제와 오늘을 보여주고, 평소보다 얼마나 낯설어졌는지 물었을 뿐이다. 낯선 격자가 많은 구역부터 사람이 보도록 순서를 매겼다.'
+              : 'We fed the newest imagery to OlmoEarth, the open Earth model from Ai2, which distils the observation record into 768 numbers for every 40 m cell. We measured how far each place moved between before and after, and compared that with how far it normally drifts in a fortnight. Nothing was retrained for this disaster: a model that had already learned the Earth was shown the valley of yesterday and today, and asked how unfamiliar it had become. The windows with the most unfamiliar cells went to the top of the queue.'}</p>
             <div className="story-proof-strip">
               <div><b>①</b><strong>{ko ? '같은 장소' : 'Same place'}</strong><span>{ko ? '사건 전 · 사건 후' : 'before · after'}</span></div>
-              <i>→</i><div><b>②</b><strong>Δz</strong><span>{ko ? '임베딩 거리 (얼마나 바뀌었는지 측정)' : 'embedding distance'}</span></div>
+              <i>→</i><div><b>②</b><strong>Δz</strong><span>{ko ? '임베딩 거리 (얼마나 바뀌었는지 측정)' : 'embedding distance — how much it changed'}</span></div>
               <i>→</i><div><b>③</b><strong>{ko ? '평시와 비교' : 'Ordinary baseline'}</strong><span>{ko ? '평시 전이 3개' : 'three transitions'}</span></div>
               <i>→</i><div><b>④</b><strong>{ko ? '검토 순위' : 'Review rank'}</strong><span>{ko ? '피해 판정 아님' : 'not a verdict'}</span></div>
             </div>
@@ -1732,7 +1750,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
                 </article>
               ))}
             </div>
-            <p className="story-takeaway">{ko ? 'AI가 건넨 것은 정답이 아니라 순서다. 사람의 시간을 어디에 먼저 쓸지 — 변화 신호가 커도 구름에 가려 잘 보이지 않는 곳은 뒤로 미뤘다.' : 'The output is not six answers on a map. It is a queue for human attention. Even a strong signal is held back when cloud leaves too little evidence.'}</p>
+            <p className="story-takeaway">{ko ? 'AI가 건넨 것은 정답이 아니라 순서다. 사람의 시간을 어디에 먼저 쓸지 — 변화 신호가 커도 구름에 가려 잘 보이지 않는 곳은 뒤로 미뤘다.' : 'What the AI handed over is not six answers but an order — where human time should go first. Even a strong signal was pushed back when cloud hid too much of the window.'}</p>
             <details className="story-details">
               <summary>{ko ? '6곳은 AI가 어떻게 골랐을까' : 'See how the six were selected and how the lower river scored'}</summary>
             {scenario?.placebo_extended && <p>{ko ? `“평소 범위”를 2주 한 쌍이 아니라 세 쌍(5월 중순→7월 초까지)으로 넓혀 다시 재봤다. 몬순이 시작되는 6→7월이 평소 변동이 가장 커서 문턱은 ${scenario.placebo_extended.threshold_each.P1?.toFixed(3)}에서 ${scenario.placebo_extended.threshold_pooled3.toFixed(3)}으로 올라갔고, 후보 격자 비율은 대략 절반이 됐다. 그러나 순서는 그대로다(순위 상관 ${scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2)}). 이 페이지가 퍼센트보다 순위를 앞세우는 이유다.` : `We then widened the "ordinary range" from one fortnight pair to three (mid-May to early July). The June→July pair, when the monsoon arrives, is the noisiest, so the threshold rose from ${scenario.placebo_extended.threshold_each.P1?.toFixed(3)} to ${scenario.placebo_extended.threshold_pooled3.toFixed(3)} and the flagged share roughly halved. The order did not move (rank correlation ${scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2)}). That is why this page leads with order, not percentages.`}</p>}
@@ -1749,18 +1767,18 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               </div>
             )}
             </details>
-            <p className="story-caption">{ko ? '덧붙여 두자면, 이 화면 자체는 사람이 만들었다. AI가 계산한 것은 파일로 봉인돼 있고, 지도와 타임라인은 그 파일을 읽어서 보여줄 뿐이다.' : 'The interface is not the AI. The map and timeline are hand-built; what the model computed lives in sealed files on a server. The page reads those files and shows them.'}</p>
+            <p className="story-caption">{ko ? '덧붙여 두자면, 이 화면 자체는 사람이 만들었다. AI가 계산한 것은 파일로 봉인돼 있고, 지도와 타임라인은 그 파일을 읽어서 보여줄 뿐이다.' : 'One footnote: this screen itself is human-made. What the model computed is sealed in files; the map and timeline merely read them.'}</p>
           </section>
 
           {scenario?.geomorph && (
           <section className="story-section story-step story-wide">
             <p className="story-kicker">04 · {ko ? '지형' : 'THE TERRAIN'}</p>
-            <h2>{ko ? '강물이 좁은 협곡을 빠져나와 넓은 계곡을 만나는 곳마다 흔적이 크게 남았다' : 'The gorge concentrates flow; wide valley floors retain change'}</h2>
+            <h2>{ko ? '강물이 좁은 협곡을 빠져나와 넓은 계곡을 만나는 곳마다 흔적이 크게 남았다' : 'Wherever the river left its narrow gorge for a wide valley floor, it left its mark'}</h2>
             <div className="story-zone-summary">
               <article><b>{ko ? '상류 협곡' : 'UPPER GORGE'}</b><strong>{scenario.geomorph.zone1.length_km} km · −{scenario.geomorph.zone1.drop_m.toFixed(0)} m</strong><span>{ko ? `가장 좁은 곳 ${scenario.geomorph.zone1.narrowest.valley_width_km} km` : `narrowest floor ${scenario.geomorph.zone1.narrowest.valley_width_km} km`}</span></article>
-              <article><b>{ko ? '국경 아래' : 'BELOW BORDER'}</b><strong>{ko ? `강을 찍은 격자 ${scenario.geomorph.zone2.n_windows}개` : `${scenario.geomorph.zone2.n_windows} river windows`}</strong><span>{ko ? `계곡 바닥이 넓을수록 AI가 감지한 변화도 컸다 · 상관계수 ρ ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}` : `wider floors carry more AI change · ρ ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}`}</span></article>
+              <article><b>{ko ? '국경 아래' : 'BELOW BORDER'}</b><strong>{ko ? `강을 찍은 격자 ${scenario.geomorph.zone2.n_windows}개` : `${scenario.geomorph.zone2.n_windows} river windows`}</strong><span>{ko ? `계곡 바닥이 넓을수록 AI가 감지한 변화도 컸다 · 상관계수 ρ ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}` : `the wider the valley floor, the more change the AI saw · ρ ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}`}</span></article>
             </div>
-            <p className="story-takeaway">{ko ? '지형을 보면 변화 후보가 강의 어느 지점에 몰렸는지 설명이 된다. 다만 물의 속도나 깊이, 도달 시간까지 계산한 물리 시뮬레이션과는 다르다.' : 'Terrain helps explain where candidates cluster along the river. It is not a physical simulation of speed, depth or arrival time.'}</p>
+            <p className="story-takeaway">{ko ? '지형을 보면 변화 후보가 강의 어느 지점에 몰렸는지 설명이 된다. 다만 물의 속도나 깊이, 도달 시간까지 계산한 물리 시뮬레이션과는 다르다.' : 'Terrain explains where the candidates cluster along the river. It is not a physics simulation of speed, depth or arrival time.'}</p>
             <details className="story-details"><summary>{ko ? 'DEM 분석과 상관계수 자세히 보기' : 'See DEM analysis and correlations'}</summary><p>{ko
               ? `발원지에서 국경까지 하도는 ${scenario.geomorph.zone1.length_km} km, 낙차는 ${scenario.geomorph.zone1.drop_m.toFixed(0)} m다. 국경 아래에서는 ${scenario.geomorph.zone2.n_windows}개 창을 비교했다. 계곡 바닥 폭과 AI 변화의 순위 상관은 ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}(p ${scenario.geomorph.zone2.correlations.valley_width_km?.p.toFixed(2)})였고, 기복이 큰 협착 구간은 반대 방향(${scenario.geomorph.zone2.correlations.relief_m?.spearman.toFixed(2)})이었다. 사건 하나의 탐색 결과이며 위험 예측 모형이 아니다.`
               : `The channel runs ${scenario.geomorph.zone1.length_km} km and drops ${scenario.geomorph.zone1.drop_m.toFixed(0)} m from source to border. Below the border, ${scenario.geomorph.zone2.n_windows} windows were compared. Valley-floor width correlates with AI change at ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)} (p ${scenario.geomorph.zone2.correlations.valley_width_km?.p.toFixed(2)}), while high-relief confined reaches move in the opposite direction (${scenario.geomorph.zone2.correlations.relief_m?.spearman.toFixed(2)}). This is exploratory evidence from one event, not a hazard model.`}</p></details>
@@ -1768,17 +1786,16 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           )}
           <section className="story-section story-step story-wide" id="story-trust">
             <p className="story-kicker">05 · {ko ? '틀렸던 것' : 'WHAT WE GOT WRONG'}</p>
-            <h2>{ko ? '레이더 단위 하나가 뒤집은 결과 둘' : 'One unit error in the radar input overturned two results'}</h2>
+            <h2>{ko ? '레이더 단위 하나가 뒤집은 결과 둘' : 'One radar unit, two retracted results'}</h2>
             <div className="story-correction"><div><span>{ko ? '철회' : 'WITHDRAWN'}</span><b>9.8%</b><small>{ko ? '잘못된 S1 단위가 만든 회랑 결과' : 'corridor result inflated by wrong S1 units'}</small></div><i>→</i><div><span>{ko ? '재계산' : 'RECOMPUTED'}</span><b>27/27</b><small>{ko ? '사건 변화가 평시 범위 안' : 'event change inside ordinary range'}</small></div></div>
-            <p>{ko ? '센티넬-1 레이더 자료를 선형 강도 값으로 넣었는데, AI는 데시벨 단위를 전제하고 있었다. 오류를 바로잡아 다시 계산했고 잘못 나온 결과와 후보 지역은 철회했다. 공개한 결과에는 광학 위성인 센티넬-2로 계산한 100개 구역만 남겼다.' : 'Sentinel-1 was supplied as linear intensity while the model expects decibels. We corrected the input, recomputed, and withdrew the result and its candidates. The public review list now rests on the 100 optical Sentinel-2 windows.'}</p>
+            <p>{ko ? '센티넬-1 레이더 자료를 선형 강도 값으로 넣었는데, AI는 데시벨 단위를 전제하고 있었다. 오류를 바로잡아 다시 계산했고 잘못 나온 결과와 후보 지역은 철회했다. 공개한 결과에는 광학 위성인 센티넬-2로 계산한 100개 구역만 남겼다.' : 'Sentinel-1 radar was fed as linear intensity where the model expected decibels. We fixed the unit, recomputed, and retracted the affected results and candidates. The public record keeps only the 100 windows computed from optical Sentinel-2.'}</p>
             <details className="story-details"><summary>{ko ? '오류가 결과에 미친 영향 자세히 보기' : 'See exactly how the error changed the result'}</summary><p>{ko ? '데시벨로 바꾼 뒤 5개 앵커와 회랑 27창 모두에서 사건 전후 거리가 평시 범위 안으로 돌아왔다. 레이더 단독 회랑 평균도 사건 0.03, 평시 0.06이었다. 렌데 후보와 레이더 24번 창을 함께 철회했다.' : 'After conversion to dB, the before/after distance returned inside the ordinary range at all five anchors and all 27 corridor windows. The radar-only corridor mean was 0.03 for the event and 0.06 ordinarily. The Lhende and radar-window-24 candidates were withdrawn with it.'}</p></details>
-            <p className="story-takeaway">{ko ? '그래서 이 페이지가 하는 일은 피해 탐지가 아니다. 사람이 먼저 봐야 할 곳을 고르는 일에 AI를 쓴 것이고, 그 결과는 변화 후보라고 부른다.' : 'That is why this page says “change candidates for human review”, not “damage detected”.'}</p>
           </section>
 
           <section className="story-section story-step story-wide">
             <p className="story-kicker">06 · {ko ? '연구자분들께' : 'FOR RESEARCHERS'}</p>
-            <h2 className="story-note-title">{ko ? '검증 자료를 남겨두었습니다' : 'The verification record is here'}</h2>
-            <p>{ko ? <>모델 설정과 변화 점수, 검증 결과, 철회 내역, 코드 경로를 모두 남겨두었습니다. 궁금한 점이나 나누고 싶은 이야기가 있다면 언제든 편하게 연락 주세요 — <a href="mailto:iameastroot@gmail.com">iameastroot@gmail.com</a></> : 'The model contract, change score, validation, retractions and code paths are preserved. General readers can move on; researchers can expand the complete record below.'}</p>
+            <h2 className="story-note-title">{ko ? '검증 자료를 남겨두었습니다' : 'The full record is kept below'}</h2>
+            <p>{ko ? <>모델 설정과 변화 점수, 검증 결과, 철회 내역, 코드 경로를 모두 남겨두었습니다. 궁금한 점이나 나누고 싶은 이야기가 있다면 언제든 편하게 <a href="mailto:iameastroot@gmail.com">이메일</a>로 연락 주세요</> : 'The model contract, change scores, validation, retractions and code paths are all preserved below. Questions and conversations are always welcome.'}</p>
             <details className="story-details story-research-details">
               <summary>{ko ? '재현 정보 전체 펼치기 · 모델, 수식, 검증, 코드' : 'Open the reproducibility record · model, score, validation and code'}</summary>
             <div className="research-list">
@@ -1793,17 +1810,25 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           </section>
 
           <section className="story-section story-step story-boundary" id="story-next">
-            <p className="story-kicker">07 · {ko ? '다음 관문과 출처' : 'NEXT GATE AND SOURCES'}</p>
-            <h2>{ko ? '이제 다른 기관의 지도와 대조해 채점할 차례다' : 'The next step is independent scoring, not waiting'}</h2>
-            {ko ? (<>
-              <p>채점은 8월 31일에 했다. 세 기관이 발표한 홍수 지도를 손대지 않고 그대로 가져왔다. IWM, TASA, JAXA. 순위도 기준도 바꾸지 않았다. 그 위에 우선순위 6곳을 얹어 보았다.</p>
-              <p>결과는 6곳 모두 홍수 범위 안. 만점이다. 그런데 이 만점은 자랑이 못 된다. 우선순위에 들지 못한 구역도 열에 아홉 꼴로 범위 안에 있었기 때문이다. 눈을 감고 여섯 곳을 짚었어도 평균 다섯 곳 남짓은 맞혔을 것이다. 구역 안에서 실제로 겹친 면적을 재도 마찬가지였다. 우선순위 쪽이 6.0%, 나머지가 6.3%. 차이가 없다.</p>
-              <p>결론은 담백하다. 2.56km 구역 단위의 채점으로는 이 순위가 옳은지 그른지 가릴 수 없다. 홍수가 강을 따라 워낙 길게 지나갔기 때문이다. 그래서 다음 일은 정해져 있다. 같은 지도를 40m 격자로 잘게 쪼개 다시 대보는 것. 그때까지 6곳은 피해 확정이 아니라, 사람이 먼저 가 볼 순서다.</p>
-            </>) : (<p>{'We ran the promised scoring on 31 August. Flood extents from IWM (PlanetScope), TASA (FORMOSAT-5) and JAXA (ALOS-2) were frozen as published, and the six leads were scored without touching the ranking or threshold: precision@6 against the union is 6/6, but the non-lead base rate is 87.8%, indistinguishable from chance (5.3/6 expected), and in-window overlap area is 6.0% for leads vs 6.3% for non-leads. At the 2.56 km window scale these external extents neither validate nor refute the ranking (M86). The next gate is a 40 m token-scale comparison against the same frozen labels. The leads remain an order for human review, not confirmed damage.'}</p>)}
+            <p className="story-kicker">07 · {ko ? '마지막으로' : 'FINALLY'}</p>
+                        {ko ? (<>
+              <p>마지막으로 데이터를 갱신한 날은 8월 31일이다. 세 기관 — IWM, TASA, JAXA — 이 발표한 홍수 지도를 손대지 않고 그대로 가져왔고, 이쪽의 순위와 기준도 바꾸지 않았다. 여기에 AI가 매긴 우선순위 6곳을 얹으면 어떻게 될까.</p>
+              <p>결과는 6곳 모두 홍수 범위 안에 있었다. 다만 AI가 고르지 않은 곳들도 대부분 같은 범위 안에 있었다. 2.56km 격자 단위의 대조만으로는 이 우선순위를 명확하게 가려낼 수 없다는 뜻이다. 남은 일은 같은 지도를 40m 격자로 잘게 쪼개 다시 대보는 것이다.</p>
+              <p>홍수가 강을 따라 내려가며 남긴 피해는 숫자 바깥에 있다. 지금도 많은 사람이 구조와 회복을 기다린다. AI로 우선순위를 더 빨리 찾는 일은 계속하겠지만, 가장 먼저 할 일은 생명을 살리고 일상을 되돌리는 것이다. 작은 후원이 수십 명의 생명을 구할 수 있다 — <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">네팔 적십자사</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></p>
+            </>) : (<>
+              <p>The data was last refreshed on 31 August. Flood maps from three agencies — IWM, TASA and JAXA — were taken exactly as published, and nothing on our side was retuned. What happens when the six AI-ranked priorities are laid on top?</p>
+              <p>All six fall inside the flood extent. But so do most of the windows the AI did not choose. At a 2.56 km grid this comparison can neither confirm nor refute the ranking — the flood simply ran too long along the river. The next step is to cut the same maps into 40 m cells and try again.</p>
+              <p>What the flood left along the river is larger than any number on this page. People are waiting for rescue and recovery right now. We will keep working on faster AI triage, but the first thing is saving lives and rebuilding. A small donation goes a long way — <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">Nepal Red Cross</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></p>
+            </>)}
             <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>
             <div className="story-sources"><a href="https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map" target="_blank" rel="noreferrer">USGS preliminary extent ↗</a><a href="https://sentinel-asia.org/EO/2026/article20260826NP.html" target="_blank" rel="noreferrer">Sentinel Asia products ↗</a><a href="https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods" target="_blank" rel="noreferrer">WHO health response ↗</a><a href="https://allenai.org/blog/olmoearth-embeddings" target="_blank" rel="noreferrer">Ai2 OlmoEarth ↗</a><a href="https://planetarycomputer.microsoft.com/docs/quickstarts/using-the-data-api/" target="_blank" rel="noreferrer">Planetary Computer STAC ↗</a><a href="https://source.coop/planet/disasterdata" target="_blank" rel="noreferrer">Planet Disaster Data ↗</a></div>
             <p className="story-outro">{scenario?.research.integration_disclaimer}</p>
           </section>
+
+          <footer className="story-foot">
+            <p>{ko ? <>이 페이지는 개인 분석 프로젝트이며 기부를 받지 않습니다. 긴급 구호와 관련한 공식 페이지가 열려 있습니다 — 꼭 확인해보세요: <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">네팔 적십자사</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></> : <>This is a personal analysis project and accepts no donations. Official emergency-relief pages are open — please have a look: <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">Nepal Red Cross</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></>}</p>
+            <p>{ko ? '문의' : 'Contact'}: <a href="mailto:iameastroot@gmail.com">{ko ? '이메일' : 'email'}</a> · <a href="https://github.com/DDanggle/eo_olmo_earth_project" target="_blank" rel="noreferrer">github ↗</a></p>
+          </footer>
         </div>
         );
       })()}

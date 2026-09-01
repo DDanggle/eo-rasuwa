@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { IBM_Plex_Mono, IBM_Plex_Sans_KR, Source_Serif_4 } from 'next/font/google';
 import './globals.css';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const gaId = process.env.NEXT_PUBLIC_GA_ID;  // 설정 시에만 Google Analytics 로드
 
 // Ai2 종이 톤 전환(2026-08-28): 폰트만 IBM Plex로 교체하고 CSS 변수 이름은 유지함
 // (--font-geist-* 를 참조하는 규칙 50여 곳을 건드리지 않기 위해).
@@ -41,7 +43,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${storySerif.variable}`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${storySerif.variable}`}>{children}
+        {gaId && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+            <Script id="ga-init" strategy="afterInteractive">{`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${gaId}', { anonymize_ip: true });
+            `}</Script>
+          </>
+        )}</body>
     </html>
   );
 }

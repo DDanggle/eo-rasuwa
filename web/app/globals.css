@@ -448,8 +448,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .story-zone-summary strong { margin-top: 12px; font: 700 22px var(--font-geist-mono); }
 .story-zone-summary span { margin-top: 6px; color: var(--muted); font: 10px/1.45 var(--font-geist-mono); }
 .story-correction { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 18px; margin: 20px 0; }
-.story-correction > div { padding: 16px; border-top: 4px solid #8d4a35; background: var(--surface); }
-.story-correction > div:last-child { border-color: var(--green); }
+.story-correction > div { padding: 16px; border-top: 1px solid var(--line-strong, #cfcbc2); background: var(--surface); }
+
 .story-correction span, .story-correction b, .story-correction small { display: block; font-family: var(--font-geist-mono); }
 .story-correction span { color: var(--muted); font-size: 9px; letter-spacing: .1em; }
 .story-correction b { margin-top: 10px; font-size: 28px; }
@@ -1186,3 +1186,20 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .story-overlay .event-chain-cards b { background: var(--ink); color: var(--surface, #fffefb); border-color: var(--ink); }
 .story-overlay .event-chain-cards span { color: var(--muted); }
 .story-overlay .event-chain-cards article { border-color: var(--line-strong, #cfcbc2); box-shadow: none; }
+
+/* 긴급 후원 안내 — 오른쪽 하단 고정 카드 (첫 화면) */
+.donate-float { position: fixed; right: 16px; bottom: 16px; z-index: 60; width: 218px;
+  padding: 13px 14px; background: var(--surface, #fffefb); border: 1px solid var(--line-strong, #d5d1c6);
+  box-shadow: 0 8px 26px rgba(0,0,0,.12); }
+.donate-float b { display: block; font: 700 12px/1.35 var(--font-geist-sans); }
+.donate-float p { margin: 6px 0 9px; font: 11px/1.5 var(--font-geist-sans); color: var(--muted, #6f6c64); }
+.donate-float div { display: flex; flex-wrap: wrap; gap: 5px; }
+.donate-float a { font: 700 10px var(--font-geist-mono); letter-spacing: .04em; color: var(--ink, #16151a);
+  border: 1px solid var(--line-strong, #d5d1c6); padding: 4px 7px; text-decoration: none; }
+.donate-float a:hover { background: var(--ink, #16151a); color: #fffefb; }
+@media (max-width: 640px) { .donate-float { display: none; } }
+
+/* 스토리 끝 푸터 — 메인 푸터와 같은 톤 */
+.story-foot { max-width: 680px; margin: 0 auto; padding: 26px 24px 60px; border-top: 1px solid var(--line-strong, #d5d1c6); }
+.story-foot p { margin: 8px 0 0; font: 11.5px/1.6 var(--font-geist-sans); color: var(--muted, #6f6c64); }
+.story-foot a { color: inherit; }

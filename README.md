@@ -20,7 +20,7 @@
 | `web/public/data/candidates.geojson` | 판독 가능한 전체 47개 창(리드와 분리) |
 | `web/public/data/scenario.json` | 앱이 읽는 통합 결과·출처·계약·정정 장부 |
 | `artifacts/` | 실험별 1차 `report.json` |
-| `docs/MEASURED_FINDINGS_full.md` | M66–M85 측정·반증·정정 기록 |
+| `docs/MEASURED_FINDINGS_full.md` | M66–M88 측정·반증·정정 기록 |
 | `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
 
 대용량 raw cube·embedding·delta는 `research-private/artifacts/`로 분리되어 있으며
@@ -39,13 +39,13 @@
 
 ## 아직 말할 수 없는 것
 
-- 6곳이 실제 피해라는 주장. 현재 확정 피해 라벨은 0개이며, 동결한 외부 홍수 범위와의 창 규모 대조(M86)는 무판별로 끝났습니다.
+- 6곳이 실제 피해라는 주장. 현재 확정 피해 라벨은 0개입니다. 동결 외부 홍수 범위와의 창 규모 대조(M86)는 무판별이었고, 40 m 토큰 규모 대조(M88)는 pooled AUROC 0.846으로 순위를 지지하지만 라벨은 여전히 홍수 대리이지 피해 확정이 아닙니다.
 - 13.3%를 피해 면적이나 발생 확률로 해석하는 것.
 - 물리 시뮬레이션으로 수심·유속·도달시간을 예측했다는 주장. Rust/WASM 입자는 OSM 중심선을 따르는 **설명용 운동학 시각화**입니다.
 - OlmoEarth가 모든 GeoFM보다 우월하다는 주장. Prithvi·Clay·TerraMind는 같은 계약에서 실행하지 않았습니다.
 - 네팔 1개 사건의 지형 상관을 일반 위험 모델로 확장하는 것.
 
-**M86 (2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 다음 관문은 같은 동결 라벨과의 40 m 토큰 규모 대조입니다.
+**M86 (2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 그 다음 관문이던 40 m 토큰 규모 대조는 **M88 (2026-09-01)** 로 통과했습니다: 유효 토큰 122,558개(기저율 5.5%)에서 OlmoEarth Δz pooled AUROC **0.846** (고전 |ΔNDVI| 0.750, |Δ밴드| 0.694), 창별 중앙값 0.884, 39/40창 ≥0.60 (`artifacts/external_label_score/token_report.json`). 라벨이 강줄기를 따르므로 강 마스크 층화가 다음 확인 항목입니다.
 
 ## AI 파이프라인 — 코드로 따라가기
 

@@ -1,0 +1,349 @@
+{
+ "schema": "external-label-token-score-v1",
+ "measurement_id": "M88",
+ "generated_at_utc": "2026-09-01T04:00:32Z",
+ "preregistered_rule": "pooled token AUROC >=0.60 supports the ranking at 40 m; <=0.50 records the Nepal axis as indeterminate/negative at token scale",
+ "claim_boundary": "rank-vs-proxy-label agreement at 40 m; labels are flood proxies frozen as published; not damage confirmation",
+ "windows_scored": 47,
+ "tokens_scored": 122558,
+ "label_token_base_rate": 0.05468431273356288,
+ "pooled_token_auroc": 0.8459449222480198,
+ "per_window_auroc_median": 0.8836007237738209,
+ "per_window_auroc_iqr": [
+  0.8182533747581711,
+  0.9272051295215021
+ ],
+ "windows_auroc_above_060": 39,
+ "windows_with_auroc": 40,
+ "windows": [
+  {
+   "id": "v000",
+   "rank": 25,
+   "valid_tokens": 2167,
+   "label_token_frac": 0.14213197969543148,
+   "token_auroc": 0.9533945075903117
+  },
+  {
+   "id": "v001",
+   "rank": 30,
+   "valid_tokens": 1858,
+   "label_token_frac": 0.10226049515608181,
+   "token_auroc": 0.9400100971854096
+  },
+  {
+   "id": "v002",
+   "rank": 5,
+   "valid_tokens": 2467,
+   "label_token_frac": 0.11998378597486827,
+   "token_auroc": 0.8504876940505683
+  },
+  {
+   "id": "v003",
+   "rank": 1,
+   "valid_tokens": 1848,
+   "label_token_frac": 0.08982683982683982,
+   "token_auroc": 0.9270446828932853
+  },
+  {
+   "id": "v004",
+   "rank": 16,
+   "valid_tokens": 2291,
+   "label_token_frac": 0.06460061108686163,
+   "token_auroc": 0.819979568929639
+  },
+  {
+   "id": "v005",
+   "rank": 41,
+   "valid_tokens": 3494,
+   "label_token_frac": 0.08042358328563251,
+   "token_auroc": 0.9349118848804844
+  },
+  {
+   "id": "v006",
+   "rank": 26,
+   "valid_tokens": 2836,
+   "label_token_frac": 0.13222849083215796,
+   "token_auroc": 0.9449405390762563
+  },
+  {
+   "id": "v007",
+   "rank": 31,
+   "valid_tokens": 3101,
+   "label_token_frac": 0.12383102225088681,
+   "token_auroc": 0.9316341553183658
+  },
+  {
+   "id": "v008",
+   "rank": 34,
+   "valid_tokens": 2380,
+   "label_token_frac": 0.08571428571428572,
+   "token_auroc": 0.9159683174740484
+  },
+  {
+   "id": "v009",
+   "rank": 35,
+   "valid_tokens": 2318,
+   "label_token_frac": 0.06859361518550475,
+   "token_auroc": 0.8686178378646066
+  },
+  {
+   "id": "v010",
+   "rank": 36,
+   "valid_tokens": 2062,
+   "label_token_frac": 0.06547041707080505,
+   "token_auroc": 0.8274231678486997
+  },
+  {
+   "id": "v011",
+   "rank": 33,
+   "valid_tokens": 1919,
+   "label_token_frac": 0.08025013027618551,
+   "token_auroc": 0.8336742577535778
+  },
+  {
+   "id": "v012",
+   "rank": 24,
+   "valid_tokens": 1987,
+   "label_token_frac": 0.05686965274282838,
+   "token_auroc": 0.8289778147165214
+  },
+  {
+   "id": "v013",
+   "rank": 32,
+   "valid_tokens": 2076,
+   "label_token_frac": 0.0019267822736030828,
+   "token_auroc": 0.5850627413127413
+  },
+  {
+   "id": "v014",
+   "rank": 43,
+   "valid_tokens": 1286,
+   "label_token_frac": 0.0,
+   "token_auroc": null
+  },
+  {
+   "id": "v017",
+   "rank": 42,
+   "valid_tokens": 1191,
+   "label_token_frac": 0.0,
+   "token_auroc": null
+  },
+  {
+   "id": "v018",
+   "rank": 37,
+   "valid_tokens": 1891,
+   "label_token_frac": 0.0,
+   "token_auroc": null
+  },
+  {
+   "id": "v019",
+   "rank": 19,
+   "valid_tokens": 1846,
+   "label_token_frac": 0.0,
+   "token_auroc": null
+  },
+  {
+   "id": "v020",
+   "rank": 23,
+   "valid_tokens": 2333,
+   "label_token_frac": 0.009858551221603087,
+   "token_auroc": 0.901166948993036
+  },
+  {
+   "id": "v021",
+   "rank": 13,
+   "valid_tokens": 2878,
+   "label_token_frac": 0.009034051424600417,
+   "token_auroc": 0.8334906678174561
+  },
+  {
+   "id": "v022",
+   "rank": 10,
+   "valid_tokens": 3550,
+   "label_token_frac": 0.0028169014084507044,
+   "token_auroc": 0.9203107344632768
+  },
+  {
+   "id": "v023",
+   "rank": 18,
+   "valid_tokens": 3687,
+   "label_token_frac": 0.008136696501220505,
+   "token_auroc": 0.9297511621547717
+  },
+  {
+   "id": "v024",
+   "rank": 4,
+   "valid_tokens": 3875,
+   "label_token_frac": 0.04619354838709677,
+   "token_auroc": 0.8467556651914194
+  },
+  {
+   "id": "v025",
+   "rank": 3,
+   "valid_tokens": 3713,
+   "label_token_frac": 0.03743603555076758,
+   "token_auroc": 0.911493077502184
+  },
+  {
+   "id": "v026",
+   "rank": 20,
+   "valid_tokens": 3864,
+   "label_token_frac": 0.027432712215320912,
+   "token_auroc": 0.7786734212296785
+  },
+  {
+   "id": "v027",
+   "rank": 15,
+   "valid_tokens": 3865,
+   "label_token_frac": 0.05485122897800776,
+   "token_auroc": 0.7373688723148201
+  },
+  {
+   "id": "v028",
+   "rank": 29,
+   "valid_tokens": 3988,
+   "label_token_frac": 0.05491474423269809,
+   "token_auroc": 0.6115347384515109
+  },
+  {
+   "id": "v029",
+   "rank": 14,
+   "valid_tokens": 3990,
+   "label_token_frac": 0.06265664160401002,
+   "token_auroc": 0.7781754010695188
+  },
+  {
+   "id": "v030",
+   "rank": 9,
+   "valid_tokens": 3768,
+   "label_token_frac": 0.07059447983014862,
+   "token_auroc": 0.7460774294388169
+  },
+  {
+   "id": "v031",
+   "rank": 6,
+   "valid_tokens": 3859,
+   "label_token_frac": 0.07540813682301115,
+   "token_auroc": 0.7830312976746336
+  },
+  {
+   "id": "v032",
+   "rank": 11,
+   "valid_tokens": 3764,
+   "label_token_frac": 0.08395324123273114,
+   "token_auroc": 0.784516432200652
+  },
+  {
+   "id": "v033",
+   "rank": 27,
+   "valid_tokens": 3544,
+   "label_token_frac": 0.06602708803611738,
+   "token_auroc": 0.7975146538590647
+  },
+  {
+   "id": "v034",
+   "rank": 17,
+   "valid_tokens": 3012,
+   "label_token_frac": 0.1049136786188579,
+   "token_auroc": 0.9276864694061526
+  },
+  {
+   "id": "v035",
+   "rank": 38,
+   "valid_tokens": 3569,
+   "label_token_frac": 0.06276267862146259,
+   "token_auroc": 0.9247771193679265
+  },
+  {
+   "id": "v036",
+   "rank": 44,
+   "valid_tokens": 3777,
+   "label_token_frac": 0.047392110140323004,
+   "token_auroc": 0.9130041208492614
+  },
+  {
+   "id": "v037",
+   "rank": 40,
+   "valid_tokens": 3789,
+   "label_token_frac": 0.03721298495645289,
+   "token_auroc": 0.8875104983202687
+  },
+  {
+   "id": "v038",
+   "rank": 22,
+   "valid_tokens": 3645,
+   "label_token_frac": 0.009602194787379973,
+   "token_auroc": 0.8130747922437673
+  },
+  {
+   "id": "v039",
+   "rank": 12,
+   "valid_tokens": 2804,
+   "label_token_frac": 0.0024964336661911554,
+   "token_auroc": 0.8588794116144849
+  },
+  {
+   "id": "v040",
+   "rank": 28,
+   "valid_tokens": 3221,
+   "label_token_frac": 0.002173238124805961,
+   "token_auroc": 0.945061783269624
+  },
+  {
+   "id": "v041",
+   "rank": 8,
+   "valid_tokens": 885,
+   "label_token_frac": 0.17288135593220338,
+   "token_auroc": 0.9129790349655345
+  },
+  {
+   "id": "v042",
+   "rank": 39,
+   "valid_tokens": 907,
+   "label_token_frac": 0.0011025358324145535,
+   "token_auroc": 0.8796909492273731
+  },
+  {
+   "id": "v056",
+   "rank": 7,
+   "valid_tokens": 935,
+   "label_token_frac": 0.10909090909090909,
+   "token_auroc": 0.9461196243203164
+  },
+  {
+   "id": "v057",
+   "rank": 21,
+   "valid_tokens": 1484,
+   "label_token_frac": 0.09838274932614555,
+   "token_auroc": 0.9408952228842885
+  },
+  {
+   "id": "v064",
+   "rank": 2,
+   "valid_tokens": 869,
+   "label_token_frac": 0.19907940161104717,
+   "token_auroc": 0.921242774566474
+  },
+  {
+   "id": "v086",
+   "rank": 46,
+   "valid_tokens": 1000,
+   "label_token_frac": 0.0,
+   "token_auroc": null
+  },
+  {
+   "id": "v090",
+   "rank": 47,
+   "valid_tokens": 1552,
+   "label_token_frac": 0.0,
+   "token_auroc": null
+  },
+  {
+   "id": "v091",
+   "rank": 45,
+   "valid_tokens": 1413,
+   "label_token_frac": 0.0,
+   "token_auroc": null
+  }
+ ]
+}

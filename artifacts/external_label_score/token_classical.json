@@ -1,0 +1,8 @@
+{
+ "schema": "external-label-token-classical-v1",
+ "tokens": 122558,
+ "base_rate": 0.05468431273356288,
+ "auroc_olmo_delta": 0.8459449222480198,
+ "auroc_abs_dNDVI": 0.7502811993616542,
+ "auroc_abs_band_diff": 0.6938495017286712
+}

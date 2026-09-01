@@ -45,7 +45,7 @@
 - OlmoEarth가 모든 GeoFM보다 우월하다는 주장. Prithvi·Clay·TerraMind는 같은 계약에서 실행하지 않았습니다.
 - 네팔 1개 사건의 지형 상관을 일반 위험 모델로 확장하는 것.
 
-**M86 (2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 그 다음 관문이던 40 m 토큰 규모 대조는 **M88 (2026-09-01)** 로 통과했습니다: 유효 토큰 122,558개(기저율 5.5%)에서 OlmoEarth Δz pooled AUROC **0.846** (고전 |ΔNDVI| 0.750, |Δ밴드| 0.694), 창별 중앙값 0.884, 39/40창 ≥0.60 (`artifacts/external_label_score/token_report.json`). 라벨이 강줄기를 따르므로 강 마스크 층화가 다음 확인 항목입니다.
+**NP-86 (기존 M86, 2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 그 다음 40 m 토큰 대조 **NP-88 (기존 M88, 2026-09-01)** 에서는 OlmoEarth Δz가 외부 proxy와 정합했습니다(AUROC **0.846**, AUPRC **0.255**, 기저율 5.5%; 기관별 AUROC IWM 0.887/TASA 0.878/JAXA 0.796). 다만 122,558 토큰은 겹치는 창의 공간상관 표본이고 독립 사건은 1개입니다. 사후 강건성 감사 **NP-89**에서 사건 후 NDWI가 AUPRC 0.291로 Olmo를 이겼고, 5.12 km block-macro AUROC는 0.850 vs 0.857, Olmo−NDWI bootstrap CI가 0을 포함했습니다. 따라서 **외부 라벨 정합은 생존하지만 “AI가 고전 flood mapping보다 우월”하다는 주장은 하지 않습니다.** 같은 창·같은 80 m 강거리 구간 조건부 AUROC는 Olmo 0.801 vs NDWI 0.752로 후속 가설만 남습니다.
 
 ## AI 파이프라인 — 코드로 따라가기
 

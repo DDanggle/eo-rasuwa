@@ -112,11 +112,12 @@ export default function Landing() {
         <b>{ko ? '후원을 부탁드립니다' : 'Please consider donating'}</b>
         <p>{ko ? '이 페이지는 기부를 받지 않지만, 네팔의 피해에 힘을 보태주시면 훨씬 더 빠른 수색과 회복에 도움이 됩니다. 아래는 네팔 현장에 직접 나가 있는 공인 단체의 후원 링크입니다.' : 'This page takes no donations. If you can help, these accredited organisations are on the ground in Nepal right now — your support speeds the search and the recovery.'}</p>
         <div>
-          <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>
-          <a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC</a>
           <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">{ko ? '네팔 적십자사' : 'Nepal Red Cross'}</a>
+          <a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC</a>
           <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF</a>
+          <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>
         </div>
+        <small className="donate-add">{ko ? <>네팔 현장에서 활동 중인 공인 구호 기관이라면 <a href="mailto:iameastroot@gmail.com">메일</a>을 주세요 — 확인 후 이 목록에 추가합니다.</> : <>Accredited relief organisations working in Nepal: <a href="mailto:iameastroot@gmail.com">email us</a> and we will verify and add your link.</>}</small>
       </aside>
 
       <footer className="landing-foot">
@@ -135,7 +136,7 @@ export default function Landing() {
           </div>
           <div>
             <b>{ko ? '돕고 싶다면' : 'How to help'}</b>
-            <p>{ko ? <>이 페이지는 개인 분석 프로젝트이며 기부를 받지 않습니다. 긴급 구호와 관련한 공식 페이지가 열려 있습니다 — 꼭 확인해보세요: <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">네팔 적십자사</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></> : <>This is a personal analysis project and accepts no donations. Official emergency-relief pages are open — please have a look: <a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">Nepal Red Cross</a>·<a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a></>}</p>
+            <p>{ko ? <>이 페이지는 개인 분석 프로젝트이며 기부를 받지 않습니다. 긴급 구호와 관련한 공식 페이지가 열려 있습니다 — 꼭 확인해보세요: <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">네팔 적십자사</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a>·<a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a></> : <>This is a personal analysis project and accepts no donations. Official emergency-relief pages are open — please have a look: <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">Nepal Red Cross</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a>·<a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a></>}</p>
           </div>
         </div>
         <p className="foot-contact">{ko ? '문의' : 'Contact'}: <a href="mailto:iameastroot@gmail.com">{ko ? '이메일' : 'email'}</a></p>

@@ -1203,3 +1203,6 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .story-foot { max-width: 680px; margin: 0 auto; padding: 26px 24px 60px; border-top: 1px solid var(--line-strong, #d5d1c6); }
 .story-foot p { margin: 8px 0 0; font: 11.5px/1.6 var(--font-geist-sans); color: var(--muted, #6f6c64); }
 .story-foot a { color: inherit; }
+
+.donate-float .donate-add { display: block; margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--line, #e3e0d8); font: 10px/1.5 var(--font-geist-sans); color: var(--muted, #6f6c64); }
+.donate-float .donate-add a { border: 0; padding: 0; text-decoration: underline; font: inherit; color: var(--ink, #16151a); }

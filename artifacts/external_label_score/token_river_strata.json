@@ -1,0 +1,44 @@
+{
+ "schema": "external-label-token-river-strata-v1",
+ "measurement_id": "M89",
+ "tokens": 122558,
+ "preregistered_rule": "off-river pooled AUROC >=0.60 means the agreement is not explained by river proximity alone; classical comparison in each stratum",
+ "strata": {
+  "on_river_150m": {
+   "tokens": 14413,
+   "label_base_rate": 0.23582876569763409,
+   "auroc_olmo": 0.7335064019993703,
+   "auroc_dNDVI": 0.677325090487685
+  },
+  "off_river_150m": {
+   "tokens": 108145,
+   "label_base_rate": 0.03054232743076425,
+   "auroc_olmo": 0.8417742906626452,
+   "auroc_dNDVI": 0.7533142630154316
+  },
+  "on_river_300m": {
+   "tokens": 31314,
+   "label_base_rate": 0.1396180622085968,
+   "auroc_olmo": 0.7946379282920316,
+   "auroc_dNDVI": 0.7041164950726385
+  },
+  "off_river_300m": {
+   "tokens": 91244,
+   "label_base_rate": 0.025535925649905748,
+   "auroc_olmo": 0.8457843770722754,
+   "auroc_dNDVI": 0.7769725020492869
+  },
+  "on_river_600m": {
+   "tokens": 63028,
+   "label_base_rate": 0.08531129022021959,
+   "auroc_olmo": 0.828861421134857,
+   "auroc_dNDVI": 0.7183964067909968
+  },
+  "off_river_600m": {
+   "tokens": 59530,
+   "label_base_rate": 0.022257685200739123,
+   "auroc_olmo": 0.8726179784204495,
+   "auroc_dNDVI": 0.829115445894715
+  }
+ }
+}

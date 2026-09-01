@@ -64,7 +64,7 @@
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "source_estimate_not_release_polygon",
       "story": "The rock–ice collapse began on the Nepal side of Langtang Lirung. This red marker is the best public source-search estimate—not a surveyed release polygon. It is the event origin; A and B are downstream impact/checkpoint windows.",
-      "story_ko": "암반–빙하 붕괴는 네팔 영내 Langtang Lirung에서 시작했다. 이 빨간 점은 공개자료상 최선의 발원 수색점이며 현장 측량 방출 폴리곤은 아니다. 사건 원점은 여기이고 A·B는 하류 충격/검문소 창이다.",
+      "story_ko": "붕괴는 네팔 영내 랑탕 리룽에서 시작됐다. 빨간 점은 공개된 자료로 추정한 발원 지점으로, 현장에서 실측해 확정하지는 않았다. 여기서 시작된 흐름이 아래로 내려가 A와 B에 닿았다.",
       "distance_from_a_km": 13.84,
       "nearest_window": "v050",
       "nearest_window_km": 0
@@ -87,7 +87,7 @@
       "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
       "evidence_level": "reported_hazard_position_illustrative",
       "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary. A model-free search of the ±5 km zone found the 27 Aug optical scene 85% cloud, so new water cannot be confirmed; same-orbit Sentinel-1 (23 Jul·4 Aug·16 Aug median vs 28 Aug) shows ≥3 dB backscatter drops clustered in the Lhende valley south-west of the source (largest 0.38 km² at 85.507E 28.251N). Radar alone cannot tell standing water from wet debris, so these are search targets, not a lake outline.",
-      "story_ko": "여파 과정에서 토석에 막힌 호수가 생겼다고 보고됐다. 공개 footprint가 없어 보라색 점은 근사 수색구역일 뿐이며, 두 번째 붕괴 원점이나 시뮬레이션 호수 경계가 아니다.",
+      "story_ko": "흘러내린 토사와 돌에 물길이 막히면서 호수가 생겼다는 보고가 뒤따랐다. 공개된 위치 자료가 없어 보라색 점은 대략적인 수색 범위로 볼 수 있다.",
       "distance_from_a_km": 10.01,
       "nearest_window": "v047",
       "nearest_window_km": 1
@@ -110,7 +110,7 @@
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "verified_aoi_reported_impact_corridor",
       "story": "The principal before/after inspection window at the Nepal–China crossing. A is not the collapse origin: it is where the upstream cascade reached infrastructure and where the current satellite time series is centered.",
-      "story_ko": "네팔–중국 국경의 핵심 전후 비교창이다. A는 붕괴 원점이 아니라 상류 연쇄가 기반시설에 도달한 곳이며 현재 위성 시계열의 중심이다.",
+      "story_ko": "네팔과 중국 국경 지역을 사건 전후로 비교한 구역이다. 상류에서 시작된 산사태와 홍수가 기반시설에 닿은 지점으로, 이번 관측에서 피해가 가장 큰 곳으로 보인다.",
       "distance_from_a_km": 0,
       "nearest_window": "v000",
       "nearest_window_km": 0.1
@@ -133,7 +133,7 @@
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "verified_coordinate_reported_impact_corridor",
       "story": "The cross-border checkpoint beside the impact AOI. It anchors human-exposure review without treating every bright or dark satellite pixel as confirmed infrastructure damage.",
-      "story_ko": "충격 관찰창 옆의 국경 검문소다. 모든 밝고 어두운 픽셀을 피해로 단정하지 않으면서 사람·기반시설 노출을 검토하는 기준점이다.",
+      "story_ko": "피해 관찰 구역 바로 옆에 있는 국경 검문소다. 사진에서 밝거나 어둡게 나온 부분을 곧바로 피해라고 읽는 대신, 사람과 시설이 얼마나 노출됐는지 가늠하는 기준점으로 삼았다.",
       "distance_from_a_km": 0.49,
       "nearest_window": "v000",
       "nearest_window_km": 0.5
@@ -156,7 +156,7 @@
       "source_url": "https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map",
       "evidence_level": "downstream_inspection_anchor",
       "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is observation evidence, not a damage label. Bidur is now included in the separate contract-correct 27-window OLMo screen.",
-      "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만 피해 라벨은 아니다. Bidur는 별도의 계약교정 OLMo 27창 스크린에는 포함됐다.",
+      "story_ko": "하류를 찍은 센티넬-2 사진을 사건 전후로 비교한 구역이다. 발원지부터 하천의 변화까지 하나로 이어 볼 수 있게 해준다.",
       "distance_from_a_km": 46.79,
       "nearest_window": "v029",
       "nearest_window_km": 0.5
@@ -179,7 +179,7 @@
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
       "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here. In the AI screen the signal fades toward G: 6.7% of 40 m cells flagged in the Galchhi window against 25% at Dalphedi, and 3–4% two windows upstream — close to the 3.6% of the no-event control. But the 27 Aug image here is hazy, so 'little change' is a weak reading, not evidence that nothing happened.",
-      "story_ko": "현재 지도 추적선은 Rasuwagadhi에서 하천을 따라 73.7 km 내려온 이 지점에서 끝난다. USGS는 발원지부터 총 약 100 km 이동을 잠정 보고했지만 최종 퇴적 종점 폴리곤은 아직 공개하지 않았다. G는 이 화면의 추적 종점이지 홍수·토석류가 정확히 여기서 끝났다는 증거가 아니다.",
+      "story_ko": "지도에 그린 추적선은 라수와가디에서 하천을 따라 73.7km 내려온 이 지점에서 멈춘다. 미국 지질조사국은 발원지부터 약 100km를 흘러갔다고 잠정 보고했지만, 토사가 최종적으로 어디에 쌓였는지는 아직 공개하지 않았다. 실제 흐름은 이 지점보다 더 내려갔을 가능성이 크다.",
       "distance_from_a_km": 65.05,
       "nearest_window": "v040",
       "nearest_window_km": 0

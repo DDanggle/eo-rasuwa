@@ -62,7 +62,7 @@ transitions. The ranking is an order for human review, not a damage verdict.
 ## What we can say
 
 - **A review queue for Nepal:** 47 of 100 windows observable, 6 leads. Dalphedi ranks #1 at 13.3%
-  under the pooled three-pair threshold; the Tadi Khola control window sits at 1.3%.
+  under the pooled three-pair threshold; the Tadi Khola control window sits at 2.3% (corrected 2026-09-02: 35% of that window is off-scene zero-fill; the earlier 1.3% was diluted).
 - **Past-label validation (M73):** on the same patches, dates and labels across 9 Sen12-Landslides
   regions, OlmoEarth Δz beat classical band/index change 9/9, with 8/9 above the pre-set +0.05.
 - **Second-representation control (M79):** OlmoEarth ahead of Presto by ≥ +0.03 in 6/7 regions under

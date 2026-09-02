@@ -1,0 +1,32 @@
+{
+  "schema": "corridor-change-field-v1",
+  "image": "/data/change-field.png",
+  "coordinates": [
+    [
+      84.96507280283906,
+      28.350218942003384
+    ],
+    [
+      85.60968300849152,
+      28.358316446860925
+    ],
+    [
+      85.61683464420732,
+      27.801669277953916
+    ],
+    [
+      84.97553558430714,
+      27.793758140763952
+    ]
+  ],
+  "claim": "observed embedding-change field mosaicked from the 100 scan windows; display smoothing only; NOT risk, NOT damage, NOT a forecast",
+  "threshold_pooled3": 0.3169780373573303,
+  "levels": [
+    0.14,
+    0.22,
+    0.3169780373573303,
+    0.42
+  ],
+  "windows": 100,
+  "resolution_m": 40.0
+}

@@ -340,6 +340,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 데이터 로드와 WASM은 별개 채널이다. 이전 버전은 scenario fetch 실패를
   // wasmStatus='failed'로 표시해 "시뮬레이션이 죽었다"는 오보를 냈다.
   const [dataStatus, setDataStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
+  // 2026-09-02: 파티클 애니메이션 은퇴 — 흐름은 강 위 정적 화살표로 표현 (사용자 결정)
+  const PARTICLES_ENABLED = false;
   const [wasmStatus, setWasmStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
@@ -363,7 +365,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   }, []);
   const chooseStoryLang = (lang: 'en' | 'ko') => { setStoryLang(lang); try { document.cookie = `lang=${lang};path=/;max-age=31536000`; } catch { /* noop */ } };
   // 큰 비교 뷰어(라이트박스): 어떤 작은 사진이든 클릭하면 전·후 슬라이더로 크게 봄.
-  type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string }[]; leadIndex?: number };
+  type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string; under?: string }[]; leadIndex?: number };
   const [lightbox, setLightbox] = useState<Lightbox | null>(null);
   // 창별 PlanetScope 크롭 (97/100 창, 08-28 우선·08-26 폴백). CC-BY-NC-4.0 © Planet Labs PBC.
   const planetWinsRef = useRef<Record<string, { file: string; datetime: string }>>({});
@@ -416,7 +418,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       if (cand != null && leadIndexByIdRef.current[cand] != null) { openLeadRef.current(leadIndexByIdRef.current[cand]); return; }
       if (cand) {
         openLightbox({ title: name, sub: `${place} · scan window ${cand}`, before: `/data/candidates/${cand}_pre.png`, after: `/data/candidates/${cand}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-                       extra: [{ src: `/data/candidates/${cand}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(planetFile ? [{ src: planetFile, label: `PlanetScope 3.8 m · ${planetDate} · © Planet Labs PBC CC-BY-NC-4.0` }] : win && PLANET_FRAMES[win] ? [{ src: PLANET_FRAMES[win].src, label: PLANET_LABEL }] : [])] });
+                       extra: [{ src: `/data/candidates/${cand}_delta.png`, under: `/data/candidates/${cand}_post.png`, label: 'AI change field on 08-27 · bright line = ordinary p99' }, ...(planetFile ? [{ src: planetFile, label: `PlanetScope 3.8 m · ${planetDate} · © Planet Labs PBC CC-BY-NC-4.0` }] : win && PLANET_FRAMES[win] ? [{ src: PLANET_FRAMES[win].src, label: PLANET_LABEL }] : [])] });
         return;
       }
       if (!win) return;
@@ -438,6 +440,24 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 우측 레일 2탭 (2026-09-01 UX): 기본은 리드 6장만, 검증 블록 전체는 EVIDENCE 탭 뒤로.
   const [railTab, setRailTab] = useState<'leads' | 'evidence'>('leads');
   const [satTiles, setSatTiles] = useState(false);
+  // 회랑 전체 관측 변화 장(2026-09-02): 100개 창 Δz 모자이크 오버레이. 위험도·예측 아님.
+  const [changeField, setChangeField] = useState(false);
+  const changeFieldRef = useRef(false);
+  // 강줄기 변화 리본 (기본 ON): 하천 중심선을 창별 변화율로 칠한 요약 — 한눈에 "어디가 얼마나".
+  const [changeRibbon, setChangeRibbon] = useState(true);
+  const changeRibbonRef = useRef(true);
+  useEffect(() => {
+    changeRibbonRef.current = changeRibbon;
+    const map = mapRef.current;
+    for (const l of ['change-ribbon', 'change-ribbon-dash']) {
+      if (map?.getLayer(l)) map.setLayoutProperty(l, 'visibility', changeRibbon ? 'visible' : 'none');
+    }
+  }, [changeRibbon]);
+  useEffect(() => {
+    changeFieldRef.current = changeField;
+    const map = mapRef.current;
+    if (map?.getLayer('change-field')) map.setLayoutProperty('change-field', 'visibility', changeField ? 'visible' : 'none');
+  }, [changeField]);
   const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const [leftOpen, setLeftOpen] = useState(false);  // 2026-08-30: 패널 하나로 — 포인트는 지도 위 라벨로 충분
   const [rightOpen, setRightOpen] = useState(true);
@@ -785,7 +805,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           ? `<div class="pp-thumbs" data-cand="x001" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/candidates/x001_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
             + `<figure><img src="/data/candidates/x001_post.png" alt="post"/><figcaption>POST 08-27 (84% clear)</figcaption></figure>`
-            + `<figure><img src="/data/candidates/x001_delta.png" alt="AI change"/><figcaption>AI Δ · 1.3% pooled-threshold tokens</figcaption></figure>`
+            + `<figure><img src="/data/candidates/x001_delta.png" alt="AI change"/><figcaption>AI Δ · 2.3% pooled-threshold tokens (in-scene; 35% of window off-scene)</figcaption></figure>`
             + `</div><p class="pp-hint">▲ control: AI change 0.129 ≈ ordinary fortnight 0.125 — what "no change" looks like · click to open the large slider</p>`
           : win
           ? `<div class="pp-thumbs" data-win="${win}" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
@@ -839,8 +859,66 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
+    // 지역 전체 하천망 (OSM) — 관측된 회랑과의 대비용 배경. 색이 없는 강 = 스캔하지 않은 강.
+    if (!map.getSource('rivers-region')) {
+      fetch('/data/rivers-region.geojson').then((r) => r.ok ? r.json() : null).then((rr) => {
+        if (!rr || map.getSource('rivers-region')) return;
+        map.addSource('rivers-region', { type: 'geojson', data: rr });
+        const beforeLayer = map.getLayer('river-casing') ? 'river-casing' : undefined;
+        map.addLayer({ id: 'rivers-region', type: 'line', source: 'rivers-region',
+          paint: { 'line-color': '#4a7f9b', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.7, 13, 1.8], 'line-opacity': 0.5 } }, beforeLayer);
+      }).catch(() => {});
+    }
     map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, before);
     map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#0f5fd7', 'line-width': 2.4, 'line-opacity': 0.9 } }, before);
+    // 흐름 화살표 — simulation_route는 발원→하류 순서라 방향이 보장된다. 파티클 대체 (2026-09-02).
+    if (!map.getSource('flow-arrows') && hydrography.simulation_route?.length > 1) {
+      map.addSource('flow-arrows', { type: 'geojson', data: {
+        type: 'Feature', properties: {},
+        geometry: { type: 'LineString', coordinates: hydrography.simulation_route },
+      } });
+      map.addLayer({ id: 'flow-arrows', type: 'symbol', source: 'flow-arrows',
+        layout: {
+          'symbol-placement': 'line', 'symbol-spacing': 110,
+          'text-field': '▶', 'text-size': ['interpolate', ['linear'], ['zoom'], 8, 9, 13, 15],
+          'text-font': ['Noto Sans Bold'], 'text-keep-upright': false,
+          'text-allow-overlap': true, 'text-ignore-placement': true,
+          'text-rotation-alignment': 'map', 'text-pitch-alignment': 'map',
+        },
+        paint: { 'text-color': '#fffefb', 'text-halo-color': '#12304a', 'text-halo-width': 1.6, 'text-opacity': 0.95 } }, before);
+    }
+    // 변화 리본 — 창별 관측 변화율(%)로 강을 칠한다. 회색 점선 = 관측불가/스캔 밖.
+    if (!map.getSource('change-ribbon')) {
+      fetch('/data/change-ribbon.geojson').then((r) => r.ok ? r.json() : null).then((rb) => {
+        if (!rb || map.getSource('change-ribbon')) return;
+        map.addSource('change-ribbon', { type: 'geojson', data: rb });
+        map.addLayer({ id: 'change-ribbon-dash', type: 'line', source: 'change-ribbon',
+          filter: ['!', ['get', 'observed']],
+          paint: { 'line-color': '#8d897f', 'line-width': 3, 'line-opacity': 0.7, 'line-dasharray': [1.4, 1.6] },
+          layout: { visibility: changeRibbonRef.current ? 'visible' : 'none', 'line-cap': 'round' } }, before);
+        map.addLayer({ id: 'change-ribbon', type: 'line', source: 'change-ribbon',
+          filter: ['get', 'observed'],
+          paint: {
+            'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'frac'], 0],
+              0, '#7fb5c9', 0.03, '#ffd666', 0.07, '#ff983d', 0.10, '#ec5238', 0.133, '#ba185c'],
+            'line-width': ['interpolate', ['linear'], ['zoom'], 8, 4, 12, 9, 15, 16],
+            'line-opacity': 0.92, 'line-blur': 0.4,
+          },
+          layout: { visibility: changeRibbonRef.current ? 'visible' : 'none', 'line-cap': 'round', 'line-join': 'round' } }, before);
+        map.on('click', 'change-ribbon', (e) => {
+          const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+          if (oe._popupHandled) return; oe._popupHandled = true;
+          const frac = e.features?.[0]?.properties?.frac as number | undefined;
+          if (frac == null) return;
+          new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
+            .setHTML(`<p class="pp-eyebrow">RIVER Δ · OBSERVED CHANGE</p>`
+              + `<p class="pp-story">이 구간을 담은 관측창에서는 구름 없이 보인 40m 격자의 <b>${(100 * frac).toFixed(0)}%</b>가 평소 변화 범위를 넘어 달라졌다.<br/>In the window covering this reach, <b>${(100 * frac).toFixed(0)}%</b> of cloud-free 40 m cells changed beyond their ordinary range.</p>`
+              + `<p class="pp-src">not damage, not risk — an order for human review</p>`).addTo(map);
+        });
+        map.on('mouseenter', 'change-ribbon', () => { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', 'change-ribbon', () => { map.getCanvas().style.cursor = ''; });
+      }).catch(() => {});
+    }
     // 파란 실선 = OSM 하천, 빨간 점선 = USGS 잠정 이동 보고를 따라 검사 중인 회랑.
     // 빨간 선은 침수 폭이나 최종 퇴적 경계를 뜻하지 않는다.
     map.addLayer({ id: 'reported-reach', type: 'line', source: 'hydrography', paint: {
@@ -922,7 +1000,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           const id = String(pr.id); const rank = pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : 'screened';
           const pw = planetWinsRef.current[id];
           if (satTiles) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
-            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% changed beyond its ordinary range' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
+            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% changed beyond its ordinary range' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, under: `/data/candidates/${id}_post.png`, label: 'AI change field on 08-27 · bright line = ordinary p99' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
             return;
           }
           const kindLabel = pr.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE' : pr.kind === 'lhende' ? 'LHENDE UPSTREAM' : 'RIVER';
@@ -933,9 +1011,9 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="${kindLabel} · ${rank}" data-planetfile="${pw?.file ?? ''}" data-planetdate="${pw?.datetime?.slice(0, 10) ?? ''}" title="Click to compare large">`
               + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
               + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
-              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure>`
+              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change" style="background-image:url(/data/candidates/${id}_post.png);background-size:cover"/><figcaption>AI Δ</figcaption></figure>`
               + (pw ? `<figure><img src="${pw.file}" alt="PlanetScope"/><figcaption>PLANETSCOPE 3.8 m · ${pw.datetime.slice(5, 10)}<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '') + `</div>`
-              + `<p class="pp-hint">▲ click to open the large slider · orange = changed more than any ordinary fortnight · grey = cloud/snow</p>`).addTo(map);
+              + `<p class="pp-hint">▲ click to open the large slider · colour bands = change intensity (display smoothing) · bright line = ordinary p99 · transparent = cloud or ordinary</p>`).addTo(map);
         };
         openWindowPopupRef.current = (id: string) => {
           const feat = scenario?.candidates?.geojson.features.find((f) => f.properties?.id === id);
@@ -955,7 +1033,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           const id = String(pr.id);
           const pw = planetWinsRef.current[id];
           if (satTiles) {
-            openLightbox({ title: `Scan window ${id}`, sub: pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : pr.status === 'ranked' ? 'screened — not in the six review leads' : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
+            openLightbox({ title: `Scan window ${id}`, sub: pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : pr.status === 'ranked' ? 'screened — not in the six review leads' : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, under: `/data/candidates/${id}_post.png`, label: 'AI change field on 08-27 · bright line = ordinary p99' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
             return;
           }
           new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
@@ -963,7 +1041,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="" data-planetfile="${pw?.file ?? ''}" data-planetdate="${pw?.datetime?.slice(0, 10) ?? ''}" title="Click to compare large">`
               + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
               + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
-              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure>`
+              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change" style="background-image:url(/data/candidates/${id}_post.png);background-size:cover"/><figcaption>AI Δ</figcaption></figure>`
               + (pw ? `<figure><img src="${pw.file}" alt="PlanetScope"/><figcaption>PLANETSCOPE 3.8 m · ${pw.datetime.slice(5, 10)}<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '') + `</div>`
               + `<p class="pp-hint">▲ click to open the large slider</p>`).addTo(map);
         });
@@ -972,6 +1050,17 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
+        // 회랑 전체 변화 장 — 창 사각형 아래에 깔리는 이미지 드레이프
+        if (!map.getSource('change-field')) {
+          fetch('/data/change-field.json').then((r) => r.ok ? r.json() : null).then((cf) => {
+            if (!cf || map.getSource('change-field')) return;
+            map.addSource('change-field', { type: 'image', url: cf.image, coordinates: cf.coordinates });
+            const beforeLayer = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : undefined;
+            map.addLayer({ id: 'change-field', type: 'raster', source: 'change-field',
+              paint: { 'raster-opacity': 0.85, 'raster-fade-duration': 150, 'raster-resampling': 'linear' },
+              layout: { visibility: changeFieldRef.current ? 'visible' : 'none' } }, beforeLayer);
+          }).catch(() => {});
+        }
         // /map?focus=v003 — 첫 화면 리드 표의 "지도에서 보기"
         try {
           const focus = new URLSearchParams(window.location.search).get('focus');
@@ -1077,6 +1166,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   useEffect(() => { flowSpeedRef.current = flowSpeed; }, [flowSpeed]);
 
   useEffect(() => {
+    if (!PARTICLES_ENABLED) return;  // 파티클 은퇴 — 화살표로 대체
     const map = mapRef.current;
     const canvas = canvasRef.current;
     if (!mapReady || !map || !canvas || !hydrography) return;
@@ -1216,7 +1306,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       sub: `${(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · ${(c.valid_event_frac * 100).toFixed(0)}% cloud-free`,
       before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`,
       beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-      extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change cells (orange) on 08-27' },
+      extra: [{ src: `/data/candidates/${c.id}_delta.png`, under: `/data/candidates/${c.id}_post.png`, label: 'AI change field on 08-27 · bright line = ordinary p99' },
               ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])],
       leadIndex: i,
     });
@@ -1339,6 +1429,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <span><i className="sw purple" />re-observe · strong change, insufficient clear pixels</span>
           <span><i className="sw grey" />thin outline = screened; no fill = not a lead</span>
           <span><i className="sw teal" />100 scanned centers · click any point for before/after</span>
+          <span><i className="sw ribbon" />river coloured by observed change share — blue-grey calm → crimson most changed · not risk</span>
         </div>
       )}
       {candView && (
@@ -1350,12 +1441,20 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className="cand-chip-close x-icon" onClick={clearCandidate} aria-label="Remove overlay"></button>
         </div>
       )}
+      {changeRibbon && (
+        <div className="ribbon-legend" aria-label="River change legend">
+          <b>강 색 = 사건 전후 변화량</b>
+          <i className="ribbon-grad" />
+          <span className="lo">평소 수준</span>
+          <span className="hi">최대 13%</span>
+          <small>점선은 구름으로 판독 실패한 구간, 가는 파란 강은 아직 스캔하지 않은 강. 피해·위험 예측이 아니라 관측된 변화입니다.</small>
+        </div>
+      )}
       {tapHint && (
         <button className="tap-hint" onClick={dismissTapHint}>
           {'사각형·청록 점을 클릭하면 전후 비교가 열립니다 · Click any rectangle or dot to compare ✕'}
         </button>
       )}
-      {mapStatus !== 'unsupported' && <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />}
       <div className="terrain-wash" aria-hidden="true" />
       {mapStatus === 'unsupported' && (
         <div className="map-fallback">
@@ -1378,7 +1477,9 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
           <button className={zone === 2 ? 'is-active' : ''} onClick={() => setZone(2)} disabled={mapStatus !== 'ready'}>2 · IMPACT → DOWNSTREAM</button>
         </div>
-        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : ''}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? <>SATELLITE TILES ON<em className="toggle-sub">click opens the large comparison</em></> : 'SATELLITE TILES'}</button>
+        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : ''}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE TILES ON' : 'SATELLITE TILES'}<em className="toggle-sub">{satTiles ? 'click opens the comparison' : 'drape 27 Aug thumbnails'}</em></button>
+        <button className={`sat-tiles-toggle ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">{changeRibbon ? 'RIVER Δ ON' : 'RIVER Δ'}<em className="toggle-sub">observed change · not risk</em></button>
+        <button className={`sat-tiles-toggle ${changeField ? 'is-active' : ''}`} onClick={() => setChangeField((v) => !v)} title="Observed embedding-change field mosaicked from the 100 scan windows — not risk, not a forecast">{changeField ? 'Δ FIELD ON' : 'Δ FIELD'}<em className="toggle-sub">contour mosaic · not risk</em></button>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
           <button className={viewDim === '3d' ? 'is-active' : ''} onClick={() => setDimension('3d')} disabled={mapStatus !== 'ready'}>3D</button>
@@ -1510,11 +1611,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
                 <article key={c.id} className="cand-card">
                   <header><b>{candidateScope === 'hillslope' ? `R${c.rank}` : `#${c.rank}`}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{candidateScope === 'hillslope' ? 'RE-OBSERVE · BELOW 40% CLEAR · ' : c.kind === 'lhende' ? 'LHENDE UPSTREAM · ' : ''}{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
                   <div className="cand-strip" role="button" tabIndex={0}
-                       onClick={() => { if (candidateScope === 'all') { openLeadLightbox(ci); return; } openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · ${(c.valid_event_frac * 100).toFixed(0)}% cloud-free`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change cells (orange) on 08-27' }] }); }}
+                       onClick={() => { if (candidateScope === 'all') { openLeadLightbox(ci); return; } openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · ${(c.valid_event_frac * 100).toFixed(0)}% cloud-free`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, under: `/data/candidates/${c.id}_post.png`, label: 'AI change field on 08-27 · bright line = ordinary p99' }] }); }}
                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); (e.currentTarget as HTMLElement).click(); } }}>
                     <figure><img src={`/data/candidates/${c.id}_pre.png`} alt="before" loading="lazy" /><figcaption>PRE 08-12</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_post.png`} alt="after" loading="lazy" /><figcaption>POST 08-27</figcaption></figure>
-                    <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change tokens" loading="lazy" /><figcaption>AI Δ</figcaption></figure>
+                    <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change field" loading="lazy" style={{ backgroundImage: `url(/data/candidates/${c.id}_post.png)`, backgroundSize: 'cover' }} /><figcaption>AI Δ</figcaption></figure>
                   </div>
                   <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · {(c.valid_event_frac * 100).toFixed(0)}% cloud-free</span>
                     <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>GO TO MAP</button></footer>
@@ -1639,15 +1740,6 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow ensemble · D-Claw check</span><em>DESIGNED</em></div>
           <div className="layer-contract-row off"><b>H</b><span>Human/official — USGS · Sentinel Asia · Charter review</span><em>EXTERNAL</em></div>
         </div>
-        <div className="flow-control">
-          <button onClick={replayEventChain} aria-label="Replay the event-chain corridor animation">REPLAY CHAIN</button>
-          <div>
-            <label htmlFor="flow-speed"><span>{flowPlaying ? 'ROUTE PLAYING' : 'ROUTE PAUSED'}{visibleParticles != null ? ` · ${visibleParticles} ON SCREEN` : wasmStatus === 'ready' ? ' · 0 ON SCREEN' : ` · ${wasmStatus.toUpperCase()}`}</span><b>{(flowSpeed / 0.034).toFixed(1)}×</b></label>
-            <input id="flow-speed" type="range" min="0.012" max="0.09" step="0.002" value={flowSpeed} onChange={(event) => setFlowSpeed(Number(event.target.value))} />
-          </div>
-        </div>
-        <button className="flow-pause" onClick={() => setFlowPlaying((value) => !value)}>{flowPlaying ? 'PAUSE PARTICLES' : 'RESUME PARTICLES'}</button>
-        <div className="truth-box"><span>CLAIM BOUNDARY</span><p>Particles follow the mapped OSM Bhote Koshi→Trishuli→Galchhi centerline. Blue is river geometry; the offset red dash is a preliminary reach-inspection corridor informed by USGS&apos;s ≈100 km report. Neither shows flood width, depth, arrival time, nor a confirmed terminal deposit.</p></div>
         <ReviewNotes candidateIds={(scenario?.review?.leads ?? []).map((l) => l.id)} />
         </>)}
       </aside>
@@ -1804,7 +1896,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             <div className="story-nepal-result">
               {([
                 { id: 'v003', num: '13.3%', title: ko ? '달페디(Dalphedi) · 1위' : 'Dalphedi · #1', desc: ko ? '평소 범위를 벗어난 격자가 가장 많았다. 국경에서 강을 따라 6km 아래, 하도가 가장 크게 넓어진 곳이다.' : '40 m cells beyond ordinary range', sub: 'review lead #1' },
-                { id: 'x001', num: '1.3%', title: ko ? '타디 콜라(Tadi Khola) · 대조 지역' : 'Tadi Khola · control', desc: ko ? '사건과 무관한 동쪽 계곡. 같은 계산에서 평소와 거의 다르지 않았다 — 이 숫자가 “조용한 상태”의 기준선이다.' : 'near ordinary level outside the event', sub: 'control valley' },
+                { id: 'x001', num: '2.3%', title: ko ? '타디 콜라(Tadi Khola) · 대조 지역' : 'Tadi Khola · control', desc: ko ? '사건과 무관한 동쪽 계곡. 같은 계산에서 평소와 거의 다르지 않았다 — 이 숫자가 “조용한 상태”의 기준선이다. (창의 35%는 장면 밖이라 제외하고 계산한 정정값)' : 'near ordinary level outside the event (recomputed over in-scene tokens; 35% of the window is off-scene)', sub: 'control valley' },
                 { id: 'v064', num: '21%', title: ko ? '살레(Salê) · 재관측' : 'Salê · re-observe', desc: ko ? '변화 신호는 있었지만 구름 없이 보인 부분이 21%뿐이었다. 판정을 미루고 다음 관측을 기다리기로 했다.' : 'too little cloud-free evidence', sub: 're-observe' },
               ] as const).map((c) => (
                 <article key={c.id} role="button" tabIndex={0} title={ko ? '클릭하면 위성 전후 비교' : 'Click to compare'}
@@ -1918,8 +2010,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
                   const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
                   setLbZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
                 }}>
+                {lightbox.extra![lbExtra].under && <img className="lb-under" src={lightbox.extra![lbExtra].under} alt=""
+                  style={lbZoom ? { transform: 'scale(2.6)', transformOrigin: `${lbZoom.x}% ${lbZoom.y}%` } : undefined} />}
                 <img src={lightbox.extra![lbExtra].src} alt={lightbox.extra![lbExtra].label}
-                  style={lbZoom ? { transform: 'scale(2.6)', transformOrigin: `${lbZoom.x}% ${lbZoom.y}%` } : undefined} />
+                  style={lbZoom ? { transform: 'scale(2.6)', transformOrigin: `${lbZoom.x}% ${lbZoom.y}%`, position: 'relative' } : { position: 'relative' }} />
                 <span className="swipe-label post">{lightbox.extra![lbExtra].label}</span>
                 <span className="lb-zoom-hint">{lbZoom ? 'CLICK TO RESET' : 'CLICK TO ZOOM ×2.6'}</span>
               </div>

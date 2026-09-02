@@ -59,7 +59,7 @@ export default function Landing() {
             <div className="swipe-bar" /><span className="swipe-label pre">{ko ? '사건 전 · 8월 12일' : 'BEFORE · 12 Aug'}</span><span className="swipe-label post">{ko ? '사건 후 · 8월 27일' : 'AFTER · 27 Aug'}</span>
             <input type="range" min={0} max={100} value={swipe} aria-label="Compare before and after" onChange={(e) => setSwipe(Number(e.target.value))} />
           </div>
-          <figure><img src={lead?.images.delta ?? '/data/candidates/v003_delta.png'} alt="embedding change" /><figcaption><b>{ko ? '임베딩 변화' : 'EMBEDDING CHANGE'}</b>{ko ? ' — 평소 범위를 넘은 40 m 토큰(주황). 왼쪽 손잡이를 끌어 전후를 비교하세요.' : ' — 40 m tokens beyond their ordinary range (orange). Drag the handle on the left to compare.'}</figcaption></figure>
+          <figure><img src={lead?.images.delta ?? '/data/candidates/v003_delta.png'} alt="embedding change" style={{ backgroundImage: `url(${lead?.images.post ?? '/data/candidates/v003_post.png'})`, backgroundSize: 'cover' }} /><figcaption><b>{ko ? '임베딩 변화' : 'EMBEDDING CHANGE'}</b>{ko ? ' — 평소 범위를 넘은 40 m 토큰(주황). 왼쪽 손잡이를 끌어 전후를 비교하세요.' : ' — 40 m tokens beyond their ordinary range (orange). Drag the handle on the left to compare.'}</figcaption></figure>
         </div>
         <ul className="plain">
           <li><b>Δz</b> — {ko ? '같은 장소가 사건 전후에 얼마나 달라졌는지를 AI 임베딩으로 측정한 값' : 'how much the same place changed before vs after, measured in the AI embedding'}</li>

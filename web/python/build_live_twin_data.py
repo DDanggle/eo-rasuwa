@@ -22,6 +22,8 @@ from typing import Any
 import numpy as np
 import rasterio
 from PIL import Image
+
+from delta_style import render_delta_contour, VISUAL_LEGEND
 from rasterio.warp import transform_bounds
 
 
@@ -187,14 +189,14 @@ POINTS = [
         "marker_color": "#9aa3a0",
         "in_event_chain": False,
         # 2026-08-30 교체: Rishing 은 08-27 구름 100%라 대조군 역할을 못 함. Tadi Khola 는 08-27 관측 84%,
-        # 사건 Δ 0.129 ≈ 평소 Δ 0.125, 후보 토큰 3.6%(스캔 임계) → "변화 없음"을 실제로 보여주는 대조군.
+        # 사건 Δ 0.129 ≈ 평소 Δ 0.125, 후보 토큰 6.2%(스캔 임계)/2.3%(pooled3) — 장면 밖 0-채움 35% 제외한 정정값(2026-09-02).
         "coordinates": [85.290, 27.930],
         "role": "distant_reference",
         "place": "Tadi Khola valley, Nuwakot (east of the corridor), Nepal",
         "source": "control window chosen by 27 Aug observability among 4 candidates (Melamchi, Tadi, Ankhu, Rishing)",
         "control_window": "x001",
-        "control_stats": {"observable_0827": 0.84, "delta_event_mean": 0.1287, "delta_placebo_mean": 0.1245, "candidate_token_frac_scan_threshold": 0.036},
-        "story": "A deliberately quiet valley ~20 km east of the flood corridor with no reported event. On 27 Aug it is 84% cloud-free, and the AI change score equals its ordinary fortnight (0.129 vs 0.125; 3.6% candidate tokens under the corridor scan threshold vs 25% at the top corridor window). This is what 'no change' looks like under the same recipe.",
+        "control_stats": {"observable_0827": 0.84, "delta_event_mean": 0.1287, "delta_placebo_mean": 0.1245, "candidate_token_frac_scan_threshold": 0.062, "candidate_token_frac_pooled3": 0.023, "zero_fill_fraction": 0.348, "correction_2026_09_02": "34.8% of this window lies outside the Sentinel-2 scene (zero-filled, Δ≈0.045); fractions are now computed over in-scene tokens only (n=1,989). Earlier 3.6%/1.3% were diluted."},
+        "story": "A deliberately quiet valley ~20 km east of the flood corridor with no reported event. On 27 Aug it is 84% cloud-free, and the AI change score equals its ordinary fortnight (0.129 vs 0.125; 6.2% candidate tokens under the corridor scan threshold, 2.3% under the pooled three-pair threshold, vs 25% / 13.3% at the top corridor window). This is what 'no change' looks like under the same recipe. Correction 2026-09-02: 35% of this window falls outside the satellite scene and was zero-filled; the fractions are computed over in-scene tokens only (earlier 3.6% / 1.3% were diluted by the empty area).",
         },
 ]
 
@@ -326,27 +328,12 @@ def render_s1(source: Path, destination: Path) -> dict[str, Any]:
 
 
 def render_delta(delta: np.ndarray, threshold: float, destination: Path) -> None:
-    """Render relative embedding change and mark only threshold exceedances as bright.
+    """등고선 밴드 스타일 (delta_style.py) — 2026-09-02 개편.
 
-    Orange below the threshold is within-window relative intensity. Yellow-white
-    pixels are the only tokens above the matched-location ordinary-transition p99.
-    This is intentionally not rendered as a damage mask.
+    40 m 토큰 블록 대신 표시용 스무딩 + 등고선 밴드. 밝은 선이 placebo p99 경계이고
+    구름/마스크는 투명으로 남긴다 (보간하지 않음). 피해 마스크가 아니다.
     """
-    finite = delta[np.isfinite(delta)]
-    if finite.size == 0:
-        rgba = np.zeros((*delta.shape, 4), dtype=np.uint8)
-    else:
-        lo, hi = np.quantile(finite, [0.50, 0.995])
-        hi = max(float(hi), float(lo) + 1e-8)
-        scaled = np.clip((delta - lo) / (hi - lo), 0, 1)
-        rgba = np.zeros((*delta.shape, 4), dtype=np.uint8)
-        rgba[..., 0] = np.round(122 + 133 * scaled).astype(np.uint8)
-        rgba[..., 1] = np.round(38 + 105 * scaled).astype(np.uint8)
-        rgba[..., 2] = np.round(10 + 25 * scaled).astype(np.uint8)
-        rgba[..., 3] = np.round(25 + 205 * scaled).astype(np.uint8)
-        exceed = delta > threshold
-        rgba[exceed] = np.array([255, 240, 170, 255], dtype=np.uint8)
-    Image.fromarray(rgba).resize((256, 256), Image.Resampling.NEAREST).save(destination, optimize=True)
+    render_delta_contour(delta, np.isfinite(delta), threshold, destination)
 
 
 def fetch_hydrography(destination: Path) -> dict[str, Any]:
@@ -1188,7 +1175,7 @@ def corrected_corridor_block() -> dict[str, Any] | None:
         "limitations": report["limitations"],
         "report_sha256": sha256(CORRECTED_CORRIDOR_REPORT),
         "geojson": {"type": "FeatureCollection", "features": features},
-        "visual_legend": "orange=relative OLMo delta intensity; yellow-white=event tokens above the same location's single ordinary-transition p99",
+        "visual_legend": VISUAL_LEGEND,
     }
 
 

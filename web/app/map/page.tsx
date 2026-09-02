@@ -414,6 +414,13 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         openLightbox({ title: name, sub: `${place} · negative-control window, 114 km from Rasuwagadhi`, before: '/data/candidates/ptC_pre.png', after: '/data/candidates/ptC_post.png', beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27 (cloud)' });
         return;
       }
+      const ncand = el.dataset.ncand;
+      if (ncand) {
+        openLightbox({ title: name || `Extension window ${ncand}`, sub: 'extension scan (2 Sep) · single-placebo threshold · not the sealed six leads',
+          before: `/data/neighbors/${ncand}_pre.png`, after: `/data/neighbors/${ncand}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+          extra: [{ src: `/data/neighbors/${ncand}_delta.png`, under: `/data/neighbors/${ncand}_post.png`, label: 'AI change field · bright line = extension p99' }] });
+        return;
+      }
       const cand = el.dataset.cand;
       if (cand != null && leadIndexByIdRef.current[cand] != null) { openLeadRef.current(leadIndexByIdRef.current[cand]); return; }
       if (cand) {
@@ -910,10 +917,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           if (oe._popupHandled) return; oe._popupHandled = true;
           const frac = e.features?.[0]?.properties?.frac as number | undefined;
           if (frac == null) return;
+          const ext = !!e.features?.[0]?.properties?.ext;
           new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
-            .setHTML(`<p class="pp-eyebrow">RIVER Δ · OBSERVED CHANGE</p>`
-              + `<p class="pp-story">이 구간을 담은 관측창에서는 구름 없이 보인 40m 격자의 <b>${(100 * frac).toFixed(0)}%</b>가 평소 변화 범위를 넘어 달라졌다.<br/>In the window covering this reach, <b>${(100 * frac).toFixed(0)}%</b> of cloud-free 40 m cells changed beyond their ordinary range.</p>`
-              + `<p class="pp-src">not damage, not risk — an order for human review</p>`).addTo(map);
+            .setHTML(`<p class="pp-eyebrow">RIVER Δ · OBSERVED CHANGE${ext ? ' · EXTENSION SCAN 2 SEP' : ''}</p>`
+              + `<p class="pp-story">In the window covering this reach, <b>${(100 * frac).toFixed(0)}%</b> of cloud-free 40 m cells changed beyond their ordinary range.</p>`
+              + `<p class="pp-src">${ext ? 'extension scan (2 Sep), single-placebo threshold — separate from the sealed six leads · ' : ''}not damage, not risk — an order for human review</p>`).addTo(map);
         });
         map.on('mouseenter', 'change-ribbon', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'change-ribbon', () => { map.getCanvas().style.cursor = ''; });
@@ -1050,6 +1058,31 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
+        // 확장 스캔 상위 12창 (2 Sep) — 시안 파선 사각형, 클릭 = 전후 비교
+        if (!map.getSource('neighbor-windows')) {
+          fetch('/data/neighbors.geojson').then((r) => r.ok ? r.json() : null).then((nb) => {
+            if (!nb || map.getSource('neighbor-windows')) return;
+            map.addSource('neighbor-windows', { type: 'geojson', data: nb });
+            map.addLayer({ id: 'neighbor-window-line', type: 'line', source: 'neighbor-windows',
+              paint: { 'line-color': '#0e8f86', 'line-width': 2, 'line-dasharray': [2, 1.4], 'line-opacity': 0.95 } }, before);
+            map.on('click', 'neighbor-window-line', (e) => {
+              const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+              if (oe._popupHandled) return; oe._popupHandled = true;
+              const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
+              const id = String(pr.id);
+              new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
+                .setHTML(`<p class="pp-eyebrow">EXTENSION SCAN 2 SEP · #${pr.rank} OF 153 READABLE</p><h3>Window ${id}</h3>`
+                  + `<p class="pp-place">${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% changed beyond its ordinary range · ${(100 * (pr.valid_event_frac as number)).toFixed(0)}% observable</p>`
+                  + `<div class="pp-thumbs" data-ncand="${id}" data-name="Extension window ${id}" title="Click to compare large">`
+                  + `<figure><img src="/data/neighbors/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
+                  + `<figure><img src="/data/neighbors/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
+                  + `<figure><img src="/data/neighbors/${id}_delta.png" alt="AI change" style="background-image:url(/data/neighbors/${id}_post.png);background-size:cover"/><figcaption>AI Δ</figcaption></figure></div>`
+                  + `<p class="pp-hint">single-placebo threshold · separate from the sealed six leads · click to open the large slider</p>`).addTo(map);
+            });
+            map.on('mouseenter', 'neighbor-window-line', () => { map.getCanvas().style.cursor = 'pointer'; });
+            map.on('mouseleave', 'neighbor-window-line', () => { map.getCanvas().style.cursor = ''; });
+          }).catch(() => {});
+        }
         // 회랑 전체 변화 장 — 창 사각형 아래에 깔리는 이미지 드레이프
         if (!map.getSource('change-field')) {
           fetch('/data/change-field.json').then((r) => r.ok ? r.json() : null).then((cf) => {
@@ -1443,11 +1476,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       )}
       {changeRibbon && (
         <div className="ribbon-legend" aria-label="River change legend">
-          <b>강 색 = 사건 전후 변화량</b>
+          <b>RIVER COLOUR = CHANGE SINCE THE EVENT</b>
           <i className="ribbon-grad" />
-          <span className="lo">평소 수준</span>
-          <span className="hi">최대 13%</span>
-          <small>점선은 구름으로 판독 실패한 구간, 가는 파란 강은 아직 스캔하지 않은 강. 피해·위험 예측이 아니라 관측된 변화입니다.</small>
+          <span className="lo">ordinary</span>
+          <span className="hi">up to 13%</span>
+          <small>Dashed = unreadable under cloud · thin blue = outside the scan · neighbor-river colours come from the 2 Sep extension scan (269 windows) · observed change — not risk, not damage.</small>
         </div>
       )}
       {tapHint && (

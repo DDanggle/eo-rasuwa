@@ -394,6 +394,18 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const openLeadRef = useRef<(index: number) => void>(() => {});
   const openWindowPopupRef = useRef<(id: string) => void>(() => {});
   const leadIndexByIdRef = useRef<Record<string, number>>({});
+  const neighborTopRef = useRef<Map<string, number>>(new Map());
+  type NbWin = { type: 'Feature'; properties: { id: string; status: string; candidate_token_frac: number | null; valid_event_frac: number; has_assets: boolean }; geometry: { type: 'Polygon'; coordinates: [number, number][][] } };
+  const neighborAllRef = useRef<NbWin[]>([]);
+  const [neighborLoaded, setNeighborLoaded] = useState(false);
+  useEffect(() => {
+    fetch('/data/neighbors.geojson').then((r) => r.ok ? r.json() : null)
+      .then((nb) => { if (nb?.features) neighborTopRef.current = new Map(nb.features.map((f: { properties: { id: string; rank: number } }) => [f.properties.id, f.properties.rank])); })
+      .catch(() => {});
+    fetch('/data/neighbors-windows.geojson').then((r) => r.ok ? r.json() : null)
+      .then((nb) => { if (nb?.features) { neighborAllRef.current = nb.features as NbWin[]; setNeighborLoaded(true); } })
+      .catch(() => {});
+  }, []);
   useEffect(() => {
     if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => {
@@ -446,10 +458,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const [candidateScope, setCandidateScope] = useState<'all' | 'hillslope'>('all');
   // 우측 레일 2탭 (2026-09-01 UX): 기본은 리드 6장만, 검증 블록 전체는 EVIDENCE 탭 뒤로.
   const [railTab, setRailTab] = useState<'leads' | 'evidence'>('leads');
+  // 기본 OFF — 켜면 369개 타일이라 번잡. 대신 버튼을 눈에 띄게 해 클릭을 유도한다 (2026-09-02).
   const [satTiles, setSatTiles] = useState(false);
-  // 회랑 전체 관측 변화 장(2026-09-02): 100개 창 Δz 모자이크 오버레이. 위험도·예측 아님.
-  const [changeField, setChangeField] = useState(false);
-  const changeFieldRef = useRef(false);
+  const satTilesRef = useRef(false);
+  useEffect(() => { satTilesRef.current = satTiles; }, [satTiles]);
   // 강줄기 변화 리본 (기본 ON): 하천 중심선을 창별 변화율로 칠한 요약 — 한눈에 "어디가 얼마나".
   const [changeRibbon, setChangeRibbon] = useState(true);
   const changeRibbonRef = useRef(true);
@@ -460,11 +472,6 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       if (map?.getLayer(l)) map.setLayoutProperty(l, 'visibility', changeRibbon ? 'visible' : 'none');
     }
   }, [changeRibbon]);
-  useEffect(() => {
-    changeFieldRef.current = changeField;
-    const map = mapRef.current;
-    if (map?.getLayer('change-field')) map.setLayoutProperty('change-field', 'visibility', changeField ? 'visible' : 'none');
-  }, [changeField]);
   const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const [leftOpen, setLeftOpen] = useState(false);  // 2026-08-30: 패널 하나로 — 포인트는 지도 위 라벨로 충분
   const [rightOpen, setRightOpen] = useState(true);
@@ -915,13 +922,26 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         map.on('click', 'change-ribbon', (e) => {
           const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
           if (oe._popupHandled) return; oe._popupHandled = true;
-          const frac = e.features?.[0]?.properties?.frac as number | undefined;
-          if (frac == null) return;
-          const ext = !!e.features?.[0]?.properties?.ext;
+          const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined;
+          const frac = pr?.frac as number | undefined;
+          const wid = pr?.wid as string | undefined;
+          if (frac == null || !wid) return;
+          // 규칙 하나: 색 있는 강 클릭 = 큰 전후 비교 (심플 원칙)
+          const leadIdx = leadIndexByIdRef.current[wid];
+          if (leadIdx != null) { openLeadRef.current(leadIdx); return; }
+          const nbRank = neighborTopRef.current.get(wid);
+          if (nbRank != null && nbRank <= 3) {
+            openLightbox({ title: `Extension window ${wid}`, sub: `extension scan (2 Sep) · ${(100 * frac).toFixed(0)}% changed · separate from the sealed six leads`,
+              before: `/data/neighbors/${wid}_pre.png`, after: `/data/neighbors/${wid}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+              extra: [{ src: `/data/neighbors/${wid}_delta.png`, under: `/data/neighbors/${wid}_post.png`, label: 'AI change field · bright line = extension p99' }] });
+            return;
+          }
+          // 리드도 확장 top3도 아닌 구간 — 대조군. 큰 비교 대신 존재 이유를 한 줄로.
+          const ext = !!pr?.ext;
           new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
-            .setHTML(`<p class="pp-eyebrow">RIVER Δ · OBSERVED CHANGE${ext ? ' · EXTENSION SCAN 2 SEP' : ''}</p>`
-              + `<p class="pp-story">In the window covering this reach, <b>${(100 * frac).toFixed(0)}%</b> of cloud-free 40 m cells changed beyond their ordinary range.</p>`
-              + `<p class="pp-src">${ext ? 'extension scan (2 Sep), single-placebo threshold — separate from the sealed six leads · ' : ''}not damage, not risk — an order for human review</p>`).addTo(map);
+            .setHTML(`<p class="pp-eyebrow">RIVER Δ · SCREENED${ext ? ' · EXTENSION 2 SEP' : ''}</p>`
+              + `<p class="pp-story"><b>${(100 * frac).toFixed(0)}%</b> of cloud-free cells changed beyond ordinary here — ${frac < 0.04 ? 'close to ordinary level' : 'below the lead threshold'}. This reach is part of the comparison baseline that makes the six leads meaningful, not a lead itself.</p>`
+              + `<p class="pp-src">not damage, not risk — an order for human review</p>`).addTo(map);
         });
         map.on('mouseenter', 'change-ribbon', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'change-ribbon', () => { map.getCanvas().style.cursor = ''; });
@@ -987,7 +1007,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         const pointCoords = (scenario.points ?? []).map((pt) => pt.coordinates);
         const nearResearchPoint = (c: [number, number]) => pointCoords.some(([lon, lat]) => Math.abs(lon - c[0]) < 0.003 && Math.abs(lat - c[1]) < 0.003);
         map.addSource('scan-centers', { type: 'geojson', data: { type: 'FeatureCollection', features: scenario.candidates.geojson.features.filter((f) => !nearResearchPoint(f.properties?.center_lonlat as [number, number])).map((f) => ({ type: 'Feature', properties: f.properties, geometry: { type: 'Point', coordinates: (f.properties?.center_lonlat as [number, number]) } })) } });
-        map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
+        map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers', minzoom: 10.5,
           paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 2.2, 12, 4, 15, 7], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 1.5, 'circle-opacity': 0.95 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
           filter: ['in', ['get', 'review_status'], ['literal', ['lead', 'reobserve']]],
@@ -1007,7 +1027,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         const openWindowPopup = (pr: Record<string, unknown>, lngLat: { lng: number; lat: number }) => {
           const id = String(pr.id); const rank = pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : 'screened';
           const pw = planetWinsRef.current[id];
-          if (satTiles) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
+          if (satTilesRef.current) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
             openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% changed beyond its ordinary range' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, under: `/data/candidates/${id}_post.png`, label: 'AI change field on 08-27 · bright line = ordinary p99' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
             return;
           }
@@ -1040,7 +1060,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id);
           const pw = planetWinsRef.current[id];
-          if (satTiles) {
+          if (satTilesRef.current) {
             openLightbox({ title: `Scan window ${id}`, sub: pr.review_rank ? `review lead #${pr.review_rank}` : pr.review_status === 'reobserve' ? 're-observe (cloud-limited)' : pr.status === 'ranked' ? 'screened — not in the six review leads' : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, under: `/data/candidates/${id}_post.png`, label: 'AI change field on 08-27 · bright line = ordinary p99' }, ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
             return;
           }
@@ -1057,43 +1077,20 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         map.on('mouseleave', 'scan-center-dot', () => { map.getCanvas().style.cursor = ''; });
         map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
+        // 모든 창을 덮는 투명 히트 레이어 — 위성 타일 모드에서 타일 클릭이 죽는 문제 수정 (2026-09-02)
+        if (!map.getLayer('ai-candidate-hit')) {
+          map.addLayer({ id: 'ai-candidate-hit', type: 'fill', source: 'ai-candidates',
+            paint: { 'fill-color': '#000000', 'fill-opacity': 0.0 } }, 'ai-candidate-fill');
+          map.on('click', 'ai-candidate-hit', (e) => {
+            const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+            if (oe._popupHandled) return;
+            if (!satTilesRef.current) return;  // 평시엔 리드/점/리본이 담당
+            oe._popupHandled = true;
+            const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined;
+            if (pr) openWindowPopup(pr, e.lngLat);
+          });
+        }
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
-        // 확장 스캔 상위 12창 (2 Sep) — 시안 파선 사각형, 클릭 = 전후 비교
-        if (!map.getSource('neighbor-windows')) {
-          fetch('/data/neighbors.geojson').then((r) => r.ok ? r.json() : null).then((nb) => {
-            if (!nb || map.getSource('neighbor-windows')) return;
-            map.addSource('neighbor-windows', { type: 'geojson', data: nb });
-            map.addLayer({ id: 'neighbor-window-line', type: 'line', source: 'neighbor-windows',
-              paint: { 'line-color': '#0e8f86', 'line-width': 2, 'line-dasharray': [2, 1.4], 'line-opacity': 0.95 } }, before);
-            map.on('click', 'neighbor-window-line', (e) => {
-              const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
-              if (oe._popupHandled) return; oe._popupHandled = true;
-              const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
-              const id = String(pr.id);
-              new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
-                .setHTML(`<p class="pp-eyebrow">EXTENSION SCAN 2 SEP · #${pr.rank} OF 153 READABLE</p><h3>Window ${id}</h3>`
-                  + `<p class="pp-place">${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% changed beyond its ordinary range · ${(100 * (pr.valid_event_frac as number)).toFixed(0)}% observable</p>`
-                  + `<div class="pp-thumbs" data-ncand="${id}" data-name="Extension window ${id}" title="Click to compare large">`
-                  + `<figure><img src="/data/neighbors/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
-                  + `<figure><img src="/data/neighbors/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
-                  + `<figure><img src="/data/neighbors/${id}_delta.png" alt="AI change" style="background-image:url(/data/neighbors/${id}_post.png);background-size:cover"/><figcaption>AI Δ</figcaption></figure></div>`
-                  + `<p class="pp-hint">single-placebo threshold · separate from the sealed six leads · click to open the large slider</p>`).addTo(map);
-            });
-            map.on('mouseenter', 'neighbor-window-line', () => { map.getCanvas().style.cursor = 'pointer'; });
-            map.on('mouseleave', 'neighbor-window-line', () => { map.getCanvas().style.cursor = ''; });
-          }).catch(() => {});
-        }
-        // 회랑 전체 변화 장 — 창 사각형 아래에 깔리는 이미지 드레이프
-        if (!map.getSource('change-field')) {
-          fetch('/data/change-field.json').then((r) => r.ok ? r.json() : null).then((cf) => {
-            if (!cf || map.getSource('change-field')) return;
-            map.addSource('change-field', { type: 'image', url: cf.image, coordinates: cf.coordinates });
-            const beforeLayer = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : undefined;
-            map.addLayer({ id: 'change-field', type: 'raster', source: 'change-field',
-              paint: { 'raster-opacity': 0.85, 'raster-fade-duration': 150, 'raster-resampling': 'linear' },
-              layout: { visibility: changeFieldRef.current ? 'visible' : 'none' } }, beforeLayer);
-          }).catch(() => {});
-        }
         // /map?focus=v003 — 첫 화면 리드 표의 "지도에서 보기"
         try {
           const focus = new URLSearchParams(window.location.search).get('focus');
@@ -1278,16 +1275,46 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     const ids = fc.features.map((f) => String(f.properties?.id));
     if (!satTiles) {
       ids.forEach((id) => { if (map.getLayer(`tile-${id}`)) map.removeLayer(`tile-${id}`); if (map.getSource(`tile-${id}`)) map.removeSource(`tile-${id}`); });
+      neighborAllRef.current.forEach((f) => { const id = f.properties.id; if (map.getLayer(`ntile-${id}`)) map.removeLayer(`ntile-${id}`); if (map.getSource(`ntile-${id}`)) map.removeSource(`ntile-${id}`); });
       return;
     }
     const before = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : undefined;
+    // 확장 스캔 269창 타일 + 투명 히트 (2026-09-02: 이웃 강도 위성 타일 모드에 합류)
+    neighborAllRef.current.forEach((f) => {
+      const id = f.properties.id; if (map.getSource(`ntile-${id}`)) return;
+      const ring = f.geometry.coordinates[0];
+      map.addSource(`ntile-${id}`, { type: 'image', url: `/data/neighbors/thumbs/${id}_post128.png`, coordinates: [ring[3], ring[2], ring[1], ring[0]] as [[number, number], [number, number], [number, number], [number, number]] });
+      map.addLayer({ id: `ntile-${id}`, type: 'raster', source: `ntile-${id}`, paint: { 'raster-opacity': 0.92, 'raster-fade-duration': 0 } }, before);
+    });
+    if (neighborAllRef.current.length && !map.getSource('neighbor-hit')) {
+      map.addSource('neighbor-hit', { type: 'geojson', data: { type: 'FeatureCollection', features: neighborAllRef.current } as GeoJSON.FeatureCollection });
+      map.addLayer({ id: 'neighbor-hit', type: 'fill', source: 'neighbor-hit', paint: { 'fill-color': '#000', 'fill-opacity': 0.0 } });
+      map.on('click', 'neighbor-hit', (e) => {
+        const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+        if (oe._popupHandled || !satTilesRef.current) return; oe._popupHandled = true;
+        const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
+        const id = String(pr.id);
+        const frac = pr.candidate_token_frac as number | null;
+        if (pr.has_assets === true || pr.has_assets === 'true') {
+          openLightbox({ title: `Extension window ${id}`, sub: `extension scan (2 Sep)${frac != null ? ` · ${(100 * frac).toFixed(0)}% changed` : ''} · separate from the sealed six leads`,
+            before: `/data/neighbors/${id}_pre.png`, after: `/data/neighbors/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+            extra: [{ src: `/data/neighbors/${id}_delta.png`, under: `/data/neighbors/${id}_post.png`, label: 'AI change field · bright line = extension p99' }] });
+          return;
+        }
+        new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
+          .setHTML(`<p class="pp-eyebrow">EXTENSION SCAN 2 SEP · ${String(pr.status).toUpperCase()}</p>`
+            + `<p class="pp-story">${frac != null ? `<b>${(100 * frac).toFixed(0)}%</b> of cloud-free cells changed beyond ordinary here.` : 'Too cloudy to read on 27 Aug.'} Full imagery is published for the top 12 extension windows.</p>`
+            + `<p class="pp-src">single-placebo threshold — separate from the sealed six leads · not damage, not risk</p>`).addTo(map);
+      });
+    }
     fc.features.forEach((f) => {
       const id = String(f.properties?.id); if (map.getSource(`tile-${id}`) || f.geometry.type !== 'Polygon') return;
       const ring = f.geometry.coordinates[0] as [number, number][];
       map.addSource(`tile-${id}`, { type: 'image', url: `/data/candidates/thumbs/${id}_post128.png`, coordinates: [ring[3], ring[2], ring[1], ring[0]] });
       map.addLayer({ id: `tile-${id}`, type: 'raster', source: `tile-${id}`, paint: { 'raster-opacity': 0.92, 'raster-fade-duration': 0 } }, before);
     });
-  }, [satTiles, mapReady, scenario]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- neighborLoaded는 재드레이프 트리거
+  }, [satTiles, mapReady, scenario, neighborLoaded]);
 
   const activeScene = scenario?.scene_records.find((item) => item.id === activeSceneId) ?? null;
   const latestOpticalScene = useMemo(() => {
@@ -1510,9 +1537,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
           <button className={zone === 2 ? 'is-active' : ''} onClick={() => setZone(2)} disabled={mapStatus !== 'ready'}>2 · IMPACT → DOWNSTREAM</button>
         </div>
-        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : ''}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE TILES ON' : 'SATELLITE TILES'}<em className="toggle-sub">{satTiles ? 'click opens the comparison' : 'drape 27 Aug thumbnails'}</em></button>
+        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE VIEW ON' : '🛰 SATELLITE VIEW'}<em className="toggle-sub">{satTiles ? 'click any tile to compare' : 'see all 369 windows at once'}</em></button>
         <button className={`sat-tiles-toggle ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">{changeRibbon ? 'RIVER Δ ON' : 'RIVER Δ'}<em className="toggle-sub">observed change · not risk</em></button>
-        <button className={`sat-tiles-toggle ${changeField ? 'is-active' : ''}`} onClick={() => setChangeField((v) => !v)} title="Observed embedding-change field mosaicked from the 100 scan windows — not risk, not a forecast">{changeField ? 'Δ FIELD ON' : 'Δ FIELD'}<em className="toggle-sub">contour mosaic · not risk</em></button>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
           <button className={viewDim === '3d' ? 'is-active' : ''} onClick={() => setDimension('3d')} disabled={mapStatus !== 'ready'}>3D</button>

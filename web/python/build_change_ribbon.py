@@ -15,20 +15,20 @@ sc = json.loads((PUB / "scenario.json").read_text())
 wins = [f["properties"] for f in sc["candidates"]["geojson"]["features"]]
 # (frac, ext) — ext=True 는 2026-09-02 이웃 하천 확장 스캔(자체 단일 평시쌍 p99, 봉인 퍼널과 별개)
 pts = [(w["center_lonlat"][0], w["center_lonlat"][1],
-        (w.get("candidate_token_frac") if w.get("status") == "ranked" else None), False) for w in wins]
+        (w.get("candidate_token_frac") if w.get("status") == "ranked" else None), False, w["id"]) for w in wins]
 nb_report = REPO / "research-private/artifacts/neighbor_scan/embed/report.json"
 if nb_report.exists():
     nb = json.loads(nb_report.read_text())
     for w in nb["windows"]:
         pts.append((w["center_lonlat"][0], w["center_lonlat"][1],
-                    (w.get("candidate_token_frac") if w.get("status") == "ranked" else None), True))
+                    (w.get("candidate_token_frac") if w.get("status") == "ranked" else None), True, w["id"]))
     print("neighbor windows:", len(nb["windows"]))
 
 def assign(lon, lat):
     best, bd = None, 1e9
-    for x, y, frac, ext in pts:
+    for x, y, frac, ext, wid in pts:
         d = math.hypot((x - lon) * 98.0, (y - lat) * 111.0)
-        if d < bd: bd, best = d, (frac, ext)
+        if d < bd: bd, best = d, (frac, ext, wid)
     return best if bd <= 1.6 else "outside"
 
 hydro = json.loads((PUB / "hydrography.geojson").read_text())
@@ -45,10 +45,10 @@ for f in hydro["features"] + rivers["features"]:
             return
         if val == "outside":          # 어떤 창도 안 덮는 구간 — 배경 하천선만 남긴다
             return
-        frac, ext = (val if isinstance(val, tuple) else (None, False))
+        frac, ext, wid = (val if isinstance(val, tuple) else (None, False, None))
         features.append({"type": "Feature",
             "properties": {"frac": (None if frac is None else round(float(frac), 4)),
-                            "observed": frac is not None, "ext": bool(ext)},
+                            "observed": frac is not None, "ext": bool(ext), "wid": wid},
             "geometry": {"type": "LineString", "coordinates": [list(c) for c in seg]}})
     cur = assign(*coords[0][:2])
     for c in coords[1:]:

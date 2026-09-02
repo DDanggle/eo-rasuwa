@@ -1251,3 +1251,23 @@ a.brand-lockup { text-decoration: none; color: inherit; }
   50% { box-shadow: 0 0 0 5px rgba(217, 154, 36, 0.0); }
 }
 @media (prefers-reduced-motion: reduce) { .sat-tiles-toggle.attract { animation: none; } }
+
+/* ─── 모바일 소수술 (2026-09-03): 팝업·라이트박스·범례가 작은 화면에서 실제로 동작하게 ─── */
+@media (max-width: 720px) {
+  /* MapLibre 팝업이 420px 고정폭으로 화면을 넘던 문제 */
+  .maplibregl-popup { max-width: 88vw !important; }
+  .story-popup .maplibregl-popup-content { max-width: 88vw; padding: 12px 13px; }
+  .pp-thumbs { grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); }
+  /* 라이트박스: 화면에 꽉 차게, 스테퍼·탭은 줄바꿈 허용 */
+  .lightbox { padding: 8px; }
+  .lb-panel { width: 100vw; max-height: 96svh; overflow-y: auto; }
+  .lb-swipe, .lb-single { max-height: 52svh; }
+  .lb-panel footer { gap: 5px; }
+  .lb-stepper { padding-right: 8px; margin-right: 6px; }
+  .lb-tip { display: none; }
+  /* 리본 범례: 숨기지 말고 컴팩트하게 */
+  .ribbon-legend { display: block; left: 8px; right: 8px; bottom: 96px; width: auto; padding: 7px 10px; }
+  .ribbon-legend small { display: none; }
+  /* 탭 힌트가 타임라인과 겹치지 않게 */
+  .tap-hint { bottom: 150px; width: 86vw; font-size: 10.5px; }
+}

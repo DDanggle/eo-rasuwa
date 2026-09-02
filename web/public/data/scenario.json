@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-31T04:19:14+00:00",
+  "generated_at": "2026-09-02T05:42:53.266887+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -204,9 +204,12 @@
         "observable_0827": 0.84,
         "delta_event_mean": 0.1287,
         "delta_placebo_mean": 0.1245,
-        "candidate_token_frac_scan_threshold": 0.036
+        "candidate_token_frac_scan_threshold": 0.062,
+        "candidate_token_frac_pooled3": 0.023,
+        "zero_fill_fraction": 0.348,
+        "correction_2026_09_02": "34.8% of this window lies outside the Sentinel-2 scene (zero-filled, Δ≈0.045); fractions are now computed over in-scene tokens only (n=1,989). Earlier 3.6%/1.3% were diluted."
       },
-      "story": "A deliberately quiet valley ~20 km east of the flood corridor with no reported event. On 27 Aug it is 84% cloud-free, and the AI change score equals its ordinary fortnight (0.129 vs 0.125; 3.6% candidate tokens under the corridor scan threshold vs 25% at the top corridor window). This is what 'no change' looks like under the same recipe.",
+      "story": "A deliberately quiet valley ~20 km east of the flood corridor with no reported event. On 27 Aug it is 84% cloud-free, and the AI change score equals its ordinary fortnight (0.129 vs 0.125; 6.2% candidate tokens under the corridor scan threshold, 2.3% under the pooled three-pair threshold, vs 25% / 13.3% at the top corridor window). This is what 'no change' looks like under the same recipe. Correction 2026-09-02: 35% of this window falls outside the satellite scene and was zero-filled; the fractions are computed over in-scene tokens only (earlier 3.6% / 1.3% were diluted by the empty area).",
       "distance_from_a_km": 39.72,
       "nearest_window": null,
       "nearest_window_km": 11.8
@@ -534,56 +537,31 @@
       "crs": "EPSG:32645"
     }
   ],
-  "scheduled_scenes": [
-    {
-      "id": "s2c_20260829",
-      "sensor": "Sentinel-2C L2A",
-      "acquired_at": "2026-08-29T04:47:23Z",
-      "state": "published",
-      "detail": "catalog publication latency 369.3 min",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260831T041914Z/acquisition_status.json"
-    },
-    {
-      "id": "s1d_20260831",
-      "sensor": "Sentinel-1D IW GRD",
-      "acquired_at": "2026-08-31T00:07:34Z",
-      "state": "published",
-      "detail": "catalog publication latency 128.2 min",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260831T041914Z/acquisition_status.json"
-    },
-    {
-      "id": "s2a_20260831",
-      "sensor": "Sentinel-2A L2A",
-      "acquired_at": "2026-08-31T04:52:38Z",
-      "state": "planned",
-      "detail": null,
-      "evidence_uri": null
-    }
-  ],
+  "scheduled_scenes": [],
   "live_observation": {
-    "sensor": "Sentinel-1D IW GRD",
-    "acquired_at": "2026-08-28T12:21:41.762029Z",
+    "sensor": "Sentinel-2A L2A",
+    "acquired_at": "2026-08-31T04:52:31.024000Z",
     "catalog_status": "published",
-    "product_name": "S1D_IW_GRDH_1SDV_20260828T122141_20260828T122206_004326_007FA4_01B4.SAFE",
-    "product_id": "9cb3c885-cfb8-40cc-a44a-8673e772c794",
-    "publication_utc": "2026-08-28T15:11:15.229392Z",
-    "cloud_cover_tile_pct": null,
+    "product_name": "S2A_MSIL2A_20260831T045231_N0512_R076_T45RUM_20260831T112507.SAFE",
+    "product_id": "f00c63c9-8412-4eee-b3f0-41ac2c54fd16",
+    "publication_utc": "2026-08-31T12:22:36.722443Z",
+    "cloud_cover_tile_pct": 88.798189,
     "online": true,
-    "relative_orbit": 85,
-    "coverage_status": "operational_anchors_covered",
-    "operational_anchor_count": 5,
-    "operational_anchor_covering_product_count": 2,
+    "relative_orbit": 76,
+    "coverage_status": null,
+    "operational_anchor_count": null,
+    "operational_anchor_covering_product_count": null,
     "catalog_provider": "Copernicus Data Space OData",
     "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
-    "materialization_mode": "s1_live",
-    "materialization_status": "sealed_olmo_input",
+    "materialization_mode": "s2_live",
+    "materialization_status": "partial_cube_contract_failed",
     "selection_preflight_valid": true,
-    "materialization_seal_valid": true,
+    "materialization_seal_valid": false,
     "period_readiness": {
-      "sentinel1": 4,
+      "sentinel1": 3,
       "sentinel2_l2a": 4
     },
-    "olmo_ready": true,
+    "olmo_ready": false,
     "claim_boundary": "Tile cloud and B02-bright fractions are not AOI cloud-free coverage; no post-event embedding is claimed."
   },
   "olmoearth": {
@@ -666,6 +644,83 @@
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
     },
     {
+      "event_id": "19f6e5e99cd597e1",
+      "time_utc": "2026-09-02T05:06:05.832725+00:00",
+      "recorded_at_utc": "2026-09-02T05:06:05.832725+00:00",
+      "time_basis": "artifact_field",
+      "source": "rslearn preflight",
+      "type": "PREFLIGHT_BLOCK",
+      "priority": "orange",
+      "summary": "s1_live_0831: 5/5 anchors missing required scene — download refused",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live_0831/selection_preflight.json"
+    },
+    {
+      "event_id": "a7bcfc92c7fe4817",
+      "time_utc": "2026-09-02T05:05:41Z",
+      "recorded_at_utc": "2026-09-02T05:05:41Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "CATALOG_SNAPSHOT",
+      "priority": "blue",
+      "summary": "snapshot 20260902T050541Z: s2b_20260827=published, s1d_20260828=published, s2c_20260829=published",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260902T050541Z/acquisition_status.json"
+    },
+    {
+      "event_id": "d0b8fbd5adf5f9c0",
+      "time_utc": "2026-09-02T05:05:41Z",
+      "recorded_at_utc": "2026-09-02T05:05:41Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260902T050541Z/acquisition_status.json"
+    },
+    {
+      "event_id": "623c7448637dd593",
+      "time_utc": "2026-09-02T05:05:41Z",
+      "recorded_at_utc": "2026-09-02T05:05:41Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-1D IW GRD s1d_20260828 published (latency 171.8 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260902T050541Z/acquisition_status.json"
+    },
+    {
+      "event_id": "031aca549045cb61",
+      "time_utc": "2026-09-02T05:05:41Z",
+      "recorded_at_utc": "2026-09-02T05:05:41Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-2C L2A s2c_20260829 published (latency 369.3 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260902T050541Z/acquisition_status.json"
+    },
+    {
+      "event_id": "57e1223c29f64952",
+      "time_utc": "2026-09-02T05:05:41Z",
+      "recorded_at_utc": "2026-09-02T05:05:41Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-1D IW GRD s1d_20260831 published (latency 128.2 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260902T050541Z/acquisition_status.json"
+    },
+    {
+      "event_id": "693ee27cee88d7fa",
+      "time_utc": "2026-09-02T05:05:41Z",
+      "recorded_at_utc": "2026-09-02T05:05:41Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-2A L2A s2a_20260831 published (latency 450.0 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260902T050541Z/acquisition_status.json"
+    },
+    {
       "event_id": "c08d5035b295237e",
       "time_utc": "2026-08-31T04:19:14Z",
       "recorded_at_utc": "2026-08-31T04:19:14Z",
@@ -674,6 +729,28 @@
       "type": "CATALOG_SNAPSHOT",
       "priority": "blue",
       "summary": "snapshot 20260831T041914Z: s2b_20260827=published, s1d_20260828=published, s2c_20260829=published",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260831T041914Z/acquisition_status.json"
+    },
+    {
+      "event_id": "239f8c7105ee31c1",
+      "time_utc": "2026-08-31T04:19:14Z",
+      "recorded_at_utc": "2026-08-31T04:19:14Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260831T041914Z/acquisition_status.json"
+    },
+    {
+      "event_id": "84c7878d7a471c19",
+      "time_utc": "2026-08-31T04:19:14Z",
+      "recorded_at_utc": "2026-08-31T04:19:14Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-1D IW GRD s1d_20260828 published (latency 171.8 min)",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260831T041914Z/acquisition_status.json"
     },
     {
@@ -840,105 +917,6 @@
       "priority": "green",
       "summary": "s1_live: 5/5 anchors selected required scene",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/selection_preflight.json"
-    },
-    {
-      "event_id": "2460604444bdb61f",
-      "time_utc": "2026-08-29T07:54:01Z",
-      "recorded_at_utc": "2026-08-29T07:54:01Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "CATALOG_SNAPSHOT",
-      "priority": "blue",
-      "summary": "snapshot 20260829T075401Z: s2b_20260827=published, s1d_20260828=published, s2c_20260829=acquired_pending_catalog",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T075401Z/acquisition_status.json"
-    },
-    {
-      "event_id": "71f8e8dc6eb0071e",
-      "time_utc": "2026-08-29T07:54:01Z",
-      "recorded_at_utc": "2026-08-29T07:54:01Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "SCENE_PUBLISHED",
-      "priority": "green",
-      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T075401Z/acquisition_status.json"
-    },
-    {
-      "event_id": "e95b151f6778fe51",
-      "time_utc": "2026-08-29T07:54:01Z",
-      "recorded_at_utc": "2026-08-29T07:54:01Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "SCENE_PUBLISHED",
-      "priority": "green",
-      "summary": "Sentinel-1D IW GRD s1d_20260828 published (latency 171.8 min)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T075401Z/acquisition_status.json"
-    },
-    {
-      "event_id": "8ace84b6c691f14e",
-      "time_utc": "2026-08-29T05:26:55Z",
-      "recorded_at_utc": "2026-08-29T05:26:55Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "CATALOG_SNAPSHOT",
-      "priority": "blue",
-      "summary": "snapshot 20260829T052655Z: s2b_20260827=published, s1d_20260828=published, s2c_20260829=acquired_pending_catalog",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T052655Z/acquisition_status.json"
-    },
-    {
-      "event_id": "a5409faa233cf37c",
-      "time_utc": "2026-08-29T05:26:55Z",
-      "recorded_at_utc": "2026-08-29T05:26:55Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "SCENE_PUBLISHED",
-      "priority": "green",
-      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T052655Z/acquisition_status.json"
-    },
-    {
-      "event_id": "35cfa24829c36297",
-      "time_utc": "2026-08-29T05:26:55Z",
-      "recorded_at_utc": "2026-08-29T05:26:55Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "SCENE_PUBLISHED",
-      "priority": "green",
-      "summary": "Sentinel-1D IW GRD s1d_20260828 published (latency 171.8 min)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T052655Z/acquisition_status.json"
-    },
-    {
-      "event_id": "b544f423753297a7",
-      "time_utc": "2026-08-29T05:13:50Z",
-      "recorded_at_utc": "2026-08-29T05:13:50Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus footprint audit",
-      "type": "COVERAGE_PASS",
-      "priority": "green",
-      "summary": "Sentinel-1D IW GRD: 6 nearby products, 2 cover all 5 anchors — operational_anchors_covered",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/coverage/20260829T051350Z/coverage_audit.json"
-    },
-    {
-      "event_id": "246fa49aa20d16ad",
-      "time_utc": "2026-08-29T05:11:48Z",
-      "recorded_at_utc": "2026-08-29T05:11:48Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "CATALOG_SNAPSHOT",
-      "priority": "blue",
-      "summary": "snapshot 20260829T051148Z: s2b_20260827=published, s1d_20260828=published, s2c_20260829=acquired_pending_catalog",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T051148Z/acquisition_status.json"
-    },
-    {
-      "event_id": "27fe2c4e344f4402",
-      "time_utc": "2026-08-29T05:11:48Z",
-      "recorded_at_utc": "2026-08-29T05:11:48Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "SCENE_PUBLISHED",
-      "priority": "green",
-      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T051148Z/acquisition_status.json"
     }
   ],
   "research": {
@@ -972,7 +950,7 @@
         "output": "reuse 0.272 vs raw UNet3D 0.197; reuse wins 6/8 regions",
         "allows": "frozen EO representation transfer beats this raw baseline on aggregate",
         "forbids": "universal or Olmo-specific superiority before the matched Presto control",
-        "artifact_sha256": "00a3e0cca666f9e13ad01b52e19358ce1d4fa2f42e4613f87f94e48eece66a4e"
+        "artifact_sha256": null
       },
       {
         "id": "historical_temporal_delta",
@@ -1016,25 +994,17 @@
       }
     ],
     "confirmatory_transfer": {
-      "status": "COMPLETE_VALIDATED",
-      "regions": 8,
-      "wins_reuse_vs_raw_strong": 6,
-      "strong_wins": 5,
-      "reuse_region_macro": 0.27216575,
-      "raw_strong_region_macro": 0.196558375,
-      "absolute_gap": 0.0756075,
-      "relative_gain_pct": 38.4656720935956,
-      "non_win_regions": [
-        "holdout_indonesia",
-        "holdout_itogon"
-      ],
-      "claim_boundary": [
-        "This closes the frozen v2 OLMo-vs-raw eight-region headline only.",
-        "It does not establish OLMo-specific superiority before a second frozen GeoFM control.",
-        "It does not establish label-free region routing; Indonesia loses and Itogon fails the all-seed win rule.",
-        "Strong-win count uses the stored multiscale spatial-CI rule; Hokkaido is not strong because its 10.24 km CI is undefined."
-      ],
-      "artifact_sha256": "00a3e0cca666f9e13ad01b52e19358ce1d4fa2f42e4613f87f94e48eece66a4e"
+      "status": null,
+      "regions": null,
+      "wins_reuse_vs_raw_strong": null,
+      "strong_wins": null,
+      "reuse_region_macro": null,
+      "raw_strong_region_macro": null,
+      "absolute_gap": null,
+      "relative_gain_pct": null,
+      "non_win_regions": [],
+      "claim_boundary": null,
+      "artifact_sha256": null
     },
     "historical_event_delta_pilot": {
       "rows": [
@@ -2351,7 +2321,7 @@
             "id": "v015",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.015647226173541962,
             "candidate_token_count": 21,
             "d_event_mean": 0.18590809404850006,
             "d_placebo_mean": 0.1401846557855606,
@@ -2362,7 +2332,10 @@
               28.0900483
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.015647226173541962,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.015647226173541962,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -2400,7 +2373,7 @@
             "id": "v016",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.03103448275862069,
             "candidate_token_count": 27,
             "d_event_mean": 0.2192518413066864,
             "d_placebo_mean": 0.15327949821949005,
@@ -2411,7 +2384,10 @@
               28.082578
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.03103448275862069,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.03103448275862069,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -3801,7 +3777,7 @@
             "id": "v043",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.028894472361809045,
             "candidate_token_count": 71,
             "d_event_mean": 0.22189189493656158,
             "d_placebo_mean": 0.21076127886772156,
@@ -3812,7 +3788,10 @@
               28.27616536954913
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.028894472361809045,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.028894472361809045,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -3850,7 +3829,7 @@
             "id": "v044",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.034482758620689655,
             "candidate_token_count": 23,
             "d_event_mean": 0.2329951822757721,
             "d_placebo_mean": 0.2249041348695755,
@@ -3861,7 +3840,10 @@
               28.276217565297166
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.034482758620689655,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.034482758620689655,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -3911,6 +3893,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -3948,7 +3933,7 @@
             "id": "v046",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.23010046780109406,
             "d_placebo_mean": 0.18892689049243927,
@@ -3959,7 +3944,10 @@
               28.27631756549105
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -3997,7 +3985,7 @@
             "id": "v047",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.18957525491714478,
             "d_placebo_mean": 0.17828921973705292,
@@ -4008,7 +3996,10 @@
               28.27636536988844
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4046,7 +4037,7 @@
             "id": "v048",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 1,
             "d_event_mean": 0.2084992378950119,
             "d_placebo_mean": 0.18728074431419373,
@@ -4057,7 +4048,10 @@
               28.276411710454468
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4095,7 +4089,7 @@
             "id": "v049",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.01694915254237288,
             "candidate_token_count": 1,
             "d_event_mean": 0.16655735671520233,
             "d_placebo_mean": 0.1579994559288025,
@@ -4106,7 +4100,10 @@
               28.27645658716593
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.01694915254237288,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.01694915254237288,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4144,7 +4141,7 @@
             "id": "v050",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.02040816326530612,
             "candidate_token_count": 3,
             "d_event_mean": 0.17756487429141998,
             "d_placebo_mean": 0.16641850769519806,
@@ -4155,7 +4152,10 @@
               28.2765
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.02040816326530612,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.02040816326530612,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4205,6 +4205,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4254,6 +4257,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4291,7 +4297,7 @@
             "id": "v053",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.21914519369602203,
             "d_placebo_mean": 0.2182365208864212,
@@ -4302,7 +4308,10 @@
               28.25252859009422
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4340,7 +4349,7 @@
             "id": "v054",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.022222222222222223,
             "candidate_token_count": 2,
             "d_event_mean": 0.21999900043010712,
             "d_placebo_mean": 0.2170131951570511,
@@ -4351,7 +4360,10 @@
               28.275628995562688
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.022222222222222223,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.022222222222222223,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4389,7 +4401,7 @@
             "id": "v055",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.19201156497001648,
             "d_placebo_mean": 0.21763214468955994,
@@ -4400,7 +4412,10 @@
               28.298729319204515
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4554,6 +4569,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4603,6 +4621,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4652,6 +4673,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4689,7 +4713,7 @@
             "id": "v061",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.1781613528728485,
             "d_placebo_mean": 0.17991213500499725,
@@ -4700,7 +4724,10 @@
               28.275924311578006
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4750,6 +4777,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4787,7 +4817,7 @@
             "id": "v063",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.1422087745839637,
             "candidate_token_count": 177,
             "d_event_mean": 0.24879765510559082,
             "d_placebo_mean": 0.1648891270160675,
@@ -4798,7 +4828,10 @@
               28.322125445359585
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.1422087745839637,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.1422087745839637,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4900,6 +4933,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4949,6 +4985,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -4998,6 +5037,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5035,7 +5077,7 @@
             "id": "v068",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.25,
             "candidate_token_count": 2,
             "d_event_mean": 0.2653611898422241,
             "d_placebo_mean": 0.1882597953081131,
@@ -5046,7 +5088,10 @@
               28.27621464648166
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.25,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.25,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5084,7 +5129,7 @@
             "id": "v069",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 1,
             "d_event_mean": 0.19739843904972076,
             "d_placebo_mean": 0.15487739443778992,
@@ -5095,7 +5140,10 @@
               28.29931553358389
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5133,7 +5181,7 @@
             "id": "v070",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.2607361963190184,
             "candidate_token_count": 216,
             "d_event_mean": 0.2353823333978653,
             "d_placebo_mean": 0.12479519844055176,
@@ -5144,7 +5192,10 @@
               28.32241633905044
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.2607361963190184,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.2607361963190184,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5182,7 +5233,7 @@
             "id": "v071",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.17165354330708663,
             "candidate_token_count": 159,
             "d_event_mean": 0.22224615514278412,
             "d_placebo_mean": 0.12584824860095978,
@@ -5193,7 +5244,10 @@
               28.345517062835338
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.17165354330708663,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.17165354330708663,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5231,7 +5285,7 @@
             "id": "v072",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.2326105237007141,
             "d_placebo_mean": 0.12104497849941254,
@@ -5242,7 +5296,10 @@
               28.207196026401334
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5292,6 +5349,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5329,7 +5389,7 @@
             "id": "v074",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.1066545844078064,
             "d_placebo_mean": 0.1000216007232666,
@@ -5340,7 +5400,10 @@
               28.253398756880035
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5378,7 +5441,7 @@
             "id": "v075",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.02040816326530612,
             "candidate_token_count": 3,
             "d_event_mean": 0.17756487429141998,
             "d_placebo_mean": 0.16641850769519806,
@@ -5389,7 +5452,10 @@
               28.2765
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.02040816326530612,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.02040816326530612,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5427,7 +5493,7 @@
             "id": "v076",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.02710027100271003,
             "candidate_token_count": 22,
             "d_event_mean": 0.19222572445869446,
             "d_placebo_mean": 0.1746262013912201,
@@ -5438,7 +5504,10 @@
               28.299601161645796
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.02710027100271003,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.02710027100271003,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5476,7 +5545,7 @@
             "id": "v077",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.026,
             "candidate_token_count": 31,
             "d_event_mean": 0.18901070952415466,
             "d_placebo_mean": 0.13452905416488647,
@@ -5487,7 +5556,10 @@
               28.322702241771562
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.026,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.026,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5525,7 +5597,7 @@
             "id": "v078",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.0026246719160104987,
             "candidate_token_count": 8,
             "d_event_mean": 0.17839275300502777,
             "d_placebo_mean": 0.1714334338903427,
@@ -5536,7 +5608,10 @@
               28.345803240331485
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.0026246719160104987,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.0026246719160104987,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5574,7 +5649,7 @@
             "id": "v079",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 1,
             "d_event_mean": 0.24130107462406158,
             "d_placebo_mean": 0.1298324018716812,
@@ -5585,7 +5660,10 @@
               28.20747558968943
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5623,7 +5701,7 @@
             "id": "v080",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.21882541477680206,
             "d_placebo_mean": 0.13742776215076447,
@@ -5634,7 +5712,10 @@
               28.230577265032043
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5684,6 +5765,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5733,6 +5817,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5782,6 +5869,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5819,7 +5909,7 @@
             "id": "v084",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.22556659579277039,
             "d_placebo_mean": 0.1250276416540146,
@@ -5830,7 +5920,10 @@
               28.322983153253308
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5868,7 +5961,7 @@
             "id": "v085",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 1,
             "candidate_token_count": 1,
             "d_event_mean": 0.34586018323898315,
             "d_placebo_mean": 0.18200089037418365,
@@ -5879,7 +5972,10 @@
               28.346084421792686
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 1,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 1,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -5969,7 +6065,7 @@
             "id": "v087",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.0040650406504065045,
             "candidate_token_count": 14,
             "d_event_mean": 0.2029563933610916,
             "d_placebo_mean": 0.12164891511201859,
@@ -5980,7 +6076,10 @@
               28.23085212539137
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.0040650406504065045,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.0040650406504065045,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6030,6 +6129,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6067,7 +6169,7 @@
             "id": "v089",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.14587360620498657,
             "d_placebo_mean": 0.14579753577709198,
@@ -6078,7 +6180,10 @@
               28.277055761809493
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6220,7 +6325,7 @@
             "id": "v092",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.14078018069267273,
             "d_placebo_mean": 0.11774534732103348,
@@ -6231,7 +6336,10 @@
               28.34636060695368
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6269,7 +6377,7 @@
             "id": "v093",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.06666666666666667,
             "candidate_token_count": 7,
             "d_event_mean": 0.2397354394197464,
             "d_placebo_mean": 0.1276703029870987,
@@ -6280,7 +6388,10 @@
               28.208019813341828
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.06666666666666667,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.06666666666666667,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6318,7 +6429,7 @@
             "id": "v094",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.16269342601299286,
             "d_placebo_mean": 0.20221318304538727,
@@ -6329,7 +6440,10 @@
               28.231122013150838
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6379,6 +6493,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6416,7 +6533,7 @@
             "id": "v096",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0,
             "candidate_token_count": 0,
             "d_event_mean": 0.14572569727897644,
             "d_placebo_mean": 0.1423177570104599,
@@ -6427,7 +6544,10 @@
               28.27732616957678
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6477,6 +6597,9 @@
             ],
             "rank_single_pair": null,
             "candidate_token_frac_single_pair": null,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": null,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6514,7 +6637,7 @@
             "id": "v098",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.0057553956834532375,
             "candidate_token_count": 14,
             "d_event_mean": 0.15431270003318787,
             "d_placebo_mean": 0.11765555292367935,
@@ -6525,7 +6648,10 @@
               28.3235300014436
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.0057553956834532375,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.0057553956834532375,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -6563,7 +6689,7 @@
             "id": "v099",
             "rank": null,
             "status": "unobservable",
-            "candidate_token_frac": null,
+            "candidate_token_frac": 0.016317016317016316,
             "candidate_token_count": 8,
             "d_event_mean": 0.18122602999210358,
             "d_placebo_mean": 0.1424386352300644,
@@ -6574,7 +6700,10 @@
               28.34663179555389
             ],
             "rank_single_pair": null,
-            "candidate_token_frac_single_pair": null,
+            "candidate_token_frac_single_pair": 0.016317016317016316,
+            "rank_pooled3": null,
+            "candidate_token_frac_pooled3": 0.016317016317016316,
+            "place": null,
             "review_status": "unobservable",
             "review_rank": null
           },
@@ -8053,7 +8182,7 @@
         }
       ]
     },
-    "visual_legend": "orange=relative OLMo delta intensity; yellow-white=event tokens above the same location's single ordinary-transition p99"
+    "visual_legend": "colour bands = relative embedding change, smoothed for display only (native 40 m tokens; never interpolated across cloud); bright line = the pooled ordinary-transition p99 threshold; transparent = ordinary or unobserved"
   },
   "input_contract_audit": {
     "schema": "nepal-olmo-input-contract-audit/v1",
@@ -10049,14 +10178,14 @@
       }
     ],
     "download": "/data/review-leads.geojson",
-    "posthoc_note": "External reports were compared after ranking and never used to tune it; links are user-provided and not independently verified by this build.",
     "all_observable_download": "/data/candidates.geojson",
     "contract": {
       "score": "1 - cosine(z_before, z_after)",
       "ordinary_threshold": "pooled p99 from three non-event fortnight transitions",
       "minimum_observable_fraction_for_lead": 0.4,
       "lead_deduplication": "one lead per place name"
-    }
+    },
+    "posthoc_note": "External reports were compared after ranking and never used to tune it; links are user-provided and not independently verified by this build."
   },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",
@@ -10159,15 +10288,15 @@
     "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw"
   },
   "provenance": {
-    "source_root": "olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
+    "source_root": "nepal-live-twin/research-private/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
     "hydrography_sha256": "cb2c956e75a7fb90d0a31e682f4a41419bd39755077e28640f8664c0467dd2fd",
-    "catalog_snapshot": "20260831T041914Z",
-    "catalog_generated_at_utc": "2026-08-31T04:19:14Z",
-    "catalog_sha256": "9a4c53aa0f68a7a74e04b8c2795fba0f26ea324b40887f718871b69917d373ac",
-    "acquisition_status_sha256": "d13d587d67690eace137fca71d2e0ecd5308c57ca4f9aa472fb3fdb4c13dfabc",
-    "catalog_seal_sha256": "d101aaf19dad64845f5e3f2b20f912418d1a04d8efb258a32786042252f51211",
+    "catalog_snapshot": "20260902T050541Z",
+    "catalog_generated_at_utc": "2026-09-02T05:05:41Z",
+    "catalog_sha256": "88c2e3d6e5f6558327ccfef64c679eead9fbf0c9ad7d0c0dd51fc6bb84b55a8d",
+    "acquisition_status_sha256": "7995d40b4bc0b40ba75e47465f17a6672405603fa25c1345345f62506d9eeb7c",
+    "catalog_seal_sha256": "977fd51147a4cf9457cf961bdeae3951232dc9fb63c7fb56e8a5b06265956391",
     "coverage_snapshot": "20260829T051350Z",
     "coverage_audit_sha256": "4d8ad1682a470094804543cc2a5c947d18395623b1ffab1bac773bc3fd1591d2",
     "coverage_seal_sha256": "d1464d28b8a7b38e2b9d0650b7a18f1190e649113f4260e2d7bf0f010d5dad18",
@@ -10175,38 +10304,5 @@
     "s1_live_selection_preflight_sha256": "3dbce7c5f3f02920d0a93dc2603062aeff87f892ac4e83d98ae92c68bec45572",
     "s2_live_materialization_manifest_sha256": "adcd73da0b4697c933ff176348798581d7a472613ca4758577f6374575eb9498",
     "s1_live_materialization_manifest_sha256": "6835dff4b9e2f292c491912f05e882308d604e462368455d0ff5fa63a44fb55f"
-  },
-  "external_label_score": {
-    "schema": "external-label-score-v1",
-    "measurement_id": "M86",
-    "generated_at_utc": "2026-08-31T05:37:24Z",
-    "labels_frozen_at": "2026-08-31",
-    "labels": [
-      "IWM PlanetScope VAP02 (to 08-28)",
-      "TASA FORMOSAT-5 (08-16→08-28)",
-      "JAXA ALOS-2 flood proxy (08-28)"
-    ],
-    "excluded_labels": {
-      "eosrs_s1_dpm_20260828": "KMZ is a NetworkLink TMS pyramid (remote tiles) with only a coverage outline; no embedded raster to score offline. Archive still sealed in SHA256SUMS."
-    },
-    "label_files_sha256": {
-      "sealed_archives": [
-        "290a851307dcb57d1e8f3d72eb817142c98528fb607755d6d44febde66c45ad0  Affected_Flood_in_Rasuwa_District_Nepal.zip",
-        "3e3aff73fa6b3850859f35691dee2d56fa16df1878a3e43d32e1e543d661d7e4  EOS-RS_20260828_DPM_S1_Nepal_GLOF_v0.9.kmz",
-        "9476f4086bd6490d11cc0304ab3bf7d971f81e418415c18307b68c0b2cc3c1a5  IWM_2026_08_26_Nepal_Flood_VAP02.zip",
-        "4180d20fed464fecafae5fc5b3ee47cc70afe11b8bcf1e7035ecbcdc3e6e1e5f  JAXA_20250828_FPM_ALOS2_Nepal_FLDEXT.zip"
-      ]
-    },
-    "ranking_unchanged": true,
-    "observable_windows": 47,
-    "label_positive_windows": 42,
-    "precision_at_6_vector_union": 1,
-    "non_lead_base_rate_vector_union": 0.8780487804878049,
-    "lead_mean_overlap_frac": 0.05985000000000001,
-    "non_lead_mean_overlap_frac": 0.06310414634146341,
-    "verdict": "window_scale_not_discriminative",
-    "claim_boundary": "window-level intersection with frozen third-party flood/damage proxies at 2.56 km scale; not damage confirmation, not area, not per-structure accuracy; labels are proxies frozen as published",
-    "next_step": "token-scale (40 m) overlap against the same frozen labels, or independent ground labels",
-    "evidence_uri": "artifacts/external_label_score/report.json"
   }
 }

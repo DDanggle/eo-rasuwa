@@ -26,10 +26,10 @@ def stretch(ch):
     hi = max(hi, lo + 1)
     return np.clip((ch - lo) / (hi - lo) * 255, 0, 255).astype(np.uint8)
 
-report = json.loads((NB / "embed/report.json").read_text())
-thr = float(report["threshold_placebo_p99"])
+report = json.loads((NB / "pooled3/report.json").read_text())
+thr = float(report["threshold_pooled3_p99"])
 ranked = sorted([w for w in report["windows"] if w.get("status") == "ranked"],
-                key=lambda w: -w["candidate_token_frac"])[:TOP_N]
+                key=lambda w: -w["candidate_frac_pooled3"])[:TOP_N]
 
 features = []
 for w in ranked:
@@ -45,8 +45,8 @@ for w in ranked:
     to_ll = Transformer.from_crs("EPSG:32645", "EPSG:4326", always_xy=True).transform
     ring = [list(to_ll(x0, y0)), list(to_ll(x1, y0)), list(to_ll(x1, y1)), list(to_ll(x0, y1)), list(to_ll(x0, y0))]
     features.append({"type": "Feature",
-        "properties": {"id": wid, "rank": w["rank"], "candidate_token_frac": round(w["candidate_token_frac"], 4),
-                        "valid_event_frac": round(w["valid_event_frac"], 4), "center_lonlat": w["center_lonlat"]},
+        "properties": {"id": wid, "rank": w["rank_pooled3"], "candidate_token_frac": round(w["candidate_frac_pooled3"], 4),
+                        "valid_event_frac": round(w["event_valid_frac"], 4), "center_lonlat": w["center_lonlat"]},
         "geometry": {"type": "Polygon", "coordinates": [ring]}})
 
 # ── 전 269창: 위성 타일 모드용 128px post 썸네일 + 폴리곤(히트/좌표) ──
@@ -65,9 +65,9 @@ for w in report["windows"]:
     ring = [list(to_ll(x0, y0)), list(to_ll(x1, y0)), list(to_ll(x1, y1)), list(to_ll(x0, y1)), list(to_ll(x0, y0))]
     all_feats.append({"type": "Feature",
         "properties": {"id": wid, "status": w.get("status"),
-                        "candidate_token_frac": (round(w["candidate_token_frac"], 4) if w.get("candidate_token_frac") is not None else None),
-                        "valid_event_frac": round(w["valid_event_frac"], 4),
-                        "rank": w.get("rank"), "has_assets": wid in top_ids},
+                        "candidate_token_frac": (round(w["candidate_frac_pooled3"], 4) if w.get("candidate_frac_pooled3") is not None else None),
+                        "valid_event_frac": round(w["event_valid_frac"], 4),
+                        "rank": w.get("rank_pooled3"), "has_assets": wid in top_ids},
         "geometry": {"type": "Polygon", "coordinates": [ring]}})
 (PUB / "neighbors-windows.geojson").write_text(json.dumps({
     "type": "FeatureCollection",
@@ -81,6 +81,7 @@ print(f"thumbs: {len(all_feats)} windows, {tk} KB")
     "claim": "top windows from the 2 Sep neighbor-river extension scan (S2-only, single-placebo p99) — separate from the sealed six-lead funnel; review order, not damage",
     "threshold_placebo_p99": thr, "scanned": len(report["windows"]),
     "ranked": sum(1 for w in report["windows"] if w.get("status") == "ranked"),
+    "contract": "pooled three-pair ordinary baseline (same as the main scan)",
     "features": features}) + "\n")
 size = sum(f.stat().st_size for f in OUT.glob("*.png")) // 1024
 print(f"top {len(features)} neighbor windows → {size} KB of PNGs")

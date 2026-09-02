@@ -430,7 +430,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       if (ncand) {
         openLightbox({ title: name || `Extension window ${ncand}`, sub: 'extension scan (2 Sep) · single-placebo threshold · not the sealed six leads',
           before: `/data/neighbors/${ncand}_pre.png`, after: `/data/neighbors/${ncand}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-          extra: [{ src: `/data/neighbors/${ncand}_delta.png`, under: `/data/neighbors/${ncand}_post.png`, label: 'AI change field · bright line = extension p99' }] });
+          extra: [{ src: `/data/neighbors/${ncand}_delta.png`, under: `/data/neighbors/${ncand}_post.png`, label: 'AI change field · bright line = pooled ordinary p99' }] });
         return;
       }
       const cand = el.dataset.cand;
@@ -936,9 +936,9 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           if (leadIdx != null) { openLeadRef.current(leadIdx); return; }
           const nbRank = neighborTopRef.current.get(wid);
           if (nbRank != null && nbRank <= 3) {
-            openLightbox({ title: `Extension window ${wid}`, sub: `extension scan (2 Sep) · ${(100 * frac).toFixed(0)}% changed · separate from the sealed six leads`,
+            openLightbox({ title: `Extension window ${wid}`, sub: `extension scan (2–3 Sep) · ${(100 * frac).toFixed(0)}% changed · pooled three-pair baseline · separate list`,
               before: `/data/neighbors/${wid}_pre.png`, after: `/data/neighbors/${wid}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-              extra: [{ src: `/data/neighbors/${wid}_delta.png`, under: `/data/neighbors/${wid}_post.png`, label: 'AI change field · bright line = extension p99' }] });
+              extra: [{ src: `/data/neighbors/${wid}_delta.png`, under: `/data/neighbors/${wid}_post.png`, label: 'AI change field · bright line = pooled ordinary p99' }] });
             return;
           }
           // 리드도 확장 top3도 아닌 구간 — 대조군. 큰 비교 대신 존재 이유를 한 줄로.
@@ -1301,15 +1301,15 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         const id = String(pr.id);
         const frac = pr.candidate_token_frac as number | null;
         if (pr.has_assets === true || pr.has_assets === 'true') {
-          openLightbox({ title: `Extension window ${id}`, sub: `extension scan (2 Sep)${frac != null ? ` · ${(100 * frac).toFixed(0)}% changed` : ''} · separate from the sealed six leads`,
+          openLightbox({ title: `Extension window ${id}`, sub: `extension scan (2–3 Sep)${frac != null ? ` · ${(100 * frac).toFixed(0)}% changed` : ''} · pooled three-pair baseline · separate list`,
             before: `/data/neighbors/${id}_pre.png`, after: `/data/neighbors/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-            extra: [{ src: `/data/neighbors/${id}_delta.png`, under: `/data/neighbors/${id}_post.png`, label: 'AI change field · bright line = extension p99' }] });
+            extra: [{ src: `/data/neighbors/${id}_delta.png`, under: `/data/neighbors/${id}_post.png`, label: 'AI change field · bright line = pooled ordinary p99' }] });
           return;
         }
         new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
           .setHTML(`<p class="pp-eyebrow">EXTENSION SCAN 2 SEP · ${String(pr.status).toUpperCase()}</p>`
             + `<p class="pp-story">${frac != null ? `<b>${(100 * frac).toFixed(0)}%</b> of cloud-free cells changed beyond ordinary here.` : 'Too cloudy to read on 27 Aug.'} Full imagery is published for the top 12 extension windows.</p>`
-            + `<p class="pp-src">single-placebo threshold — separate from the sealed six leads · not damage, not risk</p>`).addTo(map);
+            + `<p class="pp-src">pooled three-pair baseline (same as the main scan) · separate list · not damage, not risk</p>`).addTo(map);
       });
     }
     fc.features.forEach((f) => {

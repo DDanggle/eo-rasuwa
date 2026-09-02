@@ -16,12 +16,12 @@ wins = [f["properties"] for f in sc["candidates"]["geojson"]["features"]]
 # (frac, ext) — ext=True 는 2026-09-02 이웃 하천 확장 스캔(자체 단일 평시쌍 p99, 봉인 퍼널과 별개)
 pts = [(w["center_lonlat"][0], w["center_lonlat"][1],
         (w.get("candidate_token_frac") if w.get("status") == "ranked" else None), False, w["id"]) for w in wins]
-nb_report = REPO / "research-private/artifacts/neighbor_scan/embed/report.json"
+nb_report = REPO / "research-private/artifacts/neighbor_scan/pooled3/report.json"
 if nb_report.exists():
     nb = json.loads(nb_report.read_text())
     for w in nb["windows"]:
         pts.append((w["center_lonlat"][0], w["center_lonlat"][1],
-                    (w.get("candidate_token_frac") if w.get("status") == "ranked" else None), True, w["id"]))
+                    (w.get("candidate_frac_pooled3") if w.get("status") == "ranked" else None), True, w["id"]))
     print("neighbor windows:", len(nb["windows"]))
 
 def assign(lon, lat):

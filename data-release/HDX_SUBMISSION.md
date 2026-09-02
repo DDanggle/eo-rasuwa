@@ -20,15 +20,3 @@
    - **Tags**: flooding, landslides, satellite imagery, damage assessment(제외 권장 — 오해 소지), geodata
    - **Files**: review-leads.geojson · candidates.geojson · change-ribbon.geojson · README.md · methodology.md
 4. Visibility: Public
-
-# Zenodo DOI (연구 인용용 — 10분, 즉시 발급)
-
-1. https://zenodo.org 로그인 (GitHub 계정 연동 가능)
-2. https://zenodo.org/account/settings/github/ 에서 `DDanggle/eo-rasuwa` 스위치 ON
-3. GitHub에서 릴리스 태그 생성: 저장소 → Releases → "Draft a new release"
-   - tag `v1.0.0`, 제목: "Rasuwa 2026 satellite triage — first public release"
-   - 릴리스가 만들어지는 순간 Zenodo가 자동으로 아카이브 + DOI 발급
-4. 발급된 DOI 배지를 README에 추가 (요청 시 제가 반영)
-
-DOI가 생기면: 논문·리포트에서 이 데이터/코드가 인용 가능해지고,
-"개인 사이트"가 아니라 "인용 가능한 연구 산출물"로 격이 바뀝니다.

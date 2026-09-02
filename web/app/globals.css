@@ -1271,3 +1271,13 @@ a.brand-lockup { text-decoration: none; color: inherit; }
   /* 탭 힌트가 타임라인과 겹치지 않게 */
   .tap-hint { bottom: 150px; width: 86vw; font-size: 10.5px; }
 }
+
+/* 모바일 겹침 정리 (2026-09-03, 스크린샷 기준) */
+@media (max-width: 720px) {
+  .right-rail, .left-rail { z-index: 40; padding-top: 40px; }  /* 토글 줄 아래에서 시작 */
+  .rail-toggle { z-index: 41; }
+  .map-legend { display: none; }            /* 레일·범례 중첩 — 폰에서는 리본 범례 하나로 충분 */
+  .tap-hint { display: none; }              /* 카드 위로 떠서 오히려 방해 */
+  .topbar .brand { font-size: 11px; line-height: 1.15; }
+  .ribbon-legend { z-index: 20; }
+}

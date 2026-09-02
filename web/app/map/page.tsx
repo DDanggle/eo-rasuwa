@@ -475,6 +475,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const [leftOpen, setLeftOpen] = useState(false);  // 2026-08-30: 패널 하나로 — 포인트는 지도 위 라벨로 충분
   const [rightOpen, setRightOpen] = useState(true);
+  useEffect(() => {
+    // 모바일은 지도가 먼저다 — 레일은 닫힌 채 시작 (2026-09-03, 스크린샷 확인 후)
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 마운트 1회
+    if (window.innerWidth <= 720) setRightOpen(false);
+  }, []);
   const [reloadKey, setReloadKey] = useState(0);
 
   // Map camera helpers are declared before effects that capture them. This is

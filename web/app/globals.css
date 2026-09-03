@@ -1281,3 +1281,8 @@ a.brand-lockup { text-decoration: none; color: inherit; }
   .topbar .brand { font-size: 11px; line-height: 1.15; }
   .ribbon-legend { z-index: 20; }
 }
+
+/* 빙하 배경 범례 항목 */
+.ribbon-legend .rl-glacier { display: flex; align-items: center; gap: 6px; clear: both; margin-top: 7px;
+  font: 10px var(--font-geist-mono); color: var(--muted, #6f6c64); }
+.ribbon-legend .rl-glacier i { width: 12px; height: 12px; flex: none; background: #cfe9f5; border: 1px solid #8fc6e0; }

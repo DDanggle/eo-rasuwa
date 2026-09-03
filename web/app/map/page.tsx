@@ -465,6 +465,17 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 강줄기 변화 리본 (기본 ON): 하천 중심선을 창별 변화율로 칠한 요약 — 한눈에 "어디가 얼마나".
   const [changeRibbon, setChangeRibbon] = useState(true);
   const changeRibbonRef = useRef(true);
+  // 빙하 배경 (기본 ON): 이 계곡들이 왜 위험 지대인지 설명 없이 보이게
+  const [glaciers, setGlaciers] = useState(true);
+  const glacierRef = useRef(true);
+  const [glacierStats, setGlacierStats] = useState<{ glaciers: number; total_km2: number; within_5km_of_source: number; within_5km_km2: number } | null>(null);
+  useEffect(() => {
+    glacierRef.current = glaciers;
+    const map = mapRef.current;
+    for (const l of ['glacier-fill', 'glacier-line']) {
+      if (map?.getLayer(l)) map.setLayoutProperty(l, 'visibility', glaciers ? 'visible' : 'none');
+    }
+  }, [glaciers]);
   useEffect(() => {
     changeRibbonRef.current = changeRibbon;
     const map = mapRef.current;
@@ -878,6 +889,22 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
+    // 빙하 지대 (OSM natural=glacier, 상당수 GLIMS 유래) — 계곡 머리맡에 얼마나 많은
+    // 얼음이 매달려 있는지 면적으로 보여주는 배경. 윤곽 촬영연도 혼재 = 현재 상태 아님.
+    if (!map.getSource('glaciers')) {
+      fetch('/data/glaciers.geojson').then((r) => r.ok ? r.json() : null).then((gl) => {
+        if (!gl || map.getSource('glaciers')) return;
+        setGlacierStats(gl.stats ?? null);
+        map.addSource('glaciers', { type: 'geojson', data: gl });
+        const beforeLayer = map.getLayer('rivers-region') ? 'rivers-region' : (map.getLayer('river-casing') ? 'river-casing' : undefined);
+        map.addLayer({ id: 'glacier-fill', type: 'fill', source: 'glaciers',
+          paint: { 'fill-color': '#cfe9f5', 'fill-opacity': ['case', ['get', 'near_source_5km'], 0.62, 0.42] },
+          layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
+        map.addLayer({ id: 'glacier-line', type: 'line', source: 'glaciers',
+          paint: { 'line-color': '#8fc6e0', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.4, 13, 1.2], 'line-opacity': 0.85 },
+          layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
+      }).catch(() => {});
+    }
     // 지역 전체 하천망 (OSM) — 관측된 회랑과의 대비용 배경. 색이 없는 강 = 스캔하지 않은 강.
     if (!map.getSource('rivers-region')) {
       fetch('/data/rivers-region.geojson').then((r) => r.ok ? r.json() : null).then((rr) => {
@@ -1512,6 +1539,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <i className="ribbon-grad" />
           <span className="lo">ordinary</span>
           <span className="hi">up to 13%</span>
+          {glacierStats && <span className="rl-glacier"><i />{`${glacierStats.total_km2} km² of glacier in view · ${glacierStats.within_5km_km2} km² within 5 km of the source`}</span>}
           <small>Dashed = unreadable under cloud · thin blue = outside the scan · neighbor-river colours come from the 2 Sep extension scan (269 windows) · observed change — not risk, not damage.</small>
         </div>
       )}
@@ -1543,6 +1571,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className={zone === 2 ? 'is-active' : ''} onClick={() => setZone(2)} disabled={mapStatus !== 'ready'}>2 · IMPACT → DOWNSTREAM</button>
         </div>
         <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE VIEW ON' : '🛰 SATELLITE VIEW'}<em className="toggle-sub">{satTiles ? 'click any tile to compare' : 'see all 369 windows at once'}</em></button>
+        <button className={`sat-tiles-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">{glaciers ? 'GLACIERS ON' : 'GLACIERS'}<em className="toggle-sub">{glacierStats ? `${glacierStats.total_km2} km² in view` : 'ice above these valleys'}</em></button>
         <button className={`sat-tiles-toggle ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">{changeRibbon ? 'RIVER Δ ON' : 'RIVER Δ'}<em className="toggle-sub">observed change · not risk</em></button>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>

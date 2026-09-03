@@ -901,16 +901,18 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         // 대형 빙하(≥10 km²)는 차가운 청백색. OSM에 두께 자료가 없어 면적을 대리 지표로 쓴다.
         map.addLayer({ id: 'glacier-fill', type: 'fill', source: 'glaciers',
           paint: {
+            // 연보라(저채도): 녹색 지형 위에서 확실히 읽히고, 파랑(강·빙하호)과 충돌하지 않는다.
+            // 재관측 창의 보라(#7b3fbf)와 구분되도록 채도를 크게 낮춤.
             'fill-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
-              0.05, '#ffffff', 0.3, '#f2fbff', 1.0, '#e0f5fe', 4.0, '#c7ecfb', 12.0, '#a8dff8'],
+              0.05, '#f4f1fb', 0.3, '#e8e2f7', 1.0, '#d8cff2', 4.0, '#c3b6e9', 12.0, '#ab9bdd'],
             'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
-              0.05, 0.62, 0.5, 0.78, 3.0, 0.88, 12.0, 0.95],
+              0.05, 0.72, 0.5, 0.85, 3.0, 0.92, 12.0, 0.96],
           },
           layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
         map.addLayer({ id: 'glacier-line', type: 'line', source: 'glaciers',
           paint: {
             'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
-              0.05, '#9ec9dc', 2.0, '#5da3c4', 12.0, '#2e7fa6'],
+              0.05, '#b9aede', 2.0, '#9384c4', 12.0, '#6f5da8'],
             'line-width': ['interpolate', ['linear'], ['zoom'],
               8, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 0.4, 4.0, 1.0],
               13, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 1.0, 4.0, 2.4]],
@@ -918,7 +920,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
         map.addLayer({ id: 'glacier-source-halo', type: 'line', source: 'glaciers',
           filter: ['get', 'near_source_5km'],
-          paint: { 'line-color': '#1f7fb8', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 1.8, 13, 4.5], 'line-opacity': 0.95, 'line-blur': 0.4 },
+          paint: { 'line-color': '#5a4b95', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 1.8, 13, 4.4], 'line-opacity': 0.95, 'line-blur': 0.3 },
           layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, 'glacier-line');
       }).catch(() => {});
     }

@@ -1285,7 +1285,7 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 /* 빙하 배경 범례 항목 */
 .ribbon-legend .rl-glacier { display: flex; align-items: center; gap: 6px; clear: both; margin-top: 7px;
   font: 10px var(--font-geist-mono); color: var(--muted, #6f6c64); }
-.ribbon-legend .rl-glacier i.rl-ice { width: 30px; height: 11px; flex: none; border: 1px solid #5da3c4; background: linear-gradient(90deg, #ffffff, #e0f5fe, #a8dff8); }
+.ribbon-legend .rl-glacier i.rl-ice { width: 30px; height: 11px; flex: none; border: 1px solid #9384c4; background: linear-gradient(90deg, #f4f1fb, #d8cff2, #ab9bdd); }
 
 
 /* ─── 지도 레이어 토글: 하나의 세그먼트 바 (2026-09-03 디자인 정리) ─── */

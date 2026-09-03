@@ -141,6 +141,14 @@ type Scenario = {
     placebo_b?: { complete_windows: number; partial_windows: string[]; missing_windows: string[]; completed_layers: number; total_layers: number; materialization_sealed: boolean; embedded_windows: number; embedding_sealed: boolean; updated_at_utc: string | null };
     claim_boundary: string;
   };
+  source_radar_scan?: {
+    measurement_id: string;
+    observability: { radar_readable: number; radar_windows: number; optical_hillslope_readable: number; optical_hillslope_total: number };
+    region_wide_result: { windows_with_event_above_placebo: number; windows_ranked: number; mean_d_event: number; mean_d_placebo: number; verdict: string };
+    local_cluster: { unique_locations: number; windows: { id: string; frac_local_p99: number }[] };
+    excluded: { windows: string[] };
+    contract: { orbit: number; input_unit: string };
+  } | null;
   input_contract_audit?: { status: string; defect: string; official_contract: string; official_source: string; superseded_results: string[]; claim_boundary: string } | null;
   corridor_sealed?: {
     schema: string; model: string; status: string; windows: number; max_exceedance: number; windows_with_any_exceedance: number;
@@ -1735,6 +1743,27 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             </div>
           )}
         {railTab === 'evidence' && (<>
+          {scenario?.source_radar_scan && (
+            <div className="ai-vs-card">
+              <span>RADAR UNDER CLOUD · {scenario.source_radar_scan.measurement_id} · SOURCE REGION · SEPARATE LIST</span>
+              <strong>Radar read {scenario.source_radar_scan.observability.radar_readable}/{scenario.source_radar_scan.observability.radar_windows} windows where post-event optical read only {scenario.source_radar_scan.observability.optical_hillslope_readable}/{scenario.source_radar_scan.observability.optical_hillslope_total} — but the region shows no change above its own ordinary range</strong>
+              <p className="cand-help">
+                The 31 Aug Sentinel-1 pass misses two of the five sealed anchors, so this is a separate same-orbit
+                ({scenario.source_radar_scan.contract.orbit} desc) scan of the {scenario.source_radar_scan.observability.radar_windows} windows it does cover,
+                in {scenario.source_radar_scan.contract.input_unit}. Region-wide the event fortnight changed <b>less</b> than the earlier ordinary
+                fortnight ({scenario.source_radar_scan.region_wide_result.windows_with_event_above_placebo}/{scenario.source_radar_scan.region_wide_result.windows_ranked} windows above;
+                mean Δ {scenario.source_radar_scan.region_wide_result.mean_d_event} vs {scenario.source_radar_scan.region_wide_result.mean_d_placebo}),
+                so no radar detection is claimed. {scenario.source_radar_scan.local_cluster.unique_locations} locations at and just north of the source
+                do exceed their own ordinary range by {Math.round(100 * Math.min(...scenario.source_radar_scan.local_cluster.windows.map((w) => w.frac_local_p99)))}–{Math.round(100 * Math.max(...scenario.source_radar_scan.local_cluster.windows.map((w) => w.frac_local_p99)))}%;
+                spatial coherence is the only thing separating that from noise.
+              </p>
+              <small>
+                Window {scenario.source_radar_scan.excluded.windows.join(', ')}{' '}ranked high on the pooled threshold but failed its own local control
+                (Δevent &lt; Δplacebo) and is excluded — pooled rank alone would have been misleading. Radar-only, single placebo pair, one event,
+                one orbit, no field verification. Not damage, not risk, not a detection.
+              </small>
+            </div>
+          )}
               {scenario?.candidates?.retrieval && (
                 <details className="retrieval-box">
                   <summary>EXPLORATORY SIMILARITY SEARCH · NOT THE 6-LEAD RANKING</summary>

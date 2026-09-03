@@ -10211,5 +10211,134 @@
     "claim_boundary": "window-level intersection with frozen third-party flood/damage proxies at 2.56 km scale; not damage confirmation, not area, not per-structure accuracy; labels are proxies frozen as published",
     "next_step": "token-scale (40 m) overlap against the same frozen labels, or independent ground labels",
     "evidence_uri": "artifacts/external_label_score/report.json"
+  },
+  "source_radar_scan": {
+    "schema": "source-radar-scan-v1",
+    "measurement_id": "M92",
+    "generated_at_utc": "2026-09-03T08:43:44Z",
+    "question": "Radar sees through cloud — does the source region show change above its own ordinary range?",
+    "why": "The 49-window hillslope grid around the source was only 6/49 readable in post-event optical imagery; the 31 Aug Sentinel-1 pass does not cover all five sealed anchors, so this is a separate radar-only scan of the 56 windows it does cover.",
+    "contract": {
+      "orbit": 121,
+      "orbit_state": "descending",
+      "same_orbit_only": true,
+      "event_pair": {
+        "base": [
+          "2026-07-26",
+          "2026-08-07",
+          "2026-08-19"
+        ],
+        "target": "2026-08-31"
+      },
+      "placebo_pair": {
+        "base": [
+          "2026-07-02",
+          "2026-07-14",
+          "2026-07-26"
+        ],
+        "target": "2026-08-19"
+      },
+      "input_unit": "gamma0 dB (10*log10 of RTC linear power)",
+      "threshold_placebo_p99": 0.24954255342483536
+    },
+    "observability": {
+      "radar_readable": 56,
+      "radar_windows": 56,
+      "optical_hillslope_readable": 6,
+      "optical_hillslope_total": 49
+    },
+    "region_wide_result": {
+      "windows_with_event_above_placebo": 7,
+      "windows_ranked": 56,
+      "mean_d_event": 0.125,
+      "mean_d_placebo": 0.1327,
+      "verdict": "not_detected_region_wide",
+      "reading": "Across the scanned region the event fortnight changed LESS than the earlier ordinary fortnight (7/56 windows above), so no region-wide radar detection is claimed."
+    },
+    "local_cluster": {
+      "criterion": "≥5% of cells above that window's own placebo p99 AND Δevent > Δplacebo",
+      "unique_locations": 6,
+      "windows": [
+        {
+          "id": "v070",
+          "center_lonlat": [
+            85.4927,
+            28.3224
+          ],
+          "frac_local_p99": 0.1533,
+          "d_event_mean": 0.1526,
+          "d_placebo_mean": 0.1212
+        },
+        {
+          "id": "v076",
+          "center_lonlat": [
+            85.5191,
+            28.2996
+          ],
+          "frac_local_p99": 0.1042,
+          "d_event_mean": 0.1385,
+          "d_placebo_mean": 0.1218
+        },
+        {
+          "id": "v064",
+          "center_lonlat": [
+            85.4662,
+            28.3452
+          ],
+          "frac_local_p99": 0.0974,
+          "d_event_mean": 0.1427,
+          "d_placebo_mean": 0.1289
+        },
+        {
+          "id": "v050",
+          "center_lonlat": [
+            85.5194,
+            28.2765
+          ],
+          "frac_local_p99": 0.0815,
+          "d_event_mean": 0.1389,
+          "d_placebo_mean": 0.1263
+        },
+        {
+          "id": "v075",
+          "center_lonlat": [
+            85.5194,
+            28.2765
+          ],
+          "frac_local_p99": 0.0815,
+          "d_event_mean": 0.1389,
+          "d_placebo_mean": 0.1263
+        },
+        {
+          "id": "v069",
+          "center_lonlat": [
+            85.493,
+            28.2993
+          ],
+          "frac_local_p99": 0.0669,
+          "d_event_mean": 0.133,
+          "d_placebo_mean": 0.1268
+        },
+        {
+          "id": "v063",
+          "center_lonlat": [
+            85.4665,
+            28.3221
+          ],
+          "frac_local_p99": 0.0605,
+          "d_event_mean": 0.1312,
+          "d_placebo_mean": 0.1254
+        }
+      ],
+      "reading": "6 distinct locations at and just north of the source estimate exceed their own ordinary range by 6–15%. Spatial coherence is the only thing separating this from noise; it is not a detection."
+    },
+    "excluded": {
+      "windows": [
+        "v094"
+      ],
+      "reason": "high on the pooled threshold but fails its own local control (Δevent < Δplacebo) — pooled rank alone would have been misleading"
+    },
+    "claim_boundary": "Radar-only, single placebo pair, one event, one orbit, no field verification. This is a separate list from the optical six-lead funnel and is not damage, not risk, and not a detection.",
+    "evidence_uri": "artifacts/source_radar_scan/report.json"
   }
 }

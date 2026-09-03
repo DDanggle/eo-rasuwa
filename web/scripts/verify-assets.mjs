@@ -71,6 +71,14 @@ assert.equal(scenario.external_label_score?.ranking_unchanged, true);
 assert.equal(scenario.external_label_score?.precision_at_6_vector_union, 1);
 assert.ok(scenario.external_label_score?.non_lead_base_rate_vector_union > 0.85);
 assert.equal(scenario.external_label_score?.verdict, 'window_scale_not_discriminative');
+// M92 레이더 스캔 (2026-09-03): 같은 궤도 3v1, dB 입력, 지역 전체 무검출 + 국소 클러스터.
+assert.equal(scenario.source_radar_scan?.measurement_id, 'M92');
+assert.equal(scenario.source_radar_scan?.contract.orbit, 121);
+assert.match(scenario.source_radar_scan?.contract.input_unit ?? '', /dB/);
+assert.equal(scenario.source_radar_scan?.region_wide_result.verdict, 'not_detected_region_wide');
+assert.equal(scenario.source_radar_scan?.observability.radar_readable, 56);
+assert.ok(scenario.source_radar_scan?.region_wide_result.mean_d_event < scenario.source_radar_scan?.region_wide_result.mean_d_placebo);
+assert.ok((scenario.source_radar_scan?.excluded.windows ?? []).includes('v094'));
 assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scenario.ops_log.length);
 assert.equal(scenario.live_observation.cloud_cover_tile_pct, null);
 assert.match(scenario.live_observation.product_name, /^S1D_IW_GRDH_1SDV_20260828/);

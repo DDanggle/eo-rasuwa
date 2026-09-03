@@ -472,7 +472,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   useEffect(() => {
     glacierRef.current = glaciers;
     const map = mapRef.current;
-    for (const l of ['glacier-fill', 'glacier-line']) {
+    for (const l of ['glacier-fill', 'glacier-line', 'glacier-source-halo']) {
       if (map?.getLayer(l)) map.setLayoutProperty(l, 'visibility', glaciers ? 'visible' : 'none');
     }
   }, [glaciers]);
@@ -897,12 +897,29 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         setGlacierStats(gl.stats ?? null);
         map.addSource('glaciers', { type: 'geojson', data: gl });
         const beforeLayer = map.getLayer('rivers-region') ? 'rivers-region' : (map.getLayer('river-casing') ? 'river-casing' : undefined);
+        // 얼음: 흰 눈색 기반, 규모(면적)에 따라 5단계로 진해진다 — 작은 설전은 옅은 흰색,
+        // 대형 빙하(≥10 km²)는 차가운 청백색. OSM에 두께 자료가 없어 면적을 대리 지표로 쓴다.
         map.addLayer({ id: 'glacier-fill', type: 'fill', source: 'glaciers',
-          paint: { 'fill-color': '#cfe9f5', 'fill-opacity': ['case', ['get', 'near_source_5km'], 0.62, 0.42] },
+          paint: {
+            'fill-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
+              0.05, '#ffffff', 0.3, '#f2fbff', 1.0, '#e0f5fe', 4.0, '#c7ecfb', 12.0, '#a8dff8'],
+            'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
+              0.05, 0.62, 0.5, 0.78, 3.0, 0.88, 12.0, 0.95],
+          },
           layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
         map.addLayer({ id: 'glacier-line', type: 'line', source: 'glaciers',
-          paint: { 'line-color': '#8fc6e0', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.4, 13, 1.2], 'line-opacity': 0.85 },
+          paint: {
+            'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
+              0.05, '#9ec9dc', 2.0, '#5da3c4', 12.0, '#2e7fa6'],
+            'line-width': ['interpolate', ['linear'], ['zoom'],
+              8, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 0.4, 4.0, 1.0],
+              13, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 1.0, 4.0, 2.4]],
+            'line-opacity': 0.9 },
           layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
+        map.addLayer({ id: 'glacier-source-halo', type: 'line', source: 'glaciers',
+          filter: ['get', 'near_source_5km'],
+          paint: { 'line-color': '#1f7fb8', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 1.8, 13, 4.5], 'line-opacity': 0.95, 'line-blur': 0.4 },
+          layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, 'glacier-line');
       }).catch(() => {});
     }
     // 지역 전체 하천망 (OSM) — 관측된 회랑과의 대비용 배경. 색이 없는 강 = 스캔하지 않은 강.
@@ -1507,23 +1524,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           어긋나며 ③ 지도 캔버스와 basemap을 가렸다. WebGL2가 없을 때만 정적 이미지로
           내려간다(아래 map-fallback). */}
       <div className="key-strip" role="note">
-        <b>{zone === 0 ? 'KEY' : zone === 1 ? 'ZONE 1' : 'ZONE 2'}</b>
-        <span>{zone === 0
-          ? (scenario?.review?.leads?.length ? `${scenario.review.funnel.scanned} windows scanned · ${scenario.review.funnel.observable} observable · ${scenario.review.funnel.leads} to inspect first: ${scenario.review.leads.slice(0, 3).map((c) => c.place.split(',')[0]).join(' · ')} … Ranked by the share of 40 m cells whose before/after embedding distance exceeds that place's ordinary 99th percentile. Nothing here is confirmed damage.` : 'Where to look first, ranked by OlmoEarth change. Nothing here is confirmed damage.')
-          : zone === 1
-          ? (scenario?.geomorph ? `Glacier source to the border: ${scenario.geomorph.zone1.length_km} km of gorge, ${scenario.geomorph.zone1.drop_m.toFixed(0)} m of drop; the valley pinches to ${scenario.geomorph.zone1.narrowest.valley_width_km} km at km ${scenario.geomorph.zone1.narrowest.km_from_source}. The hillslope grid around the source is cloud-limited; Salê is its only judged off-river candidate.` : 'Glacier source to the border.')
-          : (scenario?.geomorph ? `Border to Galchhi: ${scenario.geomorph.zone2.n_windows} judged river windows. Wider valley floors carry more change (ρ ${scenario.geomorph.zone2.correlations.valley_width_km?.spearman.toFixed(2)}); confined, high-relief reaches carry less (ρ ${scenario.geomorph.zone2.correlations.relief_m?.spearman.toFixed(2)}). Look first at Dalphedi and the Bidur reach.` : 'Border to Galchhi.')}</span>
+        <b>KEY</b>
+        <span>{scenario?.review ? `${scenario.review.funnel.scanned} scanned · ${scenario.review.funnel.observable} readable · ${scenario.review.funnel.leads} to inspect first — nothing here is confirmed damage` : 'loading…'}</span>
       </div>
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
-      {scenario?.candidates && mapStatus === 'ready' && (
-        <div className="map-legend" aria-label="Map legend">
-          <span><i className="sw amber" />six review leads · pooled three-pair threshold</span>
-          <span><i className="sw purple" />re-observe · strong change, insufficient clear pixels</span>
-          <span><i className="sw grey" />thin outline = screened; no fill = not a lead</span>
-          <span><i className="sw teal" />100 scanned centers · click any point for before/after</span>
-          <span><i className="sw ribbon" />river coloured by observed change share — blue-grey calm → crimson most changed · not risk</span>
-        </div>
-      )}
       {candView && (
         <div className={`cand-chip ${rightOpen ? 'rail-open' : ''}`} role="status">
           <b>{candView.rank ? `#${candView.rank}` : candView.id}</b><span>{candView.place ?? ''}</span>
@@ -1535,17 +1539,27 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       )}
       {changeRibbon && (
         <div className="ribbon-legend" aria-label="River change legend">
-          <b>RIVER COLOUR = CHANGE SINCE THE EVENT</b>
+          <b>HOW TO READ THIS MAP</b>
+          <span className="rl-row"><i className="sw amber" />6 places to inspect first</span>
+          <span className="rl-row"><i className="sw purple" />held back — too much cloud to judge</span>
+          <span className="rl-row"><i className="sw teal" />scanned window · tap for before/after</span>
+          <b className="rl-sub">RIVER COLOUR = CHANGE SINCE THE EVENT</b>
           <i className="ribbon-grad" />
           <span className="lo">ordinary</span>
           <span className="hi">up to 13%</span>
-          {glacierStats && <span className="rl-glacier"><i />{`${glacierStats.total_km2} km² of glacier in view · ${glacierStats.within_5km_km2} km² within 5 km of the source`}</span>}
+          {glacierStats && (
+            <span className="rl-glacier">
+              <i className="rl-ice" />
+              {`glacier: ${glacierStats.total_km2} km² in view · ${glacierStats.within_5km_km2} km² within 5 km of the source (darker = larger)`}
+            </span>
+          )}
           <small>Dashed = unreadable under cloud · thin blue = outside the scan · neighbor-river colours come from the 2 Sep extension scan (269 windows) · observed change — not risk, not damage.</small>
         </div>
       )}
       {tapHint && (
         <button className="tap-hint" onClick={dismissTapHint}>
-          {'사각형·청록 점을 클릭하면 전후 비교가 열립니다 · Click any rectangle or dot to compare ✕'}
+          Tap the river or a marked window to see before and after
+          <span aria-hidden="true">✕</span>
         </button>
       )}
       <div className="terrain-wash" aria-hidden="true" />
@@ -1570,9 +1584,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
           <button className={zone === 2 ? 'is-active' : ''} onClick={() => setZone(2)} disabled={mapStatus !== 'ready'}>2 · IMPACT → DOWNSTREAM</button>
         </div>
-        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE VIEW ON' : '🛰 SATELLITE VIEW'}<em className="toggle-sub">{satTiles ? 'click any tile to compare' : 'see all 369 windows at once'}</em></button>
-        <button className={`sat-tiles-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">{glaciers ? 'GLACIERS ON' : 'GLACIERS'}<em className="toggle-sub">{glacierStats ? `${glacierStats.total_km2} km² in view` : 'ice above these valleys'}</em></button>
-        <button className={`sat-tiles-toggle ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">{changeRibbon ? 'RIVER Δ ON' : 'RIVER Δ'}<em className="toggle-sub">observed change · not risk</em></button>
+        <div className="map-toggles" role="group" aria-label="Map layers">
+        <button className={`map-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">SATELLITE<em className="toggle-sub">{satTiles ? 'tap a tile to compare' : 'all 369 windows'}</em></button>
+        <button className={`map-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">GLACIERS<em className="toggle-sub">{glacierStats ? `${glacierStats.total_km2} km² of ice` : 'ice above the valleys'}</em></button>
+        <button className={`map-toggle ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">RIVER CHANGE<em className="toggle-sub">observed, not predicted</em></button>
+        </div>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
           <button className={viewDim === '3d' ? 'is-active' : ''} onClick={() => setDimension('3d')} disabled={mapStatus !== 'ready'}>3D</button>

@@ -1285,4 +1285,43 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 /* 빙하 배경 범례 항목 */
 .ribbon-legend .rl-glacier { display: flex; align-items: center; gap: 6px; clear: both; margin-top: 7px;
   font: 10px var(--font-geist-mono); color: var(--muted, #6f6c64); }
-.ribbon-legend .rl-glacier i { width: 12px; height: 12px; flex: none; background: #cfe9f5; border: 1px solid #8fc6e0; }
+.ribbon-legend .rl-glacier i.rl-ice { width: 30px; height: 11px; flex: none; border: 1px solid #5da3c4; background: linear-gradient(90deg, #ffffff, #e0f5fe, #a8dff8); }
+
+
+/* ─── 지도 레이어 토글: 하나의 세그먼트 바 (2026-09-03 디자인 정리) ─── */
+.map-toggles { display: flex; align-items: stretch; border: 1px solid var(--line-strong, #cfcbc2);
+  background: var(--surface, #fffefb); overflow: hidden; }
+.map-toggle { display: grid; align-content: center; gap: 2px; min-width: 118px; padding: 7px 12px;
+  border: 0; border-left: 1px solid var(--line, #e3e0d8); background: transparent; cursor: pointer;
+  font: 700 9.5px var(--font-geist-mono); letter-spacing: .08em; color: var(--muted, #6f6c64);
+  text-align: left; transition: background .15s, color .15s; }
+.map-toggle:first-child { border-left: 0; }
+.map-toggle:hover { background: color-mix(in srgb, var(--ink, #16151a) 6%, transparent); }
+.map-toggle.is-active { background: var(--ink, #16151a); color: #fffefb; }
+.map-toggle.is-active .toggle-sub { color: rgba(255,254,251,.72); }
+.map-toggle.attract { color: #8a5c05; background: color-mix(in srgb, #d99a24 12%, transparent);
+  animation: sat-breathe 2.8s ease-in-out infinite; }
+.map-toggle.attract .toggle-sub { color: #a1720f; }
+
+/* 통합 범례 카드 */
+.ribbon-legend { width: 252px; }
+.ribbon-legend .rl-row { display: flex; align-items: center; gap: 7px; margin-top: 5px;
+  font: 10px var(--font-geist-sans); color: #4a4841; }
+.ribbon-legend .rl-row i { width: 11px; height: 11px; flex: none; }
+.ribbon-legend .rl-sub { display: block; margin-top: 11px; }
+@media (max-width: 720px) {
+  .map-toggles { max-width: calc(100vw - 20px); overflow-x: auto; }
+  .map-toggle { min-width: 96px; padding: 6px 9px; }
+  .ribbon-legend .rl-row { display: none; }
+}
+
+/* 통합 범례의 색 견본 (map-legend 스코프 대체) */
+.ribbon-legend .rl-row i { border: 1px solid rgba(0,0,0,.22); }
+.ribbon-legend .rl-row i.amber { background: rgba(217,154,36,.6); border-color: #d99a24; }
+.ribbon-legend .rl-row i.purple { background: rgba(123,63,191,.55); border-color: #7b3fbf; }
+.ribbon-legend .rl-row i.teal { background: #19d3b0; border-radius: 50%; border-color: #0e8f86; }
+/* 토글 바가 우측 컨트롤과 겹치지 않게 — 텍스트 잘림 방지 */
+.topbar { gap: 10px; }
+.map-toggles { flex: 0 0 auto; }
+.map-toggle { min-width: 0; white-space: nowrap; }
+@media (max-width: 1380px) { .map-toggle .toggle-sub { display: none; } .map-toggle { padding: 9px 10px; } }

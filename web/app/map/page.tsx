@@ -1609,12 +1609,12 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             <li><i className="k-sw amber" />review lead <b>6</b></li>
             <li><i className="k-sw purple" />held back · cloud</li>
             <li><i className="k-dot teal" />scanned window <b>100</b></li>
-            <li><i className="k-sw ice" />glacier{glacierStats ? <> <b>{glacierStats.total_km2}</b> km²</> : null}</li>
+            <li><i className="k-sw ice" />glacier{glacierStats ? <> <b>{Math.round(glacierStats.total_km2).toLocaleString()}</b> km²</> : null}</li>
             <li><i className="k-line dash" />unreadable</li>
             <li><i className="k-line thin" />outside scan</li>
           </ul>
           <p className="lg-source">
-            Sentinel-2 L2A 12 → 27 Aug 2026 · OlmoEarth v1 Base, frozen · glacier outlines OSM/GLIMS, vintage varies<br />
+            Sentinel-2 L2A 12 → 27 Aug 2026 · OlmoEarth v1 Base, frozen<br />glacier outlines OSM/GLIMS inventory, vintage varies — extent, not hazard<br />
             WGS 84 · observed change — not risk, not damage
           </p>
         </figure>
@@ -1649,7 +1649,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         </div>
         <div className="map-toggles" role="group" aria-label="Map layers">
         <button className={`map-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">SATELLITE<em className="toggle-sub">{satTiles ? 'tap a tile to compare' : 'all 369 windows'}</em></button>
-        <button className={`map-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">GLACIERS<em className="toggle-sub">{glacierStats ? `${glacierStats.total_km2} km² of ice` : 'ice above the valleys'}</em></button>
+        <button className={`map-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">GLACIERS<em className="toggle-sub">{glacierStats ? `${Math.round(glacierStats.total_km2).toLocaleString()} km² above these valleys` : 'ice above the valleys'}</em></button>
         <button className={`map-toggle ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">RIVER CHANGE<em className="toggle-sub">observed, not predicted</em></button>
         </div>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">

@@ -145,7 +145,8 @@ type Scenario = {
     measurement_id: string;
     observability: { radar_readable: number; radar_windows: number; optical_hillslope_readable: number; optical_hillslope_total: number };
     region_wide_result: { windows_with_event_above_placebo: number; windows_ranked: number; mean_d_event: number; mean_d_placebo: number; verdict: string };
-    local_cluster: { unique_locations: number; windows: { id: string; frac_local_p99: number }[] };
+    local_cluster: { unique_locations: number; mean_km_from_source: number; all_windows_mean_km_from_source: number; permutation_p: number; windows: { id: string; km_from_source: number; candidate_token_frac: number }[] };
+    correction?: { date: string; what: string; detail: string; effect: string };
     excluded: { windows: string[] };
     contract: { orbit: number; input_unit: string };
   } | null;
@@ -1790,21 +1791,32 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           {scenario?.source_radar_scan && (
             <div className="ai-vs-card">
               <span>RADAR UNDER CLOUD · {scenario.source_radar_scan.measurement_id} · SOURCE REGION · SEPARATE LIST</span>
-              <strong>Radar read {scenario.source_radar_scan.observability.radar_readable}/{scenario.source_radar_scan.observability.radar_windows} windows where post-event optical read only {scenario.source_radar_scan.observability.optical_hillslope_readable}/{scenario.source_radar_scan.observability.optical_hillslope_total} — but the region shows no change above its own ordinary range</strong>
+              <strong>
+                Radar read {scenario.source_radar_scan.observability.radar_readable}/{scenario.source_radar_scan.observability.radar_windows} windows where post-event optical read only{' '}
+                {scenario.source_radar_scan.observability.optical_hillslope_readable}/{scenario.source_radar_scan.observability.optical_hillslope_total} — no region-wide change,
+                but every window that did out-change its own ordinary pair sits around the source
+              </strong>
               <p className="cand-help">
                 The 31 Aug Sentinel-1 pass misses two of the five sealed anchors, so this is a separate same-orbit
-                ({scenario.source_radar_scan.contract.orbit} desc) scan of the {scenario.source_radar_scan.observability.radar_windows} windows it does cover,
-                in {scenario.source_radar_scan.contract.input_unit}. Region-wide the event fortnight changed <b>less</b> than the earlier ordinary
-                fortnight ({scenario.source_radar_scan.region_wide_result.windows_with_event_above_placebo}/{scenario.source_radar_scan.region_wide_result.windows_ranked} windows above;
-                mean Δ {scenario.source_radar_scan.region_wide_result.mean_d_event} vs {scenario.source_radar_scan.region_wide_result.mean_d_placebo}),
-                so no radar detection is claimed. {scenario.source_radar_scan.local_cluster.unique_locations} locations at and just north of the source
-                do exceed their own ordinary range by {Math.round(100 * Math.min(...scenario.source_radar_scan.local_cluster.windows.map((w) => w.frac_local_p99)))}–{Math.round(100 * Math.max(...scenario.source_radar_scan.local_cluster.windows.map((w) => w.frac_local_p99)))}%;
-                spatial coherence is the only thing separating that from noise.
+                ({scenario.source_radar_scan.contract.orbit} desc) scan of the {scenario.source_radar_scan.observability.radar_windows} windows it does cover, in{' '}
+                {scenario.source_radar_scan.contract.input_unit}. Region-wide the event fortnight changed no more than an ordinary one
+                ({scenario.source_radar_scan.region_wide_result.windows_with_event_above_placebo}/{scenario.source_radar_scan.region_wide_result.windows_ranked} windows above;
+                mean Δ {scenario.source_radar_scan.region_wide_result.mean_d_event} vs {scenario.source_radar_scan.region_wide_result.mean_d_placebo}), so no radar detection is claimed.
+                The {scenario.source_radar_scan.local_cluster.unique_locations} windows that do exceed their own ordinary pair average{' '}
+                {scenario.source_radar_scan.local_cluster.mean_km_from_source} km from the source estimate against{' '}
+                {scenario.source_radar_scan.local_cluster.all_windows_mean_km_from_source} km for the scanned set
+                (permutation p = {scenario.source_radar_scan.local_cluster.permutation_p}). The cluster is where the collapse began — a review priority, not a detection.
               </p>
+              {scenario.source_radar_scan.correction && (
+                <p className="cand-help">
+                  <b>Correction {scenario.source_radar_scan.correction.date}:</b> {scenario.source_radar_scan.correction.detail}{' '}
+                  {scenario.source_radar_scan.correction.effect}
+                </p>
+              )}
               <small>
-                Window {scenario.source_radar_scan.excluded.windows.join(', ')}{' '}ranked high on the pooled threshold but failed its own local control
-                (Δevent &lt; Δplacebo) and is excluded — pooled rank alone would have been misleading. Radar-only, single placebo pair, one event,
-                one orbit, no field verification. Not damage, not risk, not a detection.
+                Window {scenario.source_radar_scan.excluded.windows.join(', ')}{' '}ranked high on the pooled threshold but its event pair changed
+                less than its own ordinary pair, and is excluded — pooled rank alone would have been misleading. Radar-only, one event, one orbit,
+                no field verification. Not damage, not risk, not a detection.
               </small>
             </div>
           )}

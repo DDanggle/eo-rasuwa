@@ -82,6 +82,11 @@ assert.match(scenario.source_radar_scan?.contract.input_unit ?? '', /dB/);
 assert.equal(scenario.source_radar_scan?.region_wide_result.verdict, 'not_detected_region_wide');
 assert.equal(scenario.source_radar_scan?.observability.radar_readable, 56);
 assert.ok(scenario.source_radar_scan?.region_wide_result.mean_d_event < scenario.source_radar_scan?.region_wide_result.mean_d_placebo);
+// 2026-09-04 정정: 평시쌍을 사건쌍과 같은 시간 간격으로 재실행. 결론은 유지됨.
+assert.equal(scenario.source_radar_scan?.contract.time_matched, true);
+assert.equal(scenario.source_radar_scan?.contract.placebo_pair.target, '2026-08-07');
+assert.ok(scenario.source_radar_scan?.correction?.date === '2026-09-04');
+assert.ok(scenario.source_radar_scan?.local_cluster.permutation_p < 0.05);
 assert.ok((scenario.source_radar_scan?.excluded.windows ?? []).includes('v094'));
 assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scenario.ops_log.length);
 assert.equal(scenario.live_observation.cloud_cover_tile_pct, null);

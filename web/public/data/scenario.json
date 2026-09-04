@@ -10236,10 +10236,11 @@
           "2026-07-14",
           "2026-07-26"
         ],
-        "target": "2026-08-19"
+        "target": "2026-08-07"
       },
       "input_unit": "gamma0 dB (10*log10 of RTC linear power)",
-      "threshold_placebo_p99": 0.24954255342483536
+      "threshold_placebo_p99": 0.2472417771816253,
+      "time_matched": true
     },
     "observability": {
       "radar_readable": 56,
@@ -10251,13 +10252,17 @@
       "windows_with_event_above_placebo": 7,
       "windows_ranked": 56,
       "mean_d_event": 0.125,
-      "mean_d_placebo": 0.1327,
+      "mean_d_placebo": 0.1322,
       "verdict": "not_detected_region_wide",
-      "reading": "Across the scanned region the event fortnight changed LESS than the earlier ordinary fortnight (7/56 windows above), so no region-wide radar detection is claimed."
+      "reading": "Across the scanned region the event fortnight changed no more than an ordinary one, so no region-wide radar detection is claimed."
     },
     "local_cluster": {
-      "criterion": "≥5% of cells above that window's own placebo p99 AND Δevent > Δplacebo",
+      "criterion": "the window's event pair changed more than its own time-matched ordinary pair",
       "unique_locations": 6,
+      "mean_km_from_source": 4.73,
+      "all_windows_mean_km_from_source": 6.58,
+      "permutation_p": 0.0365,
+      "permutation_note": "200,000 random draws of the same number of windows; p = probability that a random set sits at least this close to the source estimate",
       "windows": [
         {
           "id": "v070",
@@ -10265,9 +10270,10 @@
             85.4927,
             28.3224
           ],
-          "frac_local_p99": 0.1533,
+          "km_from_source": 5.7,
+          "candidate_token_frac": 0.0828,
           "d_event_mean": 0.1526,
-          "d_placebo_mean": 0.1212
+          "d_placebo_mean": 0.1261
         },
         {
           "id": "v076",
@@ -10275,19 +10281,10 @@
             85.5191,
             28.2996
           ],
-          "frac_local_p99": 0.1042,
+          "km_from_source": 2.6,
+          "candidate_token_frac": 0.0652,
           "d_event_mean": 0.1385,
-          "d_placebo_mean": 0.1218
-        },
-        {
-          "id": "v064",
-          "center_lonlat": [
-            85.4662,
-            28.3452
-          ],
-          "frac_local_p99": 0.0974,
-          "d_event_mean": 0.1427,
-          "d_placebo_mean": 0.1289
+          "d_placebo_mean": 0.1217
         },
         {
           "id": "v050",
@@ -10295,19 +10292,21 @@
             85.5194,
             28.2765
           ],
-          "frac_local_p99": 0.0815,
+          "km_from_source": 0.0,
+          "candidate_token_frac": 0.0618,
           "d_event_mean": 0.1389,
-          "d_placebo_mean": 0.1263
+          "d_placebo_mean": 0.1296
         },
         {
-          "id": "v075",
+          "id": "v064",
           "center_lonlat": [
-            85.5194,
-            28.2765
+            85.4662,
+            28.3452
           ],
-          "frac_local_p99": 0.0815,
-          "d_event_mean": 0.1389,
-          "d_placebo_mean": 0.1263
+          "km_from_source": 9.2,
+          "candidate_token_frac": 0.0613,
+          "d_event_mean": 0.1427,
+          "d_placebo_mean": 0.1296
         },
         {
           "id": "v069",
@@ -10315,9 +10314,10 @@
             85.493,
             28.2993
           ],
-          "frac_local_p99": 0.0669,
+          "km_from_source": 3.6,
+          "candidate_token_frac": 0.0471,
           "d_event_mean": 0.133,
-          "d_placebo_mean": 0.1268
+          "d_placebo_mean": 0.1262
         },
         {
           "id": "v063",
@@ -10325,20 +10325,31 @@
             85.4665,
             28.3221
           ],
-          "frac_local_p99": 0.0605,
+          "km_from_source": 7.2,
+          "candidate_token_frac": 0.04,
           "d_event_mean": 0.1312,
-          "d_placebo_mean": 0.1254
+          "d_placebo_mean": 0.1294
         }
       ],
-      "reading": "6 distinct locations at and just north of the source estimate exceed their own ordinary range by 6–15%. Spatial coherence is the only thing separating this from noise; it is not a detection."
+      "reading": "Every window whose event pair out-changed its own ordinary pair sits within 9 km of the source estimate, averaging 4.7 km against 6.6 km for the scanned set (permutation p = 0.037). The cluster is where the collapse began; it is still a review priority, not a detection."
     },
     "excluded": {
       "windows": [
         "v094"
       ],
-      "reason": "high on the pooled threshold but fails its own local control (Δevent < Δplacebo) — pooled rank alone would have been misleading"
+      "reason": "high on the pooled threshold but its event pair changed less than its own ordinary pair — pooled rank alone would have been misleading"
     },
     "claim_boundary": "Radar-only, single placebo pair, one event, one orbit, no field verification. This is a separate list from the optical six-lead funnel and is not damage, not risk, and not a detection.",
-    "evidence_uri": "artifacts/source_radar_scan/report.json"
+    "evidence_uri": "artifacts/source_radar_scan/report.json",
+    "correction": {
+      "date": "2026-09-04",
+      "what": "the placebo pair was re-run with a time-matched target",
+      "detail": "The first run used base{07-02,07-14,07-26} → 08-19, whose base-to-target gaps (48/36/24 days) were twice those of the event pair (36/24/12 days). Longer gaps change more on their own, so the ordinary bar was inflated. Re-running with target 08-07 makes the gaps identical.",
+      "effect": "The conclusion did not move: mean ordinary change went 0.1327 → 0.1322 and the same 7 windows still exceed their ordinary pair. Radar change here does not grow with elapsed time, so the null result is a property of the signal, not of the contract error.",
+      "superseded_artifacts": [
+        "report_mismatched_placebo.json",
+        "embed_mismatched_placebo/"
+      ]
+    }
   }
 }

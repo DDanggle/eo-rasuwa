@@ -233,6 +233,7 @@ const PLANET_LABEL = 'PlanetScope 3.8 m · 08-28 · © Planet Labs PBC CC-BY-NC-
 const planetFigure = (key: string | null): string => key && PLANET_FRAMES[key]
   ? `<figure><img src="${PLANET_FRAMES[key].src}" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0 · source.coop</a></figcaption></figure>` : '';
 
+type GlacierStats = { glaciers: number; total_km2: number; within_5km_of_source: number; within_5km_km2: number };
 const shortDate = (iso: string) => {
   const d = new Date(iso);
   return `${String(d.getUTCDate()).padStart(2, '0')} ${MONTHS[d.getUTCMonth()]}`;
@@ -406,6 +407,37 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   type NbWin = { type: 'Feature'; properties: { id: string; status: string; candidate_token_frac: number | null; valid_event_frac: number; has_assets: boolean }; geometry: { type: 'Polygon'; coordinates: [number, number][][] } };
   const neighborAllRef = useRef<NbWin[]>([]);
   const [neighborLoaded, setNeighborLoaded] = useState(false);
+
+  // 리본 클릭 핸들러는 ref에 보관 — 스타일 리로드로 레이어가 다시 붙어도 같은 함수를 매단다.
+  const onRibbonClickRef = useRef<(e: MapLayerMouseEvent) => void>(() => {});
+  useEffect(() => {
+    onRibbonClickRef.current = (e: MapLayerMouseEvent) => {
+      const map = mapRef.current;
+      if (!map) return;
+    const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
+      if (oe._popupHandled) return; oe._popupHandled = true;
+      const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined;
+      const frac = pr?.frac as number | undefined;
+      const wid = pr?.wid as string | undefined;
+      if (frac == null || !wid) return;
+      // 규칙 하나: 색 있는 강 클릭 = 큰 전후 비교 (심플 원칙)
+      const leadIdx = leadIndexByIdRef.current[wid];
+      if (leadIdx != null) { openLeadRef.current(leadIdx); return; }
+      const nbRank = neighborTopRef.current.get(wid);
+      if (nbRank != null && nbRank <= 3) {
+        openLightbox({ title: `Extension window ${wid}`, sub: `extension scan (2–3 Sep) · ${(100 * frac).toFixed(0)}% changed · pooled three-pair baseline · separate list`,
+          before: `/data/neighbors/${wid}_pre.png`, after: `/data/neighbors/${wid}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+          extra: [{ src: `/data/neighbors/${wid}_delta.png`, under: `/data/neighbors/${wid}_post.png`, label: 'AI change field · bright line = pooled ordinary p99' }] });
+        return;
+      }
+      // 리드도 확장 top3도 아닌 구간 — 대조군. 큰 비교 대신 존재 이유를 한 줄로.
+      const ext = !!pr?.ext;
+      new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
+        .setHTML(`<p class="pp-eyebrow">RIVER Δ · SCREENED${ext ? ' · EXTENSION 2 SEP' : ''}</p>`
+          + `<p class="pp-story"><b>${(100 * frac).toFixed(0)}%</b> of cloud-free cells changed beyond ordinary here — ${frac < 0.04 ? 'close to ordinary level' : 'below the lead threshold'}. This reach is part of the comparison baseline that makes the six leads meaningful, not a lead itself.</p>`
+          + `<p class="pp-src">not damage, not risk — an order for human review</p>`).addTo(map);
+    };
+  });
   useEffect(() => {
     fetch('/data/neighbors.geojson').then((r) => r.ok ? r.json() : null)
       .then((nb) => { if (nb?.features) neighborTopRef.current = new Map(nb.features.map((f: { properties: { id: string; rank: number } }) => [f.properties.id, f.properties.rank])); })
@@ -476,7 +508,33 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 빙하 배경 (기본 ON): 이 계곡들이 왜 위험 지대인지 설명 없이 보이게
   const [glaciers, setGlaciers] = useState(true);
   const glacierRef = useRef(true);
-  const [glacierStats, setGlacierStats] = useState<{ glaciers: number; total_km2: number; within_5km_of_source: number; within_5km_km2: number } | null>(null);
+  const [glacierStats, setGlacierStats] = useState<GlacierStats | null>(null);
+
+  // 배경 레이어 데이터는 한 번만 받아 ref에 캐시한다. 예전에는 fetch().then() 안에서
+  // 바로 addLayer 했는데, 그 사이 지도 스타일이 리로드되면(2D/3D·구역 전환) 레이어가
+  // 지워지고 재부착이 조용히 실패했다 — RIVER CHANGE가 깜빡이다 꺼지던 원인. (2026-09-04)
+  const extraDataRef = useRef<{ glaciers?: GeoJSON.FeatureCollection & { stats?: GlacierStats }; rivers?: GeoJSON.FeatureCollection; ribbon?: GeoJSON.FeatureCollection }>({});
+  const [extraDataRev, setExtraDataRev] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async (url: string, key: 'glaciers' | 'rivers' | 'ribbon') => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok || cancelled) return;
+        const json = await res.json();
+        if (cancelled) return;
+        extraDataRef.current[key] = json;
+        if (key === 'glaciers' && json?.stats) setGlacierStats(json.stats);
+        setExtraDataRev((r) => r + 1);
+      } catch { /* 배경 레이어는 없어도 지도는 동작한다 */ }
+    };
+    load('/data/glaciers.geojson', 'glaciers');
+    load('/data/rivers-region.geojson', 'rivers');
+    load('/data/change-ribbon.geojson', 'ribbon');
+    return () => { cancelled = true; };
+  }, []);
+
   useEffect(() => {
     glacierRef.current = glaciers;
     const map = mapRef.current;
@@ -901,51 +959,6 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
-    // 빙하 지대 (OSM natural=glacier, 상당수 GLIMS 유래) — 계곡 머리맡에 얼마나 많은
-    // 얼음이 매달려 있는지 면적으로 보여주는 배경. 윤곽 촬영연도 혼재 = 현재 상태 아님.
-    if (!map.getSource('glaciers')) {
-      fetch('/data/glaciers.geojson').then((r) => r.ok ? r.json() : null).then((gl) => {
-        if (!gl || map.getSource('glaciers')) return;
-        setGlacierStats(gl.stats ?? null);
-        map.addSource('glaciers', { type: 'geojson', data: gl });
-        const beforeLayer = map.getLayer('rivers-region') ? 'rivers-region' : (map.getLayer('river-casing') ? 'river-casing' : undefined);
-        // 얼음: 흰 눈색 기반, 규모(면적)에 따라 5단계로 진해진다 — 작은 설전은 옅은 흰색,
-        // 대형 빙하(≥10 km²)는 차가운 청백색. OSM에 두께 자료가 없어 면적을 대리 지표로 쓴다.
-        map.addLayer({ id: 'glacier-fill', type: 'fill', source: 'glaciers',
-          paint: {
-            // 연보라(저채도): 녹색 지형 위에서 확실히 읽히고, 파랑(강·빙하호)과 충돌하지 않는다.
-            // 재관측 창의 보라(#7b3fbf)와 구분되도록 채도를 크게 낮춤.
-            'fill-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
-              0.05, '#f4f1fb', 0.3, '#e8e2f7', 1.0, '#d8cff2', 4.0, '#c3b6e9', 12.0, '#ab9bdd'],
-            'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
-              0.05, 0.72, 0.5, 0.85, 3.0, 0.92, 12.0, 0.96],
-          },
-          layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
-        map.addLayer({ id: 'glacier-line', type: 'line', source: 'glaciers',
-          paint: {
-            'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
-              0.05, '#b9aede', 2.0, '#9384c4', 12.0, '#6f5da8'],
-            'line-width': ['interpolate', ['linear'], ['zoom'],
-              8, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 0.4, 4.0, 1.0],
-              13, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 1.0, 4.0, 2.4]],
-            'line-opacity': 0.9 },
-          layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, beforeLayer);
-        map.addLayer({ id: 'glacier-source-halo', type: 'line', source: 'glaciers',
-          filter: ['get', 'near_source_5km'],
-          paint: { 'line-color': '#5a4b95', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 1.8, 13, 4.4], 'line-opacity': 0.95, 'line-blur': 0.3 },
-          layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, 'glacier-line');
-      }).catch(() => {});
-    }
-    // 지역 전체 하천망 (OSM) — 관측된 회랑과의 대비용 배경. 색이 없는 강 = 스캔하지 않은 강.
-    if (!map.getSource('rivers-region')) {
-      fetch('/data/rivers-region.geojson').then((r) => r.ok ? r.json() : null).then((rr) => {
-        if (!rr || map.getSource('rivers-region')) return;
-        map.addSource('rivers-region', { type: 'geojson', data: rr });
-        const beforeLayer = map.getLayer('river-casing') ? 'river-casing' : undefined;
-        map.addLayer({ id: 'rivers-region', type: 'line', source: 'rivers-region',
-          paint: { 'line-color': '#4a7f9b', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.7, 13, 1.8], 'line-opacity': 0.5 } }, beforeLayer);
-      }).catch(() => {});
-    }
     map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, before);
     map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#0f5fd7', 'line-width': 2.4, 'line-opacity': 0.9 } }, before);
     // 흐름 화살표 — simulation_route는 발원→하류 순서라 방향이 보장된다. 파티클 대체 (2026-09-02).
@@ -964,52 +977,6 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         },
         paint: { 'text-color': '#fffefb', 'text-halo-color': '#12304a', 'text-halo-width': 1.6, 'text-opacity': 0.95 } }, before);
     }
-    // 변화 리본 — 창별 관측 변화율(%)로 강을 칠한다. 회색 점선 = 관측불가/스캔 밖.
-    if (!map.getSource('change-ribbon')) {
-      fetch('/data/change-ribbon.geojson').then((r) => r.ok ? r.json() : null).then((rb) => {
-        if (!rb || map.getSource('change-ribbon')) return;
-        map.addSource('change-ribbon', { type: 'geojson', data: rb });
-        map.addLayer({ id: 'change-ribbon-dash', type: 'line', source: 'change-ribbon',
-          filter: ['!', ['get', 'observed']],
-          paint: { 'line-color': '#8d897f', 'line-width': 3, 'line-opacity': 0.7, 'line-dasharray': [1.4, 1.6] },
-          layout: { visibility: changeRibbonRef.current ? 'visible' : 'none', 'line-cap': 'round' } }, before);
-        map.addLayer({ id: 'change-ribbon', type: 'line', source: 'change-ribbon',
-          filter: ['get', 'observed'],
-          paint: {
-            'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'frac'], 0],
-              0, '#7fb5c9', 0.03, '#ffd666', 0.07, '#ff983d', 0.10, '#ec5238', 0.133, '#ba185c'],
-            'line-width': ['interpolate', ['linear'], ['zoom'], 8, 4, 12, 9, 15, 16],
-            'line-opacity': 0.92, 'line-blur': 0.4,
-          },
-          layout: { visibility: changeRibbonRef.current ? 'visible' : 'none', 'line-cap': 'round', 'line-join': 'round' } }, before);
-        map.on('click', 'change-ribbon', (e) => {
-          const oe = e.originalEvent as MouseEvent & { _popupHandled?: boolean };
-          if (oe._popupHandled) return; oe._popupHandled = true;
-          const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined;
-          const frac = pr?.frac as number | undefined;
-          const wid = pr?.wid as string | undefined;
-          if (frac == null || !wid) return;
-          // 규칙 하나: 색 있는 강 클릭 = 큰 전후 비교 (심플 원칙)
-          const leadIdx = leadIndexByIdRef.current[wid];
-          if (leadIdx != null) { openLeadRef.current(leadIdx); return; }
-          const nbRank = neighborTopRef.current.get(wid);
-          if (nbRank != null && nbRank <= 3) {
-            openLightbox({ title: `Extension window ${wid}`, sub: `extension scan (2–3 Sep) · ${(100 * frac).toFixed(0)}% changed · pooled three-pair baseline · separate list`,
-              before: `/data/neighbors/${wid}_pre.png`, after: `/data/neighbors/${wid}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-              extra: [{ src: `/data/neighbors/${wid}_delta.png`, under: `/data/neighbors/${wid}_post.png`, label: 'AI change field · bright line = pooled ordinary p99' }] });
-            return;
-          }
-          // 리드도 확장 top3도 아닌 구간 — 대조군. 큰 비교 대신 존재 이유를 한 줄로.
-          const ext = !!pr?.ext;
-          new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
-            .setHTML(`<p class="pp-eyebrow">RIVER Δ · SCREENED${ext ? ' · EXTENSION 2 SEP' : ''}</p>`
-              + `<p class="pp-story"><b>${(100 * frac).toFixed(0)}%</b> of cloud-free cells changed beyond ordinary here — ${frac < 0.04 ? 'close to ordinary level' : 'below the lead threshold'}. This reach is part of the comparison baseline that makes the six leads meaningful, not a lead itself.</p>`
-              + `<p class="pp-src">not damage, not risk — an order for human review</p>`).addTo(map);
-        });
-        map.on('mouseenter', 'change-ribbon', () => { map.getCanvas().style.cursor = 'pointer'; });
-        map.on('mouseleave', 'change-ribbon', () => { map.getCanvas().style.cursor = ''; });
-      }).catch(() => {});
-    }
     // 파란 실선 = OSM 하천, 빨간 점선 = USGS 잠정 이동 보고를 따라 검사 중인 회랑.
     // 빨간 선은 침수 폭이나 최종 퇴적 경계를 뜻하지 않는다.
     map.addLayer({ id: 'reported-reach', type: 'line', source: 'hydrography', paint: {
@@ -1017,6 +984,71 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       'line-dasharray': [2.4, 1.4], 'line-offset': 4,
     } }, before);
   }, [hydrography, mapReady, styleRevision]);
+
+  // 배경 레이어 부착 — 캐시된 데이터로 **동기** 추가한다. styleRevision이 바뀌면(스타일
+  // 리로드로 레이어가 전부 날아가면) 이 효과가 다시 돌면서 같은 순서로 복구한다.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map || !map.isStyleLoaded()) return;
+    const { glaciers, rivers, ribbon } = extraDataRef.current;
+    // 부착 기준 레이어는 매번 새로 조회한다 (예전 클로저의 id를 쓰면 addLayer가 던진다).
+    const under = (...ids: string[]) => ids.find((id) => map.getLayer(id));
+
+    if (glaciers && !map.getSource('glaciers')) {
+      map.addSource('glaciers', { type: 'geojson', data: glaciers });
+      const before = under('rivers-region', 'river-casing', 'point-halo');
+      // 얼음: 연보라 저채도, 면적으로 5단계 — 녹색 지형 위에서 읽히고 물(파랑)과 충돌하지 않는다.
+      map.addLayer({ id: 'glacier-fill', type: 'fill', source: 'glaciers',
+        paint: {
+          'fill-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
+            0.05, '#f4f1fb', 0.3, '#e8e2f7', 1.0, '#d8cff2', 4.0, '#c3b6e9', 12.0, '#ab9bdd'],
+          'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
+            0.05, 0.72, 0.5, 0.85, 3.0, 0.92, 12.0, 0.96],
+        },
+        layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, before);
+      map.addLayer({ id: 'glacier-line', type: 'line', source: 'glaciers',
+        paint: {
+          'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0],
+            0.05, '#b9aede', 2.0, '#9384c4', 12.0, '#6f5da8'],
+          'line-width': ['interpolate', ['linear'], ['zoom'],
+            8, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 0.4, 4.0, 1.0],
+            13, ['interpolate', ['linear'], ['coalesce', ['get', 'km2'], 0], 0.05, 1.0, 4.0, 2.4]],
+          'line-opacity': 0.9 },
+        layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, before);
+      map.addLayer({ id: 'glacier-source-halo', type: 'line', source: 'glaciers',
+        filter: ['get', 'near_source_5km'],
+        paint: { 'line-color': '#5a4b95', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 1.8, 13, 4.4], 'line-opacity': 0.95, 'line-blur': 0.3 },
+        layout: { visibility: glacierRef.current ? 'visible' : 'none' } }, under('glacier-line'));
+    }
+
+    if (rivers && !map.getSource('rivers-region')) {
+      map.addSource('rivers-region', { type: 'geojson', data: rivers });
+      map.addLayer({ id: 'rivers-region', type: 'line', source: 'rivers-region',
+        paint: { 'line-color': '#4a7f9b', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.7, 13, 1.8], 'line-opacity': 0.5 } },
+        under('river-casing', 'point-halo'));
+    }
+
+    if (ribbon && !map.getSource('change-ribbon')) {
+      map.addSource('change-ribbon', { type: 'geojson', data: ribbon });
+      const before = under('point-halo');
+      map.addLayer({ id: 'change-ribbon-dash', type: 'line', source: 'change-ribbon',
+        filter: ['!', ['get', 'observed']],
+        paint: { 'line-color': '#8d897f', 'line-width': 3, 'line-opacity': 0.7, 'line-dasharray': [1.4, 1.6] },
+        layout: { visibility: changeRibbonRef.current ? 'visible' : 'none', 'line-cap': 'round' } }, before);
+      map.addLayer({ id: 'change-ribbon', type: 'line', source: 'change-ribbon',
+        filter: ['get', 'observed'],
+        paint: {
+          'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'frac'], 0],
+            0, '#7fb5c9', 0.03, '#ffd666', 0.07, '#ff983d', 0.10, '#ec5238', 0.133, '#ba185c'],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 8, 4, 12, 9, 15, 16],
+          'line-opacity': 0.92, 'line-blur': 0.4,
+        },
+        layout: { visibility: changeRibbonRef.current ? 'visible' : 'none', 'line-cap': 'round', 'line-join': 'round' } }, before);
+      map.on('click', 'change-ribbon', onRibbonClickRef.current);
+      map.on('mouseenter', 'change-ribbon', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'change-ribbon', () => { map.getCanvas().style.cursor = ''; });
+    }
+  }, [mapReady, styleRevision, extraDataRev]);
 
   useEffect(() => {
     const map = mapRef.current;

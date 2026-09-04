@@ -1227,7 +1227,7 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .rail-tabs button.is-active { background: var(--ink, #16151a); color: #fffefb; border-color: var(--ink, #16151a); }
 
 /* 발견성 (2026-09-01) */
-.tap-hint { position: absolute; left: 50%; bottom: 118px; transform: translateX(-50%); z-index: 30;
+.tap-hint { position: absolute; left: 50%; top: 96px; bottom: auto; transform: translateX(-50%); z-index: 30;
   font: 600 11.5px var(--font-geist-sans); color: var(--ink, #16151a); background: var(--surface, #fffefb);
   border: 1px solid var(--line-strong, #d5d1c6); box-shadow: 0 6px 18px rgba(0,0,0,.14); padding: 9px 14px; cursor: pointer; }
 .toggle-sub { display: block; font: 400 8px var(--font-geist-mono); letter-spacing: .02em; opacity: .75; font-style: normal; }
@@ -1277,7 +1277,7 @@ a.brand-lockup { text-decoration: none; color: inherit; }
   .ribbon-legend { display: block; left: 8px; right: 8px; bottom: 96px; width: auto; padding: 7px 10px; }
   .ribbon-legend small { display: none; }
   /* 탭 힌트가 타임라인과 겹치지 않게 */
-  .tap-hint { bottom: 150px; width: 86vw; font-size: 10.5px; }
+  .tap-hint { top: 88px; bottom: auto; width: 86vw; font-size: 10.5px; }
 }
 
 /* 모바일 겹침 정리 (2026-09-03, 스크린샷 기준) */
@@ -1338,3 +1338,61 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .foot-credit { margin: 14px 0 0; font: 11.5px/1.6 var(--font-geist-sans); color: var(--muted, #6f6c64); }
 .foot-credit a { color: var(--ink, #16151a); text-decoration: underline; text-underline-offset: 2px; }
 .story-foot .foot-credit { margin-top: 10px; }
+
+/* ─── 지도 범례: 논문 그림 캡션 구조 (2026-09-04 디자인 패스) ─── */
+.map-legend-card { position: absolute; left: 14px; bottom: 152px; z-index: 24; width: 268px; margin: 0;
+  padding: 13px 15px 12px; background: color-mix(in srgb, var(--surface, #fffefb) 95%, transparent);
+  border: 1px solid var(--line-strong, #cfcbc2); box-shadow: 0 6px 20px rgba(20, 18, 14, .10); }
+.map-legend-card figcaption { font: 700 10px var(--font-geist-mono); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink, #16151a); padding-bottom: 9px;
+  border-bottom: 1px solid var(--line, #e3e0d8); }
+
+/* 컬러바 + 눈금 */
+.lg-ramp { margin-top: 11px; }
+.lg-bar { display: block; height: 9px; border: 1px solid rgba(20,18,14,.18);
+  background: linear-gradient(90deg, #7fb5c9 0%, #ffd666 23%, #ff983d 53%, #ec5238 75%, #ba185c 100%); }
+.lg-ticks { display: flex; justify-content: space-between; margin-top: 3px;
+  font: 9.5px var(--font-geist-mono); color: var(--muted, #6f6c64); font-variant-numeric: tabular-nums; }
+.lg-unit { margin: 6px 0 0; font: 9.5px/1.45 var(--font-geist-sans); color: var(--muted, #6f6c64); }
+
+/* 키: 2열, 스와치 크기 통일 */
+.lg-keys { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; margin: 11px 0 0; padding: 0; list-style: none; }
+.lg-keys li { display: flex; align-items: center; gap: 6px;
+  font: 9.5px/1.3 var(--font-geist-sans); color: #44423c; }
+.lg-keys b { font-variant-numeric: tabular-nums; }
+.k-sw, .k-dot, .k-line { flex: none; }
+.k-sw { width: 11px; height: 11px; border: 1px solid rgba(20,18,14,.25); }
+.k-sw.amber { background: rgba(217,154,36,.62); border-color: #d99a24; }
+.k-sw.purple { background: rgba(123,63,191,.5); border-color: #7b3fbf; }
+.k-sw.ice { background: linear-gradient(135deg, #f4f1fb, #c3b6e9); border-color: #9384c4; }
+.k-dot { width: 10px; height: 10px; border-radius: 50%; background: #12b39a; border: 1.5px solid #fff; box-shadow: 0 0 0 1px #0e8f86; }
+.k-line { width: 13px; height: 0; border-top-width: 2px; }
+.k-line.dash { border-top: 2px dashed #8d897f; }
+.k-line.thin { border-top: 1.5px solid #4a7f9b; }
+
+/* 캡션 각주 = 출처·투영 */
+.lg-source { margin: 11px 0 0; padding-top: 9px; border-top: 1px solid var(--line, #e3e0d8);
+  font: 8.5px/1.5 var(--font-geist-mono); color: var(--muted, #6f6c64); }
+
+/* MapLibre 스케일바를 사이트 톤에 맞춤 */
+.maplibregl-ctrl-scale { background: color-mix(in srgb, var(--surface, #fffefb) 92%, transparent) !important;
+  border: 1px solid var(--line-strong, #cfcbc2) !important; border-top: 0 !important;
+  color: var(--ink, #16151a) !important; font: 9.5px var(--font-geist-mono) !important;
+  padding: 1px 5px 2px !important; box-shadow: none !important; }
+
+@media (max-width: 720px) {
+  .map-legend-card { left: 8px; right: 8px; bottom: 112px; width: auto; padding: 9px 11px; }
+  .map-legend-card .lg-unit, .map-legend-card .lg-source { display: none; }
+  .lg-keys { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* 퍼널 캡션 (옛 KEY 스트립을 범례로 흡수) */
+.lg-funnel { margin: 8px 0 0; font: 10.5px/1.5 var(--font-geist-sans); color: #44423c; }
+.lg-funnel b { font-variant-numeric: tabular-nums; }
+/* 스케일바를 범례 카드 바로 아래에 붙여 한 블록처럼 */
+.maplibregl-ctrl-bottom-left { bottom: 88px !important; left: 14px !important; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl { margin: 0 !important; }
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib { background: color-mix(in srgb, var(--surface, #fffefb) 88%, transparent) !important;
+  border: 1px solid var(--line, #e3e0d8); font: 8.5px var(--font-geist-mono) !important; padding: 1px 5px !important; }
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib a { color: var(--muted, #6f6c64) !important; }
+@media (max-width: 720px) { .maplibregl-ctrl-bottom-left { bottom: 74px !important; left: 8px !important; } }

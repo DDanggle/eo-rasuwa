@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element -- scientific raster tiles must be served byte-for-byte from the sealed public bundle */
 import { ReviewNotes } from '../review-notes';
 
-import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, Popup, setWorkerUrl } from 'maplibre-gl';
+import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, Popup, ScaleControl, setWorkerUrl } from 'maplibre-gl';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection } from 'geojson';
 import Image from 'next/image';
@@ -736,7 +736,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         attributionControl: false,
       });
       map.addControl(new NavigationControl({ showCompass: true }), 'bottom-right');
-      map.addControl(new AttributionControl({ compact: true }), 'bottom-right');
+      map.addControl(new ScaleControl({ maxWidth: 132, unit: 'metric' }), 'bottom-left');
+      map.addControl(new AttributionControl({ compact: true }), 'bottom-left');
       // styledata는 style 객체가 붙기 전에도 한 번 발생할 수 있다. 그 시점의 getStyle()은
       // 화면에는 무해하지만 MapLibre 경고를 남기므로 완성된 style에서만 진단한다.
       map.on('styledata', () => {
@@ -1578,10 +1579,6 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           이전의 DOM 고정 backdrop은 ① 드래그해도 움직이지 않고 ② WASM flow(지도 좌표)와
           어긋나며 ③ 지도 캔버스와 basemap을 가렸다. WebGL2가 없을 때만 정적 이미지로
           내려간다(아래 map-fallback). */}
-      <div className="key-strip" role="note">
-        <b>KEY</b>
-        <span>{scenario?.review ? `${scenario.review.funnel.scanned} scanned · ${scenario.review.funnel.observable} readable · ${scenario.review.funnel.leads} to inspect first — nothing here is confirmed damage` : 'loading…'}</span>
-      </div>
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
       {candView && (
         <div className={`cand-chip ${rightOpen ? 'rail-open' : ''}`} role="status">
@@ -1593,23 +1590,32 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         </div>
       )}
       {changeRibbon && (
-        <div className="ribbon-legend" aria-label="River change legend">
-          <b>HOW TO READ THIS MAP</b>
-          <span className="rl-row"><i className="sw amber" />6 places to inspect first</span>
-          <span className="rl-row"><i className="sw purple" />held back — too much cloud to judge</span>
-          <span className="rl-row"><i className="sw teal" />scanned window · tap for before/after</span>
-          <b className="rl-sub">RIVER COLOUR = CHANGE SINCE THE EVENT</b>
-          <i className="ribbon-grad" />
-          <span className="lo">ordinary</span>
-          <span className="hi">up to 13%</span>
-          {glacierStats && (
-            <span className="rl-glacier">
-              <i className="rl-ice" />
-              {`glacier: ${glacierStats.total_km2} km² in view · ${glacierStats.within_5km_km2} km² within 5 km of the source (darker = larger)`}
-            </span>
+        <figure className="map-legend-card" aria-label="Map legend">
+          <figcaption>Change since the event</figcaption>
+          {scenario?.review && (
+            <p className="lg-funnel">
+              <b>{scenario.review.funnel.scanned}</b> windows scanned · <b>{scenario.review.funnel.observable}</b> readable ·{' '}
+              <b>{scenario.review.funnel.leads}</b> to inspect first
+            </p>
           )}
-          <small>Dashed = unreadable under cloud · thin blue = outside the scan · neighbor-river colours come from the 2 Sep extension scan (269 windows) · observed change — not risk, not damage.</small>
-        </div>
+          <div className="lg-ramp">
+            <i className="lg-bar" />
+            <div className="lg-ticks"><span>0</span><span>4</span><span>8</span><span>13%</span></div>
+            <p className="lg-unit">share of cloud-free 40 m cells beyond that place&apos;s ordinary range</p>
+          </div>
+          <ul className="lg-keys">
+            <li><i className="k-sw amber" />review lead <b>6</b></li>
+            <li><i className="k-sw purple" />held back · cloud</li>
+            <li><i className="k-dot teal" />scanned window <b>100</b></li>
+            <li><i className="k-sw ice" />glacier{glacierStats ? <> <b>{glacierStats.total_km2}</b> km²</> : null}</li>
+            <li><i className="k-line dash" />unreadable</li>
+            <li><i className="k-line thin" />outside scan</li>
+          </ul>
+          <p className="lg-source">
+            Sentinel-2 L2A 12 → 27 Aug 2026 · OlmoEarth v1 Base, frozen · glacier outlines OSM/GLIMS, vintage varies<br />
+            WGS 84 · observed change — not risk, not damage
+          </p>
+        </figure>
       )}
       {tapHint && (
         <button className="tap-hint" onClick={dismissTapHint}>

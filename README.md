@@ -117,6 +117,11 @@ boundaries: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md).
 - [WHO Nepal health response](https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods)
 - [Ai2 OlmoEarth embeddings](https://allenai.org/blog/olmoearth-embeddings)
 
+## Credits
+
+Built by [Donggeun Yi](https://careerly.co.kr/profile/719170).
+Special thanks to [Jong Gil Park](https://profiles.rice.edu/student/jong-gil-park) for his advice.
+
 ## License
 
 Code and documentation are under the [Apache License 2.0](./LICENSE) — the same terms Ai2 uses for

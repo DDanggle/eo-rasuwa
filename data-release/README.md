@@ -36,6 +36,11 @@ Observations: Sentinel-2 L2A 12 Aug (pre) / 27 Aug 2026 (post), R119.
 - A radar unit error invalidated early results; only corrected artifacts are
   published (see the correction ledger in the repository).
 
+## Credits
+
+Built by [Donggeun Yi](https://careerly.co.kr/profile/719170).
+Special thanks to [Jong Gil Park](https://profiles.rice.edu/student/jong-gil-park) for his advice.
+
 ## License & contact
 
 Data: CC-BY 4.0 (derived from ESA Copernicus Sentinel-2; model © Ai2, Apache-2.0).

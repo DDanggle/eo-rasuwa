@@ -139,6 +139,9 @@ export default function Landing() {
             <p>{ko ? <>이 페이지는 개인 분석 프로젝트이며 기부를 받지 않습니다. 긴급 구호와 관련한 공식 페이지가 열려 있습니다 — 꼭 확인해보세요: <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">네팔 적십자사</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a>·<a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a></> : <>This is a personal analysis project and accepts no donations. Official emergency-relief pages are open — please have a look: <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">Nepal Red Cross</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a>·<a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a></>}</p>
           </div>
         </div>
+        <p className="foot-credit">{ko
+          ? <>만든 사람 <a href="https://careerly.co.kr/profile/719170" target="_blank" rel="noreferrer">Donggeun Yi</a> · 자문 <a href="https://profiles.rice.edu/student/jong-gil-park" target="_blank" rel="noreferrer">Jong Gil Park</a></>
+          : <>Built by <a href="https://careerly.co.kr/profile/719170" target="_blank" rel="noreferrer">Donggeun Yi</a> · special thanks to <a href="https://profiles.rice.edu/student/jong-gil-park" target="_blank" rel="noreferrer">Jong Gil Park</a> for his advice</>}</p>
         <p className="foot-contact">{ko ? '문의' : 'Contact'}: <a href="mailto:iameastroot@gmail.com">{ko ? '이메일' : 'email'}</a></p>
         <p className="foot-disclaimer">{ko
           ? '독립 개인 연구 데모입니다. Ai2·ESA/Copernicus·Planet Labs, 그리고 위에 링크된 구호 기관과 제휴하거나 승인·보증을 받은 프로젝트가 아닙니다.'

@@ -1333,3 +1333,8 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .map-toggles { flex: 0 0 auto; }
 .map-toggle { min-width: 0; white-space: nowrap; }
 @media (max-width: 1380px) { .map-toggle .toggle-sub { display: none; } .map-toggle { padding: 9px 10px; } }
+
+/* 제작·자문 크레딧 */
+.foot-credit { margin: 14px 0 0; font: 11.5px/1.6 var(--font-geist-sans); color: var(--muted, #6f6c64); }
+.foot-credit a { color: var(--ink, #16151a); text-decoration: underline; text-underline-offset: 2px; }
+.story-foot .foot-credit { margin-top: 10px; }

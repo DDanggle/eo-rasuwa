@@ -241,7 +241,15 @@ input[type='range']::-webkit-slider-thumb { width: 12px; height: 12px; border: 2
 .scene-node.missed { background: #8d4a35; box-shadow: 0 0 0 1px #8d4a35; }
 .scene strong { font: 650 10px var(--font-geist-mono); }
 .scene small { margin-top: 3px; color: var(--muted); font: 9px var(--font-geist-mono); }
+/* 상태 라벨: 사건 이후 항목만 보여준다 (그 이전은 전부 READY라 소음) */
 .scene em { display: none; }
+.scene.has-status { min-width: 62px; }
+.scene.has-status em { display: block; margin-top: 3px; font: 700 7px var(--font-geist-mono); letter-spacing: .02em; font-style: normal; color: var(--muted); white-space: nowrap; }
+.scene.has-status.analysed em { color: #2c8a67; }
+.scene.has-status.published em { color: #8a6a1f; }
+.scene.has-status.planned em { color: var(--muted); }
+.scene-node.analysed { background: #2c8a67; }
+.scene-node.published { background: #d99a24; }
 .scene.active { color: var(--ink); }
 .scene.active strong { color: var(--blue); }
 .scene.active .scene-node { transform: scale(1.45); }

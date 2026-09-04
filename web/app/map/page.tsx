@@ -611,7 +611,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     scenario.scheduled_scenes.forEach((s, i) => items.push({
       id: `scheduled-${i}`, kind: 'scheduled', iso: s.acquired_at, date: shortDate(s.acquired_at),
       sensor: shortSensor(s.sensor),
-      state: s.state === 'missed_coverage' ? 'MISSED' : s.state === 'planned' ? 'PLANNED' : s.state === 'catalog_published_cloudy' ? 'CATALOG' : 'PENDING',
+      state: s.state === 'missed_coverage' ? 'MISSED'
+        : s.state === 'planned' ? 'PLANNED'
+        : s.state === 'analysed_partial_swath' ? 'ANALYSED'
+        : s.state === 'published' ? 'PUBLISHED'
+        : s.state === 'catalog_published_cloudy' ? 'CATALOG' : 'PENDING',
       selectable: false,
     }));
     return items.sort((a, b) => a.iso.localeCompare(b.iso));
@@ -1901,7 +1905,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           {timeline.map((scene) => scene.selectable ? (
             <button
               key={scene.id}
-              className={scene.id === activeSceneId ? 'scene active' : 'scene'}
+              className={`scene${scene.id === activeSceneId ? ' active' : ''}${['ANALYSED', 'PUBLISHED', 'PLANNED', 'PENDING', 'MISSED', 'CATALOG'].includes(scene.state) ? ` has-status ${scene.state.toLowerCase()}` : ''}`}
               onClick={() => { userSelectedSceneRef.current = true; setActiveSceneId(scene.id); }}
               aria-pressed={scene.id === activeSceneId}
             >
@@ -1910,7 +1914,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           ) : (
             <div
               key={scene.id}
-              className={`scene static ${scene.kind}`}
+              className={`scene static ${scene.kind}${['ANALYSED', 'PUBLISHED', 'PLANNED', 'PENDING', 'MISSED', 'CATALOG'].includes(scene.state) ? ` has-status ${scene.state.toLowerCase()}` : ''}`}
               title={scene.kind === 'event' ? scenario?.event.name : 'Not yet acquirable — cannot be shown on the map'}
             >
               <span className={`scene-node ${scene.state.toLowerCase()}`} /><strong>{scene.date}</strong><small>{scene.sensor}</small><em>{scene.state}</em>

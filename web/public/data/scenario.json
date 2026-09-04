@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-31T04:19:14+00:00",
+  "generated_at": "2026-09-04T01:14:22Z",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -543,23 +543,23 @@
       "sensor": "Sentinel-2C L2A",
       "acquired_at": "2026-08-29T04:47:23Z",
       "state": "published",
-      "detail": "catalog publication latency 369.3 min",
+      "detail": "published (369 min latency) · 83% cloud — not usable as a new post-event optical baseline",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260831T041914Z/acquisition_status.json"
     },
     {
       "id": "s1d_20260831",
       "sensor": "Sentinel-1D IW GRD",
       "acquired_at": "2026-08-31T00:07:34Z",
-      "state": "published",
-      "detail": "catalog publication latency 128.2 min",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260831T041914Z/acquisition_status.json"
+      "state": "analysed_partial_swath",
+      "detail": "published 128 min after acquisition; swath covers the source but not all five sealed anchors, so it was analysed as the separate 56-window radar scan (M92) instead of the sealed contract",
+      "evidence_uri": "artifacts/source_radar_scan/report.json"
     },
     {
       "id": "s2a_20260831",
       "sensor": "Sentinel-2A L2A",
       "acquired_at": "2026-08-31T04:52:38Z",
-      "state": "planned",
-      "detail": null,
+      "state": "published",
+      "detail": "published · 89% cloud — the source region stayed optically blocked, which is why the radar scan was run",
       "evidence_uri": null
     }
   ],
@@ -613,6 +613,28 @@
     "allowed_claim": "No candidate change claimed at anchor scale; observation chain intact."
   },
   "ops_log": [
+    {
+      "event_id": "0acb2e798e395359",
+      "time_utc": "20260904T011451Z",
+      "recorded_at_utc": "20260904T011451Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Sentinel-1 RTC orbit 121",
+      "type": "RADAR_SCAN",
+      "priority": "green",
+      "summary": "M92 radar scan: 56/56 windows readable under cloud (optical read 6/49 on the same hillslope grid)",
+      "evidence_uri": "artifacts/source_radar_scan/report.json"
+    },
+    {
+      "event_id": "8bd2fe28ad3e06d1",
+      "time_utc": "20260904T011451Z",
+      "recorded_at_utc": "20260904T011451Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Sentinel-1 RTC orbit 121",
+      "type": "RADAR_NOT_DETECTED",
+      "priority": "orange",
+      "summary": "M92 region-wide: event fortnight changed less than the ordinary one (7/56 windows above) — no detection claimed",
+      "evidence_uri": "artifacts/source_radar_scan/report.json"
+    },
     {
       "event_id": "8cedb4a08239e67c",
       "time_utc": "20260829T152418Z",
@@ -920,28 +942,6 @@
       "priority": "green",
       "summary": "Sentinel-1D IW GRD: 6 nearby products, 2 cover all 5 anchors — operational_anchors_covered",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/coverage/20260829T051350Z/coverage_audit.json"
-    },
-    {
-      "event_id": "246fa49aa20d16ad",
-      "time_utc": "2026-08-29T05:11:48Z",
-      "recorded_at_utc": "2026-08-29T05:11:48Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "CATALOG_SNAPSHOT",
-      "priority": "blue",
-      "summary": "snapshot 20260829T051148Z: s2b_20260827=published, s1d_20260828=published, s2c_20260829=acquired_pending_catalog",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T051148Z/acquisition_status.json"
-    },
-    {
-      "event_id": "27fe2c4e344f4402",
-      "time_utc": "2026-08-29T05:11:48Z",
-      "recorded_at_utc": "2026-08-29T05:11:48Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "SCENE_PUBLISHED",
-      "priority": "green",
-      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T051148Z/acquisition_status.json"
     }
   ],
   "research": {

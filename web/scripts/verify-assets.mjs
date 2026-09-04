@@ -63,7 +63,11 @@ assert.ok(scenario.ops_log.some((event) => event.type === (rerunDone ? 'DELTA_RE
 assert.ok(scenario.ops_log.some((event) => event.type === 'S1DB_SCREENING'));
 // 2026-08-31 카탈로그 스냅샷 20260831T041914Z: s2c 8/29, s1d 8/31 모두 published 확인.
 assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's2c_20260829')?.state, 'published');
-assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's1d_20260831')?.state, 'published');
+// 2026-09-04: 8/31 레이더는 스와스가 5개 앵커를 못 덮어 봉인 계약 대신 M92 별도 스캔으로 분석됨.
+assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's1d_20260831')?.state, 'analysed_partial_swath');
+assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's2a_20260831')?.state, 'published');
+assert.ok(scenario.ops_log.some((event) => event.type === 'RADAR_SCAN'));
+assert.ok(scenario.ops_log.some((event) => event.type === 'RADAR_NOT_DETECTED'));
 assert.equal(scenario.provenance.catalog_snapshot, '20260831T041914Z');
 // M86 외부 라벨 채점 (2026-08-31): 동결 라벨, 순위 불변, 창 규모 무판별 판정.
 assert.equal(scenario.external_label_score?.measurement_id, 'M86');

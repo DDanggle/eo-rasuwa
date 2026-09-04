@@ -35,7 +35,21 @@ hydro = json.loads((PUB / "hydrography.geojson").read_text())
 rivers = json.loads((PUB / "rivers-region.geojson").read_text())
 features = []
 # 회랑(hydrography) + 지역 하천(rivers-region) 전부 — 겹치는 회랑 구간은 같은 창이 배정돼 색이 같다.
-for f in hydro["features"] + rivers["features"]:
+# rivers-region 에는 회랑(hydrography)과 같은 OSM way 가 다시 들어 있다 — 그대로 합치면
+# 회랑이 두 번 그려지고 길이도 이중 계산된다. 회랑 정점과 사실상 겹치는 선은 뺀다.
+_hpts = set()
+for _f in hydro["features"]:
+    if _f["geometry"]["type"] == "LineString":
+        for _x, _y in _f["geometry"]["coordinates"]:
+            _hpts.add((round(_x, 4), round(_y, 4)))
+def _is_dup(feat):
+    c = feat["geometry"]["coordinates"]
+    hits = sum(1 for x, y in c if (round(x, 4), round(y, 4)) in _hpts)
+    return hits >= max(2, len(c) * 0.5)
+_rivers = [f for f in rivers["features"] if not _is_dup(f)]
+print("rivers-region:", len(rivers["features"]), "->", len(_rivers), "after removing corridor duplicates")
+
+for f in hydro["features"] + _rivers:
     coords = f["geometry"]["coordinates"]
     if f["geometry"]["type"] != "LineString" or len(coords) < 2:
         continue
@@ -58,7 +72,14 @@ for f in hydro["features"] + rivers["features"]:
             flush(seg, cur); seg = [list(c)]; cur = v
     flush(seg, cur)
 
+import math as _m
+def _len(c):
+    return sum(_m.hypot((c[i+1][0]-c[i][0]) * 98, (c[i+1][1]-c[i][1]) * 111) for i in range(len(c)-1))
+_obs_km = sum(_len(f["geometry"]["coordinates"]) for f in features if f["properties"]["observed"])
+_all_km = sum(_len(f["geometry"]["coordinates"]) for f in features)
+
 out = {"type": "FeatureCollection",
+       "observed_river_km": round(_obs_km, 1), "total_river_km": round(_all_km, 1),
        "claim": "river centrelines coloured by the observed per-window change fraction; ext=true segments come from the 2026-09-02 neighbor-river extension scan (single-placebo p99, separate from the sealed 6-lead funnel); grey dash = unobservable; not risk, not a forecast",
        "features": features}
 (PUB / "change-ribbon.geojson").write_text(json.dumps(out) + "\n")

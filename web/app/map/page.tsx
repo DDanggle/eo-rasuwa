@@ -510,6 +510,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const [glaciers, setGlaciers] = useState(true);
   const glacierRef = useRef(true);
   const [glacierStats, setGlacierStats] = useState<GlacierStats | null>(null);
+  const [riverKm, setRiverKm] = useState<number | null>(null);
 
   // 배경 레이어 데이터는 한 번만 받아 ref에 캐시한다. 예전에는 fetch().then() 안에서
   // 바로 addLayer 했는데, 그 사이 지도 스타일이 리로드되면(2D/3D·구역 전환) 레이어가
@@ -527,6 +528,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         if (cancelled) return;
         extraDataRef.current[key] = json;
         if (key === 'glaciers' && json?.stats) setGlacierStats(json.stats);
+        if (key === 'ribbon' && json?.observed_river_km) setRiverKm(Math.round(json.observed_river_km));
         setExtraDataRev((r) => r + 1);
       } catch { /* 배경 레이어는 없어도 지도는 동작한다 */ }
     };
@@ -1594,8 +1596,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <figcaption>Change since the event</figcaption>
           {scenario?.review && (
             <p className="lg-funnel">
-              <b>{scenario.review.funnel.scanned}</b> windows scanned · <b>{scenario.review.funnel.observable}</b> readable ·{' '}
-              <b>{scenario.review.funnel.leads}</b> to inspect first
+              <b>{riverKm ?? 621}</b> km of river ranked · main scan <b>{scenario.review.funnel.scanned}</b> windows,{' '}
+              <b>{scenario.review.funnel.observable}</b> readable · <b>{scenario.review.funnel.leads}</b> to inspect first
             </p>
           )}
           <div className="lg-ramp">

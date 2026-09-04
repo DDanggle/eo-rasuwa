@@ -1375,10 +1375,10 @@ a.brand-lockup { text-decoration: none; color: inherit; }
   font: 8.5px/1.5 var(--font-geist-mono); color: var(--muted, #6f6c64); }
 
 /* MapLibre 스케일바를 사이트 톤에 맞춤 */
-.maplibregl-ctrl-scale { background: color-mix(in srgb, var(--surface, #fffefb) 92%, transparent) !important;
-  border: 1px solid var(--line-strong, #cfcbc2) !important; border-top: 0 !important;
-  color: var(--ink, #16151a) !important; font: 9.5px var(--font-geist-mono) !important;
-  padding: 1px 5px 2px !important; box-shadow: none !important; }
+.maplibregl-ctrl-scale { background: color-mix(in srgb, var(--surface, #fffefb) 94%, transparent) !important;
+  border: 1.5px solid var(--ink, #16151a) !important; border-top: 0 !important;
+  color: var(--ink, #16151a) !important; font: 700 11px var(--font-geist-mono) !important;
+  letter-spacing: .04em; padding: 3px 7px 4px !important; box-shadow: none !important; min-width: 96px; text-align: right; }
 
 @media (max-width: 720px) {
   .map-legend-card { left: 8px; right: 8px; bottom: 112px; width: auto; padding: 9px 11px; }

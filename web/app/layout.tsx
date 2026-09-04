@@ -20,7 +20,7 @@ const storySerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl ?? 'https://olmoearth-nepal-live-twin.seeso.chatgpt.site'),
+  metadataBase: new URL(siteUrl ?? 'https://eo-rasuwa.dev'),
   title: { default: 'Nepal AI Twin — Rasuwa 2026', template: '%s · Nepal AI Twin' },
   description: 'An independent AI twin of the 26 Aug 2026 Rasuwa flash flood: satellite windows compared with a general Earth-embedding model to rank places to inspect first.',
   applicationName: 'Nepal AI Twin',
@@ -28,14 +28,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    title: '100 satellite windows → 6 places to inspect first',
-    description: 'OlmoEarth embedding change ranks review priority. It does not confirm damage.',
+    title: '100 places re-imaged after the Nepal flood. Where do you look first?',
+    description: 'A general Earth model, used frozen, ranked six windows for people to check first — and the honest limits of that ranking.',
     siteName: 'Nepal AI Twin',
+      images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Rasuwa 2026 — 100 satellite windows ranked to six places to check first' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '100 satellite windows → 6 places to inspect first',
-    description: 'OlmoEarth embedding change ranks review priority. It does not confirm damage.',
+    title: '100 places re-imaged after the Nepal flood. Where do you look first?',
+    description: 'A general Earth model, used frozen, ranked six windows for people to check first — and the honest limits of that ranking.',
+      images: ['/og.jpg'],
   },
   robots: { index: true, follow: true },
 };

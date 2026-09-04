@@ -1327,7 +1327,7 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .ribbon-legend .rl-row i { border: 1px solid rgba(0,0,0,.22); }
 .ribbon-legend .rl-row i.amber { background: rgba(217,154,36,.6); border-color: #d99a24; }
 .ribbon-legend .rl-row i.purple { background: rgba(123,63,191,.55); border-color: #7b3fbf; }
-.ribbon-legend .rl-row i.teal { background: #19d3b0; border-radius: 50%; border-color: #0e8f86; }
+.ribbon-legend .rl-row i.teal { background: #12b39a; border-radius: 50%; border-color: #ffffff; box-shadow: 0 0 0 1px #0e8f86; }
 /* 토글 바가 우측 컨트롤과 겹치지 않게 — 텍스트 잘림 방지 */
 .topbar { gap: 10px; }
 .map-toggles { flex: 0 0 auto; }

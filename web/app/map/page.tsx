@@ -1070,8 +1070,16 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         const pointCoords = (scenario.points ?? []).map((pt) => pt.coordinates);
         const nearResearchPoint = (c: [number, number]) => pointCoords.some(([lon, lat]) => Math.abs(lon - c[0]) < 0.003 && Math.abs(lat - c[1]) < 0.003);
         map.addSource('scan-centers', { type: 'geojson', data: { type: 'FeatureCollection', features: scenario.candidates.geojson.features.filter((f) => !nearResearchPoint(f.properties?.center_lonlat as [number, number])).map((f) => ({ type: 'Feature', properties: f.properties, geometry: { type: 'Point', coordinates: (f.properties?.center_lonlat as [number, number]) } })) } });
-        map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers', minzoom: 10.5,
-          paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 2.2, 12, 4, 15, 7], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 1.5, 'circle-opacity': 0.95 } });
+        // 기본 회랑 뷰(≈z9)에서도 보여야 범례의 청록 점 설명이 말이 된다.
+        // 저줌에서는 작게(텍스처), 확대하면 커져서 클릭 대상이 된다.
+        map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers', minzoom: 8.2,
+          paint: {
+            'circle-radius': ['interpolate', ['linear'], ['zoom'], 8.5, 2.0, 10.5, 3.2, 12, 4.5, 15, 7],
+            'circle-color': '#12b39a',
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 8.5, 1, 12, 1.6],
+            'circle-opacity': 0.98, 'circle-stroke-opacity': 0.95,
+          } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
           filter: ['in', ['get', 'review_status'], ['literal', ['lead', 'reobserve']]],
           paint: { 'fill-color': ['case', ['==', ['get', 'review_status'], 'reobserve'], '#7b3fbf', '#d99a24'],

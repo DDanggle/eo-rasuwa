@@ -1,0 +1,189 @@
+{
+ "schema": "external-source-score-v1",
+ "measurement_id": "M94",
+ "question": "Do the radar-flagged windows intersect the polygons a third party mapped as the source, more than chance?",
+ "labels_frozen": {
+  "provider": "UNOSAT / UNITAR",
+  "event_code": "FL20260826NPL",
+  "licence": "CC-BY-SA-4.0",
+  "hdx_updated": "2026-09-04",
+  "field_validation": "FieldValidation = 0 in the source attributes \u2014 UNOSAT has not ground-verified these either"
+ },
+ "ranking_unchanged": true,
+ "windows_ranked": 56,
+ "windows_flagged": 6,
+ "layers": {
+  "detachment_zone": {
+   "unosat_layer": "UNOSAT_Landsat9_20260826_DetachmentZone",
+   "area_km2": 1.957,
+   "windows_touching": 4,
+   "flagged_touching": 3,
+   "non_flagged_touching": 1,
+   "flagged_mean_overlap_frac": 0.07061,
+   "non_flagged_mean_overlap_frac": 0.00093,
+   "flagged_mean_km": 2.52,
+   "non_flagged_mean_km": 4.44,
+   "all_windows_mean_km": 4.24,
+   "permutation_p_overlap": 0.00197,
+   "permutation_p_distance": 0.04934,
+   "per_window": [
+    {
+     "id": "v070",
+     "rank": 1,
+     "candidate_token_frac": 0.2036,
+     "overlap_frac": 0.0,
+     "km": 2.13
+    },
+    {
+     "id": "v094",
+     "rank": 2,
+     "candidate_token_frac": 0.1372,
+     "overlap_frac": 0.0,
+     "km": 7.28
+    },
+    {
+     "id": "v064",
+     "rank": 3,
+     "candidate_token_frac": 0.125,
+     "overlap_frac": 0.0,
+     "km": 5.69
+    },
+    {
+     "id": "v076",
+     "rank": 4,
+     "candidate_token_frac": 0.1216,
+     "overlap_frac": 0.1735,
+     "km": 0.0
+    },
+    {
+     "id": "v075",
+     "rank": 5,
+     "candidate_token_frac": 0.075,
+     "overlap_frac": 0.1251,
+     "km": 0.0
+    },
+    {
+     "id": "v050",
+     "rank": 6,
+     "candidate_token_frac": 0.075,
+     "overlap_frac": 0.1251,
+     "km": 0.0
+    },
+    {
+     "id": "v069",
+     "rank": 7,
+     "candidate_token_frac": 0.075,
+     "overlap_frac": 0.0,
+     "km": 0.49
+    },
+    {
+     "id": "v086",
+     "rank": 8,
+     "candidate_token_frac": 0.0674,
+     "overlap_frac": 0.0,
+     "km": 7.91
+    },
+    {
+     "id": "v063",
+     "rank": 9,
+     "candidate_token_frac": 0.0613,
+     "overlap_frac": 0.0,
+     "km": 3.99
+    },
+    {
+     "id": "v057",
+     "rank": 10,
+     "candidate_token_frac": 0.05,
+     "overlap_frac": 0.0,
+     "km": 7.53
+    }
+   ]
+  },
+  "barrier_lakes": {
+   "unosat_layer": "UNOSAT_Cartosat3_20260828_BarrierLakes",
+   "area_km2": 0.314,
+   "windows_touching": 4,
+   "flagged_touching": 2,
+   "non_flagged_touching": 2,
+   "flagged_mean_overlap_frac": 0.00744,
+   "non_flagged_mean_overlap_frac": 7e-05,
+   "flagged_mean_km": 1.55,
+   "non_flagged_mean_km": 4.61,
+   "all_windows_mean_km": 4.28,
+   "permutation_p_overlap": 0.01302,
+   "permutation_p_distance": 0.00994,
+   "per_window": [
+    {
+     "id": "v070",
+     "rank": 1,
+     "candidate_token_frac": 0.2036,
+     "overlap_frac": 0.0149,
+     "km": 0.0
+    },
+    {
+     "id": "v094",
+     "rank": 2,
+     "candidate_token_frac": 0.1372,
+     "overlap_frac": 0.0,
+     "km": 8.86
+    },
+    {
+     "id": "v064",
+     "rank": 3,
+     "candidate_token_frac": 0.125,
+     "overlap_frac": 0.0,
+     "km": 0.07
+    },
+    {
+     "id": "v076",
+     "rank": 4,
+     "candidate_token_frac": 0.1216,
+     "overlap_frac": 0.0298,
+     "km": 0.0
+    },
+    {
+     "id": "v075",
+     "rank": 5,
+     "candidate_token_frac": 0.075,
+     "overlap_frac": 0.0,
+     "km": 0.2
+    },
+    {
+     "id": "v050",
+     "rank": 6,
+     "candidate_token_frac": 0.075,
+     "overlap_frac": 0.0,
+     "km": 0.2
+    },
+    {
+     "id": "v069",
+     "rank": 7,
+     "candidate_token_frac": 0.075,
+     "overlap_frac": 0.0,
+     "km": 0.22
+    },
+    {
+     "id": "v086",
+     "rank": 8,
+     "candidate_token_frac": 0.0674,
+     "overlap_frac": 0.0,
+     "km": 9.09
+    },
+    {
+     "id": "v063",
+     "rank": 9,
+     "candidate_token_frac": 0.0613,
+     "overlap_frac": 0.0026,
+     "km": 0.0
+    },
+    {
+     "id": "v057",
+     "rank": 10,
+     "candidate_token_frac": 0.05,
+     "overlap_frac": 0.0,
+     "km": 2.29
+    }
+   ]
+  }
+ }
+}

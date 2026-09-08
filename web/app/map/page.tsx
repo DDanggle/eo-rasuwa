@@ -42,6 +42,23 @@ type ScenarioPoint = {
   distance_from_a_km: number;
 };
 
+type OfficialRecord = {
+  source: { title: string; author: string; as_of_local: string; url: string; note: string };
+  mechanism: { type: string; not: string; detached_area_km2_estimate: number;
+    distance_upstream_of_rasuwagadhi_km: number; unosat_mapped_detachment_km2: number };
+  timeline_local_npt: { time: string; event: string; kind: string; place?: string }[];
+  hydrology: { peak_discharge_m3s: number; peak_at: string; total_flood_volume_Mm3: number;
+    excess_above_base_flow_Mm3: number; warning_sms_sent: number };
+  impact: { deceased_bodies_and_parts_recovered: number; missing_reported: number;
+    motorable_bridges_washed_away: number; people_impacted_estimate: number };
+  claim_boundary: string;
+};
+
+type ExternalSourceLayer = { unosat_layer: string; area_km2: number; windows_touching: number;
+  flagged_touching: number; non_flagged_touching: number; flagged_mean_overlap_frac: number;
+  non_flagged_mean_overlap_frac: number; flagged_mean_km: number; non_flagged_mean_km: number;
+  all_windows_mean_km: number; permutation_p_overlap: number; permutation_p_distance: number };
+
 type ScheduledScene = {
   id?: string;
   sensor: string;
@@ -177,6 +194,11 @@ type Scenario = {
   presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
   downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
   radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
+  external_source_score?: { measurement_id: string; question: string;
+    labels_frozen: { provider: string; licence: string; hdx_updated: string; field_validation: string };
+    windows_ranked: number; windows_flagged: number;
+    detachment_zone: ExternalSourceLayer; barrier_lakes: ExternalSourceLayer;
+    reading: string; claim_boundary: string } | null;
   external_label_score?: { measurement_id: string; labels: string[]; labels_frozen_at: string;
     ranking_unchanged: boolean; observable_windows: number; label_positive_windows: number;
     precision_at_6_vector_union: number; non_lead_base_rate_vector_union: number;
@@ -533,16 +555,21 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const [riverKm, setRiverKm] = useState<number | null>(null);
   // 봉인 회랑 스캔과 확장 스캔은 문턱 풀이 다르다. 합계 하나로 보여주면 두 계약이 한 숫자에 섞인다.
   const [scanKm, setScanKm] = useState<{ main: number; ext: number } | null>(null);
+  // UNOSAT 공식 레이어 (CC-BY-SA). 우리 변화 램프가 구분 못 하는 것을 채운다:
+  // 어디서 떨어져 나왔나(detachment), 어느 물이 새로 갇힌 물인가(barrier lakes).
+  const [official, setOfficial] = useState(false);
+  const officialRef = useRef(false);
+  const [officialRecord, setOfficialRecord] = useState<OfficialRecord | null>(null);
 
   // 배경 레이어 데이터는 한 번만 받아 ref에 캐시한다. 예전에는 fetch().then() 안에서
   // 바로 addLayer 했는데, 그 사이 지도 스타일이 리로드되면(2D/3D·구역 전환) 레이어가
   // 지워지고 재부착이 조용히 실패했다 — RIVER CHANGE가 깜빡이다 꺼지던 원인. (2026-09-04)
-  const extraDataRef = useRef<{ glaciers?: GeoJSON.FeatureCollection & { stats?: GlacierStats }; rivers?: GeoJSON.FeatureCollection; ribbon?: GeoJSON.FeatureCollection }>({});
+  const extraDataRef = useRef<{ glaciers?: GeoJSON.FeatureCollection & { stats?: GlacierStats }; rivers?: GeoJSON.FeatureCollection; ribbon?: GeoJSON.FeatureCollection; detach?: GeoJSON.FeatureCollection; lakes?: GeoJSON.FeatureCollection; extent?: GeoJSON.FeatureCollection; roads?: GeoJSON.FeatureCollection; bldg?: GeoJSON.FeatureCollection }>({});
   const [extraDataRev, setExtraDataRev] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
-    const load = async (url: string, key: 'glaciers' | 'rivers' | 'ribbon') => {
+    const load = async (url: string, key: 'glaciers' | 'rivers' | 'ribbon' | 'detach' | 'lakes' | 'extent' | 'roads' | 'bldg') => {
       try {
         const res = await fetch(url);
         if (!res.ok || cancelled) return;
@@ -561,8 +588,28 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     load('/data/glaciers.geojson', 'glaciers');
     load('/data/rivers-region.geojson', 'rivers');
     load('/data/change-ribbon.geojson', 'ribbon');
+    load('/data/unosat-detachment-zone.geojson', 'detach');
+    load('/data/unosat-barrier-lakes.geojson', 'lakes');
+    load('/data/unosat-flood-extent.geojson', 'extent');
+    load('/data/unosat-affected-roads.geojson', 'roads');
+    load('/data/unosat-affected-buildings.geojson', 'bldg');
+    fetch('/data/official-event-record.json')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => { if (!cancelled && j) setOfficialRecord(j); })
+      .catch(() => { /* 공식 기록이 없어도 지도는 동작한다 */ });
     return () => { cancelled = true; };
   }, []);
+
+  const OFFICIAL_LAYERS = ['unosat-extent-fill', 'unosat-extent-line', 'unosat-detach-fill',
+    'unosat-detach-line', 'unosat-lakes-fill', 'unosat-lakes-line', 'unosat-roads',
+    'unosat-bldg'] as const;
+  useEffect(() => {
+    officialRef.current = official;
+    const map = mapRef.current;
+    for (const l of OFFICIAL_LAYERS) {
+      if (map?.getLayer(l)) map.setLayoutProperty(l, 'visibility', official ? 'visible' : 'none');
+    }
+  }, [official]);
 
   useEffect(() => {
     glacierRef.current = glaciers;
@@ -1080,6 +1127,49 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       map.on('click', 'change-ribbon', onRibbonClickRef.current);
       map.on('mouseenter', 'change-ribbon', () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'change-ribbon', () => { map.getCanvas().style.cursor = ''; });
+    }
+
+    // UNOSAT 공식 레이어. 색 어휘를 우리 램프와 겹치지 않게 고른다 —
+    // 청록 계열은 우리 것, 공식 레이어는 남청/자홍 외곽선으로 "우리가 만든 것이 아님"을 보인다.
+    const vis = officialRef.current ? 'visible' : 'none';
+    const { detach, lakes, extent, roads, bldg } = extraDataRef.current;
+    const top = under('point-halo');
+    if (extent && !map.getSource('unosat-extent')) {
+      map.addSource('unosat-extent', { type: 'geojson', data: extent });
+      map.addLayer({ id: 'unosat-extent-fill', type: 'fill', source: 'unosat-extent',
+        paint: { 'fill-color': '#1b3b8f', 'fill-opacity': 0.10 }, layout: { visibility: vis } }, top);
+      map.addLayer({ id: 'unosat-extent-line', type: 'line', source: 'unosat-extent',
+        paint: { 'line-color': '#1b3b8f', 'line-width': 1, 'line-opacity': 0.55 },
+        layout: { visibility: vis } }, top);
+    }
+    if (roads && !map.getSource('unosat-roads-src')) {
+      map.addSource('unosat-roads-src', { type: 'geojson', data: roads });
+      map.addLayer({ id: 'unosat-roads', type: 'line', source: 'unosat-roads-src',
+        paint: { 'line-color': '#7a2f8f', 'line-width': 1.6, 'line-opacity': 0.8, 'line-dasharray': [2, 1.4] },
+        layout: { visibility: vis } }, top);
+    }
+    if (bldg && !map.getSource('unosat-bldg-src')) {
+      map.addSource('unosat-bldg-src', { type: 'geojson', data: bldg });
+      map.addLayer({ id: 'unosat-bldg', type: 'circle', source: 'unosat-bldg-src',
+        minzoom: 9.5,
+        paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 1.4, 14, 3.2],
+          'circle-color': '#7a2f8f', 'circle-opacity': 0.7,
+          'circle-stroke-width': 0.4, 'circle-stroke-color': '#fff' },
+        layout: { visibility: vis } }, top);
+    }
+    if (lakes && !map.getSource('unosat-lakes')) {
+      map.addSource('unosat-lakes', { type: 'geojson', data: lakes });
+      map.addLayer({ id: 'unosat-lakes-fill', type: 'fill', source: 'unosat-lakes',
+        paint: { 'fill-color': '#0b7fd4', 'fill-opacity': 0.5 }, layout: { visibility: vis } }, top);
+      map.addLayer({ id: 'unosat-lakes-line', type: 'line', source: 'unosat-lakes',
+        paint: { 'line-color': '#04406f', 'line-width': 1.6 }, layout: { visibility: vis } }, top);
+    }
+    if (detach && !map.getSource('unosat-detach')) {
+      map.addSource('unosat-detach', { type: 'geojson', data: detach });
+      map.addLayer({ id: 'unosat-detach-fill', type: 'fill', source: 'unosat-detach',
+        paint: { 'fill-color': '#d10f6b', 'fill-opacity': 0.3 }, layout: { visibility: vis } }, top);
+      map.addLayer({ id: 'unosat-detach-line', type: 'line', source: 'unosat-detach',
+        paint: { 'line-color': '#8e0344', 'line-width': 2 }, layout: { visibility: vis } }, top);
     }
   }, [mapReady, styleRevision, extraDataRev]);
 
@@ -1657,11 +1747,15 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             <li><i className="k-line dash" />unreadable</li>
             <li><i className="k-line thin" />outside scan</li>
             {showAnchors && <li><i className="k-sw anchor" />OLMo input 2.56 km</li>}
+            {official && <><li><i className="k-sw detach" />detachment zone</li>
+              <li><i className="k-sw lake" />barrier lake</li>
+              <li><i className="k-sw extent" />flood extent</li>
+              <li><i className="k-dot violet" />affected building</li></>}
           </ul>
           <p className="lg-source">
             Sentinel-2 L2A · before = mean of 3 Jul, 23 Jul, 7 Aug 2026 → after = 27 Aug 2026<br />
             (the swipe frames show 12 Aug as a single illustrative before image) · OlmoEarth v1 Base, frozen<br />glacier outlines OSM/GLIMS inventory, vintage varies — extent, not hazard<br />
-            WGS 84 · observed change — not risk, not damage
+            WGS 84 · observed change — not risk, not damage{official ? <><br />official layers UNOSAT/UNITAR FL20260826NPL, CC-BY-SA-4.0 — mapped by UNOSAT, not by this project</> : null}
           </p>
         </figure>
       )}
@@ -1697,6 +1791,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         <button className={`map-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">SATELLITE<em className="toggle-sub">{satTiles ? 'tap a tile to compare' : 'all 369 windows'}</em></button>
         <button className={`map-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">GLACIERS<em className="toggle-sub">{glacierStats ? `${Math.round(glacierStats.total_km2).toLocaleString()} km² above these valleys` : 'ice above the valleys'}</em></button>
         <button className={`map-toggle keep-sub ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">RIVER CHANGE<em className="toggle-sub">observed, not predicted</em></button>
+        <button className={`map-toggle keep-sub ${official ? 'is-active' : ''}`} onClick={() => setOfficial((v) => !v)} title="UNOSAT rapid-mapping layers (CC-BY-SA): detachment zone, barrier lakes, flood extent, affected roads and buildings. Mapped by UNOSAT, not by this project.">OFFICIAL<em className="toggle-sub">UNOSAT, not ours</em></button>
         </div>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
@@ -1936,6 +2031,80 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             </div>
           )}
         </div>
+        {scenario?.external_source_score && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">
+              EXTERNAL SOURCE POLYGONS · {scenario.external_source_score.measurement_id} · the first external check that separates anything
+            </p>
+            <strong>
+              The 6 radar-flagged windows overlap UNOSAT&apos;s mapped detachment zone{' '}
+              {Math.round(scenario.external_source_score.detachment_zone.flagged_mean_overlap_frac
+                / scenario.external_source_score.detachment_zone.non_flagged_mean_overlap_frac)}× more
+              than the {scenario.external_source_score.windows_ranked - scenario.external_source_score.windows_flagged}{' '}
+              windows we did not flag (permutation p = {scenario.external_source_score.detachment_zone.permutation_p_overlap})
+            </strong>
+            <table className="ai-vs-table">
+              <thead><tr><th>UNOSAT layer</th><th>km²</th><th>flagged</th><th>not flagged</th><th>p</th></tr></thead>
+              <tbody>
+                {([['detachment zone', scenario.external_source_score.detachment_zone],
+                   ['barrier lakes', scenario.external_source_score.barrier_lakes]] as const).map(([label, L]) => (
+                  <tr key={label} className={L.permutation_p_overlap < 0.05 ? 'win' : ''}>
+                    <td>{label}</td>
+                    <td>{L.area_km2}</td>
+                    <td>{(100 * L.flagged_mean_overlap_frac).toFixed(2)}%</td>
+                    <td>{(100 * L.non_flagged_mean_overlap_frac).toFixed(3)}%</td>
+                    <td>{L.permutation_p_overlap}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="br-line">
+              This is the contrast worth noticing. The <b>flood extent</b> covers 65 km² of river and at
+              window scale it separates nothing (M86, below). The <b>source polygons</b> are 1.96 and 0.31
+              km² — small and localised — and against those the ranking does separate. External labels
+              discriminate when they are local, not when they cover everything.
+            </p>
+            <small>
+              {scenario.external_source_score.labels_frozen.provider}, licence{' '}
+              {scenario.external_source_score.labels_frozen.licence}, HDX{' '}
+              {scenario.external_source_score.labels_frozen.hdx_updated}; ranking and threshold unchanged.{' '}
+              {scenario.external_source_score.claim_boundary}
+            </small>
+          </div>
+        )}
+        {officialRecord && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">OFFICIAL RECORD · quoted, not measured by this project</p>
+            <strong>
+              {officialRecord.mechanism.type}, not a {officialRecord.mechanism.not} · ~
+              {officialRecord.mechanism.detached_area_km2_estimate} km² detached{' '}
+              {officialRecord.mechanism.distance_upstream_of_rasuwagadhi_km} km upstream of Rasuwagadhi
+            </strong>
+            <ol className="off-timeline">
+              {officialRecord.timeline_local_npt.map((t) => (
+                <li key={t.time} className={`k-${t.kind}`}>
+                  <b>{t.time}</b><span>{t.event}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="br-line">
+              Peak discharge <b>{officialRecord.hydrology.peak_discharge_m3s.toLocaleString()} m³/s</b> at{' '}
+              {officialRecord.hydrology.peak_at} · total volume{' '}
+              <b>{officialRecord.hydrology.total_flood_volume_Mm3} Mm³</b>, of which{' '}
+              {officialRecord.hydrology.excess_above_base_flow_Mm3} Mm³ above base flow ·{' '}
+              <b>{officialRecord.hydrology.warning_sms_sent.toLocaleString()}</b> warning SMS sent ·{' '}
+              <b>{officialRecord.impact.motorable_bridges_washed_away}</b> motorable bridges washed away.
+              The gauge at Syafrubesi stopped transmitting 10 minutes after onset, so the wave was tracked
+              downstream, not at the source.
+            </p>
+            <small>
+              {officialRecord.source.author} — {officialRecord.source.title}, as of{' '}
+              {officialRecord.source.as_of_local.slice(0, 10)}{' '}
+              (<a href={officialRecord.source.url} target="_blank" rel="noreferrer">PDF ↗</a>).{' '}
+              {officialRecord.source.note} {officialRecord.claim_boundary}
+            </small>
+          </div>
+        )}
         {scenario?.external_label_score && (
           <div className="ai-vs-card">
             <p className="eyebrow">BASE RATE · what the hit count is worth ({scenario.external_label_score.measurement_id})</p>
@@ -2256,7 +2425,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               <div><b>{ko ? '변화 점수' : 'Change score'}</b><span>Δz = 1 − cos(z_before, z_after) per token; before = mean over three baseline dates (3 Jul, 23 Jul, 7 Aug), after = 27 Aug. Ordinary range = p99 of the same statistic over three pre-event placebo pairs (P1 base 3/23 Jul + 7 Aug → 12 Aug; P2 base 3/18 Jun + 3 Jul → 23 Jul; P3 base 19 May + 3/18 Jun → 3 Jul; pooled p99 {scenario?.placebo_extended?.threshold_pooled3.toFixed(3) ?? '0.317'}). Known limitation: these placebo base→target intervals are 40/20/5, 50/35/20 and 45/30/15 days against the event pair&apos;s 55/35/20, so they are not fully time-matched — P1 in particular spans a shorter interval and therefore understates ordinary drift. The most nearly matched pair, P2, gives the strictest threshold (0.361 vs pooled 0.317), so the published shares sit on the permissive side. The radar contract was re-run time-matched on 2026-09-04; the optical threshold has not been, and that is an open correction. Tokens brighter than B02 &gt; 2600 in the base mean or target are excluded; windows with &lt; 20% valid tokens are not judged.</span></div>
               <div><b>{ko ? '검증' : 'Validation'}</b><span>Sen12-Landslides: AI vs classical 9/9 (M73); Presto control 6/7 (M79); radar-only 2/7, fusion gain &lt; +0.03 everywhere (M78, M80). Nepal controls: Tadi Khola 2.3%, pre-registered p009 1.0% vs Dalphedi 13.3% under the pooled threshold (M77, M81, M82).</span></div>
               <div><b>{ko ? '철회' : 'Retracted'}</b><span>Rasuwagadhi 9.8% token exceedance and the Lhende / radar-window-24 candidates: Sentinel-1 fed as linear intensity where the model expects dB (M75/M76).</span></div>
-              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; docs/MEASURED_FINDINGS_full.md M66–M93; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
+              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; docs/MEASURED_FINDINGS_full.md M66–M94; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
               <div><b>{ko ? '열린 질문' : 'Open questions'}</b><span>{ko ? '동결한 외부 범위(M86: 창 규모 무판별)와의 40 m 토큰 규모 대조; 다른 사건(Gorkha 2015)에서 계곡 폭–변화 상관 재현; 두 번째 실제 흐린 지역의 레이더 성능; 두 번째 광학 FM(Prithvi/Clay) 같은 계약.' : 'Token-scale (40 m) comparison against the frozen external extents (M86 found window scale non-discriminative); replication of valley-width/change correlation on another event (Gorkha 2015); radar performance in a second truly cloudy region; a second optical FM (Prithvi/Clay) under the same contract.'}</span></div>
             </div>
             </details>

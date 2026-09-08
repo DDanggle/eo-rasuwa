@@ -234,6 +234,45 @@ assert.ok(orb.spearman > 0.7 && orb.spearman <= 1);
 assert.ok(Math.abs(orb.threshold_ratio - 1) < 0.05, 'independent thresholds must agree within 5%');
 assert.match(orb.claim_boundary, /still n=1|not evidence of damage/);
 
+// M94 외부 발원 폴리곤 대조. 순위를 손대지 않았다는 것과 라이선스 표기가 계약이다.
+const src = scenario.external_source_score;
+assert.equal(src.measurement_id, 'M94');
+assert.equal(src.ranking_unchanged, true);
+assert.equal(src.labels_frozen.licence, 'CC-BY-SA-4.0');
+assert.equal(src.windows_ranked, 56);
+assert.equal(src.windows_flagged, 6);
+for (const key of ['detachment_zone', 'barrier_lakes']) {
+  const L = src[key];
+  assert.ok(L.flagged_mean_overlap_frac > L.non_flagged_mean_overlap_frac,
+    `${key}: flagged windows must overlap more than non-flagged for the claim to hold`);
+  assert.ok(L.permutation_p_overlap < 0.05, `${key}: permutation p must be below 0.05`);
+}
+assert.match(src.claim_boundary, /FieldValidation = 0/);
+assert.match(src.claim_boundary, /Not damage, not risk/);
+
+// UNOSAT 레이어: share-alike 라이선스라 출처 표기가 파일에 남아 있어야 한다
+const unosatFiles = ['detachment-zone', 'barrier-lakes', 'flood-extent', 'affected-roads',
+  'affected-buildings', 'cultural-heritage'];
+for (const f of unosatFiles) {
+  const g = JSON.parse(await readFile(resolve(root, `public/data/unosat-${f}.geojson`), 'utf8'));
+  assert.match(g.attribution ?? '', /UNOSAT \/ UNITAR.*CC-BY-SA-4\.0/,
+    `unosat-${f}.geojson must carry the CC-BY-SA attribution`);
+  assert.ok(g.features.length > 0, `unosat-${f}.geojson is empty`);
+}
+const detachFc = JSON.parse(await readFile(resolve(root, 'public/data/unosat-detachment-zone.geojson'), 'utf8'));
+assert.ok(Math.abs(detachFc.area_km2 - src.detachment_zone.area_km2) < 0.01,
+  'the published detachment area must match the area M94 scored against');
+
+// 공식 기록은 인용이다. 출처와 시점이 없으면 인용이 아니다.
+const rec = JSON.parse(await readFile(resolve(root, 'public/data/official-event-record.json'), 'utf8'));
+assert.match(rec.source.author, /NDRRMA/);
+assert.equal(rec.source.as_of_local, '2026-09-01T09:00:00+05:45');
+assert.equal(rec.mechanism.type, 'ice-rock avalanche');
+assert.equal(rec.mechanism.not, 'glacial lake outburst flood');
+assert.equal(rec.timeline_local_npt.length, 8);
+assert.equal(rec.hydrology.peak_discharge_m3s, 5850);
+assert.match(rec.claim_boundary, /not a product of this project/);
+
 const wasmBytes = await readFile(resolve(root, 'public/wasm/nepal_flow.wasm'));
 const mapWorker = await readFile(resolve(root, 'public/maplibre-gl-worker.mjs'));
 const mapWorkerShared = await readFile(resolve(root, 'public/maplibre-gl-shared.mjs'));
@@ -259,4 +298,7 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   neighbor_windows: neighborWindows.features.length,
   cells_scanned: scenario.cell_accounting.cells_scanned,
   cells_scored: scenario.cell_accounting.cells_scored,
-  radar_replication_spearman: orb.spearman }, null, 2));
+  radar_replication_spearman: orb.spearman,
+  m94_detach_p: src.detachment_zone.permutation_p_overlap,
+  m94_lakes_p: src.barrier_lakes.permutation_p_overlap,
+  unosat_layers: unosatFiles.length }, null, 2));

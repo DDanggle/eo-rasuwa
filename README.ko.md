@@ -19,14 +19,14 @@
 | `web/public/data/candidates.geojson` | 판독 가능한 전체 47개 창(리드와 분리) |
 | `web/public/data/scenario.json` | 앱이 읽는 통합 결과·출처·계약·정정 장부 |
 | `artifacts/` | 실험별 1차 `report.json` |
-| `docs/MEASURED_FINDINGS_full.md` | M66–M93 측정·반증·정정 기록 |
+| `docs/MEASURED_FINDINGS_full.md` | M66–M94 측정·반증·정정 기록 |
 | `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
 
 대용량 raw cube·embedding·delta는 `research-private/artifacts/`로 분리되어 있으며
 `NEPAL_ARTIFACT_ROOT`로 서버 위치를 명시할 수 있습니다. `artifacts/` 표의 보고서는 공개 검토에
 필요한 작은 결과만 뜻합니다.
 
-`web/public/data/`는 약 126 MB입니다. 연구 원본이 아니라 공개 UI에 필요한 파생 PNG·GeoJSON·JSON·WASM만 포함합니다.
+`web/public/data/`는 약 127 MB입니다. 연구 원본이 아니라 공개 UI에 필요한 파생 PNG·GeoJSON·JSON·WASM만 포함합니다.
 
 ## 지금 말할 수 있는 것
 
@@ -47,6 +47,12 @@
 **NP-86 (기존 M86, 2026-08-31):** Sentinel Asia 활성화의 IWM(PlanetScope)·TASA(FORMOSAT-5)·JAXA(ALOS-2) 홍수 범위를 발표본 그대로 동결하고, 순위·문턱을 바꾸지 않은 채 6개 리드를 채점했습니다. 합집합 precision@6은 6/6이지만 비리드 기저율 87.8%로 우연 기대치와 구분되지 않고, 창 내부 교차 면적도 리드 6.0% vs 비리드 6.3%로 동일합니다 — **창(2.56 km) 규모에서 외부 범위는 이 순위를 검증도 반증도 하지 못합니다** (`artifacts/external_label_score/report.json`, `code/score_external_extents.py`). 그 다음 40 m 토큰 대조 **NP-88 (기존 M88, 2026-09-01)** 에서는 OlmoEarth Δz가 외부 proxy와 정합했습니다(AUROC **0.846**, AUPRC **0.255**, 기저율 5.5%; 기관별 AUROC IWM 0.887/TASA 0.878/JAXA 0.796). 다만 122,558 토큰은 겹치는 창의 공간상관 표본이고 독립 사건은 1개입니다. 사후 강건성 감사 **NP-89A**에서 사건 후 NDWI가 AUPRC 0.291로 Olmo를 이겼고, 5.12 km block-macro AUROC는 0.850 vs 0.857, Olmo−NDWI bootstrap CI가 0을 포함했습니다. 따라서 **외부 라벨 정합은 생존하지만 “AI가 고전 flood mapping보다 우월”하다는 주장은 하지 않습니다.** 같은 창·같은 80 m 강거리 구간 조건부 AUROC는 Olmo 0.801 vs NDWI 0.752로 후속 가설만 남습니다.
 
 **NP-89B route-buffer sensitivity(기존 M89):** 앱의 물리 애니메이션에 사용한 OSM `simulation_route` 한 줄에서 300/600 m 밖을 남겨도 AUROC 0.846/0.873이었습니다. 이 결과는 그 중심선까지의 거리 하나만 외운 설명을 약화하지만, 전체 수계·누락 지류를 통제한 것은 아니며 강한 post-event NDWI보다 우월하다는 증거도 아닙니다.
+
+**M92 (2026-09-03, 09-04 정정):** 사건 후 광학이 49창 중 6창만 판독 가능한 발원지 권역에서 레이더는 56/56 판독. 권역 전체로는 사건 2주가 평시 2주보다 더 변하지 않아 **무검출**이고, 자기 평시쌍을 넘은 창은 모두 발원지 9 km 안(permutation p = 0.037).
+
+**M93 독립 궤도 복제 (2026-09-08):** 궤도 19 하강(궤도 121과 획득 공유 0, base가 사건 이틀 전)에 **같은 계약을 같은 코드로** 돌렸더니 같은 창이 1·2위, top-10 중 9개 공유, 문턱이 1% 안(0.2472 vs 0.2499), 56창 Spearman **0.746**. 순위는 한 입사각의 산물이 아니다. 다만 같은 창·같은 단일 사건이라 사건 표본은 여전히 n=1.
+
+**M94 UNOSAT 발원 폴리곤 대조 (2026-09-08):** UNOSAT이 detachment zone(**1.955 km²**)과 barrier lakes(**0.314 km²**)를 발표했다(CC-BY-SA). 레이더 깃발 6창은 detachment zone에 비깃발 50창보다 **76배** 더 겹치고(7.06% vs 0.093%, permutation p = **0.0020**), barrier lakes에는 **100배**(p = 0.013). **M86과 대조가 요점이다** — 65 km²의 홍수 범위는 창 규모에서 아무것도 구분하지 못했는데, 좁은 발원 폴리곤은 구분한다. **외부 라벨은 국소적일 때 판별한다.** 단 UNOSAT 속성도 `FieldValidation = 0`이고, barrier lake는 사건 후 지형이라 새 수면이 구조적으로 레이더를 바꾸며, 깃발 집합을 우리 점수로 뽑았으므로 예측 검정이 아니라 사후 연관이다.
 
 ## AI 파이프라인 — 코드로 따라가기
 

@@ -317,7 +317,20 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 @media (max-width: 720px) {
   body { overflow: auto; }
   .app-shell { position: relative; min-height: 100svh; overflow: hidden; }
-  .topbar { height: 72px; padding: 0 15px; }
+  /* 2026-09-08: 모바일에서 레이어 토글 4개가 전부 화면 밖(x=512~761)이고 상단바가
+     스크롤되지 않아 폰에서는 어떤 레이어도 켤 수 없었다. 상단바를 가로 스크롤로 바꾸고,
+     폰에서 더 중요한 레이어 토글을 구역 스위처보다 앞에 놓는다. */
+  .topbar { height: 72px; padding: 0 15px; overflow-x: auto; overflow-y: hidden;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity; }
+  .topbar::-webkit-scrollbar { display: none; }
+  .topbar > * { flex: 0 0 auto; scroll-snap-align: start; }
+  .map-toggles { order: -1; }
+  /* 폰에서는 브랜드 워드마크를 접고 그 폭을 레이어 토글에 준다. 사이트 정체성은
+     탭 제목과 랜딩에 있고, 지도 화면에서 필요한 것은 지도와 그 컨트롤이다. */
+  .brand-lockup { display: none; }
+  .map-toggle { padding: 7px 8px; font-size: 9.5px; }
+  .map-toggle .toggle-sub { display: none; }
   .eyebrow { display: none; }
   h1 { font-size: 16px; }
   .event-status small { display: none; }
@@ -1332,6 +1345,19 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .topbar { gap: 10px; }
 .map-toggles { flex: 0 0 auto; }
 .map-toggle { min-width: 0; white-space: nowrap; }
+/* OFFICIAL 토글이 4번째로 들어오면서 1440px 이하에서 상단바가 넘쳤다 (측정: 1440 에서 10px,
+   1280 에서 45px). 구역 스위처가 458px 로 가장 크므로 거기서 먼저 줄인다. */
+@media (max-width: 1600px) {
+  .topbar { gap: 8px; }
+  .map-mode-switch.zone-switch button { padding: 9px 10px; letter-spacing: .04em; }
+  .map-toggle { padding: 9px 11px; }
+}
+@media (max-width: 1400px) {
+  .map-mode-switch.zone-switch button { padding: 8px 8px; font-size: 9.5px; }
+  .map-toggle { padding: 8px 9px; }
+  .story-launch { padding: 9px 11px; }
+}
+
 /* 부제를 접더라도 RIVER CHANGE 의 "observed, not predicted" 는 남긴다.
    이 한 줄이 주장 경계이고, 대칭성보다 중요하다. */
 @media (max-width: 1380px) {
@@ -1375,6 +1401,10 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .k-sw { width: 11px; height: 11px; border: 1px solid rgba(20,18,14,.25); }
 .k-sw.amber { background: rgba(217,154,36,.62); border-color: #d99a24; }
 .k-sw.purple { background: rgba(123,63,191,.5); border-color: #7b3fbf; }
+.k-sw.detach { background: rgba(209,15,107,.32); border-color: #8e0344; }
+.k-sw.lake { background: rgba(11,127,212,.55); border-color: #04406f; }
+.k-sw.extent { background: rgba(27,59,143,.12); border-color: #1b3b8f; }
+.k-dot.violet { background: #7a2f8f; box-shadow: 0 0 0 1px #4d1c5c; }
 .k-sw.anchor { background: transparent; border: 1.5px dashed #8fa8a0; }
 .k-sw.ice { background: linear-gradient(135deg, #f4f1fb, #c3b6e9); border-color: #9384c4; }
 .k-dot { width: 10px; height: 10px; border-radius: 50%; background: #12b39a; border: 1.5px solid #fff; box-shadow: 0 0 0 1px #0e8f86; }
@@ -1419,3 +1449,17 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 /* 기저율 카드 본문 (2026-09-08): 적중 수를 기저율에서 떨어뜨려 놓지 않는다 */
 .ai-vs-card .br-line { margin: 7px 0 0; font: 11px/1.55 var(--font-geist-sans); color: #3a3833; }
 .ai-vs-card .br-line b { font-variant-numeric: tabular-nums; }
+
+/* 공식 기록 타임라인 (2026-09-08): 시각은 현지시(NPT). 우리 측정이 아니라 인용이다. */
+.off-timeline { margin: 9px 0 0; padding: 0; list-style: none;
+  border-left: 2px solid var(--line, #e3e0d8); }
+.off-timeline li { display: grid; grid-template-columns: 46px 1fr; gap: 8px; position: relative;
+  padding: 3px 0 3px 11px; font: 10.5px/1.5 var(--font-geist-sans); color: #3a3833; }
+.off-timeline li::before { content: ''; position: absolute; left: -5px; top: 9px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--surface, #fffefb);
+  border: 1.5px solid #a8a49a; }
+.off-timeline li.k-onset::before { background: #d10f6b; border-color: #8e0344; }
+.off-timeline li.k-peak::before { background: #ec5238; border-color: #a3271a; }
+.off-timeline li.k-warning::before { background: #12b39a; border-color: #0e8f86; }
+.off-timeline li.k-gauge_lost::before { background: #fffefb; border-color: #d10f6b; border-style: dashed; }
+.off-timeline b { font: 700 10.5px var(--font-geist-mono); font-variant-numeric: tabular-nums; color: var(--ink, #16151a); }

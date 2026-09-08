@@ -69,7 +69,7 @@
       "source": "USGS + China Geological Survey + satellite interpretation",
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "source_estimate_not_release_polygon",
-      "story": "The rock–ice collapse began on the Nepal side of Langtang Lirung. This red marker is the best public source-search estimate—not a surveyed release polygon. It is the event origin; A and B are downstream impact/checkpoint windows.",
+      "story": "The rock–ice collapse began on the Nepal side of Langtang Lirung. This red marker is the best public source-search estimate—not a surveyed release polygon. It is the event origin; A and B are downstream impact/checkpoint windows. Update 2026-09-08: UNOSAT has since mapped the detachment zone from Landsat-9 (1.955 km², centroid 85.5213, 28.2891). This provisional anchor sits 0.63 km from that polygon's edge — close, but the polygon is the better object and it is what the radar ranking is now scored against (M94). Turn on OFFICIAL to see it.",
       "story_ko": "붕괴는 네팔 영내 랑탕 리룽에서 시작됐다. 빨간 점은 공개된 자료로 추정한 발원 지점으로, 현장에서 실측해 확정하지는 않았다. 여기서 시작된 흐름이 아래로 내려가 A와 B에 닿았다.",
       "distance_from_a_km": 13.84,
       "nearest_window": "v050",
@@ -92,7 +92,7 @@
       "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
       "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
       "evidence_level": "reported_hazard_position_illustrative",
-      "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary. A model-free search of the ±5 km zone found the 27 Aug optical scene 85% cloud, so new water cannot be confirmed; same-orbit Sentinel-1 (23 Jul·4 Aug·16 Aug median vs 28 Aug) shows ≥3 dB backscatter drops clustered in the Lhende valley south-west of the source (largest 0.38 km² at 85.507E 28.251N). Radar alone cannot tell standing water from wet debris, so these are search targets, not a lake outline.",
+      "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary. A model-free search of the ±5 km zone found the 27 Aug optical scene 85% cloud, so new water cannot be confirmed; same-orbit Sentinel-1 (23 Jul·4 Aug·16 Aug median vs 28 Aug) shows ≥3 dB backscatter drops clustered in the Lhende valley south-west of the source (largest 0.38 km² at 85.507E 28.251N). Radar alone cannot tell standing water from wet debris, so these are search targets, not a lake outline. Update 2026-09-08: UNOSAT mapped the actual impounded lakes on Cartosat-3 on 28 August (two polygons, 0.314 km² total). This reported point is 2.94 km from them, so treat the point as hearsay and the polygons as the record. Turn on OFFICIAL to see them.",
       "story_ko": "흘러내린 토사와 돌에 물길이 막히면서 호수가 생겼다는 보고가 뒤따랐다. 공개된 위치 자료가 없어 보라색 점은 대략적인 수색 범위로 볼 수 있다.",
       "distance_from_a_km": 10.01,
       "nearest_window": "v047",
@@ -10442,5 +10442,52 @@
     "threshold_ratio": 1.0107,
     "reading": "Two Sentinel-1 tracks that never share an acquisition — orbit 121 descending and orbit 19 descending — put the same window first and second, overlap 9 of their top 10, and derive 'ordinary' thresholds within 1% of each other, with rank correlation 0.75 across all 56 windows. The ranking is a property of the scene, not of one viewing geometry or one speckle realisation.",
     "claim_boundary": "This is a reproducibility check on the measurement, not evidence of damage. Both tracks score the same windows for the same single event, so the independent-event sample is still n=1. The orbit-19 magnitudes are 2-3x larger because its base sits 2 days pre-event and its target 10 days post, capturing more of the event and less pre-event drift — that is a contract difference, not a stronger detection. Not risk, not damage."
-  }
+  },
+  "external_source_score": {
+    "schema": "external-source-score-v1",
+    "measurement_id": "M94",
+    "generated_at_utc": "2026-09-08T07:05:00Z",
+    "question": "Do the radar-flagged windows intersect the polygons a third party mapped as the source, more than chance?",
+    "labels_frozen": {
+      "provider": "UNOSAT / UNITAR",
+      "event_code": "FL20260826NPL",
+      "licence": "CC-BY-SA-4.0",
+      "hdx_updated": "2026-09-04",
+      "field_validation": "FieldValidation = 0 in the source attributes — UNOSAT has not ground-verified these either"
+    },
+    "ranking_unchanged": true,
+    "windows_ranked": 56,
+    "windows_flagged": 6,
+    "detachment_zone": {
+      "unosat_layer": "UNOSAT_Landsat9_20260826_DetachmentZone",
+      "area_km2": 1.957,
+      "windows_touching": 4,
+      "flagged_touching": 3,
+      "non_flagged_touching": 1,
+      "flagged_mean_overlap_frac": 0.07061,
+      "non_flagged_mean_overlap_frac": 0.00093,
+      "flagged_mean_km": 2.52,
+      "non_flagged_mean_km": 4.44,
+      "all_windows_mean_km": 4.24,
+      "permutation_p_overlap": 0.00197,
+      "permutation_p_distance": 0.04934
+    },
+    "barrier_lakes": {
+      "unosat_layer": "UNOSAT_Cartosat3_20260828_BarrierLakes",
+      "area_km2": 0.314,
+      "windows_touching": 4,
+      "flagged_touching": 2,
+      "non_flagged_touching": 2,
+      "flagged_mean_overlap_frac": 0.00744,
+      "non_flagged_mean_overlap_frac": 7e-05,
+      "flagged_mean_km": 1.55,
+      "non_flagged_mean_km": 4.61,
+      "all_windows_mean_km": 4.28,
+      "permutation_p_overlap": 0.01302,
+      "permutation_p_distance": 0.00994
+    },
+    "reading": "Unlike the flood extent at window scale (M86, non-discriminative), these source polygons are small and localised — and here the ranking does separate. The six radar-flagged windows overlap the mapped detachment zone 76x more than the windows not flagged, and the mapped barrier lakes 100x more.",
+    "claim_boundary": "An association between our ranking and two third-party polygons, on one event, with 56 windows and 6 flagged. UNOSAT's own attributes record FieldValidation = 0, so these polygons are not ground-verified either. The barrier lakes are post-event features, and a new water surface produces a large radar change by construction — finding them confirms the change is physical, not that we predicted anything. Not damage, not risk."
+  },
+  "official_event_record": "/data/official-event-record.json"
 }

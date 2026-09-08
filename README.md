@@ -24,10 +24,10 @@ The single headline result:
 | `web/public/data/candidates.geojson` | all 47 observable windows (kept separate from leads) |
 | `web/public/data/scenario.json` | the single contract the app reads: results, provenance, corrections ledger |
 | `artifacts/` | primary `report.json` per experiment |
-| `docs/MEASURED_FINDINGS_full.md` | the M66–M93 measurement, refutation and correction ledger |
+| `docs/MEASURED_FINDINGS_full.md` | the M66–M94 measurement, refutation and correction ledger |
 | `code/` | candidate scan, controls, Sen12 validation, radar, terrain, external-label scoring |
 
-`web/public/data/` is ~126 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw
+`web/public/data/` is ~127 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw
 research data. Raw cubes, embeddings and deltas (~5.9 GB) are excluded; point `NEPAL_ARTIFACT_ROOT`
 at a copy to recompute.
 
@@ -79,6 +79,24 @@ transitions. The ranking is an order for human review, not a damage verdict.
   around the single OSM `simulation_route` (AUROC 0.846/0.873). This weakens a one-centreline
   explanation, but it is not a complete river-network control and does not establish superiority
   over the stronger post-event NDWI baseline.
+- **M92 radar under cloud (2026-09-03, corrected 09-04):** where post-event optical read 6 of 49
+  windows, radar read 56 of 56. Region-wide the event fortnight changed no more than an ordinary
+  one, so no detection is claimed; the windows that did exceed their own ordinary pair all sit
+  within 9 km of the source (permutation p = 0.037).
+- **M93 independent-orbit replication (2026-09-08):** re-running the identical contract on orbit 19
+  descending — a track sharing no acquisition with orbit 121, with a base two days pre-event —
+  puts the same window 1st and 2nd, shares 9 of the top 10, derives its threshold within 1%
+  (0.2472 vs 0.2499), and correlates at Spearman 0.746 over 56 windows. The ranking is not an
+  artefact of one look geometry. Same windows and same single event, so still n = 1 for events.
+- **M94 external source polygons (2026-09-08):** UNOSAT published a mapped detachment zone
+  (1.955 km²) and barrier lakes (0.314 km²) for this event. The six radar-flagged windows overlap
+  the detachment zone **76× more** than the fifty we did not flag (7.06% vs 0.093%, permutation
+  p = 0.0020) and the barrier lakes **100× more** (p = 0.013). Read this against M86: the flood
+  extent covers 65 km² and separates nothing at window scale, while these polygons are small and
+  do separate. **External labels discriminate when they are local, not when they cover
+  everything.** UNOSAT's own attributes record `FieldValidation = 0`, the barrier lakes are
+  post-event features whose new water surface changes radar backscatter by construction, and the
+  flagged set was chosen by our own score — this is a post-hoc association, not a prediction test.
 - **Corrections (M75·M76):** an early 9.8% result and related candidates were retracted after a
   linear-vs-dB radar unit error was found and fixed. Public results use corrected artifacts only.
 

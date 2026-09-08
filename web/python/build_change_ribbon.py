@@ -75,12 +75,17 @@ for f in hydro["features"] + _rivers:
 import math as _m
 def _len(c):
     return sum(_m.hypot((c[i+1][0]-c[i][0]) * 98, (c[i+1][1]-c[i][1]) * 111) for i in range(len(c)-1))
-_obs_km = sum(_len(f["geometry"]["coordinates"]) for f in features if f["properties"]["observed"])
+_obs = [f for f in features if f["properties"]["observed"]]
+_obs_km = sum(_len(f["geometry"]["coordinates"]) for f in _obs)
 _all_km = sum(_len(f["geometry"]["coordinates"]) for f in features)
+# 두 스캔의 문턱이 다르므로 길이를 따로 낸다. 합계만 내면 봉인 계약과 확장 스캔이 한 숫자에 섞인다.
+_main_km = sum(_len(f["geometry"]["coordinates"]) for f in _obs if not f["properties"]["ext"])
+_ext_km = sum(_len(f["geometry"]["coordinates"]) for f in _obs if f["properties"]["ext"])
 
 out = {"type": "FeatureCollection",
        "observed_river_km": round(_obs_km, 1), "total_river_km": round(_all_km, 1),
-       "claim": "river centrelines coloured by the observed per-window change fraction; ext=true segments come from the 2026-09-02 neighbor-river extension scan (single-placebo p99, separate from the sealed 6-lead funnel); grey dash = unobservable; not risk, not a forecast",
+       "main_scan_river_km": round(_main_km, 1), "extension_river_km": round(_ext_km, 1),
+       "claim": "river centrelines coloured by the observed per-window change fraction; ext=false is the sealed 100-window corridor scan (pooled three-pair p99 = 0.3170), ext=true is the 2026-09-02 neighbour-river extension scan, also scored on its own pooled three-pair p99 but a separate pool from the sealed funnel — the two are not interchangeable thresholds; grey dash = unobservable; not risk, not a forecast",
        "features": features}
 (PUB / "change-ribbon.geojson").write_text(json.dumps(out) + "\n")
 obs = [f for f in features if f["properties"]["observed"]]

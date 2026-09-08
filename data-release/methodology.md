@@ -7,8 +7,16 @@
    same relative orbit R119, from Microsoft Planetary Computer.
 3. **Embeddings**: frozen OlmoEarth v1 Base (patch 4 → 768-d tokens at 40 m).
 4. **Change score**: Δz = 1 − cos(z_baseline, z_post) per token.
-5. **Ordinary baseline**: pooled p99 of three no-event fortnight transitions
-   (M82); tokens with >50 % bright pixels (B02 > 2600 DN) masked as cloud/snow.
+5. **Ordinary baseline**: pooled p99 of three no-event pre-event transitions
+   (M82) — P1 base 07-03/07-23/08-07 -> 08-12, P2 base 06-03/06-18/07-03 -> 07-23,
+   P3 base 05-19/06-03/06-18 -> 07-03; tokens with >50 % bright pixels
+   (B02 > 2600 DN) masked as cloud/snow.
+   **Limitation:** these base->target intervals (40/20/5, 50/35/20, 45/30/15 days)
+   are not matched to the event pair's 55/35/20 days, so "fortnight" is loose and
+   P1 understates ordinary drift. P2, the most nearly matched, is the strictest
+   single threshold (0.3606 vs pooled 0.3170), meaning published shares are on the
+   permissive side. The radar contract was re-run time-matched (2026-09-04); the
+   optical one has not been. Open correction.
 6. **Ranking**: share of valid tokens above the pooled p99; windows with <20 %
    valid tokens marked unobservable; one lead per place name; leads require
    ≥40 % observability.

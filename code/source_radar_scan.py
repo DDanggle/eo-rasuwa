@@ -27,20 +27,50 @@ from pathlib import Path
 
 from nepal_paths import ARTIFACT_ROOT, REPO_ROOT
 
-ORBIT = 121
-DATES = ["2026-07-02", "2026-07-14", "2026-07-26", "2026-08-07", "2026-08-19", "2026-08-31"]
-BASE_EVENT = ["2026-07-26", "2026-08-07", "2026-08-19"]
-TARGET_EVENT = "2026-08-31"
-BASE_PLACEBO = ["2026-07-02", "2026-07-14", "2026-07-26"]
-TARGET_PLACEBO = "2026-08-07"  # 2026-09-04 정정: 8/19는 base→target 간격이 사건쌍의 2배(48/36/24일 vs 36/24/12일)라 평시 기준이 부풀려졌다
+# 계약은 코드 상수로 고정한다. 같은 코드 경로로 다른 궤도를 돌려야 복제가 복제다.
+CONTRACTS: dict[str, dict] = {
+    # M92 — 최초 레이더 스캔. 121 desc.
+    "o121": {
+        "measurement_id": "M92",
+        "orbit": 121,
+        "direction": "descending",
+        "dates": ["2026-07-02", "2026-07-14", "2026-07-26", "2026-08-07", "2026-08-19", "2026-08-31"],
+        "base_event": ["2026-07-26", "2026-08-07", "2026-08-19"],
+        "target_event": "2026-08-31",
+        "base_placebo": ["2026-07-02", "2026-07-14", "2026-07-26"],
+        # 2026-09-04 정정: 8/19는 base→target 간격이 사건쌍의 2배(48/36/24일 vs 36/24/12일)라 평시 기준이 부풀려졌다
+        "target_placebo": "2026-08-07",
+        "out": "source_radar_scan",
+    },
+    # M93 — 독립 궤도 복제. 19 desc. 같은 3v1 구조, 같은 36/24/12일 간격.
+    # base 08-24는 사건 이틀 전이라 121계약(7일 전)보다 사건 직전 상태에 가깝다.
+    "o19": {
+        "measurement_id": "M93",
+        "orbit": 19,
+        "direction": "descending",
+        "dates": ["2026-07-07", "2026-07-19", "2026-07-31", "2026-08-12", "2026-08-24", "2026-09-05"],
+        "base_event": ["2026-07-31", "2026-08-12", "2026-08-24"],
+        "target_event": "2026-09-05",
+        "base_placebo": ["2026-07-07", "2026-07-19", "2026-07-31"],
+        "target_placebo": "2026-08-12",
+        "out": "source_radar_scan_o19",
+    },
+}
 SIZE, PATCH, CROP = 256, 4, 64
-OUT = ARTIFACT_ROOT / "source_radar_scan"
 
 
-def stage_prepare(win_subset: list[dict]) -> None:
+def gaps(base: list[str], target: str) -> list[int]:
+    """base→target 간격(일). 사건쌍과 위약쌍이 같아야 평시 기준이 공정하다."""
+    t = datetime.fromisoformat(target)
+    return [(t - datetime.fromisoformat(b)).days for b in base]
+
+
+def stage_prepare(win_subset: list[dict], C: dict) -> None:
     """56창 × 6날짜 × VV/VH RTC 큐브(dB)를 로컬에 캐시."""
     import numpy as np, planetary_computer as pc, pystac_client, rasterio
     from rasterio.windows import from_bounds
+    OUT = ARTIFACT_ROOT / C["out"]
+    DATES, ORBIT = C["dates"], C["orbit"]
     (OUT / "prepare").mkdir(parents=True, exist_ok=True)
     catalog = pystac_client.Client.open("https://planetarycomputer.microsoft.com/api/stac/v1")
     items: dict[str, object] = {}
@@ -79,7 +109,12 @@ def stage_prepare(win_subset: list[dict]) -> None:
         print(w["id"], "ok", flush=True)
 
 
-def stage_embed() -> None:
+def stage_embed(C: dict) -> None:
+    OUT = ARTIFACT_ROOT / C["out"]
+    DATES, ORBIT = C["dates"], C["orbit"]
+    BASE_EVENT, TARGET_EVENT = C["base_event"], C["target_event"]
+    BASE_PLACEBO, TARGET_PLACEBO = C["base_placebo"], C["target_placebo"]
+    assert gaps(BASE_EVENT, TARGET_EVENT) == gaps(BASE_PLACEBO, TARGET_PLACEBO), "placebo gaps must match the event pair"
     import numpy as np, torch
     from rslearn.models.olmoearth_pretrain.model import OlmoEarth, ModelID
     from rslearn.train.model_context import ModelContext, RasterImage
@@ -152,9 +187,11 @@ def stage_embed() -> None:
         if r["status"] == "unobservable": r["candidate_token_frac"] = None
     ranked = sorted([r for r in rows if r["status"] == "ranked"], key=lambda r: -r["candidate_token_frac"])
     for i, r in enumerate(ranked): r["rank"] = i + 1
-    rep = {"schema": "source-radar-scan-v1", "measurement_id": "M92",
-           "claim": "radar-only change ranking for the source region under persistent cloud; same-orbit (121 desc) 3v1 contract; separate from the optical six-lead funnel; not damage, not risk",
-           "orbit": ORBIT, "dates": DATES, "event_pair": {"base": BASE_EVENT, "target": TARGET_EVENT},
+    rep = {"schema": "source-radar-scan-v1", "measurement_id": C["measurement_id"],
+           "claim": f"radar-only change ranking for the source region under persistent cloud; same-orbit ({ORBIT} {C['direction'][:4]}) 3v1 contract; separate from the optical six-lead funnel; not damage, not risk",
+           "orbit": ORBIT, "orbit_direction": C["direction"],
+           "gap_days": {"event": gaps(BASE_EVENT, TARGET_EVENT), "placebo": gaps(BASE_PLACEBO, TARGET_PLACEBO)},
+           "dates": DATES, "event_pair": {"base": BASE_EVENT, "target": TARGET_EVENT},
            "placebo_pair": {"base": BASE_PLACEBO, "target": TARGET_PLACEBO},
            "input_unit": "gamma0 dB (10*log10 of RTC linear power)",
            "threshold_placebo_p99": thr, "placebo_tokens": int(len(pool_all)),
@@ -168,10 +205,14 @@ def stage_embed() -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", choices=["prepare", "embed", "all"], default="all")
+    ap.add_argument("--contract", choices=sorted(CONTRACTS), default="o121")
     a = ap.parse_args()
+    C = CONTRACTS[a.contract]
+    print("contract", a.contract, C["measurement_id"], "orbit", C["orbit"], C["direction"],
+          "gaps", gaps(C["base_event"], C["target_event"]), flush=True)
     footprint = json.loads((Path(__file__).parent / "source_radar_windows.json").read_text())
-    if a.stage in ("prepare", "all"): stage_prepare(footprint)
-    if a.stage in ("embed", "all"): stage_embed()
+    if a.stage in ("prepare", "all"): stage_prepare(footprint, C)
+    if a.stage in ("embed", "all"): stage_embed(C)
 
 
 if __name__ == "__main__":

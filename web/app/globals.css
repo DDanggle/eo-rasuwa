@@ -1332,7 +1332,14 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .topbar { gap: 10px; }
 .map-toggles { flex: 0 0 auto; }
 .map-toggle { min-width: 0; white-space: nowrap; }
-@media (max-width: 1380px) { .map-toggle .toggle-sub { display: none; } .map-toggle { padding: 9px 10px; } }
+/* 부제를 접더라도 RIVER CHANGE 의 "observed, not predicted" 는 남긴다.
+   이 한 줄이 주장 경계이고, 대칭성보다 중요하다. */
+@media (max-width: 1380px) {
+  .map-toggle .toggle-sub { display: none; }
+  .map-toggle.keep-sub .toggle-sub { display: block; }
+  .map-toggle { padding: 9px 10px; }
+}
+@media (max-width: 900px) { .map-toggle.keep-sub .toggle-sub { display: none; } }
 
 /* 제작·자문 크레딧 */
 .foot-credit { margin: 14px 0 0; font: 11.5px/1.6 var(--font-geist-sans); color: var(--muted, #6f6c64); }
@@ -1349,10 +1356,14 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 
 /* 컬러바 + 눈금 */
 .lg-ramp { margin-top: 11px; }
-.lg-bar { display: block; height: 9px; border: 1px solid rgba(20,18,14,.18);
-  background: linear-gradient(90deg, #7fb5c9 0%, #ffd666 23%, #ff983d 53%, #ec5238 75%, #ba185c 100%); }
-.lg-ticks { display: flex; justify-content: space-between; margin-top: 3px;
-  font: 9.5px var(--font-geist-mono); color: var(--muted, #6f6c64); font-variant-numeric: tabular-nums; }
+/* 계급을 균등 폭 스와치로 그린다. 값이 비균등이라 연속 그라디언트는 눈금을 거짓말하게 만든다. */
+.lg-classes { display: grid; grid-template-columns: repeat(5, 1fr); height: 10px;
+  border: 1px solid rgba(20,18,14,.22); }
+.lg-classes i { display: block; border-right: 1px solid rgba(255,255,255,.55); }
+.lg-classes i:last-child { border-right: 0; }
+.lg-ticks { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 3px;
+  font: 9px var(--font-geist-mono); color: var(--muted, #6f6c64); font-variant-numeric: tabular-nums;
+  text-align: center; }
 .lg-unit { margin: 6px 0 0; font: 9.5px/1.45 var(--font-geist-sans); color: var(--muted, #6f6c64); }
 
 /* 키: 2열, 스와치 크기 통일 */
@@ -1364,6 +1375,7 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .k-sw { width: 11px; height: 11px; border: 1px solid rgba(20,18,14,.25); }
 .k-sw.amber { background: rgba(217,154,36,.62); border-color: #d99a24; }
 .k-sw.purple { background: rgba(123,63,191,.5); border-color: #7b3fbf; }
+.k-sw.anchor { background: transparent; border: 1.5px dashed #8fa8a0; }
 .k-sw.ice { background: linear-gradient(135deg, #f4f1fb, #c3b6e9); border-color: #9384c4; }
 .k-dot { width: 10px; height: 10px; border-radius: 50%; background: #12b39a; border: 1.5px solid #fff; box-shadow: 0 0 0 1px #0e8f86; }
 .k-line { width: 13px; height: 0; border-top-width: 2px; }
@@ -1380,10 +1392,17 @@ a.brand-lockup { text-decoration: none; color: inherit; }
   color: var(--ink, #16151a) !important; font: 700 11px var(--font-geist-mono) !important;
   letter-spacing: .04em; padding: 3px 7px 4px !important; box-shadow: none !important; min-width: 96px; text-align: right; }
 
+.lg-claim { margin: 9px 0 0; font: 10.5px/1.5 var(--font-geist-sans); color: #2c2a25; }
+.lg-claim b { font-variant-numeric: tabular-nums; }
+
 @media (max-width: 720px) {
-  .map-legend-card { left: 8px; right: 8px; bottom: 112px; width: auto; padding: 9px 11px; }
-  .map-legend-card .lg-unit, .map-legend-card .lg-source { display: none; }
-  .lg-keys { grid-template-columns: repeat(3, 1fr); }
+  .map-legend-card { left: 8px; right: 8px; bottom: 164px; width: auto; padding: 8px 11px; }
+  /* 모바일에서도 주장 문장과 색계급은 남긴다. 접는 것은 각주뿐. */
+  .map-legend-card .lg-unit, .map-legend-card .lg-source,
+  .map-legend-card .lg-keys, .map-legend-card .lg-funnel { display: none; }
+  .lg-claim { font-size: 10px; margin-top: 7px; }
+  .map-legend-card figcaption { padding-bottom: 7px; }
+  .lg-ramp { margin-top: 8px; }
 }
 
 /* 퍼널 캡션 (옛 KEY 스트립을 범례로 흡수) */
@@ -1395,4 +1414,8 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib { background: color-mix(in srgb, var(--surface, #fffefb) 88%, transparent) !important;
   border: 1px solid var(--line, #e3e0d8); font: 8.5px var(--font-geist-mono) !important; padding: 1px 5px !important; }
 .maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib a { color: var(--muted, #6f6c64) !important; }
-@media (max-width: 720px) { .maplibregl-ctrl-bottom-left { bottom: 74px !important; left: 8px !important; } }
+@media (max-width: 720px) { .maplibregl-ctrl-bottom-left { bottom: 107px !important; left: 8px !important; } }
+
+/* 기저율 카드 본문 (2026-09-08): 적중 수를 기저율에서 떨어뜨려 놓지 않는다 */
+.ai-vs-card .br-line { margin: 7px 0 0; font: 11px/1.55 var(--font-geist-sans); color: #3a3833; }
+.ai-vs-card .br-line b { font-variant-numeric: tabular-nums; }

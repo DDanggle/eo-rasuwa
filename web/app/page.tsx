@@ -132,7 +132,7 @@ export default function Landing() {
           </div>
           <div>
             <b>{ko ? '사건과 상태' : 'Event and status'}</b>
-            <p>{ko ? `2026년 8월 26일, 네팔 라수와 군 랑탕 리룽의 빙하와 암반이 무너지며 시작된 돌발 산사태·홍수입니다. 원인은 아직 조사 중이며 이 페이지는 원인을 판정하지 않습니다. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. 코드와 실험 기록은 GitHub에 있습니다.` : `Flash flood of 26 August 2026 in Rasuwa district, Nepal, starting on Langtang Lirung. The cause is under investigation (suspected rock–ice avalanche); this page does not adjudicate it. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. Code and the measurement ledger (M66–M85) are on GitHub.`} <a href="https://github.com/DDanggle/eo-rasuwa" target="_blank" rel="noreferrer">github ↗</a></p>
+            <p>{ko ? `2026년 8월 26일, 네팔 라수와 군에서 얼음과 암반이 무너져 강을 일시적으로 막았다가 터진 돌발 산사태·홍수입니다. 네팔 정부 NDRRMA와 USGS는 이를 빙하호 붕괴(GLOF)가 아니라 ice–rock avalanche로 판정했습니다. 이 페이지는 원인을 판정하지 않고, 관측된 변화만 보여줍니다. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. 코드와 실험 기록(M66–M93)은 GitHub에 있습니다.` : `Flash flood of 26 August 2026 in Rasuwa district, Nepal: an ice–rock avalanche that dammed the river and released. Nepal's NDRRMA and the USGS record it as an ice–rock avalanche, not a glacial lake outburst. This page does not adjudicate the cause; it shows observed change. LAST UPDATE ${sc ? new Date(sc.generated_at).toISOString().slice(0, 10) : ''}. Code and the measurement ledger (M66–M93) are on GitHub.`} <a href="https://github.com/DDanggle/eo-rasuwa" target="_blank" rel="noreferrer">github ↗</a></p>
           </div>
           <div>
             <b>{ko ? '돕고 싶다면' : 'How to help'}</b>

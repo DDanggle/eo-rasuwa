@@ -173,6 +173,67 @@ for (const row of scenario.corridor_sealed.top) {
   }
 }
 
+// ── 2026-09-08: 발표된 헤드라인 숫자를 전부 검증기에 묶는다.
+// 이 파일이 통과했는데도 사이트에 철회된 값이 살아 있었던 적이 있다. 다시는.
+const ribbon = JSON.parse(await readFile(resolve(root, 'public/data/change-ribbon.geojson'), 'utf8'));
+const glaciers = JSON.parse(await readFile(resolve(root, 'public/data/glaciers.geojson'), 'utf8'));
+const neighborWindows = JSON.parse(await readFile(resolve(root, 'public/data/neighbors-windows.geojson'), 'utf8'));
+
+// 강 길이: 합계와 두 스캔의 분해가 맞아야 한다
+assert.equal(ribbon.observed_river_km, 621.0);
+assert.equal(ribbon.total_river_km, 920.2);
+assert.ok(Math.abs(ribbon.main_scan_river_km + ribbon.extension_river_km - ribbon.observed_river_km) < 0.5,
+  'per-scan river km must sum to the published total');
+assert.match(ribbon.claim, /not interchangeable thresholds/,
+  'the ribbon must disclose that the two scans use separate threshold pools');
+
+// 빙하: 통계 블록과 실제 피처 수가 어긋나면 안 된다
+assert.equal(glaciers.stats.glaciers, 1100);
+assert.equal(glaciers.features.length, glaciers.stats.glaciers);
+assert.ok(Math.abs(glaciers.stats.total_km2 - 1141.3) < 0.1);
+
+// 이웃 확장 스캔: 자기 신고 개수 = 실제 개수
+assert.equal(neighborWindows.features.length, 251);
+assert.match(neighborWindows.claim, /all 251 windows/);
+
+// 격자 회계: "비교했다"가 아니라 스캔 1.4M / 채점 0.8M
+assert.equal(scenario.cell_accounting.cells_scanned, 1_437_696);
+assert.equal(scenario.cell_accounting.cells_scored, 811_008);
+assert.equal(scenario.cell_accounting.windows_scanned * scenario.cell_accounting.tokens_per_window,
+  scenario.cell_accounting.cells_scanned);
+
+// 문턱: 발표값 고정. 그리고 시간정합 한계가 문서에 남아 있어야 한다
+assert.ok(Math.abs(scenario.placebo_extended.threshold_pooled3 - 0.3170) < 0.0005);
+assert.equal(scenario.review.leads[0].candidate_token_frac, 0.133);
+assert.equal(scenario.points.find((pt) => pt.id === 'C').control_stats.candidate_token_frac_pooled3, 0.023);
+
+// 철회된 값이 사용자 화면 문구로 되살아나지 않게 한다
+const copy = await Promise.all(['app/map/page.tsx', 'app/page.tsx', 'app/layout.tsx']
+  .map((f) => readFile(resolve(root, f), 'utf8')));
+for (const text of copy) {
+  assert.ok(!/only 1\.3% exceedance|Tadi Khola 1\.3%|초과 비율도 1\.3%/.test(text),
+    'the retracted 1.3% control figure must not reappear in user-facing copy');
+  assert.ok(!/compared 1\.4 million/.test(text),
+    'say scanned/scored, not "compared", for the 1.4M cell count');
+}
+
+// data-release 사본은 사이트가 보여주는 것과 같은 파일이어야 한다
+for (const f of ['change-ribbon.geojson', 'candidates.geojson', 'review-leads.geojson']) {
+  const a = await readFile(resolve(root, '../data-release', f));
+  const b = await readFile(resolve(root, 'public/data', f));
+  assert.ok(a.equals(b), `data-release/${f} is out of sync with web/public/data/${f}`);
+}
+
+// M93 독립 궤도 복제: 두 트랙이 같은 획득을 공유하면 복제가 아니다
+const orb = scenario.radar_orbit_replication;
+assert.equal(orb.measurement_id, 'M93');
+assert.notEqual(orb.reference_orbit, orb.replication_orbit, 'a replication must use a different orbit');
+assert.equal(orb.gap_days_identical, true, 'both tracks must use identical base->target spacing');
+assert.equal(orb.windows_ranked_in_both, 56);
+assert.ok(orb.spearman > 0.7 && orb.spearman <= 1);
+assert.ok(Math.abs(orb.threshold_ratio - 1) < 0.05, 'independent thresholds must agree within 5%');
+assert.match(orb.claim_boundary, /still n=1|not evidence of damage/);
+
 const wasmBytes = await readFile(resolve(root, 'public/wasm/nepal_flow.wasm'));
 const mapWorker = await readFile(resolve(root, 'public/maplibre-gl-worker.mjs'));
 const mapWorkerShared = await readFile(resolve(root, 'public/maplibre-gl-shared.mjs'));
@@ -192,4 +253,10 @@ assert.ok(values.every(Number.isFinite));
 assert.ok(values[0] > 80 && values[0] < 90);
 assert.ok(values[1] > 20 && values[1] < 35);
 
-console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: scenario.olmoearth.anchors, scanned_windows: scenario.review.funnel.scanned, observable_windows: observableGeojson.features.length, review_leads: reviewLeadsGeojson.features.length, route_points: hydrography.simulation_route.length, wasm_particles: count, map_worker_bytes: mapWorker.length + mapWorkerShared.length }, null, 2));
+console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: scenario.olmoearth.anchors, scanned_windows: scenario.review.funnel.scanned, observable_windows: observableGeojson.features.length, review_leads: reviewLeadsGeojson.features.length, route_points: hydrography.simulation_route.length, wasm_particles: count, map_worker_bytes: mapWorker.length + mapWorkerShared.length,
+  observed_river_km: ribbon.observed_river_km, main_scan_km: ribbon.main_scan_river_km,
+  extension_km: ribbon.extension_river_km, glaciers: glaciers.stats.glaciers,
+  neighbor_windows: neighborWindows.features.length,
+  cells_scanned: scenario.cell_accounting.cells_scanned,
+  cells_scored: scenario.cell_accounting.cells_scored,
+  radar_replication_spearman: orb.spearman }, null, 2));

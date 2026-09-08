@@ -4,8 +4,14 @@
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
-    "cause_status": "A rock–ice/glacial collapse on the Nepal side of Langtang Lirung is the leading assessment. It generated a cross-border debris-flow/flood; causal and field details remain under review.",
-    "evidence_status": "The contract-correct 27-window OLMoEarth screening is complete. Event change is below the single matched-location ordinary transition in almost every token; the result prioritizes review but does not establish damage or a calibrated anomaly."
+    "cause_status": "An ice–rock avalanche, roughly 1 km² of rock-glacier material detached from a north-facing slope near the Lhende river some 20 km upstream of Rasuwagadhi, entrained proglacial sediment and temporarily dammed the river before releasing. This was not a glacial lake outburst flood, although much early coverage described it as one. The mass movement itself produced a seismic signal above M5 near Langtang/Lirung; the earthquake was a consequence of the collapse, not its trigger. Source: Government of Nepal NDRRMA Rasuwa Flood Situation Report #01, 1 Sep 2026 09:00, and the USGS landslide-hazards event page (M5.2 equivalent, ~100 km runout, marked preliminary).",
+    "evidence_status": "The contract-correct 27-window OLMoEarth screening is complete. Event change is below the single matched-location ordinary transition in almost every token; the result prioritizes review but does not establish damage or a calibrated anomaly.",
+    "official_sources": {
+      "ndrrma_sitrep_01": "https://ndrrma.gov.np/mediafiles/rasuwa/Rasuwa_Flood_SitRep_Temp_ENG_01_01092026.pdf",
+      "usgs_event_page": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "copernicus_ems": "https://mapping.emergency.copernicus.eu/activations/EMSR927/",
+      "note": "Casualty figures in circulation are wildly inconsistent; quote NDRRMA SitRep #01 with its timestamp or nothing. This site does not publish a toll."
+    }
   },
   "incident_updates": [
     {
@@ -178,7 +184,7 @@
       "source": "USGS preliminary ~100 km travel assessment + OSM river trace",
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
-      "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here. In the AI screen the signal fades toward G: 6.7% of 40 m cells flagged in the Galchhi window against 25% at Dalphedi, and 3–4% two windows upstream — close to the 3.6% of the no-event control. But the 27 Aug image here is hazy, so 'little change' is a weak reading, not evidence that nothing happened.",
+      "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here. In the AI screen the signal fades toward G: 6.7% of 40 m cells flagged in the Galchhi window against 25% at Dalphedi, and 3–4% two windows upstream — close to the 6.2% of the no-event control under the same scan threshold. But the 27 Aug image here is hazy, so 'little change' is a weak reading, not evidence that nothing happened.",
       "story_ko": "지도에 그린 추적선은 라수와가디에서 하천을 따라 73.7km 내려온 이 지점에서 멈춘다. 미국 지질조사국은 발원지부터 약 100km를 흘러갔다고 잠정 보고했지만, 토사가 최종적으로 어디에 쌓였는지는 아직 공개하지 않았다. 실제 흐름은 이 지점보다 더 내려갔을 가능성이 크다.",
       "distance_from_a_km": 65.05,
       "nearest_window": "v040",
@@ -561,6 +567,41 @@
       "state": "published",
       "detail": "published · 89% cloud — the source region stayed optically blocked, which is why the radar scan was run",
       "evidence_uri": null
+    },
+    {
+      "id": "s2c_20260901",
+      "sensor": "Sentinel-2C L2A",
+      "acquired_at": "2026-09-01T04:57:01Z",
+      "state": "catalog_published_cloudy",
+      "cloud_cover_pct": 87.9,
+      "note": "R119, same relative orbit as the 27 Aug post-event scene, but 87.9% cloud — unreadable.",
+      "catalog_snapshot": "20260908T030208Z"
+    },
+    {
+      "id": "s2b_20260903",
+      "sensor": "Sentinel-2B L2A",
+      "acquired_at": "2026-09-03T04:46:59Z",
+      "state": "catalog_published_cloudy",
+      "cloud_cover_pct": 69.5,
+      "note": "The least cloudy post-event optical scene so far at 69.5%, and still not readable for this corridor.",
+      "catalog_snapshot": "20260908T030208Z"
+    },
+    {
+      "id": "s1d_20260905",
+      "sensor": "Sentinel-1D IW GRD",
+      "acquired_at": "2026-09-05T00:18:44Z",
+      "state": "analysed_independent_orbit",
+      "note": "Relative orbit 19 descending — a track independent of the 121 series. Completes a 12-day pre-event series (07-07 ... 08-24) and is the target of the M93 replication.",
+      "catalog_snapshot": "20260908T030208Z"
+    },
+    {
+      "id": "s2b_20260906",
+      "sensor": "Sentinel-2B L2A",
+      "acquired_at": "2026-09-06T04:56:59Z",
+      "state": "catalog_published_cloudy",
+      "cloud_cover_pct": 77.9,
+      "note": "R119 again, 77.9% cloud. Eleven days after the event no optical pass has been readable.",
+      "catalog_snapshot": "20260908T030208Z"
     }
   ],
   "live_observation": {
@@ -10351,5 +10392,55 @@
         "embed_mismatched_placebo/"
       ]
     }
+  },
+  "cell_accounting": {
+    "schema": "cell-accounting-v1",
+    "token_side": 64,
+    "tokens_per_window": 4096,
+    "token_ground_m": 40,
+    "windows_scanned": 351,
+    "windows_scored": 198,
+    "cells_scanned": 1437696,
+    "cells_scored": 811008,
+    "note": "windows_scanned = 100 sealed corridor windows + 251 neighbour extension windows; windows_scored = 47 readable corridor + 151 ranked extension. The share card says scanned 1.4M / scored 0.8M because 200 windows were never readable."
+  },
+  "radar_orbit_replication": {
+    "schema": "radar-orbit-replication-v1",
+    "measurement_id": "M93",
+    "generated_at_utc": "2026-09-08T03:34:00Z",
+    "question": "Does the radar change ranking reproduce on an independent orbit with different look geometry?",
+    "reference_orbit": 121,
+    "replication_orbit": 19,
+    "replication_event_pair": {
+      "base": [
+        "2026-07-31",
+        "2026-08-12",
+        "2026-08-24"
+      ],
+      "target": "2026-09-05"
+    },
+    "replication_placebo_pair": {
+      "base": [
+        "2026-07-07",
+        "2026-07-19",
+        "2026-07-31"
+      ],
+      "target": "2026-08-12"
+    },
+    "gap_days_identical": true,
+    "windows_ranked_in_both": 56,
+    "spearman": 0.7458,
+    "pearson": 0.9227,
+    "top_set_overlap": {
+      "top1": 1,
+      "top3": 2,
+      "top5": 4,
+      "top10": 9
+    },
+    "threshold_reference": 0.2472417771816253,
+    "threshold_replication": 0.24988050758838654,
+    "threshold_ratio": 1.0107,
+    "reading": "Two Sentinel-1 tracks that never share an acquisition — orbit 121 descending and orbit 19 descending — put the same window first and second, overlap 9 of their top 10, and derive 'ordinary' thresholds within 1% of each other, with rank correlation 0.75 across all 56 windows. The ranking is a property of the scene, not of one viewing geometry or one speckle realisation.",
+    "claim_boundary": "This is a reproducibility check on the measurement, not evidence of damage. Both tracks score the same windows for the same single event, so the independent-event sample is still n=1. The orbit-19 magnitudes are 2-3x larger because its base sits 2 days pre-event and its target 10 days post, capturing more of the event and less pre-event drift — that is a contract difference, not a stronger detection. Not risk, not damage."
   }
 }

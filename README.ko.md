@@ -19,18 +19,18 @@
 | `web/public/data/candidates.geojson` | 판독 가능한 전체 47개 창(리드와 분리) |
 | `web/public/data/scenario.json` | 앱이 읽는 통합 결과·출처·계약·정정 장부 |
 | `artifacts/` | 실험별 1차 `report.json` |
-| `docs/MEASURED_FINDINGS_full.md` | M66–M89 측정·반증·정정 기록 |
+| `docs/MEASURED_FINDINGS_full.md` | M66–M93 측정·반증·정정 기록 |
 | `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
 
 대용량 raw cube·embedding·delta는 `research-private/artifacts/`로 분리되어 있으며
 `NEPAL_ARTIFACT_ROOT`로 서버 위치를 명시할 수 있습니다. `artifacts/` 표의 보고서는 공개 검토에
 필요한 작은 결과만 뜻합니다.
 
-`web/public/data/`는 약 125 MB입니다. 연구 원본이 아니라 공개 UI에 필요한 파생 PNG·GeoJSON·JSON·WASM만 포함합니다.
+`web/public/data/`는 약 126 MB입니다. 연구 원본이 아니라 공개 UI에 필요한 파생 PNG·GeoJSON·JSON·WASM만 포함합니다.
 
 ## 지금 말할 수 있는 것
 
-- **네팔 우선 검토 목록:** 100개 창 중 47개 판독 가능, 6개 리드. 1위 Dalphedi는 pooled-three-pair 기준 13.3%; Tadi Khola 대조 창은 1.3%.
+- **네팔 우선 검토 목록:** 100개 창 중 47개 판독 가능, 6개 리드. 1위 Dalphedi는 pooled-three-pair 기준 13.3%; Tadi Khola 대조 창은 2.3% (2026-09-02 정정: 이 창의 35%가 장면 밖 zero-fill이라 이전 1.3%는 희석된 값이었다).
 - **과거 라벨 평가(M73):** Sen12-Landslides 9개 지역의 같은 패치·시점·라벨에서 OlmoEarth Δz가 고전 band/index change보다 9/9 높았습니다. 그중 8/9가 사전 기준 +0.05 이상입니다.
 - **두 번째 표현 대조(M79):** 같은 네 시점 계약에서 OlmoEarth가 Presto보다 6/7 지역에서 +0.03 이상 높았습니다. 다만 12개월 모델인 Presto에 불리한 하한 비교입니다.
 - **레이더의 제한(M78·M80):** S1-only 신호는 Hokkaido·Hiroshima에서만 강했습니다. 실제 10% clear 장면에서는 Hokkaido 0.770, Alaska 0.497이므로 보편적 “구름 투시” 주장이 아닙니다. S1+S2 이득도 모든 지역에서 +0.03 미만입니다.

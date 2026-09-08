@@ -177,7 +177,7 @@ POINTS = [
         "source": "USGS preliminary ~100 km travel assessment + OSM river trace",
         "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
         "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
-        "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here. In the AI screen the signal fades toward G: 6.7% of 40 m cells flagged in the Galchhi window against 25% at Dalphedi, and 3–4% two windows upstream — close to the 3.6% of the no-event control. But the 27 Aug image here is hazy, so 'little change' is a weak reading, not evidence that nothing happened.",
+        "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here. In the AI screen the signal fades toward G: 6.7% of 40 m cells flagged in the Galchhi window against 25% at Dalphedi, and 3–4% two windows upstream — close to the 6.2% of the no-event control under the same scan threshold. But the 27 Aug image here is hazy, so 'little change' is a weak reading, not evidence that nothing happened.",
         "story_ko": "지도에 그린 추적선은 라수와가디에서 하천을 따라 73.7km 내려온 이 지점에서 멈춘다. 미국 지질조사국은 발원지부터 약 100km를 흘러갔다고 잠정 보고했지만, 토사가 최종적으로 어디에 쌓였는지는 아직 공개하지 않았다. 실제 흐름은 이 지점보다 더 내려갔을 가능성이 크다.",
     },
     {

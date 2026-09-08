@@ -49,6 +49,9 @@ type ScheduledScene = {
   state: string;
   detail?: string | null;
   evidence_uri?: string | null;
+  cloud_cover_pct?: number | null;
+  note?: string | null;
+  catalog_snapshot?: string | null;
 };
 
 type IncidentUpdate = {
@@ -141,6 +144,12 @@ type Scenario = {
     placebo_b?: { complete_windows: number; partial_windows: string[]; missing_windows: string[]; completed_layers: number; total_layers: number; materialization_sealed: boolean; embedded_windows: number; embedding_sealed: boolean; updated_at_utc: string | null };
     claim_boundary: string;
   };
+  radar_orbit_replication?: { measurement_id: string; reference_orbit: number; replication_orbit: number;
+    replication_event_pair: { base: string[]; target: string }; gap_days_identical: boolean;
+    windows_ranked_in_both: number; spearman: number; pearson: number;
+    top_set_overlap: { top1: number; top3: number; top5: number; top10: number };
+    threshold_reference: number; threshold_replication: number; threshold_ratio: number;
+    reading: string; claim_boundary: string } | null;
   source_radar_scan?: {
     measurement_id: string;
     observability: { radar_readable: number; radar_windows: number; optical_hillslope_readable: number; optical_hillslope_total: number };
@@ -168,6 +177,10 @@ type Scenario = {
   presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
   downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
   radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
+  external_label_score?: { measurement_id: string; labels: string[]; labels_frozen_at: string;
+    ranking_unchanged: boolean; observable_windows: number; label_positive_windows: number;
+    precision_at_6_vector_union: number; non_lead_base_rate_vector_union: number;
+    lead_mean_overlap_frac: number; non_lead_mean_overlap_frac: number; verdict: string } | null;
   ai_vs_classical?: { rows: { region: string; patches: number; classical_best: number; ai: number | null; gain: number | null }[]; regions: number; ahead: number; wins_at_005: number; pre_registered_margin: number; corridor?: { spearman: number; top10_overlap: number; reported_hits: { ai: number; classical: number } } | null } | null;
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
     top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number; kind?: string }[];
@@ -311,6 +324,13 @@ const maptilerStyleUrl = MAPTILER_KEY
   : null;
 const basemapStyle = lightRasterStyle;
 // 3D 지형 시점 — S2 장면(image source)은 terrain 위에 드레이프되므로 pitch 와 정합함.
+// 변화 등급 구간. 394개 관측 구간의 분포는 median 0.68%, p75 2.6%, p90 4.7%, max 13.3% 이므로
+// 선형 램프로는 강의 79%가 램프 밑바닥 한 색에 뭉친다. 분포 자체의 분위에 맞춘 계단식 구간을
+// 쓰고, 지도 레이어와 범례가 같은 배열을 읽게 해서 둘이 어긋날 수 없게 한다.
+const CHANGE_BREAKS = [0.005, 0.02, 0.05, 0.08] as const;
+const CHANGE_COLORS = ['#7fb5c9', '#ffd666', '#ff983d', '#ec5238', '#ba185c'] as const;
+const CHANGE_CLASS_LABELS = ['<0.5', '0.5–2', '2–5', '5–8', '≥8'] as const;
+
 const TERRAIN_PITCH = 52;
 // MapTiler 스타일에는 우리 DEM 소스가 없으므로 3D 전환 시 동적으로 주입함.
 const TERRAIN_DEM_SPEC = {
@@ -511,6 +531,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const glacierRef = useRef(true);
   const [glacierStats, setGlacierStats] = useState<GlacierStats | null>(null);
   const [riverKm, setRiverKm] = useState<number | null>(null);
+  // 봉인 회랑 스캔과 확장 스캔은 문턱 풀이 다르다. 합계 하나로 보여주면 두 계약이 한 숫자에 섞인다.
+  const [scanKm, setScanKm] = useState<{ main: number; ext: number } | null>(null);
 
   // 배경 레이어 데이터는 한 번만 받아 ref에 캐시한다. 예전에는 fetch().then() 안에서
   // 바로 addLayer 했는데, 그 사이 지도 스타일이 리로드되면(2D/3D·구역 전환) 레이어가
@@ -528,7 +550,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         if (cancelled) return;
         extraDataRef.current[key] = json;
         if (key === 'glaciers' && json?.stats) setGlacierStats(json.stats);
-        if (key === 'ribbon' && json?.observed_river_km) setRiverKm(Math.round(json.observed_river_km));
+        if (key === 'ribbon' && json?.observed_river_km) {
+          setRiverKm(Math.round(json.observed_river_km));
+          if (json.main_scan_river_km && json.extension_river_km)
+            setScanKm({ main: Math.round(json.main_scan_river_km), ext: Math.round(json.extension_river_km) });
+        }
         setExtraDataRev((r) => r + 1);
       } catch { /* 배경 레이어는 없어도 지도는 동작한다 */ }
     };
@@ -602,11 +628,13 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     const before = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : (map.getLayer('point-halo') ? 'point-halo' : undefined);
     map.addLayer({ id: 'cand-scene', type: 'raster', source: 'cand-scene', paint: { 'raster-opacity': 1, 'raster-fade-duration': 120 } }, before);
     const center = meta?.center ?? (feature.properties?.center_lonlat as [number, number] | undefined);
-    if (center) map.flyTo({ center, zoom: 14.2, pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : 900 });
+    // 레일 폭을 카메라에 알려준다. 안 주면 클릭한 창이 열린 레일 밑으로 들어가고 팝업도 가려진다.
+    if (center) map.flyTo({ center, zoom: 14.2, pitch: 0, bearing: 0, padding: scenePadding(),
+      duration: prefersReducedMotion() ? 0 : 900 });
     // GO TO MAP 한 번으로 이동+팝업까지: 카메라가 멈추면 해당 창의 상세 팝업을 바로 연다 (2026-09-01, 심플 원칙)
     map.once('moveend', () => openWindowPopupRef.current(id));
     setCandView({ id, mode, rank: meta?.rank, place: meta?.place });
-  }, [scenario]);
+  }, [scenario, scenePadding]);
 
   const clearCandidate = useCallback(() => {
     const map = mapRef.current;
@@ -676,7 +704,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         : s.state === 'planned' ? 'PLANNED'
         : s.state === 'analysed_partial_swath' ? 'ANALYSED'
         : s.state === 'published' ? 'PUBLISHED'
-        : s.state === 'catalog_published_cloudy' ? 'CATALOG' : 'PENDING',
+        : s.state === 'catalog_published_cloudy' ? 'CATALOG'
+        : s.state === 'analysed_independent_orbit' ? 'ANALYSED' : 'PENDING',
       selectable: false,
     }));
     return items.sort((a, b) => a.iso.localeCompare(b.iso));
@@ -1042,8 +1071,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       map.addLayer({ id: 'change-ribbon', type: 'line', source: 'change-ribbon',
         filter: ['get', 'observed'],
         paint: {
-          'line-color': ['interpolate', ['linear'], ['coalesce', ['get', 'frac'], 0],
-            0, '#7fb5c9', 0.03, '#ffd666', 0.07, '#ff983d', 0.10, '#ec5238', 0.133, '#ba185c'],
+          'line-color': ['step', ['coalesce', ['get', 'frac'], 0], CHANGE_COLORS[0],
+            ...CHANGE_BREAKS.flatMap((b, i) => [b, CHANGE_COLORS[i + 1]])] as never,
           'line-width': ['interpolate', ['linear'], ['zoom'], 8, 4, 12, 9, 15, 16],
           'line-opacity': 0.92, 'line-blur': 0.4,
         },
@@ -1594,17 +1623,32 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       {changeRibbon && (
         <figure className="map-legend-card" aria-label="Map legend">
           <figcaption>Change since the event</figcaption>
-          {scenario?.review && (
-            <p className="lg-funnel">
-              <b>{riverKm ?? 621}</b> km of river ranked · main scan <b>{scenario.review.funnel.scanned}</b> windows,{' '}
-              <b>{scenario.review.funnel.observable}</b> readable · <b>{scenario.review.funnel.leads}</b> to inspect first
-            </p>
-          )}
+          <p className="lg-claim">
+            <b>{riverKm ?? 621}</b> km of river, ranked by how much of each place changed beyond
+            its own ordinary range. <b>{scenario?.review?.funnel.leads ?? 6}</b> places to inspect
+            first — a reading order, not confirmed damage.
+          </p>
+          {/* 계단식 색계급: 지도 레이어와 같은 CHANGE_BREAKS 배열에서 눈금을 만들어 어긋날 수 없게 한다 */}
           <div className="lg-ramp">
-            <i className="lg-bar" />
-            <div className="lg-ticks"><span>0</span><span>4</span><span>8</span><span>13%</span></div>
+            <div className="lg-classes">
+              {CHANGE_COLORS.map((c, i) => (
+                <i key={c} style={{ background: c }} title={`${CHANGE_CLASS_LABELS[i]}%`} />
+              ))}
+            </div>
+            <div className="lg-ticks">
+              {CHANGE_CLASS_LABELS.map((l, i) => (
+                <span key={l}>{l}{i === CHANGE_CLASS_LABELS.length - 1 ? '%' : ''}</span>
+              ))}
+            </div>
             <p className="lg-unit">share of cloud-free 40 m cells beyond that place&apos;s ordinary range</p>
           </div>
+          {scenario?.review && (
+            <p className="lg-funnel">
+              {scanKm
+                ? <>sealed corridor scan <b>{scanKm.main}</b> km · neighbour extension <b>{scanKm.ext}</b> km — separate threshold pools, not interchangeable</>
+                : <>main scan <b>{scenario.review.funnel.scanned}</b> windows, <b>{scenario.review.funnel.observable}</b> readable</>}
+            </p>
+          )}
           <ul className="lg-keys">
             <li><i className="k-sw amber" />review lead <b>6</b></li>
             <li><i className="k-sw purple" />held back · cloud</li>
@@ -1612,9 +1656,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             <li><i className="k-sw ice" />glacier{glacierStats ? <> <b>{Math.round(glacierStats.total_km2).toLocaleString()}</b> km²</> : null}</li>
             <li><i className="k-line dash" />unreadable</li>
             <li><i className="k-line thin" />outside scan</li>
+            {showAnchors && <li><i className="k-sw anchor" />OLMo input 2.56 km</li>}
           </ul>
           <p className="lg-source">
-            Sentinel-2 L2A 12 → 27 Aug 2026 · OlmoEarth v1 Base, frozen<br />glacier outlines OSM/GLIMS inventory, vintage varies — extent, not hazard<br />
+            Sentinel-2 L2A · before = mean of 3 Jul, 23 Jul, 7 Aug 2026 → after = 27 Aug 2026<br />
+            (the swipe frames show 12 Aug as a single illustrative before image) · OlmoEarth v1 Base, frozen<br />glacier outlines OSM/GLIMS inventory, vintage varies — extent, not hazard<br />
             WGS 84 · observed change — not risk, not damage
           </p>
         </figure>
@@ -1650,7 +1696,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         <div className="map-toggles" role="group" aria-label="Map layers">
         <button className={`map-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">SATELLITE<em className="toggle-sub">{satTiles ? 'tap a tile to compare' : 'all 369 windows'}</em></button>
         <button className={`map-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">GLACIERS<em className="toggle-sub">{glacierStats ? `${Math.round(glacierStats.total_km2).toLocaleString()} km² above these valleys` : 'ice above the valleys'}</em></button>
-        <button className={`map-toggle ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">RIVER CHANGE<em className="toggle-sub">observed, not predicted</em></button>
+        <button className={`map-toggle keep-sub ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">RIVER CHANGE<em className="toggle-sub">observed, not predicted</em></button>
         </div>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
@@ -1757,12 +1803,6 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             </svg>
           </div>
         )}
-        <div className="map-legend-inline">
-          <span><i className="blue" />Mapped river centerline</span>
-          <span><i className="red" />Preliminary reported reach corridor</span>
-          <span><i className="white" />OLMo input 2.56 km</span>
-          <span><i className="amber" />Unverified / pending</span>
-        </div>
       </aside>
       )}
 
@@ -1828,6 +1868,33 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               </small>
             </div>
           )}
+          {scenario?.radar_orbit_replication && (
+            <div className="ai-vs-card">
+              <p className="eyebrow">
+                INDEPENDENT ORBIT · {scenario.radar_orbit_replication.measurement_id} · does the ranking survive a different look angle?
+              </p>
+              <strong>
+                Orbit {scenario.radar_orbit_replication.replication_orbit} descending re-ranks the same{' '}
+                {scenario.radar_orbit_replication.windows_ranked_in_both} windows and agrees with orbit{' '}
+                {scenario.radar_orbit_replication.reference_orbit}: same window 1st and 2nd,{' '}
+                {scenario.radar_orbit_replication.top_set_overlap.top10}/10 of the top ten shared, rank
+                correlation {scenario.radar_orbit_replication.spearman.toFixed(2)}
+              </strong>
+              <p className="br-line">
+                The two tracks share no acquisition. Orbit{' '}
+                {scenario.radar_orbit_replication.replication_orbit} runs base{' '}
+                {scenario.radar_orbit_replication.replication_event_pair.base.join(', ')} →{' '}
+                {scenario.radar_orbit_replication.replication_event_pair.target}, with the same 36/24/12-day
+                spacing and its own time-matched placebo. Each derives &ldquo;ordinary&rdquo; independently and
+                they land within{' '}
+                {Math.abs(100 * (scenario.radar_orbit_replication.threshold_ratio - 1)).toFixed(1)}% of one
+                another ({scenario.radar_orbit_replication.threshold_reference.toFixed(4)} vs{' '}
+                {scenario.radar_orbit_replication.threshold_replication.toFixed(4)}). So the order is a
+                property of the scene, not of one viewing geometry or one speckle realisation.
+              </p>
+              <small>{scenario.radar_orbit_replication.claim_boundary}</small>
+            </div>
+          )}
               {scenario?.candidates?.retrieval && (
                 <details className="retrieval-box">
                   <summary>EXPLORATORY SIMILARITY SEARCH · NOT THE 6-LEAD RANKING</summary>
@@ -1869,6 +1936,32 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             </div>
           )}
         </div>
+        {scenario?.external_label_score && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">BASE RATE · what the hit count is worth ({scenario.external_label_score.measurement_id})</p>
+            <strong>
+              {scenario.external_label_score.precision_at_6_vector_union * 6}/6 leads intersect a frozen
+              third-party flood proxy — but so do{' '}
+              {(scenario.external_label_score.non_lead_base_rate_vector_union * 100).toFixed(1)}% of the
+              non-lead readable windows
+            </strong>
+            <p className="br-line">
+              Mean overlap inside a window is the same either way:{' '}
+              <b>{(scenario.external_label_score.lead_mean_overlap_frac * 100).toFixed(1)}%</b> for leads vs{' '}
+              <b>{(scenario.external_label_score.non_lead_mean_overlap_frac * 100).toFixed(1)}%</b> for
+              non-leads. At the 2.56 km window scale these external extents neither confirm nor refute
+              this ranking — <b>{scenario.external_label_score.verdict.replace(/_/g, ' ')}</b>.
+            </p>
+            <small>
+              Labels frozen {scenario.external_label_score.labels_frozen_at} before scoring; ranking and
+              threshold unchanged ({scenario.external_label_score.labels.join(' · ')}).{' '}
+              {scenario.external_label_score.observable_windows} readable windows,{' '}
+              {scenario.external_label_score.label_positive_windows} of them touched by some proxy — which
+              is why 6/6 is not an achievement. The follow-up at 40 m token scale (NP-88) is where the
+              comparison actually discriminates, and even there a post-event NDWI baseline is not beaten.
+            </small>
+          </div>
+        )}
         {scenario?.ai_vs_classical && (
           <div className="ai-vs-card">
             <p className="eyebrow">AI vs NO-AI · same data, same labels, same metric</p>
@@ -1876,7 +1969,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             <table className="ai-vs-table"><thead><tr><th>region</th><th>no-AI</th><th>AI</th><th>Δ</th></tr></thead><tbody>
               {scenario.ai_vs_classical.rows.map((r) => <tr key={r.region} className={(r.gain ?? 0) >= 0.05 ? 'win' : ''}><td>{r.region}</td><td>{r.classical_best.toFixed(2)}</td><td>{r.ai?.toFixed(2) ?? '—'}</td><td>{r.gain != null ? (r.gain >= 0 ? '+' : '') + r.gain.toFixed(2) : '—'}</td></tr>)}
             </tbody></table>
-            <small>AUROC = probability a landslide token outranks a non-landslide token. no-AI = best of normalized band difference and |ΔNDVI|+|ΔNBR|, identical patches and pre/post scene choice (label-blind). Labels used for scoring only.{scenario.ai_vs_classical.corridor ? ` Nepal corridor (no labels): top-10 reported-place hits AI ${scenario.ai_vs_classical.corridor.reported_hits.ai} vs no-AI ${scenario.ai_vs_classical.corridor.reported_hits.classical}.` : ''}</small>
+            <small>AUROC = probability a landslide token outranks a non-landslide token. no-AI = best of normalized band difference and |ΔNDVI|+|ΔNBR|, identical patches and pre/post scene choice (label-blind). Labels used for scoring only.{scenario.ai_vs_classical.corridor ? ` Nepal corridor (no labels): top-10 reported-place hits AI ${scenario.ai_vs_classical.corridor.reported_hits.ai} vs no-AI ${scenario.ai_vs_classical.corridor.reported_hits.classical}${scenario.external_label_score ? ` — read this against the base rate below, not on its own` : ''}.` : ''}</small>
           </div>
         )}
         {scenario?.placebo_extended && (
@@ -2115,8 +2208,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               <summary>{ko ? '6곳은 AI가 어떻게 골랐을까' : 'See how the six were selected and how the lower river scored'}</summary>
             {scenario?.placebo_extended && <p>{ko ? `“평소 범위”를 2주 한 쌍이 아니라 세 쌍(5월 중순→7월 초까지)으로 넓혀 다시 재봤다. 몬순이 시작되는 6→7월이 평소 변동이 가장 커서 문턱은 ${scenario.placebo_extended.threshold_each.P1?.toFixed(3)}에서 ${scenario.placebo_extended.threshold_pooled3.toFixed(3)}으로 올라갔고, 후보 격자 비율은 대략 절반이 됐다. 그러나 순서는 그대로다(순위 상관 ${scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2)}). 이 페이지가 퍼센트보다 순위를 앞세우는 이유다.` : `We then widened the "ordinary range" from one fortnight pair to three (mid-May to early July). The June→July pair, when the monsoon arrives, is the noisiest, so the threshold rose from ${scenario.placebo_extended.threshold_each.P1?.toFixed(3)} to ${scenario.placebo_extended.threshold_pooled3.toFixed(3)} and the flagged share roughly halved. The order did not move (rank correlation ${scenario.placebo_extended.spearman_vs_single_pair?.toFixed(2)}). That is why this page leads with order, not percentages.`}</p>}
             <p>{ko
-              ? '강 회랑·주변 산사면·렌데 상류에 2.56km 창 100개를 놓고 같은 계산을 했다. 사건 후 구름과 눈 때문에 47개만 판독할 수 있었고, 세 개의 평시쌍으로 보정한 뒤 관측 가능성 40% 이상·같은 마을 중복 제거 규칙을 통과한 6곳을 우선 검토 리드로 남겼다. 1위 달페디는 13.3%였고, 사건이 보고되지 않은 타디 콜라 대조 창은 사건 거리 0.129와 평시 0.125가 거의 같으며 초과 비율도 1.3%였다. 강 밖 살레는 신호가 11.9%지만 관측 가능성이 21%뿐이라 리드가 아니라 재관측 목록이다.'
-              : 'We placed 100 windows across the river corridor, nearby hillslopes and the upstream Lhende valley. Cloud and snow left 47 observable. After calibrating against three ordinary transitions, six passed the pre-declared review rule: at least 40% observable and one lead per place. Dalphedi ranks first at 13.3%. The no-reported-event Tadi Khola control has nearly equal event and ordinary distances (0.129 vs 0.125) and only 1.3% exceedance. Off-river Salê carries an 11.9% signal but only 21% observable, so it is held for re-observation rather than promoted as a lead.'}</p>
+              ? '강 회랑·주변 산사면·렌데 상류에 2.56km 창 100개를 놓고 같은 계산을 했다. 사건 후 구름과 눈 때문에 47개만 판독할 수 있었고, 세 개의 평시쌍으로 보정한 뒤 관측 가능성 40% 이상·같은 마을 중복 제거 규칙을 통과한 6곳을 우선 검토 리드로 남겼다. 1위 달페디는 13.3%였고, 사건이 보고되지 않은 타디 콜라 대조 창은 사건 거리 0.129와 평시 0.125가 거의 같으며 초과 비율도 2.3%였다. 강 밖 살레는 신호가 11.9%지만 관측 가능성이 21%뿐이라 리드가 아니라 재관측 목록이다.'
+              : 'We placed 100 windows across the river corridor, nearby hillslopes and the upstream Lhende valley. Cloud and snow left 47 observable. After calibrating against three ordinary transitions, six passed the pre-declared review rule: at least 40% observable and one lead per place. Dalphedi ranks first at 13.3%. The no-reported-event Tadi Khola control has nearly equal event and ordinary distances (0.129 vs 0.125) and only 2.3% exceedance. Off-river Salê carries an 11.9% signal but only 21% observable, so it is held for re-observation rather than promoted as a lead.'}</p>
             {scenario?.downstream_profile && scenario.downstream_profile.length > 0 && (
               <div className="story-table-wrap">
                 <h3>{ko ? '추적 끝(G, 갈치) 쪽으로 갈수록' : 'Toward the end of the trace (G, Galchhi)'}</h3>
@@ -2160,10 +2253,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               <summary>{ko ? '재현 정보 전체 펼치기 · 모델, 수식, 검증, 코드' : 'Open the reproducibility record · model, score, validation and code'}</summary>
             <div className="research-list">
               <div><b>{ko ? '모델' : 'Model'}</b><span>OlmoEarth v1 Base (Ai2), frozen, patch 4, 768-d tokens at 40 m. Optical scan: Sentinel-2 L2A, 12 bands, 256 px × 2.56 km windows. Sealed contract: Sentinel-1 RTC in dB + Sentinel-2, 4 periods × 14 d.</span></div>
-              <div><b>{ko ? '변화 점수' : 'Change score'}</b><span>Δz = 1 − cos(z_before, z_after) per token; before = mean over three baseline dates (3 Jul, 23 Jul, 7 Aug), after = 27 Aug. Ordinary range = p99 of the same statistic over placebo pairs (three pairs, 19 May → 3 Jul; pooled p99 {scenario?.placebo_extended?.threshold_pooled3.toFixed(3) ?? '0.317'}). Tokens brighter than B02 &gt; 2600 in the base mean or target are excluded; windows with &lt; 20% valid tokens are not judged.</span></div>
-              <div><b>{ko ? '검증' : 'Validation'}</b><span>Sen12-Landslides: AI vs classical 9/9 (M73); Presto control 6/7 (M79); radar-only 2/7, fusion gain &lt; +0.03 everywhere (M78, M80). Nepal controls: Tadi Khola 1.3%, pre-registered p009 1.0% vs Dalphedi 13.3% under the pooled threshold (M77, M81, M82).</span></div>
+              <div><b>{ko ? '변화 점수' : 'Change score'}</b><span>Δz = 1 − cos(z_before, z_after) per token; before = mean over three baseline dates (3 Jul, 23 Jul, 7 Aug), after = 27 Aug. Ordinary range = p99 of the same statistic over three pre-event placebo pairs (P1 base 3/23 Jul + 7 Aug → 12 Aug; P2 base 3/18 Jun + 3 Jul → 23 Jul; P3 base 19 May + 3/18 Jun → 3 Jul; pooled p99 {scenario?.placebo_extended?.threshold_pooled3.toFixed(3) ?? '0.317'}). Known limitation: these placebo base→target intervals are 40/20/5, 50/35/20 and 45/30/15 days against the event pair&apos;s 55/35/20, so they are not fully time-matched — P1 in particular spans a shorter interval and therefore understates ordinary drift. The most nearly matched pair, P2, gives the strictest threshold (0.361 vs pooled 0.317), so the published shares sit on the permissive side. The radar contract was re-run time-matched on 2026-09-04; the optical threshold has not been, and that is an open correction. Tokens brighter than B02 &gt; 2600 in the base mean or target are excluded; windows with &lt; 20% valid tokens are not judged.</span></div>
+              <div><b>{ko ? '검증' : 'Validation'}</b><span>Sen12-Landslides: AI vs classical 9/9 (M73); Presto control 6/7 (M79); radar-only 2/7, fusion gain &lt; +0.03 everywhere (M78, M80). Nepal controls: Tadi Khola 2.3%, pre-registered p009 1.0% vs Dalphedi 13.3% under the pooled threshold (M77, M81, M82).</span></div>
               <div><b>{ko ? '철회' : 'Retracted'}</b><span>Rasuwagadhi 9.8% token exceedance and the Lhende / radar-window-24 candidates: Sentinel-1 fed as linear intensity where the model expects dB (M75/M76).</span></div>
-              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; MEASURED_FINDINGS.md M66–M85; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
+              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; docs/MEASURED_FINDINGS_full.md M66–M93; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
               <div><b>{ko ? '열린 질문' : 'Open questions'}</b><span>{ko ? '동결한 외부 범위(M86: 창 규모 무판별)와의 40 m 토큰 규모 대조; 다른 사건(Gorkha 2015)에서 계곡 폭–변화 상관 재현; 두 번째 실제 흐린 지역의 레이더 성능; 두 번째 광학 FM(Prithvi/Clay) 같은 계약.' : 'Token-scale (40 m) comparison against the frozen external extents (M86 found window scale non-discriminative); replication of valley-width/change correlation on another event (Gorkha 2015); radar performance in a second truly cloudy region; a second optical FM (Prithvi/Clay) under the same contract.'}</span></div>
             </div>
             </details>
@@ -2172,15 +2265,15 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <section className="story-section story-step story-boundary" id="story-next">
             <p className="story-kicker">07 · {ko ? '마지막으로' : 'FINALLY'}</p>
                         {ko ? (<>
-              <p>마지막으로 데이터를 갱신한 날은 8월 31일이다. 세 기관 — IWM, TASA, JAXA — 이 발표한 홍수 지도를 손대지 않고 그대로 가져왔고, 이쪽의 순위와 기준도 바꾸지 않았다. 여기에 AI가 매긴 우선순위 6곳을 얹으면 어떻게 될까.</p>
-              <p>결과는 6곳 모두 홍수 범위 안에 있었다. 다만 AI가 고르지 않은 곳들도 대부분 같은 범위 안에 있었다. 2.56km 격자 단위의 대조만으로는 이 우선순위를 명확하게 가려낼 수 없다는 뜻이다. 남은 일은 같은 지도를 40m 격자로 잘게 쪼개 다시 대보는 것이다.</p>
+              <p>세 기관 — IWM, TASA, JAXA — 이 발표한 홍수 지도를 8월 31일 자로 동결해 손대지 않고 그대로 가져왔고, 이쪽의 순위와 기준도 바꾸지 않았다. 여기에 AI가 매긴 우선순위 6곳을 얹으면 어떻게 될까.</p>
+              <p>결과는 6곳 모두 홍수 범위 안에 있었다. 다만 AI가 고르지 않은 창의 87.8%도 같은 범위 안에 있었다. 6/6은 성적이 아니라 홍수가 강을 너무 길게 따라 내려갔다는 뜻이다. 그래서 같은 지도를 40m 격자로 잘게 쪼개 다시 댔다. 그 규모에서는 정합이 나타났지만(AUROC 0.846), 사건 후 NDWI라는 고전적인 방법이 AUPRC에서 앞섰고 두 값의 차이는 신뢰구간이 0을 품었다. 그러니 이 방법이 고전 홍수 지도보다 낫다는 주장은 하지 않는다. 라벨 없이 광학과 레이더를 한 계약으로 처리했다는 것이 남는 것이다.</p>
               <p>홍수가 강을 따라 내려가며 남긴 피해는 숫자 바깥에 있다. 지금도 많은 사람이 구조와 회복을 기다린다. AI로 우선순위를 더 빨리 찾는 일은 계속하겠지만, 가장 먼저 할 일은 생명을 살리고 일상을 되돌리는 것이다. 작은 후원이 수십 명의 생명을 구할 수 있다 — <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">네팔 적십자사</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a>·<a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a></p>
             </>) : (<>
-              <p>The data was last refreshed on 31 August. Flood maps from three agencies — IWM, TASA and JAXA — were taken exactly as published, and nothing on our side was retuned. What happens when the six AI-ranked priorities are laid on top?</p>
-              <p>All six fall inside the flood extent. But so do most of the windows the AI did not choose. At a 2.56 km grid this comparison can neither confirm nor refute the ranking — the flood simply ran too long along the river. The next step is to cut the same maps into 40 m cells and try again.</p>
+              <p>Flood maps from three agencies — IWM, TASA and JAXA — were frozen as published on 31 August, and nothing on our side was retuned. What happens when the six AI-ranked priorities are laid on top?</p>
+              <p>All six fall inside the flood extent. So do 87.8% of the windows the model did not choose. 6/6 is not a score; it means the flood ran too long along the river for a 2.56 km grid to separate anything. So we cut the same maps into 40 m cells and tried again. At that scale the agreement is real (AUROC 0.846) — but a plain post-event NDWI baseline came out ahead on AUPRC, and the confidence interval on the difference includes zero. So we do not claim this beats classical flood mapping. What survives is that optical and radar went through one label-free contract.</p>
               <p>What the flood left along the river is larger than any number on this page. People are waiting for rescue and recovery right now. We will keep working on faster AI triage, but the first thing is saving lives and rebuilding. A small donation goes a long way — <a href="https://donation.nrcs.org/" target="_blank" rel="noreferrer">Nepal Red Cross</a>·<a href="https://www.ifrc.org/emergency/nepal-flash-floods-2026" target="_blank" rel="noreferrer">IFRC ↗</a> / <a href="https://www.unicef.org/nepal/flooding-nepal-2026-0" target="_blank" rel="noreferrer">UNICEF ↗</a>·<a href="https://www.icrc.org/en/donate" target="_blank" rel="noreferrer">ICRC</a></p>
             </>)}
-            <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>
+            <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}{scene.cloud_cover_pct != null ? ` · ${scene.cloud_cover_pct}% cloud` : ''}</em></div>)}</div>
             <div className="story-sources"><a href="https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map" target="_blank" rel="noreferrer">USGS preliminary extent ↗</a><a href="https://sentinel-asia.org/EO/2026/article20260826NP.html" target="_blank" rel="noreferrer">Sentinel Asia products ↗</a><a href="https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods" target="_blank" rel="noreferrer">WHO health response ↗</a><a href="https://allenai.org/blog/olmoearth-embeddings" target="_blank" rel="noreferrer">Ai2 OlmoEarth ↗</a><a href="https://planetarycomputer.microsoft.com/docs/quickstarts/using-the-data-api/" target="_blank" rel="noreferrer">Planetary Computer STAC ↗</a><a href="https://source.coop/planet/disasterdata" target="_blank" rel="noreferrer">Planet Disaster Data ↗</a></div>
             <p className="story-outro">{scenario?.research.integration_disclaimer}</p>
           </section>

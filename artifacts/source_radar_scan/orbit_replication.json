@@ -1,0 +1,92 @@
+{
+ "schema": "radar-orbit-replication-v1",
+ "measurement_id": "M93",
+ "question": "Does the radar change ranking reproduce on an independent orbit with different look geometry?",
+ "tracks": {
+  "reference": {
+   "measurement_id": "M92",
+   "orbit": 121,
+   "direction": "descending",
+   "event_pair": {
+    "base": [
+     "2026-07-26",
+     "2026-08-07",
+     "2026-08-19"
+    ],
+    "target": "2026-08-31"
+   },
+   "placebo_pair": {
+    "base": [
+     "2026-07-02",
+     "2026-07-14",
+     "2026-07-26"
+    ],
+    "target": "2026-08-07"
+   },
+   "threshold_placebo_p99": 0.2472417771816253
+  },
+  "replication": {
+   "measurement_id": "M93",
+   "orbit": 19,
+   "direction": "descending",
+   "event_pair": {
+    "base": [
+     "2026-07-31",
+     "2026-08-12",
+     "2026-08-24"
+    ],
+    "target": "2026-09-05"
+   },
+   "placebo_pair": {
+    "base": [
+     "2026-07-07",
+     "2026-07-19",
+     "2026-07-31"
+    ],
+    "target": "2026-08-12"
+   },
+   "threshold_placebo_p99": 0.24988050758838654
+  }
+ },
+ "gap_days_identical": true,
+ "windows_ranked_in_both": 56,
+ "spearman": 0.7458,
+ "spearman_p": 4.2412500947780807e-11,
+ "pearson": 0.9227,
+ "pearson_p": 5.222052665766485e-24,
+ "top_set_overlap": {
+  "top1": 1,
+  "top3": 2,
+  "top5": 4,
+  "top10": 9
+ },
+ "top10": {
+  "reference": [
+   "v070",
+   "v094",
+   "v076",
+   "v050",
+   "v075",
+   "v064",
+   "v069",
+   "v063",
+   "v071",
+   "v057"
+  ],
+  "replication": [
+   "v070",
+   "v094",
+   "v064",
+   "v076",
+   "v050",
+   "v069",
+   "v075",
+   "v086",
+   "v063",
+   "v057"
+  ]
+ },
+ "threshold_ratio": 1.0107,
+ "reading": "Two Sentinel-1 tracks that never share an acquisition \u2014 orbit 121 descending and orbit 19 descending \u2014 put the same window first and second, overlap 9 of their top 10, and derive 'ordinary' thresholds within 1% of each other, with rank correlation 0.75 across all 56 windows. The ranking is a property of the scene, not of one viewing geometry or one speckle realisation.",
+ "claim_boundary": "This is a reproducibility check on the measurement, not evidence of damage. Both tracks score the same windows for the same single event, so the independent-event sample is still n=1. The orbit-19 magnitudes are 2-3x larger because its base sits 2 days pre-event and its target 10 days post, capturing more of the event and less pre-event drift \u2014 that is a contract difference, not a stronger detection. Not risk, not damage."
+}

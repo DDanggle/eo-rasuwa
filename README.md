@@ -10,7 +10,7 @@ A public analysis of the 26 August 2026 Rasuwa–Bhote Koshi flash flood in Nepa
 The single headline result:
 
 > We compared 100 Sentinel-2 windows under one pre-registered contract, could read 47 of them, and
-> kept the 6 that exceeded the pooled p99 of three ordinary fortnight transitions as places for
+> kept the 6 that exceeded the pooled p99 of three ordinary pre-event transitions (intervals not fully time-matched — see methodology) as places for
 > people to review first. A lead is not confirmed damage, not an area, not a cause, and not a
 > probability.
 
@@ -24,10 +24,10 @@ The single headline result:
 | `web/public/data/candidates.geojson` | all 47 observable windows (kept separate from leads) |
 | `web/public/data/scenario.json` | the single contract the app reads: results, provenance, corrections ledger |
 | `artifacts/` | primary `report.json` per experiment |
-| `docs/MEASURED_FINDINGS_full.md` | the M66–M89 measurement, refutation and correction ledger |
+| `docs/MEASURED_FINDINGS_full.md` | the M66–M93 measurement, refutation and correction ledger |
 | `code/` | candidate scan, controls, Sen12 validation, radar, terrain, external-label scoring |
 
-`web/public/data/` is ~130 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw
+`web/public/data/` is ~126 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw
 research data. Raw cubes, embeddings and deltas (~5.9 GB) are excluded; point `NEPAL_ARTIFACT_ROOT`
 at a copy to recompute.
 
@@ -56,7 +56,7 @@ Copernicus catalog seal → scene-selection preflight → pixel materialization 
 | build public assets | `web/python/build_live_twin_data.py` | `web/public/data/*` |
 
 The contract is short: for the same location, `score = 1 − cosine(z_before, z_after)`, and a window
-is ranked by the share of tokens above the pooled p99 of three pre-registered ordinary fortnight
+is ranked by the share of tokens above the pooled p99 of three pre-registered ordinary pre-event
 transitions. The ranking is an order for human review, not a damage verdict.
 
 ## What we can say

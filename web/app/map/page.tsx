@@ -1755,7 +1755,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <p className="lg-source">
             Sentinel-2 L2A · before = mean of 3 Jul, 23 Jul, 7 Aug 2026 → after = 27 Aug 2026<br />
             (the swipe frames show 12 Aug as a single illustrative before image) · OlmoEarth v1 Base, frozen<br />glacier outlines OSM/GLIMS inventory, vintage varies — extent, not hazard<br />
-            WGS 84 · observed change — not risk, not damage{official ? <><br />official layers UNOSAT/UNITAR FL20260826NPL, CC-BY-SA-4.0 — mapped by UNOSAT, not by this project</> : null}
+            WGS 84 · observed change — not risk, not damage{official ? <><br />UNOSAT layers drawn by UNOSAT/UNITAR (FL20260826NPL), CC-BY-SA-4.0 — their map, not ours</> : null}
           </p>
         </figure>
       )}
@@ -1791,7 +1791,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         <button className={`map-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">SATELLITE<em className="toggle-sub">{satTiles ? 'tap a tile to compare' : 'all 369 windows'}</em></button>
         <button className={`map-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">GLACIERS<em className="toggle-sub">{glacierStats ? `${Math.round(glacierStats.total_km2).toLocaleString()} km² above these valleys` : 'ice above the valleys'}</em></button>
         <button className={`map-toggle keep-sub ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">RIVER CHANGE<em className="toggle-sub">observed, not predicted</em></button>
-        <button className={`map-toggle keep-sub ${official ? 'is-active' : ''}`} onClick={() => setOfficial((v) => !v)} title="UNOSAT rapid-mapping layers (CC-BY-SA): detachment zone, barrier lakes, flood extent, affected roads and buildings. Mapped by UNOSAT, not by this project.">OFFICIAL<em className="toggle-sub">UNOSAT, not ours</em></button>
+        <button className={`map-toggle keep-sub ${official ? 'is-active' : ''}`} onClick={() => setOfficial((v) => !v)} title="Layers drawn by UNOSAT (the UN satellite centre) from satellite imagery, CC-BY-SA: where the mass detached, the lakes the debris dammed, flood extent, affected roads and 5,048 buildings. Drawn by UNOSAT, not by this project — and not the same thing as the NDRRMA government report quoted under EVIDENCE.">UNOSAT<em className="toggle-sub">UN mapping, not ours</em></button>
         </div>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
@@ -2035,7 +2035,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         {scenario?.external_source_score && (
           <div className="ai-vs-card">
             <p className="eyebrow">
-              EXTERNAL SOURCE POLYGONS · {scenario.external_source_score.measurement_id} · the first external check that separates anything
+              CHECKED AGAINST SOMEONE ELSE&apos;S MAP · {scenario.external_source_score.measurement_id}
             </p>
             <strong>
               The 6 radar-flagged windows overlap UNOSAT&apos;s mapped detachment zone{' '}
@@ -2060,10 +2060,17 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               </tbody>
             </table>
             <p className="br-line">
-              This is the contrast worth noticing. The <b>flood extent</b> covers 65 km² of river and at
-              window scale it separates nothing (M86, below). The <b>source polygons</b> are 1.96 and 0.31
-              km² — small and localised — and against those the ranking does separate. External labels
-              discriminate when they are local, not when they cover everything.
+              <b>Why this test exists.</b> Our ranking is ours, so measuring it against our own guess at
+              where the source was would be circular. UNOSAT drew these polygons independently, from
+              satellite imagery, without reference to this project — so they are a yardstick we did not
+              make. The flagged windows landing on them says the ranking is tracking something real.
+            </p>
+            <p className="br-line">
+              <b>And why it worked here but not before.</b> We ran the same test against a third-party
+              flood extent and it separated nothing at all (M86, below): the flood ran 621 km down the
+              river and covers 65 km², so every window intersects it. The yardstick was too big to
+              measure anything. These source polygons are 1.96 and 0.31 km² — narrow enough to
+              measure with.
             </p>
             <small>
               {scenario.external_source_score.labels_frozen.provider}, licence{' '}
@@ -2075,7 +2082,9 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         )}
         {officialRecord && (
           <div className="ai-vs-card">
-            <p className="eyebrow">OFFICIAL RECORD · quoted, not measured by this project</p>
+            <p className="eyebrow">
+              NDRRMA SITREP #01 · Nepal government report, quoted — no map data, not our measurement
+            </p>
             <strong>
               {officialRecord.mechanism.type}, not a {officialRecord.mechanism.not} · ~
               {officialRecord.mechanism.detached_area_km2_estimate} km² detached{' '}

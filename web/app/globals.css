@@ -922,7 +922,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .cand-card header b { color: var(--orange); font-family: var(--font-geist-mono); font-size: 12px; }
 .cand-card header strong { font-size: 12.5px; }
 .cand-card header small { grid-column: 2; font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted); }
-.cand-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; cursor: zoom-in; }
+/* 스트립(비교 라이트박스)과 SHOW ON MAP(지도 이동)은 12px 떨어져 있는데 결과가 다르다.
+   어느 쪽을 눌렀을 때 무엇이 나오는지 배지로 미리 보여준다. (2026-09-08) */
+.cand-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; cursor: zoom-in;
+  position: relative; }
+.cand-strip .strip-hint { position: absolute; right: 5px; top: 5px; pointer-events: none;
+  font: 700 8px var(--font-geist-mono); letter-spacing: .1em; color: #f6f3ec;
+  background: rgba(22,21,26,.7); padding: 3px 5px; opacity: 0; transition: opacity .14s; }
+.cand-strip:hover .strip-hint, .cand-strip:focus-visible .strip-hint { opacity: 1; }
+@media (hover: none) { .cand-strip .strip-hint { opacity: .92; } }
 .cand-strip figure { margin: 0; }
 .cand-strip img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; border: 1px solid var(--line-strong, #d5d1c6); }
 .cand-strip:hover img { outline: 1px solid var(--orange); }

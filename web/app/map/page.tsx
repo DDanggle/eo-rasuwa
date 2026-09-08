@@ -1923,9 +1923,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
                     <figure><img src={`/data/candidates/${c.id}_pre.png`} alt="before" loading="lazy" /><figcaption>PRE 08-12</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_post.png`} alt="after" loading="lazy" /><figcaption>POST 08-27</figcaption></figure>
                     <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change field" loading="lazy" style={{ backgroundImage: `url(/data/candidates/${c.id}_post.png)`, backgroundSize: 'cover' }} /><figcaption>AI Δ</figcaption></figure>
+                    <span className="strip-hint" aria-hidden="true">⤢ COMPARE</span>
                   </div>
                   <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% changed beyond its ordinary range · {(c.valid_event_frac * 100).toFixed(0)}% cloud-free</span>
-                    <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>GO TO MAP</button></footer>
+                    <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>◎ SHOW ON MAP</button></footer>
                 </article>
               ))}
             </div>

@@ -194,6 +194,15 @@ type Scenario = {
   presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
   downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
   radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
+  modality_fusion?: { measurement_id: string; question: string;
+    headline: { windows_total: number; optical_readable: number; radar_readable_in_swath: number;
+      radar_rescues: number; fused_readable: number; still_unreadable: number };
+    why_comparable: string; null_check: { optical: number; radar: number };
+    threshold_asymmetry: { optical_p99: number; radar_p99: number; bias_direction: string };
+    sensor_overlap: { readable_in_both: number; radar_only: number; optical_only: number; neither: number; reading: string };
+    cross_sensor_agreement: { n: number; spearman: number; p: number } | null;
+    top10: { rank: number; id: string; source: string; frac: number; place: string | null }[];
+    claim_boundary: string } | null;
   external_source_score?: { measurement_id: string; question: string;
     labels_frozen: { provider: string; licence: string; hdx_updated: string; field_validation: string };
     windows_ranked: number; windows_flagged: number;
@@ -2096,6 +2105,56 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             </div>
           )}
         </div>
+        {scenario?.modality_fusion && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">
+              WHAT ONE EMBEDDING SPACE BUYS · {scenario.modality_fusion.measurement_id}
+            </p>
+            <strong>
+              Cloud left {scenario.modality_fusion.headline.optical_readable} of{' '}
+              {scenario.modality_fusion.headline.windows_total} windows readable in optical. Scoring radar
+              through the same embeddings brings it to{' '}
+              {scenario.modality_fusion.headline.fused_readable} — one ranking, not two lists
+            </strong>
+            <p className="br-line">
+              The two sensors turn out to be almost purely complementary, not redundant: radar reads{' '}
+              <b>{scenario.modality_fusion.headline.radar_rescues}</b> windows optical could not, only{' '}
+              <b>{scenario.modality_fusion.sensor_overlap.readable_in_both}</b> are readable by both, and{' '}
+              <b>{scenario.modality_fusion.headline.still_unreadable}</b> stay blind. Radar reads exactly
+              where optical fails, which is why the fused top six contains three source-region windows the
+              optical funnel could never have ranked.
+            </p>
+            <table className="ai-vs-table">
+              <thead><tr><th>#</th><th>window</th><th>read by</th><th>beyond ordinary</th></tr></thead>
+              <tbody>
+                {scenario.modality_fusion.top10.slice(0, 6).map((r) => (
+                  <tr key={r.id} className={r.source === 'radar' ? 'win' : ''}>
+                    <td>{r.rank}</td>
+                    <td>{r.place ?? r.id}</td>
+                    <td>{r.source}</td>
+                    <td>{(100 * r.frac).toFixed(1)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="br-line">
+              <b>Why these are on one scale at all.</b> Raw embedding distance cannot be mixed across
+              sensors — the distributions differ. What can be mixed is the share of cells beyond{' '}
+              <em>that sensor&apos;s own</em> ordinary range, because under the null both are 1% by
+              construction. Measured: optical{' '}
+              {(100 * scenario.modality_fusion.null_check.optical).toFixed(2)}%, radar{' '}
+              {(100 * scenario.modality_fusion.null_check.radar).toFixed(2)}%.
+            </p>
+            <small>
+              {scenario.modality_fusion.threshold_asymmetry.bias_direction}{' '}
+              Cross-sensor agreement can only be checked where both read: n ={' '}
+              {scenario.modality_fusion.cross_sensor_agreement?.n}, Spearman{' '}
+              {scenario.modality_fusion.cross_sensor_agreement?.spearman.toFixed(2)} (p ={' '}
+              {scenario.modality_fusion.cross_sensor_agreement?.p.toFixed(2)}) — not significant, and
+              reported so it is not hidden. {scenario.modality_fusion.claim_boundary}
+            </small>
+          </div>
+        )}
         {scenario?.external_source_score && (
           <div className="ai-vs-card">
             <p className="eyebrow">
@@ -2499,7 +2558,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               <div><b>{ko ? '변화 점수' : 'Change score'}</b><span>Δz = 1 − cos(z_before, z_after) per token; before = mean over three baseline dates (3 Jul, 23 Jul, 7 Aug), after = 27 Aug. Ordinary range = p99 of the same statistic over three pre-event placebo pairs (P1 base 3/23 Jul + 7 Aug → 12 Aug; P2 base 3/18 Jun + 3 Jul → 23 Jul; P3 base 19 May + 3/18 Jun → 3 Jul; pooled p99 {scenario?.placebo_extended?.threshold_pooled3.toFixed(3) ?? '0.317'}). Known limitation: these placebo base→target intervals are 40/20/5, 50/35/20 and 45/30/15 days against the event pair&apos;s 55/35/20, so they are not fully time-matched — P1 in particular spans a shorter interval and therefore understates ordinary drift. The most nearly matched pair, P2, gives the strictest threshold (0.361 vs pooled 0.317), so the published shares sit on the permissive side. The radar contract was re-run time-matched on 2026-09-04; the optical threshold has not been, and that is an open correction. Tokens brighter than B02 &gt; 2600 in the base mean or target are excluded; windows with &lt; 20% valid tokens are not judged.</span></div>
               <div><b>{ko ? '검증' : 'Validation'}</b><span>Sen12-Landslides: AI vs classical 9/9 (M73); Presto control 6/7 (M79); radar-only 2/7, fusion gain &lt; +0.03 everywhere (M78, M80). Nepal controls: Tadi Khola 2.3%, pre-registered p009 1.0% vs Dalphedi 13.3% under the pooled threshold (M77, M81, M82).</span></div>
               <div><b>{ko ? '철회' : 'Retracted'}</b><span>Rasuwagadhi 9.8% token exceedance and the Lhende / radar-window-24 candidates: Sentinel-1 fed as linear intensity where the model expects dB (M75/M76).</span></div>
-              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; docs/MEASURED_FINDINGS_full.md M66–M94; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
+              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; docs/MEASURED_FINDINGS_full.md M66–M95; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
               <div><b>{ko ? '열린 질문' : 'Open questions'}</b><span>{ko ? '동결한 외부 범위(M86: 창 규모 무판별)와의 40 m 토큰 규모 대조; 다른 사건(Gorkha 2015)에서 계곡 폭–변화 상관 재현; 두 번째 실제 흐린 지역의 레이더 성능; 두 번째 광학 FM(Prithvi/Clay) 같은 계약.' : 'Token-scale (40 m) comparison against the frozen external extents (M86 found window scale non-discriminative); replication of valley-width/change correlation on another event (Gorkha 2015); radar performance in a second truly cloudy region; a second optical FM (Prithvi/Clay) under the same contract.'}</span></div>
             </div>
             </details>

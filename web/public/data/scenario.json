@@ -10489,5 +10489,166 @@
     "reading": "Unlike the flood extent at window scale (M86, non-discriminative), these source polygons are small and localised — and here the ranking does separate. The six radar-flagged windows overlap the mapped detachment zone 76x more than the windows not flagged, and the mapped barrier lakes 100x more.",
     "claim_boundary": "An association between our ranking and two third-party polygons, on one event, with 56 windows and 6 flagged. UNOSAT's own attributes record FieldValidation = 0, so these polygons are not ground-verified either. The barrier lakes are post-event features, and a new water surface produces a large radar change by construction — finding them confirms the change is physical, not that we predicted anything. Not damage, not risk."
   },
-  "official_event_record": "/data/official-event-record.json"
+  "official_event_record": "/data/official-event-record.json",
+  "modality_fusion": {
+    "schema": "modality-fusion-v1",
+    "measurement_id": "M95",
+    "generated_at_utc": "2026-09-08T08:20:00Z",
+    "question": "What does one shared embedding space actually buy on a cloudy disaster?",
+    "headline": {
+      "windows_total": 100,
+      "optical_readable": 47,
+      "radar_readable_in_swath": 56,
+      "radar_rescues": 50,
+      "fused_readable": 97,
+      "still_unreadable": 3
+    },
+    "why_comparable": "Both scores are the share of that window's valid cells exceeding the 99th percentile of the same sensor's own ordinary change. Under the null both are 1% by construction, so the two are on a common footing even though raw Δz distributions differ between sensors. Raw Δz must never be mixed; a placebo-normalised exceedance rate can be.",
+    "null_check": {
+      "optical": 0.00623364394129468,
+      "radar": 0.010001046316964286
+    },
+    "threshold_asymmetry": {
+      "optical_p99": 0.3169780373573303,
+      "optical_construction": "pooled over three placebo pairs (M82)",
+      "radar_p99": 0.24988050758838654,
+      "radar_construction": "one placebo pair of its own orbit-19 contract, time-matched",
+      "disclosure": "the two thresholds are built from a different number of placebo pairs; this is an asymmetry in the fusion, not a controlled variable",
+      "bias_direction": "The null check quantifies which way the asymmetry leans: optical placebo cells exceed their threshold 0.62% of the time against radar's 1.00%. The optical threshold is therefore slightly stricter, so optical windows are mildly disadvantaged in the fused ranking and radar windows mildly favoured. This matters because radar takes 1st, 2nd and 6th place: some of that lead is contract, not signal. Equalising the two nulls is an open correction."
+    },
+    "sensor_overlap": {
+      "readable_in_both": 6,
+      "radar_only": 50,
+      "optical_only": 41,
+      "neither": 3,
+      "reading": "the sensors are complementary, not redundant: radar reads where optical is blind"
+    },
+    "cross_sensor_agreement": {
+      "n": 6,
+      "spearman": 0.486,
+      "p": 0.3287230320699709,
+      "windows": [
+        "v056",
+        "v057",
+        "v064",
+        "v086",
+        "v090",
+        "v091"
+      ],
+      "note": "n is too small to carry weight; reported so the number is not hidden"
+    },
+    "top10": [
+      {
+        "rank": 1,
+        "id": "v070",
+        "source": "radar",
+        "frac": 0.20361328125,
+        "place": null,
+        "center_lonlat": [
+          85.49265418563617,
+          28.32241633905044
+        ]
+      },
+      {
+        "rank": 2,
+        "id": "v094",
+        "source": "radar",
+        "frac": 0.13720703125,
+        "place": null,
+        "center_lonlat": [
+          85.59829106375645,
+          28.231122013150838
+        ]
+      },
+      {
+        "rank": 3,
+        "id": "v003",
+        "source": "optical",
+        "frac": 0.1331168831168831,
+        "place": "Dalphedi, Gosaikunda",
+        "center_lonlat": [
+          85.361097,
+          28.2255196
+        ]
+      },
+      {
+        "rank": 4,
+        "id": "v025",
+        "source": "optical",
+        "frac": 0.1316994344196068,
+        "place": "Bhainse, Bidur",
+        "center_lonlat": [
+          85.1762602,
+          27.9649438
+        ]
+      },
+      {
+        "rank": 5,
+        "id": "v064",
+        "source": "both",
+        "frac": 0.125,
+        "place": "Salê",
+        "center_lonlat": [
+          85.46621680097404,
+          28.345225889574237
+        ]
+      },
+      {
+        "rank": 6,
+        "id": "v076",
+        "source": "radar",
+        "frac": 0.12158203125,
+        "place": null,
+        "center_lonlat": [
+          85.51908029164376,
+          28.299601161645796
+        ]
+      },
+      {
+        "rank": 7,
+        "id": "v024",
+        "source": "optical",
+        "frac": 0.10683870967741936,
+        "place": "Naubisephat, Uttargaya",
+        "center_lonlat": [
+          85.1815317,
+          27.9786895
+        ]
+      },
+      {
+        "rank": 8,
+        "id": "v041",
+        "source": "optical",
+        "frac": 0.08248587570621468,
+        "place": "Rasuwa Gadhi, Gosaikunda",
+        "center_lonlat": [
+          85.39213960269319,
+          28.276056586875097
+        ]
+      },
+      {
+        "rank": 9,
+        "id": "v027",
+        "source": "optical",
+        "frac": 0.08098318240620957,
+        "place": "Bidur",
+        "center_lonlat": [
+          85.1552937,
+          27.9336297
+        ]
+      },
+      {
+        "rank": 10,
+        "id": "v031",
+        "source": "optical",
+        "frac": 0.07981342316662347,
+        "place": "Bidur, Bidur",
+        "center_lonlat": [
+          85.122178,
+          27.8735468
+        ]
+      }
+    ],
+    "claim_boundary": "This extends coverage, it does not improve accuracy. Nothing here is a damage map. Because only 6 windows are readable by both sensors, cross-sensor agreement is n=6 and is a weak check, not a validation. The fused list is a reading order over observed change."
+  }
 }

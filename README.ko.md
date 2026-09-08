@@ -19,7 +19,7 @@
 | `web/public/data/candidates.geojson` | 판독 가능한 전체 47개 창(리드와 분리) |
 | `web/public/data/scenario.json` | 앱이 읽는 통합 결과·출처·계약·정정 장부 |
 | `artifacts/` | 실험별 1차 `report.json` |
-| `docs/MEASURED_FINDINGS_full.md` | M66–M94 측정·반증·정정 기록 |
+| `docs/MEASURED_FINDINGS_full.md` | M66–M95 측정·반증·정정 기록 |
 | `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
 
 대용량 raw cube·embedding·delta는 `research-private/artifacts/`로 분리되어 있으며

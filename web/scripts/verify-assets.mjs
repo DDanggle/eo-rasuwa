@@ -289,6 +289,26 @@ for (const f of rankedNeighbors) {
   }
 }
 
+// M95 결합. 커버리지 산술이 맞아야 하고, 공통 척도 가정(귀무 ≈1%)이 성립해야 한다.
+const fus = scenario.modality_fusion;
+assert.equal(fus.measurement_id, 'M95');
+const H = fus.headline;
+assert.equal(H.windows_total, 100);
+assert.equal(H.optical_readable, 47);
+assert.equal(H.fused_readable, H.optical_readable + H.radar_rescues,
+  'fused coverage must equal optical readable plus what radar rescues');
+assert.equal(H.fused_readable + H.still_unreadable, H.windows_total);
+assert.equal(fus.sensor_overlap.radar_only, H.radar_rescues);
+// 두 센서의 귀무 초과율이 1% 근처가 아니면 한 목록에 올릴 근거가 없다
+for (const k of ['optical', 'radar']) {
+  assert.ok(fus.null_check[k] > 0.002 && fus.null_check[k] < 0.02,
+    `${k} placebo exceedance ${fus.null_check[k]} is not near the 1% the common scale assumes`);
+}
+assert.match(fus.threshold_asymmetry.bias_direction, /radar windows mildly favoured/);
+assert.match(fus.claim_boundary, /extends coverage, it does not improve accuracy/);
+assert.ok(fus.cross_sensor_agreement.n <= 10,
+  'if the both-readable overlap grows, the weak-check wording must be revisited');
+
 const wasmBytes = await readFile(resolve(root, 'public/wasm/nepal_flow.wasm'));
 const mapWorker = await readFile(resolve(root, 'public/maplibre-gl-worker.mjs'));
 const mapWorkerShared = await readFile(resolve(root, 'public/maplibre-gl-shared.mjs'));
@@ -318,4 +338,6 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   m94_detach_p: src.detachment_zone.permutation_p_overlap,
   m94_lakes_p: src.barrier_lakes.permutation_p_overlap,
   unosat_layers: unosatFiles.length,
-  extension_windows_with_frames: framesManifest.windows }, null, 2));
+  extension_windows_with_frames: framesManifest.windows,
+  fused_coverage: `${fus.headline.fused_readable}/${fus.headline.windows_total}`,
+  optical_only_coverage: `${fus.headline.optical_readable}/${fus.headline.windows_total}` }, null, 2));

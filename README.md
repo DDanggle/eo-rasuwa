@@ -24,7 +24,7 @@ The single headline result:
 | `web/public/data/candidates.geojson` | all 47 observable windows (kept separate from leads) |
 | `web/public/data/scenario.json` | the single contract the app reads: results, provenance, corrections ledger |
 | `artifacts/` | primary `report.json` per experiment |
-| `docs/MEASURED_FINDINGS_full.md` | the M66–M94 measurement, refutation and correction ledger |
+| `docs/MEASURED_FINDINGS_full.md` | the M66–M95 measurement, refutation and correction ledger |
 | `code/` | candidate scan, controls, Sen12 validation, radar, terrain, external-label scoring |
 
 `web/public/data/` is ~127 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw
@@ -97,6 +97,18 @@ transitions. The ranking is an order for human review, not a damage verdict.
   everything.** UNOSAT's own attributes record `FieldValidation = 0`, the barrier lakes are
   post-event features whose new water surface changes radar backscatter by construction, and the
   flagged set was chosen by our own score — this is a post-hoc association, not a prediction test.
+- **M95 one embedding space, one ranking (2026-09-08):** cloud left **47 of 100** corridor windows
+  readable in optical. Scoring Sentinel-1 through the *same* frozen embeddings and normalising each
+  sensor by its own placebo p99 brings the corridor to **97 of 100** — radar rescues 50 windows,
+  only 6 are readable by both, 3 stay blind. The sensors are complementary, not redundant: radar
+  reads exactly where optical fails, and three of the fused top six are source-region windows the
+  optical-only funnel could not rank at all. Raw Δz can never be mixed across sensors; a
+  placebo-normalised exceedance rate can, because under the null both are 1% by construction
+  (measured: optical 0.62%, radar 1.00%). Disclosed asymmetry: the optical threshold pools three
+  placebo pairs and the radar one uses a single pair, and the null check shows the optical threshold
+  is the stricter of the two — so radar windows are mildly favoured in the fused order and part of
+  their lead is contract, not signal. This extends coverage; it does not improve accuracy.
+  Cross-sensor agreement is n=6, Spearman 0.49, p=0.33 — not significant, reported anyway.
 - **Corrections (M75·M76):** an early 9.8% result and related candidates were retracted after a
   linear-vs-dB radar unit error was found and fixed. Public results use corrected artifacts only.
 

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""확장 스캔 상위 창의 공개 자산: pre/post/delta PNG + neighbors.geojson.
+"""확장 스캔 상위 창의 공개 자산: neighbors.geojson + 상위 12창 목록.
+
+2026-09-08: pre/post/delta 프레임은 `build_neighbor_all_frames.py` 가 순위 창 151개
+전부에 대해 **같은 밝기 구간**으로 만든다. 여기서 상위 12개만 따로 PNG 로 굽던 것은
+척도가 섞여 전후 비교를 왜곡했으므로 중단했다.
 
 상위 N개(기본 12)만 이미지화해 용량을 아낀다. 나머지 창은 리본 색으로만 존재.
 delta는 delta_style 등고선 밴드(확장 스캔 자체 p99), pre=08-12, post=08-27 트루컬러.

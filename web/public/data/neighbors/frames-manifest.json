@@ -1,0 +1,11 @@
+{
+ "schema": "neighbor-frames-v1",
+ "windows": 151,
+ "threshold_pooled3_p99": 0.3257538664340973,
+ "frames": {
+  "pre": "08-12 (illustrative single before frame)",
+  "post": "08-27",
+  "delta": "AI change field, bright line = pooled p99"
+ },
+ "path": "/data/neighbors/frames/{id}_{pre|post}.webp, {id}_delta.png"
+}

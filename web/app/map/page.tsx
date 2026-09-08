@@ -1529,16 +1529,30 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
         const id = String(pr.id);
         const frac = pr.candidate_token_frac as number | null;
-        if (pr.has_assets === true || pr.has_assets === 'true') {
-          openLightbox({ title: `Extension window ${id}`, sub: `extension scan (2–3 Sep)${frac != null ? ` · ${(100 * frac).toFixed(0)}% changed` : ''} · pooled three-pair baseline · separate list`,
-            before: `/data/neighbors/${id}_pre.png`, after: `/data/neighbors/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-            extra: [{ src: `/data/neighbors/${id}_delta.png`, under: `/data/neighbors/${id}_post.png`, label: 'AI change field · bright line = pooled ordinary p99' }] });
+        // 순위가 매겨진 창은 모두 전·후·Δ 프레임이 있다 (2026-09-08). 예전에는 상위 12개만
+        // 이미지가 있어서 나머지를 누르면 숫자 한 줄만 나왔다 — 왜 그 순위인지 볼 수가 없었다.
+        if (String(pr.status) === 'ranked') {
+          // 151창 전부 같은 밝기 구간으로 렌더된 frames/ 를 쓴다. 창마다 다른 척도를
+          // 섞으면 전후 슬라이더가 서로 다른 자를 비교하는 셈이 된다.
+          openLightbox({
+            title: `Extension window ${id}`,
+            sub: `extension scan (2–3 Sep)${frac != null ? ` · ${(100 * frac).toFixed(0)}% of cloud-free cells changed beyond ordinary` : ''} · its own pooled three-pair baseline, a separate pool from the sealed funnel`,
+            before: `/data/neighbors/frames/${id}_pre.webp`,
+            after: `/data/neighbors/frames/${id}_post.webp`,
+            beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+            extra: [{
+              src: `/data/neighbors/frames/${id}_delta.png`,
+              under: `/data/neighbors/frames/${id}_post.webp`,
+              label: 'AI change field · bright line = pooled ordinary p99 · transparent = cloud or ordinary',
+            }],
+          });
           return;
         }
+        // 판독 불가 창: 이미지가 없는 게 결과다. 왜 없는지를 말한다.
         new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
-          .setHTML(`<p class="pp-eyebrow">EXTENSION SCAN 2 SEP · ${String(pr.status).toUpperCase()}</p>`
-            + `<p class="pp-story">${frac != null ? `<b>${(100 * frac).toFixed(0)}%</b> of cloud-free cells changed beyond ordinary here.` : 'Too cloudy to read on 27 Aug.'} Full imagery is published for the top 12 extension windows.</p>`
-            + `<p class="pp-src">pooled three-pair baseline (same as the main scan) · separate list · not damage, not risk</p>`).addTo(map);
+          .setHTML(`<p class="pp-eyebrow">EXTENSION SCAN · NOT READABLE</p>`
+            + `<p class="pp-story">Cloud and snow left too little of this window visible on 27 Aug to judge it${typeof pr.valid_event_frac === 'number' ? ` — only <b>${(100 * (pr.valid_event_frac as number)).toFixed(0)}%</b> of it was clear, below the 20% we require` : ''}. There is no image to show because there was nothing to read, which is itself the most common outcome in this valley.</p>`
+            + `<p class="pp-src">not ranked · absence of a score is not absence of change · turn on UNOSAT to see what others mapped here</p>`).addTo(map);
       });
     }
     fc.features.forEach((f) => {

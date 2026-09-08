@@ -273,6 +273,22 @@ assert.equal(rec.timeline_local_npt.length, 8);
 assert.equal(rec.hydrology.peak_discharge_m3s, 5850);
 assert.match(rec.claim_boundary, /not a product of this project/);
 
+// 확장 스캔: 순위가 매겨진 창은 모두 클릭해서 볼 프레임이 있어야 한다.
+// 예전에는 상위 12개만 있어서 나머지를 누르면 숫자 한 줄만 나왔다.
+const framesManifest = JSON.parse(await readFile(resolve(root, 'public/data/neighbors/frames-manifest.json'), 'utf8'));
+const rankedNeighbors = neighborWindows.features.filter((f) => f.properties.status === 'ranked');
+assert.equal(framesManifest.windows, rankedNeighbors.length,
+  'every ranked extension window must have rendered frames');
+for (const f of rankedNeighbors) {
+  const id = f.properties.id;
+  for (const rel of [`public/data/neighbors/frames/${id}_pre.webp`,
+                     `public/data/neighbors/frames/${id}_post.webp`,
+                     `public/data/neighbors/frames/${id}_delta.png`]) {
+    const st = await stat(resolve(root, rel)).catch(() => null);
+    assert.ok(st && st.size > 200, `missing or truncated ${rel}`);
+  }
+}
+
 const wasmBytes = await readFile(resolve(root, 'public/wasm/nepal_flow.wasm'));
 const mapWorker = await readFile(resolve(root, 'public/maplibre-gl-worker.mjs'));
 const mapWorkerShared = await readFile(resolve(root, 'public/maplibre-gl-shared.mjs'));
@@ -301,4 +317,5 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   radar_replication_spearman: orb.spearman,
   m94_detach_p: src.detachment_zone.permutation_p_overlap,
   m94_lakes_p: src.barrier_lakes.permutation_p_overlap,
-  unosat_layers: unosatFiles.length }, null, 2));
+  unosat_layers: unosatFiles.length,
+  extension_windows_with_frames: framesManifest.windows }, null, 2));

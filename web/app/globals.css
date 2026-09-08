@@ -1471,3 +1471,44 @@ a.brand-lockup { text-decoration: none; color: inherit; }
 .off-timeline li.k-warning::before { background: #12b39a; border-color: #0e8f86; }
 .off-timeline li.k-gauge_lost::before { background: #fffefb; border-color: #d10f6b; border-style: dashed; }
 .off-timeline b { font: 700 10.5px var(--font-geist-mono); font-variant-numeric: tabular-nums; color: var(--ink, #16151a); }
+
+/* 출처 박스 (2026-09-08): UNOSAT 토글을 켤 때 뜬다. 지도 위 도형이 누구 것인지,
+   그리고 네팔 정부 보고서는 왜 지도에 없는지를 한자리에서 답한다. */
+/* 범례가 좌하단 14px 열을 쓰므로 박스는 그 오른쪽에 놓는다. PLACES 레일이 열려도
+   (18~348px) 겹치지 않도록 360px 에서 시작한다. */
+.source-box { position: absolute; z-index: 26; left: 360px; top: 128px; width: 306px;
+  background: var(--surface, #fffefb);
+  border: 1px solid var(--line-strong, #cfcbc2); box-shadow: 0 8px 26px rgba(20,18,14,.13);
+  padding: 0 0 10px; max-height: calc(100svh - 320px); overflow-y: auto; }
+.source-box header { display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 10px 12px 9px; border-bottom: 1px solid var(--line, #e3e0d8);
+  position: sticky; top: 0; background: inherit; }
+.source-box header b { font: 700 9.5px var(--font-geist-mono); letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink, #16151a); }
+.source-box header button { border: 0; background: none; cursor: pointer; padding: 2px 4px;
+  font-size: 12px; line-height: 1; color: var(--muted, #6f6c64); }
+.source-box header button:hover { color: var(--ink, #16151a); }
+.source-box section { padding: 10px 12px 2px; }
+.source-box section + section { border-top: 1px solid var(--line, #e3e0d8); }
+.source-box h4 { display: flex; align-items: center; gap: 6px; margin: 0 0 5px;
+  font: 700 10.5px var(--font-geist-sans); color: var(--ink, #16151a); }
+.sb-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.sb-dot.unosat { background: #d10f6b; }
+.sb-dot.ndrrma { background: #6f6c64; }
+.source-box p { margin: 0 0 7px; font: 10px/1.55 var(--font-geist-sans); color: #44423c; }
+.sb-list { margin: 0 0 7px; padding: 0; list-style: none; display: grid; gap: 4px; }
+.sb-list li { display: grid; grid-template-columns: 12px 1fr; gap: 6px; align-items: start;
+  font: 9.5px/1.45 var(--font-geist-sans); color: #3a3833; }
+.sb-list li > i { margin-top: 2px; }
+.sb-list em { font-style: normal; color: var(--muted, #6f6c64);
+  font-family: var(--font-geist-mono); font-size: 8.5px; white-space: nowrap; }
+.sb-src { font: 8.5px/1.5 var(--font-geist-mono) !important; color: var(--muted, #6f6c64) !important; }
+.source-box a { color: var(--ink, #16151a); text-decoration: underline; text-underline-offset: 2px;
+  white-space: nowrap; }
+.sb-foot { margin: 8px 12px 0 !important; padding-top: 8px; border-top: 1px solid var(--line, #e3e0d8);
+  font: 8.5px/1.5 var(--font-geist-mono) !important; color: var(--muted, #6f6c64) !important; }
+
+@media (max-width: 900px) {
+  .source-box { left: 8px; right: 8px; width: auto; top: 118px;
+    max-height: calc(100svh - 420px); }
+}

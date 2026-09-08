@@ -560,6 +560,9 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const [official, setOfficial] = useState(false);
   const officialRef = useRef(false);
   const [officialRecord, setOfficialRecord] = useState<OfficialRecord | null>(null);
+  // 토글을 켤 때 출처 박스를 띄운다. 어느 도형이 누구 것인지가 이 지도에서 가장 헷갈리는 지점이다.
+  const [showSourceBox, setShowSourceBox] = useState(false);
+  const [unosatMeta, setUnosatMeta] = useState<Record<string, { n: number; area?: number; len?: number }>>({});
 
   // 배경 레이어 데이터는 한 번만 받아 ref에 캐시한다. 예전에는 fetch().then() 안에서
   // 바로 addLayer 했는데, 그 사이 지도 스타일이 리로드되면(2D/3D·구역 전환) 레이어가
@@ -576,6 +579,11 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         const json = await res.json();
         if (cancelled) return;
         extraDataRef.current[key] = json;
+        if (['detach', 'lakes', 'extent', 'roads', 'bldg'].includes(key)) {
+          setUnosatMeta((m) => ({ ...m, [key]: {
+            n: json.features_count ?? json.features?.length ?? 0,
+            area: json.area_km2, len: json.length_km } }));
+        }
         if (key === 'glaciers' && json?.stats) setGlacierStats(json.stats);
         if (key === 'ribbon' && json?.observed_river_km) {
           setRiverKm(Math.round(json.observed_river_km));
@@ -1710,6 +1718,48 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className="cand-chip-close x-icon" onClick={clearCandidate} aria-label="Remove overlay"></button>
         </div>
       )}
+      {official && showSourceBox && (
+        <aside className="source-box" aria-label="Where the official data comes from">
+          <header>
+            <b>WHERE THIS COMES FROM</b>
+            <button onClick={() => setShowSourceBox(false)} aria-label="Close">✕</button>
+          </header>
+          <section>
+            <h4><i className="sb-dot unosat" />UNOSAT — drawn on this map</h4>
+            <p>
+              The UN Satellite Centre traced these by hand from satellite imagery. They are
+              observations of the event, not our model output.
+            </p>
+            <ul className="sb-list">
+              <li><i className="k-sw detach" /><span>detachment zone — where the mass came off{unosatMeta.detach?.area ? ` · ${unosatMeta.detach.area} km²` : ''}{' '}<em>Landsat-9</em></span></li>
+              <li><i className="k-sw lake" /><span>barrier lakes — water the debris dammed{unosatMeta.lakes?.area ? ` · ${unosatMeta.lakes.area} km²` : ''}{' '}<em>Cartosat-3, 28 Aug</em></span></li>
+              <li><i className="k-sw extent" /><span>flood extent{unosatMeta.extent?.area ? ` · ${unosatMeta.extent.area} km²` : ''}{' '}<em>multisensor, 26–28 Aug</em></span></li>
+              <li><i className="k-dot violet" /><span>{unosatMeta.bldg?.n ? `${unosatMeta.bldg.n.toLocaleString()} affected buildings` : 'affected buildings'}, {unosatMeta.roads?.len ? `${unosatMeta.roads.len} km of roads` : 'roads'}, 10 heritage sites</span></li>
+            </ul>
+            <p className="sb-src">
+              Event FL20260826NPL · CC-BY-SA-4.0 · retrieved 8 Sep 2026 from{' '}
+              <a href="https://data.humdata.org/dataset/mudflow-rockflow-extent-as-of-26-27-august-2026-in-rasuwa-district-bagmati-province-nepal" target="_blank" rel="noreferrer">HDX ↗</a>
+            </p>
+          </section>
+          <section>
+            <h4><i className="sb-dot ndrrma" />NDRRMA — not on this map</h4>
+            <p>
+              Nepal&apos;s disaster authority published a written situation report. It contains no
+              map data — only figures and times, so there is nothing to draw. Its wave arrival
+              times, peak discharge and impact counts are quoted in the{' '}
+              <b>EVIDENCE &amp; METHODS</b> tab.
+            </p>
+            <p className="sb-src">
+              Situation Report #01, as of 1 Sep 2026 09:00 NPT ·{' '}
+              <a href="https://ndrrma.gov.np/mediafiles/rasuwa/Rasuwa_Flood_SitRep_Temp_ENG_01_01092026.pdf" target="_blank" rel="noreferrer">PDF ↗</a>
+            </p>
+          </section>
+          <p className="sb-foot">
+            Neither is our measurement. UNOSAT&apos;s own attributes record FieldValidation = 0, so
+            their layers are not ground-verified either.
+          </p>
+        </aside>
+      )}
       {changeRibbon && (
         <figure className="map-legend-card" aria-label="Map legend">
           <figcaption>Change since the event</figcaption>
@@ -1791,7 +1841,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         <button className={`map-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">SATELLITE<em className="toggle-sub">{satTiles ? 'tap a tile to compare' : 'all 369 windows'}</em></button>
         <button className={`map-toggle ${glaciers ? 'is-active' : ''}`} onClick={() => setGlaciers((v) => !v)} title="Glacier outlines from OpenStreetMap (largely GLIMS-derived); outline vintage varies — background context, not current glacier state">GLACIERS<em className="toggle-sub">{glacierStats ? `${Math.round(glacierStats.total_km2).toLocaleString()} km² above these valleys` : 'ice above the valleys'}</em></button>
         <button className={`map-toggle keep-sub ${changeRibbon ? 'is-active' : ''}`} onClick={() => setChangeRibbon((v) => !v)} title="River centreline coloured by observed change share per window — not risk, not a forecast">RIVER CHANGE<em className="toggle-sub">observed, not predicted</em></button>
-        <button className={`map-toggle keep-sub ${official ? 'is-active' : ''}`} onClick={() => setOfficial((v) => !v)} title="Layers drawn by UNOSAT (the UN satellite centre) from satellite imagery, CC-BY-SA: where the mass detached, the lakes the debris dammed, flood extent, affected roads and 5,048 buildings. Drawn by UNOSAT, not by this project — and not the same thing as the NDRRMA government report quoted under EVIDENCE.">UNOSAT<em className="toggle-sub">UN mapping, not ours</em></button>
+        <button className={`map-toggle keep-sub ${official ? 'is-active' : ''}`} onClick={() => { setOfficial((v) => { if (!v) setShowSourceBox(true); return !v; }); }} title="Layers drawn by UNOSAT (the UN satellite centre) from satellite imagery, CC-BY-SA: where the mass detached, the lakes the debris dammed, flood extent, affected roads and 5,048 buildings. Drawn by UNOSAT, not by this project — and not the same thing as the NDRRMA government report quoted under EVIDENCE.">UNOSAT<em className="toggle-sub">UN mapping, not ours</em></button>
         </div>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>

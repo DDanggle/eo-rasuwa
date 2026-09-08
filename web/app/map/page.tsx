@@ -455,7 +455,9 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const openLeadRef = useRef<(index: number) => void>(() => {});
   const openWindowPopupRef = useRef<(id: string) => void>(() => {});
   const leadIndexByIdRef = useRef<Record<string, number>>({});
-  const neighborTopRef = useRef<Map<string, number>>(new Map());
+  // 색칠된 강 구간을 누르면 그 창의 전후를 연다. 어느 목록에 속하는지로 경로가 갈린다.
+  const rankedExtRef = useRef<Set<string>>(new Set());
+  const mainScanRef = useRef<Set<string>>(new Set());
   type NbWin = { type: 'Feature'; properties: { id: string; status: string; candidate_token_frac: number | null; valid_event_frac: number; has_assets: boolean }; geometry: { type: 'Polygon'; coordinates: [number, number][][] } };
   const neighborAllRef = useRef<NbWin[]>([]);
   const [neighborLoaded, setNeighborLoaded] = useState(false);
@@ -472,17 +474,32 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       const frac = pr?.frac as number | undefined;
       const wid = pr?.wid as string | undefined;
       if (frac == null || !wid) return;
-      // 규칙 하나: 색 있는 강 클릭 = 큰 전후 비교 (심플 원칙)
+      // 규칙 하나: 색이 있으면 누를 수 있고, 누르면 전후가 보인다. 예외 없음. (2026-09-08)
+      // 예전에는 리드 6개와 확장 top3 만 비교가 열리고 나머지는 텍스트 한 줄이었다 —
+      // 색칠된 강을 눌렀는데 왜 그 색인지 볼 수 없다면 색을 칠한 의미가 없다.
       const leadIdx = leadIndexByIdRef.current[wid];
       if (leadIdx != null) { openLeadRef.current(leadIdx); return; }
-      const nbRank = neighborTopRef.current.get(wid);
-      if (nbRank != null && nbRank <= 3) {
-        openLightbox({ title: `Extension window ${wid}`, sub: `extension scan (2–3 Sep) · ${(100 * frac).toFixed(0)}% changed · pooled three-pair baseline · separate list`,
-          before: `/data/neighbors/${wid}_pre.png`, after: `/data/neighbors/${wid}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
-          extra: [{ src: `/data/neighbors/${wid}_delta.png`, under: `/data/neighbors/${wid}_post.png`, label: 'AI change field · bright line = pooled ordinary p99' }] });
+      if (rankedExtRef.current.has(wid)) {
+        openLightbox({ title: `Extension window ${wid}`,
+          sub: `extension scan (2–3 Sep) · ${(100 * frac).toFixed(0)}% of cloud-free cells changed beyond ordinary · its own pooled three-pair baseline, a separate pool from the sealed funnel`,
+          before: `/data/neighbors/frames/${wid}_pre.webp`, after: `/data/neighbors/frames/${wid}_post.webp`,
+          beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+          extra: [{ src: `/data/neighbors/frames/${wid}_delta.png`, under: `/data/neighbors/frames/${wid}_post.webp`,
+            label: 'AI change field · bright line = pooled ordinary p99 · transparent = cloud or ordinary' }] });
         return;
       }
-      // 리드도 확장 top3도 아닌 구간 — 대조군. 큰 비교 대신 존재 이유를 한 줄로.
+      if (mainScanRef.current.has(wid)) {
+        const pw = planetWinsRef.current[wid];
+        openLightbox({ title: `Scan window ${wid}`,
+          sub: `corridor scan · ${(100 * frac).toFixed(0)}% of cloud-free cells changed beyond ordinary · screened, not a lead`,
+          before: `/data/candidates/${wid}_pre.png`, after: `/data/candidates/${wid}_post.png`,
+          beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+          extra: [{ src: `/data/candidates/${wid}_delta.png`, under: `/data/candidates/${wid}_post.png`,
+            label: 'AI change field on 08-27 · bright line = ordinary p99' },
+            ...(pw ? [{ src: pw.file, label: `PlanetScope 3.8 m · ${pw.datetime.slice(0, 10)} · © Planet Labs PBC CC-BY-NC-4.0` }] : [])] });
+        return;
+      }
+      // 여기까지 온 구간은 어느 순위 목록에도 없다 — 판독 불가이거나 스캔 밖.
       const ext = !!pr?.ext;
       new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' }).setLngLat(e.lngLat)
         .setHTML(`<p class="pp-eyebrow">RIVER Δ · SCREENED${ext ? ' · EXTENSION 2 SEP' : ''}</p>`
@@ -491,11 +508,12 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     };
   });
   useEffect(() => {
-    fetch('/data/neighbors.geojson').then((r) => r.ok ? r.json() : null)
-      .then((nb) => { if (nb?.features) neighborTopRef.current = new Map(nb.features.map((f: { properties: { id: string; rank: number } }) => [f.properties.id, f.properties.rank])); })
-      .catch(() => {});
     fetch('/data/neighbors-windows.geojson').then((r) => r.ok ? r.json() : null)
-      .then((nb) => { if (nb?.features) { neighborAllRef.current = nb.features as NbWin[]; setNeighborLoaded(true); } })
+      .then((nb) => { if (nb?.features) {
+        neighborAllRef.current = nb.features as NbWin[]; setNeighborLoaded(true);
+        rankedExtRef.current = new Set((nb.features as NbWin[])
+          .filter((f) => f.properties.status === 'ranked').map((f) => f.properties.id));
+      } })
       .catch(() => {});
   }, []);
   useEffect(() => {
@@ -775,6 +793,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     return items.sort((a, b) => a.iso.localeCompare(b.iso));
   }, [scenario]);
 
+  useEffect(() => {
+    const fc = scenario?.candidates?.geojson;
+    if (fc) mainScanRef.current = new Set(fc.features.map((f) => String(f.properties?.id)));
+  }, [scenario]);
   const points = useMemo(() => scenario?.points ?? [], [scenario]);
   const researchPoints = useMemo<FeatureCollection>(() => ({
     type: 'FeatureCollection',

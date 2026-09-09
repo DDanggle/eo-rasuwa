@@ -24,7 +24,7 @@ The single headline result:
 | `web/public/data/candidates.geojson` | all 47 observable windows (kept separate from leads) |
 | `web/public/data/scenario.json` | the single contract the app reads: results, provenance, corrections ledger |
 | `artifacts/` | primary `report.json` per experiment |
-| `docs/MEASURED_FINDINGS_full.md` | the M66–M95 measurement, refutation and correction ledger |
+| `docs/MEASURED_FINDINGS_full.md` | the M66–M96 measurement, refutation and correction ledger |
 | `code/` | candidate scan, controls, Sen12 validation, radar, terrain, external-label scoring |
 
 `web/public/data/` is ~127 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw
@@ -109,6 +109,15 @@ transitions. The ranking is an order for human review, not a damage verdict.
   is the stricter of the two — so radar windows are mildly favoured in the fused order and part of
   their lead is contract, not signal. This extends coverage; it does not improve accuracy.
   Cross-sensor agreement is n=6, Spearman 0.49, p=0.33 — not significant, reported anyway.
+- **M96 model-size ladder (2026-09-09):** OlmoEarth v1 Nano (1.4M), Tiny (6.2M), Base (89M) and Large
+  (308M) run on the identical orbit-19 contract and cubes, each normalised by its own placebo p99.
+  Against the independently mapped UNOSAT detachment zone and barrier lakes, **all four score the
+  same** (detachment p 0.0018–0.0020, lakes p 0.0125–0.0135); no monotone improvement with size.
+  The reason is arithmetic: only 4 windows touch each polygon, and every size ranks the same
+  touching windows in its top six — the slots that differ between sizes touch neither polygon. Read
+  both ways: a 1.4M-parameter encoder catches this event's change as well as a 308M one (a deployment
+  fact for rapid triage), and the yardstick has a ceiling it cannot see past. One family, one event;
+  a second family is needed before saying anything about scaling in general.
 - **Corrections (M75·M76):** an early 9.8% result and related candidates were retracted after a
   linear-vs-dB radar unit error was found and fixed. Public results use corrected artifacts only.
 

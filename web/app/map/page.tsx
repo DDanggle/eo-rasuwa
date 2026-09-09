@@ -194,6 +194,14 @@ type Scenario = {
   presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
   downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
   radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
+  scaling_ladder?: { measurement_id: string; question: string; contract: string;
+    ladder: { size: string; params_M: number; embed_dim: number; threshold_p99: number;
+      spearman_vs_base: number | null; top6_overlap_with_base: number | null;
+      detachment_ratio: number; detachment_p: number; lakes_p: number; top6: string[] }[];
+    monotone_improvement_with_size: boolean;
+    yardstick_resolution: { windows_touching_detachment: string[]; windows_touching_lakes: string[];
+      in_every_top6: { detachment: string[]; lakes: string[] }; reading: string };
+    null_check_note: string; claim_boundary: string } | null;
   modality_fusion?: { measurement_id: string; question: string;
     headline: { windows_total: number; optical_readable: number; radar_readable_in_swath: number;
       radar_rescues: number; fused_readable: number; still_unreadable: number };
@@ -2127,6 +2135,47 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             </div>
           )}
         </div>
+        {scenario?.scaling_ladder && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">
+              DOES A BIGGER MODEL HELP HERE? · {scenario.scaling_ladder.measurement_id}
+            </p>
+            <strong>
+              Same imagery, same contract, four encoder sizes from{' '}
+              {scenario.scaling_ladder.ladder[0].params_M}M to{' '}
+              {scenario.scaling_ladder.ladder[scenario.scaling_ladder.ladder.length - 1].params_M}M parameters
+              — every one of them lands on the independently mapped source equally well
+            </strong>
+            <table className="ai-vs-table">
+              <thead><tr><th>size</th><th>params</th><th>dim</th><th>ρ vs Base</th><th>det. p</th><th>lakes p</th></tr></thead>
+              <tbody>
+                {scenario.scaling_ladder.ladder.map((r) => (
+                  <tr key={r.size} className={r.size === 'base' ? 'win' : ''}>
+                    <td>{r.size}</td><td>{r.params_M}M</td><td>{r.embed_dim}</td>
+                    <td>{r.spearman_vs_base?.toFixed(2)}</td>
+                    <td>{r.detachment_p.toFixed(4)}</td><td>{r.lakes_p.toFixed(4)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="br-line">
+              <b>Why the external scores are identical.</b> Only{' '}
+              {scenario.scaling_ladder.yardstick_resolution.windows_touching_detachment.length} windows touch the
+              detachment zone and{' '}
+              {scenario.scaling_ladder.yardstick_resolution.windows_touching_lakes.length} touch the lakes. Every size puts
+              the same {scenario.scaling_ladder.yardstick_resolution.in_every_top6.detachment.length} detachment-touching
+              and {scenario.scaling_ladder.yardstick_resolution.in_every_top6.lakes.length} lake-touching windows in its
+              top six. The slots that differ between sizes hold windows touching neither polygon — so the yardstick
+              cannot tell the models apart. This is a ceiling in the yardstick as much as equivalence in the models.
+            </p>
+            <p className="br-line">
+              What it does say: the change this event left is coarse enough that a 1.4M-parameter encoder ranks the
+              externally mapped source as well as a 308M one. For rapid triage that is a deployment fact, not a
+              disappointment. What it does not say: anything about scaling in general — one family, one event.
+            </p>
+            <small>{scenario.scaling_ladder.null_check_note}. {scenario.scaling_ladder.claim_boundary}</small>
+          </div>
+        )}
         {scenario?.modality_fusion && (
           <div className="ai-vs-card">
             <p className="eyebrow">
@@ -2580,7 +2629,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
               <div><b>{ko ? '변화 점수' : 'Change score'}</b><span>Δz = 1 − cos(z_before, z_after) per token; before = mean over three baseline dates (3 Jul, 23 Jul, 7 Aug), after = 27 Aug. Ordinary range = p99 of the same statistic over three pre-event placebo pairs (P1 base 3/23 Jul + 7 Aug → 12 Aug; P2 base 3/18 Jun + 3 Jul → 23 Jul; P3 base 19 May + 3/18 Jun → 3 Jul; pooled p99 {scenario?.placebo_extended?.threshold_pooled3.toFixed(3) ?? '0.317'}). Known limitation: these placebo base→target intervals are 40/20/5, 50/35/20 and 45/30/15 days against the event pair&apos;s 55/35/20, so they are not fully time-matched — P1 in particular spans a shorter interval and therefore understates ordinary drift. The most nearly matched pair, P2, gives the strictest threshold (0.361 vs pooled 0.317), so the published shares sit on the permissive side. The radar contract was re-run time-matched on 2026-09-04; the optical threshold has not been, and that is an open correction. Tokens brighter than B02 &gt; 2600 in the base mean or target are excluded; windows with &lt; 20% valid tokens are not judged.</span></div>
               <div><b>{ko ? '검증' : 'Validation'}</b><span>Sen12-Landslides: AI vs classical 9/9 (M73); Presto control 6/7 (M79); radar-only 2/7, fusion gain &lt; +0.03 everywhere (M78, M80). Nepal controls: Tadi Khola 2.3%, pre-registered p009 1.0% vs Dalphedi 13.3% under the pooled threshold (M77, M81, M82).</span></div>
               <div><b>{ko ? '철회' : 'Retracted'}</b><span>Rasuwagadhi 9.8% token exceedance and the Lhende / radar-window-24 candidates: Sentinel-1 fed as linear intensity where the model expects dB (M75/M76).</span></div>
-              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; docs/MEASURED_FINDINGS_full.md M66–M95; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
+              <div><b>{ko ? '코드·장부' : 'Code and ledger'}</b><span>github: DDanggle/eo-rasuwa — code/corridor_s2_candidates_*.py, corridor_placebo_extended.py, corridor_geomorph.py, sen12_*.py; docs/MEASURED_FINDINGS_full.md M66–M96; artifacts/*/report.json with SHA-256. Public bundle: nepal-live-twin.</span></div>
               <div><b>{ko ? '열린 질문' : 'Open questions'}</b><span>{ko ? '동결한 외부 범위(M86: 창 규모 무판별)와의 40 m 토큰 규모 대조; 다른 사건(Gorkha 2015)에서 계곡 폭–변화 상관 재현; 두 번째 실제 흐린 지역의 레이더 성능; 두 번째 광학 FM(Prithvi/Clay) 같은 계약.' : 'Token-scale (40 m) comparison against the frozen external extents (M86 found window scale non-discriminative); replication of valley-width/change correlation on another event (Gorkha 2015); radar performance in a second truly cloudy region; a second optical FM (Prithvi/Clay) under the same contract.'}</span></div>
             </div>
             </details>

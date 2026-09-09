@@ -19,7 +19,7 @@
 | `web/public/data/candidates.geojson` | 판독 가능한 전체 47개 창(리드와 분리) |
 | `web/public/data/scenario.json` | 앱이 읽는 통합 결과·출처·계약·정정 장부 |
 | `artifacts/` | 실험별 1차 `report.json` |
-| `docs/MEASURED_FINDINGS_full.md` | M66–M95 측정·반증·정정 기록 |
+| `docs/MEASURED_FINDINGS_full.md` | M66–M96 측정·반증·정정 기록 |
 | `code/` | 후보 스캔, 대조군, Sen12, Presto, 레이더, 지형 분석 코드 |
 
 대용량 raw cube·embedding·delta는 `research-private/artifacts/`로 분리되어 있으며
@@ -53,6 +53,8 @@
 **M93 독립 궤도 복제 (2026-09-08):** 궤도 19 하강(궤도 121과 획득 공유 0, base가 사건 이틀 전)에 **같은 계약을 같은 코드로** 돌렸더니 같은 창이 1·2위, top-10 중 9개 공유, 문턱이 1% 안(0.2472 vs 0.2499), 56창 Spearman **0.746**. 순위는 한 입사각의 산물이 아니다. 다만 같은 창·같은 단일 사건이라 사건 표본은 여전히 n=1.
 
 **M94 UNOSAT 발원 폴리곤 대조 (2026-09-08):** UNOSAT이 detachment zone(**1.955 km²**)과 barrier lakes(**0.314 km²**)를 발표했다(CC-BY-SA). 레이더 깃발 6창은 detachment zone에 비깃발 50창보다 **76배** 더 겹치고(7.06% vs 0.093%, permutation p = **0.0020**), barrier lakes에는 **100배**(p = 0.013). **M86과 대조가 요점이다** — 65 km²의 홍수 범위는 창 규모에서 아무것도 구분하지 못했는데, 좁은 발원 폴리곤은 구분한다. **외부 라벨은 국소적일 때 판별한다.** 단 UNOSAT 속성도 `FieldValidation = 0`이고, barrier lake는 사건 후 지형이라 새 수면이 구조적으로 레이더를 바꾸며, 깃발 집합을 우리 점수로 뽑았으므로 예측 검정이 아니라 사후 연관이다.
+
+**M96 모델 크기 사다리 (2026-09-09):** OlmoEarth v1 Nano(1.4M)·Tiny(6.2M)·Base(89M)·Large(308M)를 **같은 계약·같은 큐브**에 돌렸다. UNOSAT detachment zone·barrier lakes 대비 **네 크기 점수가 동일**(det p 0.0018~0.0020). 이유는 산술적이다 — 폴리곤에 닿는 창이 4개뿐이고 모든 크기가 같은 창들을 상위 6에 넣는다. 두 가지로 읽는다: **1.4M 인코더도 이 사건의 변화를 308M만큼 잡는다**(신속 트리아지에는 Nano로 충분), 그리고 **야드스틱에 천장이 있다**. 가족 1개·사건 1개라 scaling 일반에 대한 답은 아니다.
 
 ## AI 파이프라인 — 코드로 따라가기
 

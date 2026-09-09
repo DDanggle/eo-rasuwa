@@ -309,6 +309,19 @@ assert.match(fus.claim_boundary, /extends coverage, it does not improve accuracy
 assert.ok(fus.cross_sensor_agreement.n <= 10,
   'if the both-readable overlap grows, the weak-check wording must be revisited');
 
+// M96 크기 사다리: 네 크기, 파라미터 단조 증가, 그리고 결론이 야드스틱 한계를 함께 말해야 한다
+const lad = scenario.scaling_ladder;
+assert.equal(lad.measurement_id, 'M96');
+assert.deepEqual(lad.ladder.map((r) => r.size), ['nano', 'tiny', 'base', 'large']);
+for (let i = 1; i < lad.ladder.length; i++) {
+  assert.ok(lad.ladder[i].params_M > lad.ladder[i - 1].params_M, 'ladder must be ordered by parameter count');
+}
+assert.equal(lad.ladder.find((r) => r.size === 'base').spearman_vs_base, 1);
+for (const r of lad.ladder) assert.ok(r.detachment_p < 0.05 && r.lakes_p < 0.05, `${r.size} must clear the external test`);
+assert.equal(lad.monotone_improvement_with_size, false);
+assert.match(lad.yardstick_resolution.reading, /ceiling of the yardstick/);
+assert.match(lad.null_check_note, /not an input-contract test/);
+
 const wasmBytes = await readFile(resolve(root, 'public/wasm/nepal_flow.wasm'));
 const mapWorker = await readFile(resolve(root, 'public/maplibre-gl-worker.mjs'));
 const mapWorkerShared = await readFile(resolve(root, 'public/maplibre-gl-shared.mjs'));
@@ -340,4 +353,6 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   unosat_layers: unosatFiles.length,
   extension_windows_with_frames: framesManifest.windows,
   fused_coverage: `${fus.headline.fused_readable}/${fus.headline.windows_total}`,
-  optical_only_coverage: `${fus.headline.optical_readable}/${fus.headline.windows_total}` }, null, 2));
+  optical_only_coverage: `${fus.headline.optical_readable}/${fus.headline.windows_total}`,
+  scaling_sizes: lad.ladder.length,
+  scaling_monotone: lad.monotone_improvement_with_size }, null, 2));

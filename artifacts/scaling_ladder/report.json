@@ -1,0 +1,169 @@
+{
+ "schema": "scaling-ladder-v1",
+ "measurement_id": "M96",
+ "question": "Within one model family and one fixed contract, does a larger encoder land closer to the independently mapped source?",
+ "contract": "orbit 19 descending, base 07-31/08-12/08-24 -> 09-05, placebo 07-07/07-19/07-31 -> 08-12, gamma0 dB, own placebo p99 per model",
+ "null_check_note": "placebo exceedance is 1% by construction under this contract (the threshold is that placebo's own p99), so it is not an input-contract test here; the input sanity evidence is that all four sizes independently rank the same externally-mapped windows at the top",
+ "yardstick_resolution": {
+  "windows_touching_detachment": [
+   "v049",
+   "v050",
+   "v075",
+   "v076"
+  ],
+  "windows_touching_lakes": [
+   "v063",
+   "v070",
+   "v071",
+   "v076"
+  ],
+  "in_every_top6": {
+   "detachment": [
+    "v050",
+    "v075",
+    "v076"
+   ],
+   "lakes": [
+    "v070",
+    "v076"
+   ]
+  },
+  "reading": "Every size places the same polygon-touching windows in its top six, so the external score is identical across sizes by arithmetic. The slots that differ between sizes hold windows that touch neither polygon, on which the yardstick has no opinion. 'No scaling effect' here is partly a ceiling of the yardstick, not only equivalence of the models."
+ },
+ "ladder": [
+  {
+   "size": "nano",
+   "status": "ok",
+   "model_id": "OLMOEARTH_V1_NANO",
+   "params_M": 1.4,
+   "embed_dim": 128,
+   "threshold_p99": 0.097,
+   "null_placebo_exceedance": 0.01,
+   "top6": [
+    "v070",
+    "v076",
+    "v075",
+    "v050",
+    "v064",
+    "v069"
+   ],
+   "detachment_zone": {
+    "flagged_mean_overlap": 0.07061,
+    "non_flagged_mean_overlap": 0.00093,
+    "ratio": 76.1,
+    "permutation_p": 0.0018
+   },
+   "barrier_lakes": {
+    "flagged_mean_overlap": 0.00744,
+    "non_flagged_mean_overlap": 7e-05,
+    "ratio": 113.5,
+    "permutation_p": 0.01252
+   },
+   "spearman_vs_base": 0.611,
+   "top6_overlap_with_base": 5
+  },
+  {
+   "size": "tiny",
+   "status": "ok",
+   "model_id": "OLMOEARTH_V1_TINY",
+   "params_M": 6.2,
+   "embed_dim": 192,
+   "threshold_p99": 0.2254,
+   "null_placebo_exceedance": 0.01,
+   "top6": [
+    "v070",
+    "v082",
+    "v076",
+    "v075",
+    "v050",
+    "v069"
+   ],
+   "detachment_zone": {
+    "flagged_mean_overlap": 0.07061,
+    "non_flagged_mean_overlap": 0.00093,
+    "ratio": 76.1,
+    "permutation_p": 0.00187
+   },
+   "barrier_lakes": {
+    "flagged_mean_overlap": 0.00744,
+    "non_flagged_mean_overlap": 7e-05,
+    "ratio": 113.5,
+    "permutation_p": 0.0131
+   },
+   "spearman_vs_base": 0.518,
+   "top6_overlap_with_base": 4
+  },
+  {
+   "size": "base",
+   "status": "ok",
+   "model_id": "OLMOEARTH_V1_BASE",
+   "params_M": 89.0,
+   "embed_dim": 768,
+   "threshold_p99": 0.2499,
+   "null_placebo_exceedance": 0.01,
+   "top6": [
+    "v070",
+    "v094",
+    "v064",
+    "v076",
+    "v075",
+    "v050"
+   ],
+   "detachment_zone": {
+    "flagged_mean_overlap": 0.07061,
+    "non_flagged_mean_overlap": 0.00093,
+    "ratio": 76.1,
+    "permutation_p": 0.00204
+   },
+   "barrier_lakes": {
+    "flagged_mean_overlap": 0.00744,
+    "non_flagged_mean_overlap": 7e-05,
+    "ratio": 113.5,
+    "permutation_p": 0.01354
+   },
+   "spearman_vs_base": 1.0,
+   "top6_overlap_with_base": 6
+  },
+  {
+   "size": "large",
+   "status": "ok",
+   "model_id": "OLMOEARTH_V1_LARGE",
+   "params_M": 307.8,
+   "embed_dim": 1024,
+   "threshold_p99": 0.0231,
+   "null_placebo_exceedance": 0.01,
+   "top6": [
+    "v094",
+    "v076",
+    "v070",
+    "v069",
+    "v075",
+    "v050"
+   ],
+   "detachment_zone": {
+    "flagged_mean_overlap": 0.07061,
+    "non_flagged_mean_overlap": 0.00093,
+    "ratio": 76.1,
+    "permutation_p": 0.00192
+   },
+   "barrier_lakes": {
+    "flagged_mean_overlap": 0.00744,
+    "non_flagged_mean_overlap": 7e-05,
+    "ratio": 113.5,
+    "permutation_p": 0.01324
+   },
+   "spearman_vs_base": 0.705,
+   "top6_overlap_with_base": 5
+  }
+ ],
+ "reading": {
+  "detachment_p_by_size": {
+   "nano": 0.0018,
+   "tiny": 0.00187,
+   "base": 0.00204,
+   "large": 0.00192
+  },
+  "monotone_improvement_with_size": false
+ },
+ "claim_boundary": "One family, one event, 56 windows, 6 flagged per model, and a yardstick with only 4+4 touching windows that every size already gets. This is the first point on a scaling question, not an answer to it; a second family (TerraMind, Galileo) is needed before saying anything about scaling in general. Not damage, not risk."
+}

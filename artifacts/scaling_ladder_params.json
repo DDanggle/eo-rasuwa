@@ -1,0 +1,18 @@
+{
+ "OLMOEARTH_V1_NANO": {
+  "params": 1361408,
+  "embed_dim": 128
+ },
+ "OLMOEARTH_V1_TINY": {
+  "params": 6203136,
+  "embed_dim": 192
+ },
+ "OLMOEARTH_V1_BASE": {
+  "params": 88955904,
+  "embed_dim": 768
+ },
+ "OLMOEARTH_V1_LARGE": {
+  "params": 307773440,
+  "embed_dim": 1024
+ }
+}

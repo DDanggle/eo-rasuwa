@@ -10650,5 +10650,119 @@
       }
     ],
     "claim_boundary": "This extends coverage, it does not improve accuracy. Nothing here is a damage map. Because only 6 windows are readable by both sensors, cross-sensor agreement is n=6 and is a weak check, not a validation. The fused list is a reading order over observed change."
+  },
+  "scaling_ladder": {
+    "schema": "scaling-ladder-v1",
+    "measurement_id": "M96",
+    "generated_at_utc": "2026-09-09T05:25:00Z",
+    "question": "Within one model family and one fixed contract, does a larger encoder land closer to the independently mapped source?",
+    "contract": "orbit 19 descending, base 07-31/08-12/08-24 -> 09-05, placebo 07-07/07-19/07-31 -> 08-12, gamma0 dB, own placebo p99 per model",
+    "ladder": [
+      {
+        "size": "nano",
+        "params_M": 1.4,
+        "embed_dim": 128,
+        "threshold_p99": 0.097,
+        "spearman_vs_base": 0.611,
+        "top6_overlap_with_base": 5,
+        "detachment_ratio": 76.1,
+        "detachment_p": 0.0018,
+        "lakes_p": 0.01252,
+        "top6": [
+          "v070",
+          "v076",
+          "v075",
+          "v050",
+          "v064",
+          "v069"
+        ]
+      },
+      {
+        "size": "tiny",
+        "params_M": 6.2,
+        "embed_dim": 192,
+        "threshold_p99": 0.2254,
+        "spearman_vs_base": 0.518,
+        "top6_overlap_with_base": 4,
+        "detachment_ratio": 76.1,
+        "detachment_p": 0.00187,
+        "lakes_p": 0.0131,
+        "top6": [
+          "v070",
+          "v082",
+          "v076",
+          "v075",
+          "v050",
+          "v069"
+        ]
+      },
+      {
+        "size": "base",
+        "params_M": 89.0,
+        "embed_dim": 768,
+        "threshold_p99": 0.2499,
+        "spearman_vs_base": 1.0,
+        "top6_overlap_with_base": 6,
+        "detachment_ratio": 76.1,
+        "detachment_p": 0.00204,
+        "lakes_p": 0.01354,
+        "top6": [
+          "v070",
+          "v094",
+          "v064",
+          "v076",
+          "v075",
+          "v050"
+        ]
+      },
+      {
+        "size": "large",
+        "params_M": 307.8,
+        "embed_dim": 1024,
+        "threshold_p99": 0.0231,
+        "spearman_vs_base": 0.705,
+        "top6_overlap_with_base": 5,
+        "detachment_ratio": 76.1,
+        "detachment_p": 0.00192,
+        "lakes_p": 0.01324,
+        "top6": [
+          "v094",
+          "v076",
+          "v070",
+          "v069",
+          "v075",
+          "v050"
+        ]
+      }
+    ],
+    "monotone_improvement_with_size": false,
+    "yardstick_resolution": {
+      "windows_touching_detachment": [
+        "v049",
+        "v050",
+        "v075",
+        "v076"
+      ],
+      "windows_touching_lakes": [
+        "v063",
+        "v070",
+        "v071",
+        "v076"
+      ],
+      "in_every_top6": {
+        "detachment": [
+          "v050",
+          "v075",
+          "v076"
+        ],
+        "lakes": [
+          "v070",
+          "v076"
+        ]
+      },
+      "reading": "Every size places the same polygon-touching windows in its top six, so the external score is identical across sizes by arithmetic. The slots that differ between sizes hold windows that touch neither polygon, on which the yardstick has no opinion. 'No scaling effect' here is partly a ceiling of the yardstick, not only equivalence of the models."
+    },
+    "null_check_note": "placebo exceedance is 1% by construction under this contract (the threshold is that placebo's own p99), so it is not an input-contract test here; the input sanity evidence is that all four sizes independently rank the same externally-mapped windows at the top",
+    "claim_boundary": "One family, one event, 56 windows, 6 flagged per model, and a yardstick with only 4+4 touching windows that every size already gets. This is the first point on a scaling question, not an answer to it; a second family (TerraMind, Galileo) is needed before saying anything about scaling in general. Not damage, not risk."
   }
 }

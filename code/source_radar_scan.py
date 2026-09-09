@@ -57,6 +57,7 @@ CONTRACTS: dict[str, dict] = {
     },
 }
 SIZE, PATCH, CROP = 256, 4, 64
+MODEL_ID_NAME = "OLMOEARTH_V1_BASE"   # --model 로 덮어씀
 
 
 def gaps(base: list[str], target: str) -> list[int]:
@@ -109,8 +110,10 @@ def stage_prepare(win_subset: list[dict], C: dict) -> None:
         print(w["id"], "ok", flush=True)
 
 
-def stage_embed(C: dict) -> None:
-    OUT = ARTIFACT_ROOT / C["out"]
+def stage_embed(C: dict, model_suffix: str = "") -> None:
+    # 모델 크기 사다리(M96): 같은 계약·같은 큐브에 모델만 바꾼다. 산출물은 접미사로 분리.
+    OUT = ARTIFACT_ROOT / (C["out"] + model_suffix)
+    PREP = ARTIFACT_ROOT / C["out"] / "prepare"   # 큐브는 모델과 무관하므로 공유
     DATES, ORBIT = C["dates"], C["orbit"]
     BASE_EVENT, TARGET_EVENT = C["base_event"], C["target_event"]
     BASE_PLACEBO, TARGET_PLACEBO = C["base_placebo"], C["target_placebo"]
@@ -124,7 +127,7 @@ def stage_embed(C: dict) -> None:
     normalizer = Normalizer(Strategy.COMPUTED, std_multiplier=2)
     device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
     (OUT / "embed").mkdir(parents=True, exist_ok=True)
-    wrapper = OlmoEarth(patch_size=PATCH, model_id=ModelID.OLMOEARTH_V1_BASE, token_pooling=True,
+    wrapper = OlmoEarth(patch_size=PATCH, model_id=getattr(ModelID, MODEL_ID_NAME), token_pooling=True,
                         use_legacy_timestamps=False, autocast_dtype=None).to(device).eval()
     print("device", device, "modality bands", spec.band_order, flush=True)
 
@@ -134,7 +137,7 @@ def stage_embed(C: dict) -> None:
 
     def embed(cube, times):
         H = cube.shape[-1]; n = H // CROP
-        feat = torch.empty((768, H // PATCH, H // PATCH), dtype=torch.float32)
+        feat = None   # 임베딩 폭은 모델 크기마다 다르다(Nano 128, Tiny 192, Base 768, Large 1024). 첫 크롭에서 읽는다.
         for iy in range(n):
             for ix in range(n):
                 y0, x0 = iy * CROP, ix * CROP
@@ -145,6 +148,8 @@ def stage_embed(C: dict) -> None:
                     tm = wrapper.model(sample, fast_pass=False, patch_size=PATCH)["tokens_and_masks"]
                     m = (tm.sentinel1_mask != 2).unsqueeze(-1)
                     f = ((tm.sentinel1 * m).sum(dim=(3, 4)) / m.sum(dim=(3, 4)).clamp(min=1))[0].permute(2, 0, 1).float().cpu()
+                if feat is None:
+                    feat = torch.empty((f.shape[0], H // PATCH, H // PATCH), dtype=torch.float32)
                 feat[:, y0//PATCH:(y0+CROP)//PATCH, x0//PATCH:(x0+CROP)//PATCH] = f
         return feat
 
@@ -155,7 +160,7 @@ def stage_embed(C: dict) -> None:
     tok = lambda a: a.reshape(64, 4, 64, 4).mean(axis=(1, 3))
     rows, pool = [], []
     t0 = time.time()
-    for f in sorted((OUT / "prepare").glob("v*.npz")):
+    for f in sorted(PREP.glob("v*.npz")):
         wid = f.stem
         outp = OUT / "embed" / f"{wid}_delta.npz"
         d = np.load(f)
@@ -187,7 +192,7 @@ def stage_embed(C: dict) -> None:
         if r["status"] == "unobservable": r["candidate_token_frac"] = None
     ranked = sorted([r for r in rows if r["status"] == "ranked"], key=lambda r: -r["candidate_token_frac"])
     for i, r in enumerate(ranked): r["rank"] = i + 1
-    rep = {"schema": "source-radar-scan-v1", "measurement_id": C["measurement_id"],
+    rep = {"schema": "source-radar-scan-v1", "measurement_id": C["measurement_id"], "model_id": MODEL_ID_NAME,
            "claim": f"radar-only change ranking for the source region under persistent cloud; same-orbit ({ORBIT} {C['direction'][:4]}) 3v1 contract; separate from the optical six-lead funnel; not damage, not risk",
            "orbit": ORBIT, "orbit_direction": C["direction"],
            "gap_days": {"event": gaps(BASE_EVENT, TARGET_EVENT), "placebo": gaps(BASE_PLACEBO, TARGET_PLACEBO)},
@@ -206,13 +211,18 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", choices=["prepare", "embed", "all"], default="all")
     ap.add_argument("--contract", choices=sorted(CONTRACTS), default="o121")
+    ap.add_argument("--model", default="OLMOEARTH_V1_BASE",
+                    help="ModelID name; non-default runs write to <out>_<model> so the sealed report is untouched")
     a = ap.parse_args()
     C = CONTRACTS[a.contract]
+    global MODEL_ID_NAME
+    MODEL_ID_NAME = a.model
+    suffix = "" if a.model == "OLMOEARTH_V1_BASE" else "_" + a.model.lower().replace("olmoearth_", "")
     print("contract", a.contract, C["measurement_id"], "orbit", C["orbit"], C["direction"],
           "gaps", gaps(C["base_event"], C["target_event"]), flush=True)
     footprint = json.loads((Path(__file__).parent / "source_radar_windows.json").read_text())
     if a.stage in ("prepare", "all"): stage_prepare(footprint, C)
-    if a.stage in ("embed", "all"): stage_embed(C)
+    if a.stage in ("embed", "all"): stage_embed(C, suffix)
 
 
 if __name__ == "__main__":

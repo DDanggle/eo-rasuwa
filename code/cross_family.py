@@ -33,6 +33,9 @@ ARMS = [
     ("galileo", "nano", "galileo_scan_o19_nano", None),
     ("galileo", "tiny", "galileo_scan_o19_tiny", None),
     ("galileo", "base", "galileo_scan_o19_base", None),
+    # 단위 판정 대조군: Galileo 도 S1 단위를 문서화하지 않으므로 linear 도 돌려
+    # 어느 쪽이 계약에 맞는지 데이터가 판정하게 한다 (M97 과 같은 방법).
+    ("galileo", "base-linear", "galileo_scan_o19_base/linear", None),
 ]
 REFERENCE = ("olmoearth", "base")
 

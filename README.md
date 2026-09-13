@@ -24,7 +24,7 @@ The single headline result:
 | `web/public/data/candidates.geojson` | all 47 observable windows (kept separate from leads) |
 | `web/public/data/scenario.json` | the single contract the app reads: results, provenance, corrections ledger |
 | `artifacts/` | primary `report.json` per experiment |
-| `docs/MEASURED_FINDINGS_full.md` | the M66–M97 measurement, refutation and correction ledger |
+| `docs/MEASURED_FINDINGS_full.md` | the M66–M98 measurement, refutation and correction ledger |
 | `code/` | candidate scan, controls, Sen12 validation, radar, terrain, external-label scoring |
 
 `web/public/data/` is ~127 MB of derived PNG/GeoJSON/JSON/WASM needed by the public UI — no raw

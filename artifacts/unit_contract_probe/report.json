@@ -1,0 +1,82 @@
+{
+ "schema": "unit-contract-probe-v1",
+ "measurement_id": "M97",
+ "question": "When the input unit is wrong, how loudly does it fail \u2014 and how wrong is the answer?",
+ "contract": "orbit 19 descending, identical cubes, identical model (OlmoEarth v1 Base), only the unit changes",
+ "arms": {
+  "db": {
+   "unit": "db",
+   "input_unit_recorded": "gamma0 dB (10*log10 of RTC linear power)",
+   "windows_ranked": 56,
+   "threshold_p99": 0.2499,
+   "mean_d_event": 0.1502,
+   "top6": [
+    "v070",
+    "v094",
+    "v064",
+    "v076",
+    "v075",
+    "v050"
+   ],
+   "looks_normal": {
+    "no_exception": true,
+    "all_windows_ranked": true,
+    "scores_in_plausible_range": true,
+    "threshold_in_plausible_range": true
+   },
+   "detachment_zone": {
+    "flagged_mean_overlap": 0.07061,
+    "non_flagged_mean_overlap": 0.00093,
+    "ratio": 76.1,
+    "permutation_p": 0.00183
+   },
+   "barrier_lakes": {
+    "flagged_mean_overlap": 0.00744,
+    "non_flagged_mean_overlap": 7e-05,
+    "ratio": 113.5,
+    "permutation_p": 0.0133
+   }
+  },
+  "linear": {
+   "unit": "linear",
+   "input_unit_recorded": "RAW LINEAR POWER \u2014 deliberately wrong, M97 control",
+   "windows_ranked": 56,
+   "threshold_p99": 0.1155,
+   "mean_d_event": 0.0949,
+   "top6": [
+    "v069",
+    "v083",
+    "v089",
+    "v051",
+    "v081",
+    "v082"
+   ],
+   "looks_normal": {
+    "no_exception": true,
+    "all_windows_ranked": true,
+    "scores_in_plausible_range": true,
+    "threshold_in_plausible_range": true
+   },
+   "detachment_zone": {
+    "flagged_mean_overlap": 0.0,
+    "non_flagged_mean_overlap": 0.0094,
+    "ratio": 0.0,
+    "permutation_p": 1.0
+   },
+   "barrier_lakes": {
+    "flagged_mean_overlap": 0.0,
+    "non_flagged_mean_overlap": 0.00096,
+    "ratio": 0.0,
+    "permutation_p": 1.0
+   }
+  }
+ },
+ "agreement_between_units": {
+  "spearman": -0.373,
+  "p": 0.0046953980243896794,
+  "top6_overlap": 0,
+  "reading": "the two unit choices agree on 0 of 6 top windows"
+ },
+ "how_silent": "The wrong unit raises no exception, ranks all 56 windows, and produces scores and a threshold inside the same plausible range as the correct unit. Nothing in the output signals the error. This is what made M75 publishable before it was caught.",
+ "claim_boundary": "One contract, one model, one event. This measures the silence of the failure and the size of the resulting error here; it does not establish how large the error would be on other tasks. Not damage, not risk."
+}

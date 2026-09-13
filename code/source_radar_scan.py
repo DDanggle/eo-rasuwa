@@ -58,6 +58,7 @@ CONTRACTS: dict[str, dict] = {
 }
 SIZE, PATCH, CROP = 256, 4, 64
 MODEL_ID_NAME = "OLMOEARTH_V1_BASE"   # --model 로 덮어씀
+UNITS = "db"                          # --units 로 덮어씀 (db | linear)
 
 
 def gaps(base: list[str], target: str) -> list[int]:
@@ -132,7 +133,14 @@ def stage_embed(C: dict, model_suffix: str = "") -> None:
     print("device", device, "modality bands", spec.band_order, flush=True)
 
     def norm(cube):
-        x = np.transpose(np.nan_to_num(cube, nan=-25.0), (1, 2, 3, 0))
+        # M97: 입력 단위를 일부러 틀려보는 스위치. 캐시된 큐브는 dB 이므로 linear 는 되돌린다.
+        # 목적은 "틀린 단위가 조용히 통과하는가"를 수치로 재는 것 (M75 재현).
+        if UNITS == "linear":
+            cube = np.power(10.0, cube / 10.0)
+            fill = 10.0 ** (-25.0 / 10.0)
+        else:
+            fill = -25.0
+        x = np.transpose(np.nan_to_num(cube, nan=fill), (1, 2, 3, 0))
         return np.transpose(normalizer.normalize(spec, x), (3, 0, 1, 2)).astype("float32")
 
     def embed(cube, times):
@@ -198,7 +206,8 @@ def stage_embed(C: dict, model_suffix: str = "") -> None:
            "gap_days": {"event": gaps(BASE_EVENT, TARGET_EVENT), "placebo": gaps(BASE_PLACEBO, TARGET_PLACEBO)},
            "dates": DATES, "event_pair": {"base": BASE_EVENT, "target": TARGET_EVENT},
            "placebo_pair": {"base": BASE_PLACEBO, "target": TARGET_PLACEBO},
-           "input_unit": "gamma0 dB (10*log10 of RTC linear power)",
+           "input_unit": ("gamma0 dB (10*log10 of RTC linear power)" if UNITS == "db"
+                          else "RAW LINEAR POWER — deliberately wrong, M97 control"),
            "threshold_placebo_p99": thr, "placebo_tokens": int(len(pool_all)),
            "windows": rows, "top10": [{k: r[k] for k in ("id", "rank", "center_lonlat", "candidate_token_frac", "valid_event_frac")} for r in ranked[:10]],
            "elapsed_s": round(time.time() - t0, 1), "device": str(device)}
@@ -211,13 +220,17 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", choices=["prepare", "embed", "all"], default="all")
     ap.add_argument("--contract", choices=sorted(CONTRACTS), default="o121")
+    ap.add_argument("--units", choices=["db", "linear"], default="db",
+                    help="linear deliberately feeds the wrong unit, to measure how silent that failure is")
     ap.add_argument("--model", default="OLMOEARTH_V1_BASE",
                     help="ModelID name; non-default runs write to <out>_<model> so the sealed report is untouched")
     a = ap.parse_args()
     C = CONTRACTS[a.contract]
-    global MODEL_ID_NAME
-    MODEL_ID_NAME = a.model
+    global MODEL_ID_NAME, UNITS
+    MODEL_ID_NAME, UNITS = a.model, a.units
     suffix = "" if a.model == "OLMOEARTH_V1_BASE" else "_" + a.model.lower().replace("olmoearth_", "")
+    if a.units != "db":
+        suffix += "_" + a.units
     print("contract", a.contract, C["measurement_id"], "orbit", C["orbit"], C["direction"],
           "gaps", gaps(C["base_event"], C["target_event"]), flush=True)
     footprint = json.loads((Path(__file__).parent / "source_radar_windows.json").read_text())

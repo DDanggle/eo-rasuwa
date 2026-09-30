@@ -1,0 +1,61 @@
+{
+ "schema": "m99-september-summary-v1",
+ "generated_utc": "2026-09-30",
+ "event": "2026-09-24..28 Nepal monsoon flooding",
+ "catalog_end_utc": "2026-09-30T00:00:00Z",
+ "contracts": {
+  "o19s": {
+   "measurement_id": "M99",
+   "target": "2026-09-29",
+   "threshold": 0.2499,
+   "flag_mean": 0.097,
+   "rho_vs_sealed": 0.043,
+   "top6": [
+    "v094",
+    "v093",
+    "v096",
+    "v098",
+    "v061",
+    "v047"
+   ],
+   "unosat_detachment_flagged_touching": 0,
+   "unosat_p": 1.0
+  },
+  "o121s": {
+   "measurement_id": "M99b",
+   "target": "2026-09-24",
+   "threshold": 0.2472,
+   "flag_mean": 0.02,
+   "rho_vs_sealed": 0.387,
+   "top6": [
+    "v094",
+    "v093",
+    "v082",
+    "v098",
+    "v095",
+    "v050"
+   ],
+   "unosat_detachment_flagged_touching": 1,
+   "unosat_p": 0.2822
+  }
+ },
+ "cross_orbit": {
+  "rho": 0.578,
+  "top6_overlap": 3
+ },
+ "reading": "post-flood ranking at the source corridor is dominated by fresh snow above ~4500 m (SCL snow 0.88-0.94 on 09-28 vs 0.00 on 09-18/21; v094 dVV -5.49 dB); August source windows absorbed into memory and did not re-flag; region-wide dVV median -0.69 dB inflates absolute flags 3x.",
+ "elevation_corr": {
+  "o19s": 0.46,
+  "o121s": 0.4
+ },
+ "dvv_corr_o19s": -0.51,
+ "failures_fixed": [
+  "PC SAS token expiry -> GDAL silent hang 19.5h (re-sign every 25 min + GDAL timeouts + retry)",
+  "device mps/cpu hardcode -> cuda first"
+ ],
+ "limits": [
+  "56 source windows only; Terai/Karnali/Chitwan out of scope",
+  "one post date",
+  "snow label is Sen2Cor SCL, no field truth"
+ ]
+}

@@ -21,7 +21,7 @@
 주장 경계: 광학 6-리드 퍼널과 별개 목록. 피해·위험이 아니라 검토 순서.
 """
 from __future__ import annotations
-import argparse, json, time
+import argparse, json, os, time
 from datetime import datetime
 from pathlib import Path
 
@@ -55,6 +55,38 @@ CONTRACTS: dict[str, dict] = {
         "target_placebo": "2026-08-12",
         "out": "source_radar_scan_o19",
     },
+    # M99 — 9월 하순 몬순 홍수(9/24~28)까지 시간축을 이어붙인 연속 관측. 궤도·창·3v1 구조·36/24/12일
+    # 간격·평시 쌍 전부 M93 과 동일하고 바뀐 것은 사건 쌍의 날짜뿐이다. 따라서 문턱(평시 p99)도 같다.
+    # base 3장 중 2장(09-05·09-17)이 8월 재난 이후라, 8월에만 변한 곳은 기준 기억에 이미 흡수된다.
+    # 즉 여기서 새로 문턱을 넘는 창은 8월 잔해가 아니라 9월 비에 움직인 곳이다.
+    "o19s": {
+        "measurement_id": "M99",
+        "orbit": 19,
+        "direction": "descending",
+        "dates": ["2026-07-07", "2026-07-19", "2026-07-31", "2026-08-12",
+                  "2026-08-24", "2026-09-05", "2026-09-17", "2026-09-29"],
+        "base_event": ["2026-08-24", "2026-09-05", "2026-09-17"],
+        "target_event": "2026-09-29",
+        "base_placebo": ["2026-07-07", "2026-07-19", "2026-07-31"],
+        "target_placebo": "2026-08-12",
+        "out": "source_radar_scan_o19s",
+    },
+    # M99b — 궤도 121 쪽 연속 관측. 9/24 통과는 현지 06:03(00:18 UTC)으로 그날 시작된 비의 맨 앞이라
+    # 홍수 자체가 아니라 **홍수 직전 상태**를 재는 쌍이다. base 3장이 전부 8월 재난 이후(08-19 는 7일 전이나
+    # M92 계약 그대로 둔다)라 9/29 궤도19 RTC 가 올라오면 그때의 비교 기준이 된다.
+    # 구조·간격·평시 쌍은 M92 와 동일하고 사건 쌍 날짜만 12일씩 밀었다.
+    "o121s": {
+        "measurement_id": "M99b",
+        "orbit": 121,
+        "direction": "descending",
+        "dates": ["2026-07-02", "2026-07-14", "2026-07-26", "2026-08-07",
+                  "2026-08-19", "2026-08-31", "2026-09-12", "2026-09-24"],
+        "base_event": ["2026-08-19", "2026-08-31", "2026-09-12"],
+        "target_event": "2026-09-24",
+        "base_placebo": ["2026-07-02", "2026-07-14", "2026-07-26"],
+        "target_placebo": "2026-08-07",
+        "out": "source_radar_scan_o121s",
+    },
 }
 SIZE, PATCH, CROP = 256, 4, 64
 MODEL_ID_NAME = "OLMOEARTH_V1_BASE"   # --model 로 덮어씀
@@ -74,8 +106,17 @@ def stage_prepare(win_subset: list[dict], C: dict) -> None:
     OUT = ARTIFACT_ROOT / C["out"]
     DATES, ORBIT = C["dates"], C["orbit"]
     (OUT / "prepare").mkdir(parents=True, exist_ok=True)
+    # 2026-09-30: 56창×8날짜 다운로드가 Planetary Computer SAS 토큰 수명보다 오래 걸린다. 시작할 때
+    # 한 번만 서명하면 도중에 토큰이 죽고, GDAL 은 기본 타임아웃이 없어 **에러 없이 영원히 멈춘다**
+    # (실측: v069 에서 19.5시간 정지). 아래 두 가지로 고친다 — 주기적 재서명 + GDAL 타임아웃/재시도.
+    os.environ.setdefault("GDAL_HTTP_TIMEOUT", "60")
+    os.environ.setdefault("GDAL_HTTP_CONNECTTIMEOUT", "30")
+    os.environ.setdefault("GDAL_HTTP_MAX_RETRY", "3")
+    os.environ.setdefault("GDAL_HTTP_RETRY_DELAY", "5")
+    SIGN_TTL = 1500.0                       # 25분. PC 토큰은 보통 1시간이지만 넉넉히 앞서 갱신한다.
     catalog = pystac_client.Client.open("https://planetarycomputer.microsoft.com/api/stac/v1")
-    items: dict[str, object] = {}
+
+    raw: dict[str, object] = {}
     for d in DATES:
         for attempt in range(5):
             try:
@@ -90,8 +131,20 @@ def stage_prepare(win_subset: list[dict], C: dict) -> None:
                 time.sleep(8 * (attempt + 1))
         if not found:
             raise SystemExit(f"no orbit-{ORBIT} RTC for {d}")
-        items[d] = pc.sign(found[0])
+        raw[d] = found[0]
         print("item", d, found[0].id[:44], flush=True)
+
+    signed: dict[str, object] = {}
+    signed_at = [0.0]
+
+    def fresh(d: str):
+        """토큰이 오래됐으면 전 날짜를 다시 서명하고 해당 날짜 item 을 돌려준다."""
+        if time.time() - signed_at[0] > SIGN_TTL:
+            for k, v in raw.items():
+                signed[k] = pc.sign(v)
+            signed_at[0] = time.time()
+            print("resigned", len(signed), "items", flush=True)
+        return signed[d]
 
     for w in win_subset:
         out = OUT / "prepare" / f"{w['id']}.npz"
@@ -99,11 +152,20 @@ def stage_prepare(win_subset: list[dict], C: dict) -> None:
             print(w["id"], "cached", flush=True); continue
         cube = np.full((2, len(DATES), SIZE, SIZE), np.nan, dtype="float32")
         for ti, d in enumerate(DATES):
-            it = items[d]
             for bi, band in enumerate(("vv", "vh")):
-                with rasterio.open(it.assets[band].href) as ds:
-                    win = from_bounds(*w["bounds_utm"], transform=ds.transform)
-                    arr = ds.read(1, window=win, out_shape=(SIZE, SIZE), boundless=True, fill_value=-32768).astype("float32")
+                for attempt in range(4):
+                    try:
+                        it = fresh(d)
+                        with rasterio.open(it.assets[band].href) as ds:
+                            win = from_bounds(*w["bounds_utm"], transform=ds.transform)
+                            arr = ds.read(1, window=win, out_shape=(SIZE, SIZE), boundless=True, fill_value=-32768).astype("float32")
+                        break
+                    except Exception as e:      # 만료된 토큰·일시적 5xx → 강제 재서명 후 재시도
+                        if attempt == 3:
+                            raise
+                        print(f"retry {w['id']} {d} {band} ({type(e).__name__})", flush=True)
+                        signed_at[0] = 0.0
+                        time.sleep(5 * (attempt + 1))
                 arr[arr <= 0] = np.nan          # nodata & 비물리 값
                 cube[bi, ti] = 10.0 * np.log10(arr)   # 선형 gamma0 → dB (M75 재발 방지)
         np.savez_compressed(out, cube=cube, dates=np.array(DATES), bounds_utm=np.array(w["bounds_utm"]),
@@ -126,7 +188,10 @@ def stage_embed(C: dict, model_suffix: str = "") -> None:
     from olmoearth_pretrain.data.constants import Modality
     spec = Modality.get("sentinel1")
     normalizer = Normalizer(Strategy.COMPUTED, std_multiplier=2)
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    # CUDA(서버) > MPS(노트북) > CPU. 원래 MPS만 봤는데 서버에서 조용히 CPU로 떨어져 GPU를 놀렸다.
+    # 가중치·입력·연산 순서는 장치와 무관하므로 봉인된 M92/M93 보고서는 영향받지 않는다(재실행으로 확인).
+    device = torch.device("cuda" if torch.cuda.is_available()
+                          else "mps" if torch.backends.mps.is_available() else "cpu")
     (OUT / "embed").mkdir(parents=True, exist_ok=True)
     wrapper = OlmoEarth(patch_size=PATCH, model_id=getattr(ModelID, MODEL_ID_NAME), token_pooling=True,
                         use_legacy_timestamps=False, autocast_dtype=None).to(device).eval()

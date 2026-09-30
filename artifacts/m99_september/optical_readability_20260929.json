@@ -1,0 +1,22 @@
+{
+  "schema": "nepal-optical-readability-v1",
+  "measurement_id": "M99a",
+  "generated_utc": "2026-09-29",
+  "claim": "Scene-level cloud cover does not predict whether the corridor windows are readable. A 1.6% scene leaves the median window 21% clear.",
+  "why_it_matters": "Independent replication, in a different country and terrain, of the Jeju v8 finding that scene cloud is the wrong selection variable (a 1.0% scene left 0/12 sites readable). Selection must be made on per-site SCL, not on the scene header.",
+  "method": {
+    "windows": 56,
+    "window_source": "code/source_radar_windows.json (the sealed M93 corridor windows)",
+    "readable_definition": "SCL in {4,5,6,7}, read at each window's UTM bounds, 64x64",
+    "collection": "sentinel-2-l2a (Planetary Computer)",
+    "note": "readability is measured at the window, never inferred from eo:cloud_cover"
+  },
+  "scenes": [
+    {"date": "2026-09-28", "scene_cloud_pct": 1.6,  "window_readable_median_pct": 21.4, "windows_ge80": 12, "windows_ge50": 19, "windows_ge20": 28},
+    {"date": "2026-09-26", "scene_cloud_pct": 89.8, "window_readable_median_pct": 0.0,  "windows_ge80": 0,  "windows_ge50": 0,  "windows_ge20": 0},
+    {"date": "2026-09-21", "scene_cloud_pct": 60.3, "window_readable_median_pct": 11.1, "windows_ge80": 2,  "windows_ge50": 11, "windows_ge20": 22},
+    {"date": "2026-09-18", "scene_cloud_pct": 53.7, "window_readable_median_pct": 2.5,  "windows_ge80": 0,  "windows_ge50": 5,  "windows_ge20": 14}
+  ],
+  "reading": "2026-09-28 is the day the Narayani peaked at Devghat and the only near-clear scene of the period. Even so, only 12 of 56 windows reach 80% readability, so an optical event pair for the late-September flood cannot be built at the source corridor. Radar remains the only path, which is what the sealed radar contracts already assume.",
+  "limits": "Readability is not usability: a window can be SCL-clear and still be unusable for a pair if its partner date is not. This measures one side only."
+}

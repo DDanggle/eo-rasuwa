@@ -1,0 +1,2487 @@
+{
+ "schema": "terai-fusion-v1",
+ "measurement_id": "M102",
+ "rule": "frac = max(optical, mean(radar orbits)); common scale = own-placebo p99 exceedance fraction",
+ "coverage": {
+  "radar_only": 100,
+  "optical_only": 0,
+  "both": 25
+ },
+ "cross_sensor_agreement": {
+  "n": 25,
+  "spearman_radar_vs_optical": -0.5015384615384615,
+  "top5_overlap": 0
+ },
+ "windows": [
+  {
+   "id": "susta_11",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.8733720624998,
+    27.437342141977936
+   ],
+   "frac": 0.154541015625,
+   "source": "radar",
+   "radar_frac": 0.154541015625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.08382415771484375,
+   "scl_water_delta": null,
+   "rank": 1
+  },
+  {
+   "id": "susta_01",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.87277409102022,
+    27.414259514946455
+   ],
+   "frac": 0.1519775390625,
+   "source": "radar",
+   "radar_frac": 0.1519775390625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.05301666259765625,
+   "scl_water_delta": null,
+   "rank": 2
+  },
+  {
+   "id": "susta_20",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.84809425970371,
+    27.460956649424677
+   ],
+   "frac": 0.06005859375,
+   "source": "radar",
+   "radar_frac": 0.06005859375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.001251220703125,
+   "scl_water_delta": null,
+   "rank": 3
+  },
+  {
+   "id": "devghat_10",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.37367496077374,
+    27.695930742844983
+   ],
+   "frac": 0.0554644332068507,
+   "source": "radar",
+   "radar_frac": 0.0554644332068507,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.047677142381629886,
+   "scl_water_delta": null,
+   "rank": 4
+  },
+  {
+   "id": "saptari_31",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.85419808202568,
+    26.57308345183533
+   ],
+   "frac": 0.05192052980132451,
+   "source": "both",
+   "radar_frac": 0.0,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.05192052980132451,
+   "radar_new_water": 0.0008087158203125,
+   "scl_water_delta": -0.0002644856770833333,
+   "rank": 5
+  },
+  {
+   "id": "saptari_10",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.82856080485512,
+    26.526825681960634
+   ],
+   "frac": 0.04739943633102742,
+   "source": "both",
+   "radar_frac": 0.0,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.04739943633102742,
+   "radar_new_water": 0.0011749267578125,
+   "scl_water_delta": -0.00016276041666666666,
+   "rank": 6
+  },
+  {
+   "id": "saptari_41",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.85416880168951,
+    26.596197936894598
+   ],
+   "frac": 0.047277556440903055,
+   "source": "both",
+   "radar_frac": 0.001953125,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.047277556440903055,
+   "radar_new_water": 0.0011749267578125,
+   "scl_water_delta": -0.0001220703125,
+   "rank": 7
+  },
+  {
+   "id": "saptari_40",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.8284576016548,
+    26.596169276036385
+   ],
+   "frac": 0.045085190039318476,
+   "source": "both",
+   "radar_frac": 0.0,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.045085190039318476,
+   "radar_new_water": 0.0014495849609375,
+   "scl_water_delta": -0.0001220703125,
+   "rank": 8
+  },
+  {
+   "id": "saptari_30",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.82849204429002,
+    26.573054819729983
+   ],
+   "frac": 0.04464751958224543,
+   "source": "both",
+   "radar_frac": 0.0,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.04464751958224543,
+   "radar_new_water": 0.0010986328125,
+   "scl_water_delta": -0.00042724609375,
+   "rank": 9
+  },
+  {
+   "id": "saptari_00",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.82859512285698,
+    26.50371100058799
+   ],
+   "frac": 0.04365325077399381,
+   "source": "both",
+   "radar_frac": 0.0009765625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.04365325077399381,
+   "radar_new_water": 0.0008392333984375,
+   "scl_water_delta": -8.138020833333333e-05,
+   "rank": 10
+  },
+  {
+   "id": "saptari_32",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.87990415510968,
+    26.573107444856703
+   ],
+   "frac": 0.04295125164690382,
+   "source": "both",
+   "radar_frac": 0.0,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.04295125164690382,
+   "radar_new_water": 0.0003509521484375,
+   "scl_water_delta": -0.00010172526041666667,
+   "rank": 11
+  },
+  {
+   "id": "saptari_20",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.82852644534478,
+    26.549940288356357
+   ],
+   "frac": 0.04289473684210526,
+   "source": "both",
+   "radar_frac": 0.000732421875,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.04289473684210526,
+   "radar_new_water": 0.000762939453125,
+   "scl_water_delta": -0.00040690104166666663,
+   "rank": 12
+  },
+  {
+   "id": "saptari_13",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.90564809998041,
+    26.526897516521938
+   ],
+   "frac": 0.040149710785981625,
+   "source": "both",
+   "radar_frac": 0.0048828125,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.040149710785981625,
+   "radar_new_water": 0.030548095703125,
+   "scl_water_delta": 0.05228678385416666,
+   "rank": 13
+  },
+  {
+   "id": "saptari_01",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.85428571106641,
+    26.50373954650209
+   ],
+   "frac": 0.038931297709923665,
+   "source": "both",
+   "radar_frac": 0.000244140625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.038931297709923665,
+   "radar_new_water": 0.0335540771484375,
+   "scl_water_delta": 0.0126953125,
+   "rank": 14
+  },
+  {
+   "id": "saptari_04",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.9313576623705,
+    26.5037974334464
+   ],
+   "frac": 0.035426166257453526,
+   "source": "both",
+   "radar_frac": 0.007568359375,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.035426166257453526,
+   "radar_new_water": 0.1461334228515625,
+   "scl_water_delta": 0.22991943359375,
+   "rank": 15
+  },
+  {
+   "id": "susta_21",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.87397074723518,
+    27.460424680479214
+   ],
+   "frac": 0.031982421875,
+   "source": "radar",
+   "radar_frac": 0.031982421875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00127410888671875,
+   "scl_water_delta": null,
+   "rank": 16
+  },
+  {
+   "id": "devghat_11",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.3996121466591,
+    27.69642051529473
+   ],
+   "frac": 0.029293007936246042,
+   "source": "radar",
+   "radar_frac": 0.029293007936246042,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.03073459955132668,
+   "scl_water_delta": null,
+   "rank": 17
+  },
+  {
+   "id": "saptari_22",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.87992824399987,
+    26.549992860656634
+   ],
+   "frac": 0.026884422110552763,
+   "source": "both",
+   "radar_frac": 0.000244140625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.026884422110552763,
+   "radar_new_water": 0.0005950927734375,
+   "scl_water_delta": -0.00016276041666666666,
+   "rank": 18
+  },
+  {
+   "id": "susta_10",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.84750094752441,
+    27.437873589617833
+   ],
+   "frac": 0.02685546875,
+   "source": "radar",
+   "radar_frac": 0.02685546875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00647735595703125,
+   "scl_water_delta": null,
+   "rank": 19
+  },
+  {
+   "id": "susta_00",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.84690834221138,
+    27.41479044149185
+   ],
+   "frac": 0.026611328125,
+   "source": "radar",
+   "radar_frac": 0.026611328125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00931549072265625,
+   "scl_water_delta": null,
+   "rank": 20
+  },
+  {
+   "id": "saptari_11",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.85425653668352,
+    26.52685425659394
+   ],
+   "frac": 0.02600896860986547,
+   "source": "both",
+   "radar_frac": 0.000244140625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.02600896860986547,
+   "radar_new_water": 0.0005340576171875,
+   "scl_water_delta": -0.00152587890625,
+   "rank": 21
+  },
+  {
+   "id": "susta_30",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.84868827938007,
+    27.48403962085288
+   ],
+   "frac": 0.025634765625,
+   "source": "radar",
+   "radar_frac": 0.025634765625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000213623046875,
+   "scl_water_delta": null,
+   "rank": 22
+  },
+  {
+   "id": "saptari_34",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.93131638239416,
+    26.57314151356304
+   ],
+   "frac": 0.02490234375,
+   "source": "both",
+   "radar_frac": 0.02490234375,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.014517506404782237,
+   "radar_new_water": 0.095977783203125,
+   "scl_water_delta": 0.030375162760416657,
+   "rank": 23
+  },
+  {
+   "id": "susta_02",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.89863912720885,
+    27.413723800082526
+   ],
+   "frac": 0.023681640625,
+   "source": "radar",
+   "radar_frac": 0.023681640625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00386810302734375,
+   "scl_water_delta": null,
+   "rank": 24
+  },
+  {
+   "id": "susta_12",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.89924246421951,
+    27.436805901324828
+   ],
+   "frac": 0.0235595703125,
+   "source": "radar",
+   "radar_frac": 0.0235595703125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.02130126953125,
+   "scl_water_delta": null,
+   "rank": 25
+  },
+  {
+   "id": "saptari_14",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.93134391900617,
+    26.526912201776653
+   ],
+   "frac": 0.0224609375,
+   "source": "both",
+   "radar_frac": 0.0224609375,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.015470704410796577,
+   "radar_new_water": 0.1560821533203125,
+   "scl_water_delta": 0.14461263020833331,
+   "rank": 26
+  },
+  {
+   "id": "saptari_21",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.85422732701346,
+    26.549968891720074
+   ],
+   "frac": 0.02191464821222607,
+   "source": "both",
+   "radar_frac": 0.00048828125,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.02191464821222607,
+   "radar_new_water": 0.0010223388671875,
+   "scl_water_delta": -0.0003458658854166667,
+   "rank": 27
+  },
+  {
+   "id": "susta_24",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.9515959009011,
+    27.458799989388773
+   ],
+   "frac": 0.0218505859375,
+   "source": "radar",
+   "radar_frac": 0.0218505859375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0062408447265625,
+   "scl_water_delta": null,
+   "rank": 28
+  },
+  {
+   "id": "saptari_23",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.90562919007726,
+    26.55001219514388
+   ],
+   "frac": 0.02109111361079865,
+   "source": "both",
+   "radar_frac": 0.000244140625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.02109111361079865,
+   "radar_new_water": 0.013671875,
+   "scl_water_delta": 0.013997395833333334,
+   "rank": 29
+  },
+  {
+   "id": "saptari_02",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.87997633453246,
+    26.50376346729721
+   ],
+   "frac": 0.020684371807967315,
+   "source": "both",
+   "radar_frac": 0.011962890625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.020684371807967315,
+   "radar_new_water": 0.10296630859375,
+   "scl_water_delta": 0.3111979166666667,
+   "rank": 30
+  },
+  {
+   "id": "saptari_03",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.90566698703915,
+    26.503782762951257
+   ],
+   "frac": 0.01983635011157947,
+   "source": "both",
+   "radar_frac": 0.01318359375,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.01983635011157947,
+   "radar_new_water": 0.027740478515625,
+   "scl_water_delta": 0.1041259765625,
+   "rank": 31
+  },
+  {
+   "id": "saptari_33",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.90561025730992,
+    26.573126798771906
+   ],
+   "frac": 0.019432370237790847,
+   "source": "both",
+   "radar_frac": 0.001220703125,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.019432370237790847,
+   "radar_new_water": 0.0258941650390625,
+   "scl_water_delta": 0.005513509114583332,
+   "rank": 32
+  },
+  {
+   "id": "susta_22",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.89984652087452,
+    27.45988791382397
+   ],
+   "frac": 0.017578125,
+   "source": "radar",
+   "radar_frac": 0.017578125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00080108642578125,
+   "scl_water_delta": null,
+   "rank": 33
+  },
+  {
+   "id": "devghat_33",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.45041393592109,
+    27.743561222574197
+   ],
+   "frac": 0.014404296875,
+   "source": "radar",
+   "radar_frac": 0.014404296875,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.010040283203125,
+   "scl_water_delta": null,
+   "rank": 34
+  },
+  {
+   "id": "devghat_43",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.44987571379527,
+    27.766648948784603
+   ],
+   "frac": 0.014404296875,
+   "source": "radar",
+   "radar_frac": 0.014404296875,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0160980224609375,
+   "scl_water_delta": null,
+   "rank": 35
+  },
+  {
+   "id": "saptari_24",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.93133015901886,
+    26.550026895163917
+   ],
+   "frac": 0.014140681653372008,
+   "source": "both",
+   "radar_frac": 0.01318359375,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.014140681653372008,
+   "radar_new_water": 0.1550445556640625,
+   "scl_water_delta": 0.0172119140625,
+   "rank": 36
+  },
+  {
+   "id": "saptari_12",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.87995230379907,
+    26.52687820145509
+   ],
+   "frac": 0.01389631213254944,
+   "source": "both",
+   "radar_frac": 0.0009765625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.01389631213254944,
+   "radar_new_water": 0.0021820068359375,
+   "scl_water_delta": 0.016886393229166668,
+   "rank": 37
+  },
+  {
+   "id": "butwal_02",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.45398083274215,
+    27.658670998169523
+   ],
+   "frac": 0.0133056640625,
+   "source": "radar",
+   "radar_frac": 0.0133056640625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00127410888671875,
+   "scl_water_delta": null,
+   "rank": 38
+  },
+  {
+   "id": "devghat_12",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.4255499832304,
+    27.696905437865627
+   ],
+   "frac": 0.011928835193803016,
+   "source": "radar",
+   "radar_frac": 0.011928835193803016,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.011441714547710875,
+   "scl_water_delta": null,
+   "rank": 39
+  },
+  {
+   "id": "susta_31",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.87457014586289,
+    27.483507130390482
+   ],
+   "frac": 0.0118408203125,
+   "source": "radar",
+   "radar_frac": 0.0118408203125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00048065185546875,
+   "scl_water_delta": null,
+   "rank": 40
+  },
+  {
+   "id": "susta_40",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.84928300718536,
+    27.50712250384299
+   ],
+   "frac": 0.0118408203125,
+   "source": "radar",
+   "radar_frac": 0.0118408203125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00051116943359375,
+   "scl_water_delta": null,
+   "rank": 41
+  },
+  {
+   "id": "butwal_00",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.40211654649643,
+    27.65958001171562
+   ],
+   "frac": 0.011474609375,
+   "source": "radar",
+   "radar_frac": 0.011474609375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0017852783203125,
+   "scl_water_delta": null,
+   "rank": 42
+  },
+  {
+   "id": "devghat_00",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.37422759772173,
+    27.672844174350658
+   ],
+   "frac": 0.01123046875,
+   "source": "radar",
+   "radar_frac": 0.01123046875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.02138519287109375,
+   "scl_water_delta": null,
+   "rank": 43
+  },
+  {
+   "id": "devghat_22",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.42500758802598,
+    27.71999286940288
+   ],
+   "frac": 0.01123046875,
+   "source": "radar",
+   "radar_frac": 0.01123046875,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0092926025390625,
+   "scl_water_delta": null,
+   "rank": 44
+  },
+  {
+   "id": "butwal_04",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.50584266518264,
+    27.657742608246597
+   ],
+   "frac": 0.01025390625,
+   "source": "radar",
+   "radar_frac": 0.01025390625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000244140625,
+   "scl_water_delta": null,
+   "rank": 45
+  },
+  {
+   "id": "susta_32",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.90045129781603,
+    27.482969837519857
+   ],
+   "frac": 0.010009765625,
+   "source": "radar",
+   "radar_frac": 0.010009765625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000457763671875,
+   "scl_water_delta": null,
+   "rank": 46
+  },
+  {
+   "id": "butwal_12",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.45449702577723,
+    27.681760697993173
+   ],
+   "frac": 0.0098876953125,
+   "source": "radar",
+   "radar_frac": 0.0098876953125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00150299072265625,
+   "scl_water_delta": null,
+   "rank": 47
+  },
+  {
+   "id": "butwal_01",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.42804899311577,
+    27.659127927203738
+   ],
+   "frac": 0.0091552734375,
+   "source": "radar",
+   "radar_frac": 0.0091552734375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00213623046875,
+   "scl_water_delta": null,
+   "rank": 48
+  },
+  {
+   "id": "butwal_30",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.40363427811546,
+    27.72885151593153
+   ],
+   "frac": 0.0089111328125,
+   "source": "radar",
+   "radar_frac": 0.0089111328125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0011749267578125,
+   "scl_water_delta": null,
+   "rank": 49
+  },
+  {
+   "id": "butwal_21",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.42907110352147,
+    27.70530813299424
+   ],
+   "frac": 0.0086669921875,
+   "source": "radar",
+   "radar_frac": 0.0086669921875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0006561279296875,
+   "scl_water_delta": null,
+   "rank": 50
+  },
+  {
+   "id": "susta_23",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.92572157422752,
+    27.45934634995899
+   ],
+   "frac": 0.0086669921875,
+   "source": "radar",
+   "radar_frac": 0.0086669921875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.003662109375,
+   "scl_water_delta": null,
+   "rank": 51
+  },
+  {
+   "id": "susta_33",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.9263317288396,
+    27.482427742741667
+   ],
+   "frac": 0.008544921875,
+   "source": "radar",
+   "radar_frac": 0.008544921875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00304412841796875,
+   "scl_water_delta": null,
+   "rank": 52
+  },
+  {
+   "id": "butwal_03",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.47991205891701,
+    27.658209225039972
+   ],
+   "frac": 0.0081787109375,
+   "source": "radar",
+   "radar_frac": 0.0081787109375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00028228759765625,
+   "scl_water_delta": null,
+   "rank": 53
+  },
+  {
+   "id": "susta_41",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.87517025902048,
+    27.506589491651997
+   ],
+   "frac": 0.0074462890625,
+   "source": "radar",
+   "radar_frac": 0.0074462890625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.001922607421875,
+   "scl_water_delta": null,
+   "rank": 54
+  },
+  {
+   "id": "devghat_40",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.3720131046704,
+    27.76518992507543
+   ],
+   "frac": 0.00732421875,
+   "source": "radar",
+   "radar_frac": 0.00732421875,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0073089599609375,
+   "scl_water_delta": null,
+   "rank": 55
+  },
+  {
+   "id": "butwal_11",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.42855974454906,
+    27.682218072944035
+   ],
+   "frac": 0.007080078125,
+   "source": "radar",
+   "radar_frac": 0.007080078125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00133514404296875,
+   "scl_water_delta": null,
+   "rank": 56
+  },
+  {
+   "id": "butwal_20",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.40312776614125,
+    27.705761100071808
+   ],
+   "frac": 0.0068359375,
+   "source": "radar",
+   "radar_frac": 0.0068359375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00041961669921875,
+   "scl_water_delta": null,
+   "rank": 57
+  },
+  {
+   "id": "butwal_10",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.40262185578194,
+    27.682670598648386
+   ],
+   "frac": 0.0067138671875,
+   "source": "radar",
+   "radar_frac": 0.0067138671875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00127410888671875,
+   "scl_water_delta": null,
+   "rank": 58
+  },
+  {
+   "id": "dharapani_02",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.46112714050781,
+    27.75386366704715
+   ],
+   "frac": 0.00634765625,
+   "source": "radar",
+   "radar_frac": 0.00634765625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0203399658203125,
+   "scl_water_delta": null,
+   "rank": 59
+  },
+  {
+   "id": "butwal_42",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.45604929111519,
+    27.751029282008027
+   ],
+   "frac": 0.006103515625,
+   "source": "radar",
+   "radar_frac": 0.006103515625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.002288818359375,
+   "scl_water_delta": null,
+   "rank": 60
+  },
+  {
+   "id": "dharapani_12",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.46059094486304,
+    27.77695155153335
+   ],
+   "frac": 0.005859375,
+   "source": "radar",
+   "radar_frac": 0.005859375,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0075531005859375,
+   "scl_water_delta": null,
+   "rank": 61
+  },
+  {
+   "id": "susta_34",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.95221143253484,
+    27.481880846561037
+   ],
+   "frac": 0.005859375,
+   "source": "radar",
+   "radar_frac": 0.005859375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00511932373046875,
+   "scl_water_delta": null,
+   "rank": 62
+  },
+  {
+   "id": "butwal_24",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.50689744126709,
+    27.703920109642638
+   ],
+   "frac": 0.0057373046875,
+   "source": "radar",
+   "radar_frac": 0.0057373046875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0015411376953125,
+   "scl_water_delta": null,
+   "rank": 63
+  },
+  {
+   "id": "butwal_32",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.45553125441057,
+    27.727939839967284
+   ],
+   "frac": 0.0057373046875,
+   "source": "radar",
+   "radar_frac": 0.0057373046875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.002838134765625,
+   "scl_water_delta": null,
+   "rank": 64
+  },
+  {
+   "id": "butwal_22",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.4550138328158,
+    27.704850311944057
+   ],
+   "frac": 0.0054931640625,
+   "source": "radar",
+   "radar_frac": 0.0054931640625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0003509521484375,
+   "scl_water_delta": null,
+   "rank": 65
+  },
+  {
+   "id": "susta_14",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.95098110233901,
+    27.43571904298108
+   ],
+   "frac": 0.0054931640625,
+   "source": "radar",
+   "radar_frac": 0.0054931640625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000213623046875,
+   "scl_water_delta": null,
+   "rank": 66
+  },
+  {
+   "id": "butwal_23",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.48095594755411,
+    27.704387637349324
+   ],
+   "frac": 0.00537109375,
+   "source": "radar",
+   "radar_frac": 0.00537109375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000335693359375,
+   "scl_water_delta": null,
+   "rank": 67
+  },
+  {
+   "id": "devghat_01",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.40015934091643,
+    27.673333469527073
+   ],
+   "frac": 0.00537109375,
+   "source": "radar",
+   "radar_frac": 0.00537109375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00392913818359375,
+   "scl_water_delta": null,
+   "rank": 68
+  },
+  {
+   "id": "devghat_21",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.39906430171563,
+    27.719507474086974
+   ],
+   "frac": 0.005126953125,
+   "source": "radar",
+   "radar_frac": 0.005126953125,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.002410888671875,
+   "scl_water_delta": null,
+   "rank": 69
+  },
+  {
+   "id": "devghat_41",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.39796665742561,
+    27.765681130519837
+   ],
+   "frac": 0.005126953125,
+   "source": "radar",
+   "radar_frac": 0.005126953125,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.006103515625,
+   "scl_water_delta": null,
+   "rank": 70
+  },
+  {
+   "id": "butwal_31",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.42958307057987,
+    27.728398107299732
+   ],
+   "frac": 0.0050048828125,
+   "source": "radar",
+   "radar_frac": 0.0050048828125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00240325927734375,
+   "scl_water_delta": null,
+   "rank": 71
+  },
+  {
+   "id": "butwal_14",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.5063697397601,
+    27.680831402066566
+   ],
+   "frac": 0.0048828125,
+   "source": "radar",
+   "radar_frac": 0.0048828125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00020599365234375,
+   "scl_water_delta": null,
+   "rank": 72
+  },
+  {
+   "id": "devghat_42",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.42392086262751,
+    27.76616747190788
+   ],
+   "frac": 0.0048828125,
+   "source": "radar",
+   "radar_frac": 0.0048828125,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0070343017578125,
+   "scl_water_delta": null,
+   "rank": 73
+  },
+  {
+   "id": "butwal_34",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.50742577026786,
+    27.72700873091942
+   ],
+   "frac": 0.0045166015625,
+   "source": "radar",
+   "radar_frac": 0.0045166015625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00254058837890625,
+   "scl_water_delta": null,
+   "rank": 74
+  },
+  {
+   "id": "butwal_13",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.48043369300207,
+    27.681298474223336
+   ],
+   "frac": 0.00439453125,
+   "source": "radar",
+   "radar_frac": 0.00439453125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000213623046875,
+   "scl_water_delta": null,
+   "rank": 75
+  },
+  {
+   "id": "butwal_33",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.48147882313158,
+    27.72747671436281
+   ],
+   "frac": 0.00439453125,
+   "source": "radar",
+   "radar_frac": 0.00439453125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00397491455078125,
+   "scl_water_delta": null,
+   "rank": 76
+  },
+  {
+   "id": "dharapani_03",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.48707982465358,
+    27.754337966703623
+   ],
+   "frac": 0.00439453125,
+   "source": "radar",
+   "radar_frac": 0.00439453125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0003662109375,
+   "scl_water_delta": null,
+   "rank": 77
+  },
+  {
+   "id": "butwal_44",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.50795472732767,
+    27.750097265841532
+   ],
+   "frac": 0.004150390625,
+   "source": "radar",
+   "radar_frac": 0.004150390625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00341033935546875,
+   "scl_water_delta": null,
+   "rank": 78
+  },
+  {
+   "id": "devghat_23",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.450951519139,
+    27.72047340966222
+   ],
+   "frac": 0.004150390625,
+   "source": "radar",
+   "radar_frac": 0.004150390625,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000152587890625,
+   "scl_water_delta": null,
+   "rank": 79
+  },
+  {
+   "id": "dharapani_41",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.43300458159351,
+    27.84573365528992
+   ],
+   "frac": 0.004150390625,
+   "source": "radar",
+   "radar_frac": 0.004150390625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.01507568359375,
+   "scl_water_delta": null,
+   "rank": 80
+  },
+  {
+   "id": "butwal_43",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.482002320294,
+    27.750565705208672
+   ],
+   "frac": 0.00390625,
+   "source": "radar",
+   "radar_frac": 0.00390625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0031280517578125,
+   "scl_water_delta": null,
+   "rank": 81
+  },
+  {
+   "id": "devghat_20",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.37312166667716,
+    27.719017224168297
+   ],
+   "frac": 0.00390625,
+   "source": "radar",
+   "radar_frac": 0.00390625,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.001556396484375,
+   "scl_water_delta": null,
+   "rank": 82
+  },
+  {
+   "id": "devghat_30",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.37256771484029,
+    27.742103618263975
+   ],
+   "frac": 0.00390625,
+   "source": "radar",
+   "radar_frac": 0.00390625,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.000640869140625,
+   "scl_water_delta": null,
+   "rank": 83
+  },
+  {
+   "id": "devghat_32",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.42446454801872,
+    27.74308021410231
+   ],
+   "frac": 0.00390625,
+   "source": "radar",
+   "radar_frac": 0.00390625,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.009033203125,
+   "scl_water_delta": null,
+   "rank": 84
+  },
+  {
+   "id": "dharapani_42",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.45897853362263,
+    27.846214684563723
+   ],
+   "frac": 0.00390625,
+   "source": "radar",
+   "radar_frac": 0.00390625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0135650634765625,
+   "scl_water_delta": null,
+   "rank": 85
+  },
+  {
+   "id": "susta_42",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.90105679568728,
+    27.506051672352424
+   ],
+   "frac": 0.00390625,
+   "source": "radar",
+   "radar_frac": 0.00390625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00238037109375,
+   "scl_water_delta": null,
+   "rank": 86
+  },
+  {
+   "id": "devghat_34",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.47636396273126,
+    27.74403737081324
+   ],
+   "frac": 0.003662109375,
+   "source": "radar",
+   "radar_frac": 0.003662109375,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00482177734375,
+   "scl_water_delta": null,
+   "rank": 87
+  },
+  {
+   "id": "butwal_40",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.4041413922466,
+    27.751941846173217
+   ],
+   "frac": 0.00341796875,
+   "source": "radar",
+   "radar_frac": 0.00341796875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0007781982421875,
+   "scl_water_delta": null,
+   "rank": 88
+  },
+  {
+   "id": "devghat_44",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.47583120444703,
+    27.767125560699593
+   ],
+   "frac": 0.00341796875,
+   "source": "radar",
+   "radar_frac": 0.00341796875,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0041351318359375,
+   "scl_water_delta": null,
+   "rank": 89
+  },
+  {
+   "id": "dharapani_13",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.48654909592747,
+    27.777426312953615
+   ],
+   "frac": 0.00341796875,
+   "source": "radar",
+   "radar_frac": 0.00341796875,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0048065185546875,
+   "scl_water_delta": null,
+   "rank": 90
+  },
+  {
+   "id": "devghat_13",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.45148846402427,
+    27.697385510104425
+   ],
+   "frac": 0.003173828125,
+   "source": "radar",
+   "radar_frac": 0.003173828125,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0006103515625,
+   "scl_water_delta": null,
+   "rank": 91
+  },
+  {
+   "id": "susta_03",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.9245034443944,
+    27.413183297398845
+   ],
+   "frac": 0.003173828125,
+   "source": "radar",
+   "radar_frac": 0.003173828125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00140380859375,
+   "scl_water_delta": null,
+   "rank": 92
+  },
+  {
+   "id": "butwal_41",
+   "aoi": "butwal",
+   "center_lonlat": [
+    83.43009564627212,
+    27.75148799580592
+   ],
+   "frac": 0.0029296875,
+   "source": "radar",
+   "radar_frac": 0.0029296875,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00193023681640625,
+   "scl_water_delta": null,
+   "rank": 93
+  },
+  {
+   "id": "dharapani_44",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.51092834736468,
+    27.847162098400833
+   ],
+   "frac": 0.002685546875,
+   "source": "radar",
+   "radar_frac": 0.002685546875,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.012725830078125,
+   "scl_water_delta": null,
+   "rank": 94
+  },
+  {
+   "id": "susta_43",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.92694261078022,
+    27.505509046445578
+   ],
+   "frac": 0.0025634765625,
+   "source": "radar",
+   "radar_frac": 0.0025634765625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00412750244140625,
+   "scl_water_delta": null,
+   "rank": 95
+  },
+  {
+   "id": "devghat_04",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.47795844527506,
+    27.67477228230891
+   ],
+   "frac": 0.002487920875232608,
+   "source": "radar",
+   "radar_frac": 0.002487920875232608,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0007663917647185523,
+   "scl_water_delta": null,
+   "rank": 96
+  },
+  {
+   "id": "devghat_24",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.47689608858448,
+    27.720949094415673
+   ],
+   "frac": 0.00244140625,
+   "source": "radar",
+   "radar_frac": 0.00244140625,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 7.62939453125e-05,
+   "scl_water_delta": null,
+   "rank": 97
+  },
+  {
+   "id": "dharapani_00",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.40922368797428,
+    27.75290048071229
+   ],
+   "frac": 0.00244140625,
+   "source": "radar",
+   "radar_frac": 0.00244140625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.013916015625,
+   "scl_water_delta": null,
+   "rank": 98
+  },
+  {
+   "id": "dharapani_24",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.51198199223938,
+    27.80098492366984
+   ],
+   "frac": 0.00244140625,
+   "source": "radar",
+   "radar_frac": 0.00244140625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.009246826171875,
+   "scl_water_delta": null,
+   "rank": 99
+  },
+  {
+   "id": "dharapani_31",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.43354817578324,
+    27.822646498143556
+   ],
+   "frac": 0.00244140625,
+   "source": "radar",
+   "radar_frac": 0.00244140625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0110015869140625,
+   "scl_water_delta": null,
+   "rank": 100
+  },
+  {
+   "id": "susta_13",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.92511214629506,
+    27.43626486815792
+   ],
+   "frac": 0.0023193359375,
+   "source": "radar",
+   "radar_frac": 0.0023193359375,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00379180908203125,
+   "scl_water_delta": null,
+   "rank": 101
+  },
+  {
+   "id": "devghat_14",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.47742758257624,
+    27.69786073156238
+   ],
+   "frac": 0.002197265625,
+   "source": "radar",
+   "radar_frac": 0.002197265625,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00018310546875,
+   "scl_water_delta": null,
+   "rank": 102
+  },
+  {
+   "id": "devghat_31",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.3985158055001,
+    27.742594345847447
+   ],
+   "frac": 0.002197265625,
+   "source": "radar",
+   "radar_frac": 0.002197265625,
+   "radar_orbits": [
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00048828125,
+   "scl_water_delta": null,
+   "rank": 103
+  },
+  {
+   "id": "dharapani_30",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.40758035421871,
+    27.822161059704033
+   ],
+   "frac": 0.001953125,
+   "source": "radar",
+   "radar_frac": 0.001953125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0085601806640625,
+   "scl_water_delta": null,
+   "rank": 104
+  },
+  {
+   "id": "dharapani_33",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.48548574636091,
+    27.823602745865088
+   ],
+   "frac": 0.001953125,
+   "source": "radar",
+   "radar_frac": 0.001953125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.015594482421875,
+   "scl_water_delta": null,
+   "rank": 105
+  },
+  {
+   "id": "dharapani_34",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.51145548238019,
+    27.824073554251896
+   ],
+   "frac": 0.001953125,
+   "source": "radar",
+   "radar_frac": 0.001953125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.019256591796875,
+   "scl_water_delta": null,
+   "rank": 106
+  },
+  {
+   "id": "saptari_44",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.93130258911766,
+    26.596256056928947
+   ],
+   "frac": 0.001953125,
+   "source": "both",
+   "radar_frac": 0.001953125,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.0,
+   "radar_new_water": 0.02447509765625,
+   "scl_water_delta": 0.009562174479166668,
+   "rank": 107
+  },
+  {
+   "id": "susta_04",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.95036703619508,
+    27.412638007398666
+   ],
+   "frac": 0.001953125,
+   "source": "radar",
+   "radar_frac": 0.001953125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00031280517578125,
+   "scl_water_delta": null,
+   "rank": 108
+  },
+  {
+   "id": "dharapani_11",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.43463343079918,
+    27.77647192289308
+   ],
+   "frac": 0.001708984375,
+   "source": "radar",
+   "radar_frac": 0.001708984375,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.006622314453125,
+   "scl_water_delta": null,
+   "rank": 109
+  },
+  {
+   "id": "devghat_02",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.42609173421214,
+    27.67381791954663
+   ],
+   "frac": 0.0015869140625,
+   "source": "radar",
+   "radar_frac": 0.0015869140625,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00042724609375,
+   "scl_water_delta": null,
+   "rank": 110
+  },
+  {
+   "id": "dharapani_01",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.4351750927884,
+    27.75338450490064
+   ],
+   "frac": 0.001220703125,
+   "source": "radar",
+   "radar_frac": 0.001220703125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0052032470703125,
+   "scl_water_delta": null,
+   "rank": 111
+  },
+  {
+   "id": "dharapani_10",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.40867656022067,
+    27.775987427481564
+   ],
+   "frac": 0.001220703125,
+   "source": "radar",
+   "radar_frac": 0.001220703125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0063018798828125,
+   "scl_water_delta": null,
+   "rank": 112
+  },
+  {
+   "id": "dharapani_21",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.43409112532447,
+    27.79955925399267
+   ],
+   "frac": 0.001220703125,
+   "source": "radar",
+   "radar_frac": 0.001220703125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.007598876953125,
+   "scl_water_delta": null,
+   "rank": 113
+  },
+  {
+   "id": "dharapani_22",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.46005411221753,
+    27.80003934931856
+   ],
+   "frac": 0.001220703125,
+   "source": "radar",
+   "radar_frac": 0.001220703125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0030364990234375,
+   "scl_water_delta": null,
+   "rank": 114
+  },
+  {
+   "id": "dharapani_43",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.48495312438077,
+    27.84669083241599
+   ],
+   "frac": 0.001220703125,
+   "source": "radar",
+   "radar_frac": 0.001220703125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00665283203125,
+   "scl_water_delta": null,
+   "rank": 115
+  },
+  {
+   "id": "susta_44",
+   "aoi": "susta",
+   "center_lonlat": [
+    83.95282769789482,
+    27.504961614437192
+   ],
+   "frac": 0.001220703125,
+   "source": "radar",
+   "radar_frac": 0.001220703125,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.004913330078125,
+   "scl_water_delta": null,
+   "rank": 116
+  },
+  {
+   "id": "devghat_03",
+   "aoi": "devghat",
+   "center_lonlat": [
+    84.45202477115122,
+    27.674297523956632
+   ],
+   "frac": 0.0011005200345092026,
+   "source": "radar",
+   "radar_frac": 0.0011005200345092026,
+   "radar_orbits": [
+    19,
+    158
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.00024470392385253346,
+   "scl_water_delta": null,
+   "rank": 117
+  },
+  {
+   "id": "dharapani_04",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.51303313874577,
+    27.754807403426415
+   ],
+   "frac": 0.0009765625,
+   "source": "radar",
+   "radar_frac": 0.0009765625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0008392333984375,
+   "scl_water_delta": null,
+   "rank": 118
+  },
+  {
+   "id": "dharapani_14",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.51250787750674,
+    27.77789620670966
+   ],
+   "frac": 0.0009765625,
+   "source": "radar",
+   "radar_frac": 0.0009765625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0040435791015625,
+   "scl_water_delta": null,
+   "rank": 119
+  },
+  {
+   "id": "dharapani_32",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.45951664199612,
+    27.823127060347197
+   ],
+   "frac": 0.0009765625,
+   "source": "radar",
+   "radar_frac": 0.0009765625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0115203857421875,
+   "scl_water_delta": null,
+   "rank": 120
+  },
+  {
+   "id": "dharapani_40",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.40703127479568,
+    27.845247745045018
+   ],
+   "frac": 0.0009765625,
+   "source": "radar",
+   "radar_frac": 0.0009765625,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.020751953125,
+   "scl_water_delta": null,
+   "rank": 121
+  },
+  {
+   "id": "saptari_43",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.90559130165852,
+    26.596241327360946
+   ],
+   "frac": 0.0009765625,
+   "source": "both",
+   "radar_frac": 0.0009765625,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.0009765625,
+   "radar_new_water": 0.0009765625,
+   "scl_water_delta": -0.0004475911458333333,
+   "rank": 122
+  },
+  {
+   "id": "dharapani_23",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.48601773668636,
+    27.800514572692546
+   ],
+   "frac": 0.00048828125,
+   "source": "radar",
+   "radar_frac": 0.00048828125,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0075531005859375,
+   "scl_water_delta": null,
+   "rank": 123
+  },
+  {
+   "id": "saptari_42",
+   "aoi": "saptari",
+   "center_lonlat": [
+    86.87988003710328,
+    26.596221954010193
+   ],
+   "frac": 0.000244140625,
+   "source": "both",
+   "radar_frac": 0.0,
+   "radar_orbits": [
+    12
+   ],
+   "optical_frac": 0.000244140625,
+   "radar_new_water": 0.0025787353515625,
+   "scl_water_delta": -0.0001220703125,
+   "rank": 124
+  },
+  {
+   "id": "dharapani_20",
+   "aoi": "dharapani",
+   "center_lonlat": [
+    84.40812878249777,
+    27.79907428716419
+   ],
+   "frac": 0.0,
+   "source": "radar",
+   "radar_frac": 0.0,
+   "radar_orbits": [
+    19
+   ],
+   "optical_frac": null,
+   "radar_new_water": 0.0036468505859375,
+   "scl_water_delta": null,
+   "rank": 125
+  }
+ ],
+ "per_aoi_top3": {
+  "butwal": [
+   {
+    "rank": 38,
+    "id": "butwal_02",
+    "frac": 0.0133056640625,
+    "source": "radar",
+    "radar_frac": 0.0133056640625,
+    "optical_frac": null,
+    "radar_new_water": 0.00127410888671875,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 42,
+    "id": "butwal_00",
+    "frac": 0.011474609375,
+    "source": "radar",
+    "radar_frac": 0.011474609375,
+    "optical_frac": null,
+    "radar_new_water": 0.0017852783203125,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 45,
+    "id": "butwal_04",
+    "frac": 0.01025390625,
+    "source": "radar",
+    "radar_frac": 0.01025390625,
+    "optical_frac": null,
+    "radar_new_water": 0.000244140625,
+    "scl_water_delta": null
+   }
+  ],
+  "devghat": [
+   {
+    "rank": 4,
+    "id": "devghat_10",
+    "frac": 0.0554644332068507,
+    "source": "radar",
+    "radar_frac": 0.0554644332068507,
+    "optical_frac": null,
+    "radar_new_water": 0.047677142381629886,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 17,
+    "id": "devghat_11",
+    "frac": 0.029293007936246042,
+    "source": "radar",
+    "radar_frac": 0.029293007936246042,
+    "optical_frac": null,
+    "radar_new_water": 0.03073459955132668,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 34,
+    "id": "devghat_33",
+    "frac": 0.014404296875,
+    "source": "radar",
+    "radar_frac": 0.014404296875,
+    "optical_frac": null,
+    "radar_new_water": 0.010040283203125,
+    "scl_water_delta": null
+   }
+  ],
+  "dharapani": [
+   {
+    "rank": 59,
+    "id": "dharapani_02",
+    "frac": 0.00634765625,
+    "source": "radar",
+    "radar_frac": 0.00634765625,
+    "optical_frac": null,
+    "radar_new_water": 0.0203399658203125,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 61,
+    "id": "dharapani_12",
+    "frac": 0.005859375,
+    "source": "radar",
+    "radar_frac": 0.005859375,
+    "optical_frac": null,
+    "radar_new_water": 0.0075531005859375,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 77,
+    "id": "dharapani_03",
+    "frac": 0.00439453125,
+    "source": "radar",
+    "radar_frac": 0.00439453125,
+    "optical_frac": null,
+    "radar_new_water": 0.0003662109375,
+    "scl_water_delta": null
+   }
+  ],
+  "saptari": [
+   {
+    "rank": 5,
+    "id": "saptari_31",
+    "frac": 0.05192052980132451,
+    "source": "both",
+    "radar_frac": 0.0,
+    "optical_frac": 0.05192052980132451,
+    "radar_new_water": 0.0008087158203125,
+    "scl_water_delta": -0.0002644856770833333
+   },
+   {
+    "rank": 6,
+    "id": "saptari_10",
+    "frac": 0.04739943633102742,
+    "source": "both",
+    "radar_frac": 0.0,
+    "optical_frac": 0.04739943633102742,
+    "radar_new_water": 0.0011749267578125,
+    "scl_water_delta": -0.00016276041666666666
+   },
+   {
+    "rank": 7,
+    "id": "saptari_41",
+    "frac": 0.047277556440903055,
+    "source": "both",
+    "radar_frac": 0.001953125,
+    "optical_frac": 0.047277556440903055,
+    "radar_new_water": 0.0011749267578125,
+    "scl_water_delta": -0.0001220703125
+   }
+  ],
+  "susta": [
+   {
+    "rank": 1,
+    "id": "susta_11",
+    "frac": 0.154541015625,
+    "source": "radar",
+    "radar_frac": 0.154541015625,
+    "optical_frac": null,
+    "radar_new_water": 0.08382415771484375,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 2,
+    "id": "susta_01",
+    "frac": 0.1519775390625,
+    "source": "radar",
+    "radar_frac": 0.1519775390625,
+    "optical_frac": null,
+    "radar_new_water": 0.05301666259765625,
+    "scl_water_delta": null
+   },
+   {
+    "rank": 3,
+    "id": "susta_20",
+    "frac": 0.06005859375,
+    "source": "radar",
+    "radar_frac": 0.06005859375,
+    "optical_frac": null,
+    "radar_new_water": 0.001251220703125,
+    "scl_water_delta": null
+   }
+  ]
+ }
+}

@@ -409,5 +409,26 @@
     ]
    }
   }
+ },
+ "M101_optical_saptari": {
+  "threshold": 0.2666,
+  "flag_mean": 0.028,
+  "spearman_flag_vs_scl_water": -0.315,
+  "channel_windows_rank": "11-19",
+  "reading": "optical embedding does not flag the widened channel; SCL water and radar new-water do"
+ },
+ "M102_fusion": {
+  "coverage": {
+   "radar_only": 100,
+   "both": 25,
+   "optical_only": 0
+  },
+  "spearman_radar_vs_optical_saptari": -0.5,
+  "top5_overlap": 0,
+  "fused_top3": [
+   "susta_11",
+   "susta_01",
+   "susta_20"
+  ]
  }
 }

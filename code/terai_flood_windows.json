@@ -1,0 +1,2002 @@
+[
+{
+"id": "butwal_00",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+735680.0,
+3060520.0,
+738240.0,
+3063080.0
+],
+"center_lonlat": [
+83.40211654649643,
+27.65958001171562
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_01",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+738240.0,
+3060520.0,
+740800.0,
+3063080.0
+],
+"center_lonlat": [
+83.42804899311577,
+27.659127927203738
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_02",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+740800.0,
+3060520.0,
+743360.0,
+3063080.0
+],
+"center_lonlat": [
+83.45398083274215,
+27.658670998169523
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_03",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+743360.0,
+3060520.0,
+745920.0,
+3063080.0
+],
+"center_lonlat": [
+83.47991205891701,
+27.658209225039972
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_04",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+745920.0,
+3060520.0,
+748480.0,
+3063080.0
+],
+"center_lonlat": [
+83.50584266518264,
+27.657742608246597
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_10",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+735680.0,
+3063080.0,
+738240.0,
+3065640.0
+],
+"center_lonlat": [
+83.40262185578194,
+27.682670598648386
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_11",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+738240.0,
+3063080.0,
+740800.0,
+3065640.0
+],
+"center_lonlat": [
+83.42855974454906,
+27.682218072944035
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_12",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+740800.0,
+3063080.0,
+743360.0,
+3065640.0
+],
+"center_lonlat": [
+83.45449702577723,
+27.681760697993173
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_13",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+743360.0,
+3063080.0,
+745920.0,
+3065640.0
+],
+"center_lonlat": [
+83.48043369300207,
+27.681298474223336
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_14",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+745920.0,
+3063080.0,
+748480.0,
+3065640.0
+],
+"center_lonlat": [
+83.5063697397601,
+27.680831402066566
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_20",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+735680.0,
+3065640.0,
+738240.0,
+3068200.0
+],
+"center_lonlat": [
+83.40312776614125,
+27.705761100071808
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_21",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+738240.0,
+3065640.0,
+740800.0,
+3068200.0
+],
+"center_lonlat": [
+83.42907110352147,
+27.70530813299424
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_22",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+740800.0,
+3065640.0,
+743360.0,
+3068200.0
+],
+"center_lonlat": [
+83.4550138328158,
+27.704850311944057
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_23",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+743360.0,
+3065640.0,
+745920.0,
+3068200.0
+],
+"center_lonlat": [
+83.48095594755411,
+27.704387637349324
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_24",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+745920.0,
+3065640.0,
+748480.0,
+3068200.0
+],
+"center_lonlat": [
+83.50689744126709,
+27.703920109642638
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_30",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+735680.0,
+3068200.0,
+738240.0,
+3070760.0
+],
+"center_lonlat": [
+83.40363427811546,
+27.72885151593153
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_31",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+738240.0,
+3068200.0,
+740800.0,
+3070760.0
+],
+"center_lonlat": [
+83.42958307057987,
+27.728398107299732
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_32",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+740800.0,
+3068200.0,
+743360.0,
+3070760.0
+],
+"center_lonlat": [
+83.45553125441057,
+27.727939839967284
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_33",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+743360.0,
+3068200.0,
+745920.0,
+3070760.0
+],
+"center_lonlat": [
+83.48147882313158,
+27.72747671436281
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_34",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+745920.0,
+3068200.0,
+748480.0,
+3070760.0
+],
+"center_lonlat": [
+83.50742577026786,
+27.72700873091942
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_40",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+735680.0,
+3070760.0,
+738240.0,
+3073320.0
+],
+"center_lonlat": [
+83.4041413922466,
+27.751941846173217
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_41",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+738240.0,
+3070760.0,
+740800.0,
+3073320.0
+],
+"center_lonlat": [
+83.43009564627212,
+27.75148799580592
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_42",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+740800.0,
+3070760.0,
+743360.0,
+3073320.0
+],
+"center_lonlat": [
+83.45604929111519,
+27.751029282008027
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_43",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+743360.0,
+3070760.0,
+745920.0,
+3073320.0
+],
+"center_lonlat": [
+83.482002320294,
+27.750565705208672
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "butwal_44",
+"aoi": "butwal",
+"epsg": 32644,
+"bounds_utm": [
+745920.0,
+3070760.0,
+748480.0,
+3073320.0
+],
+"center_lonlat": [
+83.50795472732767,
+27.750097265841532
+],
+"note": "Tinau river at Butwal, Rupandehi \u2014 6 houses swept 27 Sep, ~1,000 evacuated"
+},
+{
+"id": "devghat_00",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+239720.0,
+3062440.0,
+242280.0,
+3065000.0
+],
+"center_lonlat": [
+84.37422759772173,
+27.672844174350658
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_01",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+242280.0,
+3062440.0,
+244840.0,
+3065000.0
+],
+"center_lonlat": [
+84.40015934091643,
+27.673333469527073
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_02",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+244840.0,
+3062440.0,
+247400.0,
+3065000.0
+],
+"center_lonlat": [
+84.42609173421214,
+27.67381791954663
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_03",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+247400.0,
+3062440.0,
+249960.0,
+3065000.0
+],
+"center_lonlat": [
+84.45202477115122,
+27.674297523956632
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_04",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+249960.0,
+3062440.0,
+252520.0,
+3065000.0
+],
+"center_lonlat": [
+84.47795844527506,
+27.67477228230891
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_10",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+239720.0,
+3065000.0,
+242280.0,
+3067560.0
+],
+"center_lonlat": [
+84.37367496077374,
+27.695930742844983
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_11",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+242280.0,
+3065000.0,
+244840.0,
+3067560.0
+],
+"center_lonlat": [
+84.3996121466591,
+27.69642051529473
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_12",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+244840.0,
+3065000.0,
+247400.0,
+3067560.0
+],
+"center_lonlat": [
+84.4255499832304,
+27.696905437865627
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_13",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+247400.0,
+3065000.0,
+249960.0,
+3067560.0
+],
+"center_lonlat": [
+84.45148846402427,
+27.697385510104425
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_14",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+249960.0,
+3065000.0,
+252520.0,
+3067560.0
+],
+"center_lonlat": [
+84.47742758257624,
+27.69786073156238
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_20",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+239720.0,
+3067560.0,
+242280.0,
+3070120.0
+],
+"center_lonlat": [
+84.37312166667716,
+27.719017224168297
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_21",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+242280.0,
+3067560.0,
+244840.0,
+3070120.0
+],
+"center_lonlat": [
+84.39906430171563,
+27.719507474086974
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_22",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+244840.0,
+3067560.0,
+247400.0,
+3070120.0
+],
+"center_lonlat": [
+84.42500758802598,
+27.71999286940288
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_23",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+247400.0,
+3067560.0,
+249960.0,
+3070120.0
+],
+"center_lonlat": [
+84.450951519139,
+27.72047340966222
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_24",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+249960.0,
+3067560.0,
+252520.0,
+3070120.0
+],
+"center_lonlat": [
+84.47689608858448,
+27.720949094415673
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_30",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+239720.0,
+3070120.0,
+242280.0,
+3072680.0
+],
+"center_lonlat": [
+84.37256771484029,
+27.742103618263975
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_31",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+242280.0,
+3070120.0,
+244840.0,
+3072680.0
+],
+"center_lonlat": [
+84.3985158055001,
+27.742594345847447
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_32",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+244840.0,
+3070120.0,
+247400.0,
+3072680.0
+],
+"center_lonlat": [
+84.42446454801872,
+27.74308021410231
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_33",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+247400.0,
+3070120.0,
+249960.0,
+3072680.0
+],
+"center_lonlat": [
+84.45041393592109,
+27.743561222574197
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_34",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+249960.0,
+3070120.0,
+252520.0,
+3072680.0
+],
+"center_lonlat": [
+84.47636396273126,
+27.74403737081324
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_40",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+239720.0,
+3072680.0,
+242280.0,
+3075240.0
+],
+"center_lonlat": [
+84.3720131046704,
+27.76518992507543
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_41",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+242280.0,
+3072680.0,
+244840.0,
+3075240.0
+],
+"center_lonlat": [
+84.39796665742561,
+27.765681130519837
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_42",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+244840.0,
+3072680.0,
+247400.0,
+3075240.0
+],
+"center_lonlat": [
+84.42392086262751,
+27.76616747190788
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_43",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+247400.0,
+3072680.0,
+249960.0,
+3075240.0
+],
+"center_lonlat": [
+84.44987571379527,
+27.766648948784603
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "devghat_44",
+"aoi": "devghat",
+"epsg": 32645,
+"bounds_utm": [
+249960.0,
+3072680.0,
+252520.0,
+3075240.0
+],
+"center_lonlat": [
+84.47583120444703,
+27.767125560699593
+],
+"note": "Narayani at Devghat gauge, Chitwan \u2014 9.23 m on 28 Sep"
+},
+{
+"id": "susta_00",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+780200.0,
+3034320.0,
+782760.0,
+3036880.0
+],
+"center_lonlat": [
+83.84690834221138,
+27.41479044149185
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_01",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+782760.0,
+3034320.0,
+785320.0,
+3036880.0
+],
+"center_lonlat": [
+83.87277409102022,
+27.414259514946455
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_02",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+785320.0,
+3034320.0,
+787880.0,
+3036880.0
+],
+"center_lonlat": [
+83.89863912720885,
+27.413723800082526
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_03",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+787880.0,
+3034320.0,
+790440.0,
+3036880.0
+],
+"center_lonlat": [
+83.9245034443944,
+27.413183297398845
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_04",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+790440.0,
+3034320.0,
+793000.0,
+3036880.0
+],
+"center_lonlat": [
+83.95036703619508,
+27.412638007398666
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_10",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+780200.0,
+3036880.0,
+782760.0,
+3039440.0
+],
+"center_lonlat": [
+83.84750094752441,
+27.437873589617833
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_11",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+782760.0,
+3036880.0,
+785320.0,
+3039440.0
+],
+"center_lonlat": [
+83.8733720624998,
+27.437342141977936
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_12",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+785320.0,
+3036880.0,
+787880.0,
+3039440.0
+],
+"center_lonlat": [
+83.89924246421951,
+27.436805901324828
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_13",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+787880.0,
+3036880.0,
+790440.0,
+3039440.0
+],
+"center_lonlat": [
+83.92511214629506,
+27.43626486815792
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_14",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+790440.0,
+3036880.0,
+793000.0,
+3039440.0
+],
+"center_lonlat": [
+83.95098110233901,
+27.43571904298108
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_20",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+780200.0,
+3039440.0,
+782760.0,
+3042000.0
+],
+"center_lonlat": [
+83.84809425970371,
+27.460956649424677
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_21",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+782760.0,
+3039440.0,
+785320.0,
+3042000.0
+],
+"center_lonlat": [
+83.87397074723518,
+27.460424680479214
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_22",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+785320.0,
+3039440.0,
+787880.0,
+3042000.0
+],
+"center_lonlat": [
+83.89984652087452,
+27.45988791382397
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_23",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+787880.0,
+3039440.0,
+790440.0,
+3042000.0
+],
+"center_lonlat": [
+83.92572157422752,
+27.45934634995899
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_24",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+790440.0,
+3039440.0,
+793000.0,
+3042000.0
+],
+"center_lonlat": [
+83.9515959009011,
+27.458799989388773
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_30",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+780200.0,
+3042000.0,
+782760.0,
+3044560.0
+],
+"center_lonlat": [
+83.84868827938007,
+27.48403962085288
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_31",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+782760.0,
+3042000.0,
+785320.0,
+3044560.0
+],
+"center_lonlat": [
+83.87457014586289,
+27.483507130390482
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_32",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+785320.0,
+3042000.0,
+787880.0,
+3044560.0
+],
+"center_lonlat": [
+83.90045129781603,
+27.482969837519857
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_33",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+787880.0,
+3042000.0,
+790440.0,
+3044560.0
+],
+"center_lonlat": [
+83.9263317288396,
+27.482427742741667
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_34",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+790440.0,
+3042000.0,
+793000.0,
+3044560.0
+],
+"center_lonlat": [
+83.95221143253484,
+27.481880846561037
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_40",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+780200.0,
+3044560.0,
+782760.0,
+3047120.0
+],
+"center_lonlat": [
+83.84928300718536,
+27.50712250384299
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_41",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+782760.0,
+3044560.0,
+785320.0,
+3047120.0
+],
+"center_lonlat": [
+83.87517025902048,
+27.506589491651997
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_42",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+785320.0,
+3044560.0,
+787880.0,
+3047120.0
+],
+"center_lonlat": [
+83.90105679568728,
+27.506051672352424
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_43",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+787880.0,
+3044560.0,
+790440.0,
+3047120.0
+],
+"center_lonlat": [
+83.92694261078022,
+27.505509046445578
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "susta_44",
+"aoi": "susta",
+"epsg": 32644,
+"bounds_utm": [
+790440.0,
+3044560.0,
+793000.0,
+3047120.0
+],
+"center_lonlat": [
+83.95282769789482,
+27.504961614437192
+],
+"note": "Susta RM on the Narayani/Gandak west bank, Nawalparasi West \u2014 272 houses inundated"
+},
+{
+"id": "dharapani_00",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+243360.0,
+3071240.0,
+245920.0,
+3073800.0
+],
+"center_lonlat": [
+84.40922368797428,
+27.75290048071229
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_01",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+245920.0,
+3071240.0,
+248480.0,
+3073800.0
+],
+"center_lonlat": [
+84.4351750927884,
+27.75338450490064
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_02",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+248480.0,
+3071240.0,
+251040.0,
+3073800.0
+],
+"center_lonlat": [
+84.46112714050781,
+27.75386366704715
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_03",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+251040.0,
+3071240.0,
+253600.0,
+3073800.0
+],
+"center_lonlat": [
+84.48707982465358,
+27.754337966703623
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_04",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+253600.0,
+3071240.0,
+256160.0,
+3073800.0
+],
+"center_lonlat": [
+84.51303313874577,
+27.754807403426415
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_10",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+243360.0,
+3073800.0,
+245920.0,
+3076360.0
+],
+"center_lonlat": [
+84.40867656022067,
+27.775987427481564
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_11",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+245920.0,
+3073800.0,
+248480.0,
+3076360.0
+],
+"center_lonlat": [
+84.43463343079918,
+27.77647192289308
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_12",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+248480.0,
+3073800.0,
+251040.0,
+3076360.0
+],
+"center_lonlat": [
+84.46059094486304,
+27.77695155153335
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_13",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+251040.0,
+3073800.0,
+253600.0,
+3076360.0
+],
+"center_lonlat": [
+84.48654909592747,
+27.777426312953615
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_14",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+253600.0,
+3073800.0,
+256160.0,
+3076360.0
+],
+"center_lonlat": [
+84.51250787750674,
+27.77789620670966
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_20",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+243360.0,
+3076360.0,
+245920.0,
+3078920.0
+],
+"center_lonlat": [
+84.40812878249777,
+27.79907428716419
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_21",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+245920.0,
+3076360.0,
+248480.0,
+3078920.0
+],
+"center_lonlat": [
+84.43409112532447,
+27.79955925399267
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_22",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+248480.0,
+3076360.0,
+251040.0,
+3078920.0
+],
+"center_lonlat": [
+84.46005411221753,
+27.80003934931856
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_23",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+251040.0,
+3076360.0,
+253600.0,
+3078920.0
+],
+"center_lonlat": [
+84.48601773668636,
+27.800514572692546
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_24",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+253600.0,
+3076360.0,
+256160.0,
+3078920.0
+],
+"center_lonlat": [
+84.51198199223938,
+27.80098492366984
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_30",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+243360.0,
+3078920.0,
+245920.0,
+3081480.0
+],
+"center_lonlat": [
+84.40758035421871,
+27.822161059704033
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_31",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+245920.0,
+3078920.0,
+248480.0,
+3081480.0
+],
+"center_lonlat": [
+84.43354817578324,
+27.822646498143556
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_32",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+248480.0,
+3078920.0,
+251040.0,
+3081480.0
+],
+"center_lonlat": [
+84.45951664199612,
+27.823127060347197
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_33",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+251040.0,
+3078920.0,
+253600.0,
+3081480.0
+],
+"center_lonlat": [
+84.48548574636091,
+27.823602745865088
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_34",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+253600.0,
+3078920.0,
+256160.0,
+3081480.0
+],
+"center_lonlat": [
+84.51145548238019,
+27.824073554251896
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_40",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+243360.0,
+3081480.0,
+245920.0,
+3084040.0
+],
+"center_lonlat": [
+84.40703127479568,
+27.845247745045018
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_41",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+245920.0,
+3081480.0,
+248480.0,
+3084040.0
+],
+"center_lonlat": [
+84.43300458159351,
+27.84573365528992
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_42",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+248480.0,
+3081480.0,
+251040.0,
+3084040.0
+],
+"center_lonlat": [
+84.45897853362263,
+27.846214684563723
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_43",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+251040.0,
+3081480.0,
+253600.0,
+3084040.0
+],
+"center_lonlat": [
+84.48495312438077,
+27.84669083241599
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "dharapani_44",
+"aoi": "dharapani",
+"epsg": 32645,
+"bounds_utm": [
+253600.0,
+3081480.0,
+256160.0,
+3084040.0
+],
+"center_lonlat": [
+84.51092834736468,
+27.847162098400833
+],
+"note": "Narayangadh\u2013Muglin road landslide sites (Dharapani/Simaldhara/Simaltal/Aaptari), Chitwan"
+},
+{
+"id": "saptari_00",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+481640.0,
+2930200.0,
+484200.0,
+2932760.0
+],
+"center_lonlat": [
+86.82859512285698,
+26.50371100058799
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_01",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+484200.0,
+2930200.0,
+486760.0,
+2932760.0
+],
+"center_lonlat": [
+86.85428571106641,
+26.50373954650209
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_02",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+486760.0,
+2930200.0,
+489320.0,
+2932760.0
+],
+"center_lonlat": [
+86.87997633453246,
+26.50376346729721
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_03",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+489320.0,
+2930200.0,
+491880.0,
+2932760.0
+],
+"center_lonlat": [
+86.90566698703915,
+26.503782762951257
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_04",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+491880.0,
+2930200.0,
+494440.0,
+2932760.0
+],
+"center_lonlat": [
+86.9313576623705,
+26.5037974334464
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_10",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+481640.0,
+2932760.0,
+484200.0,
+2935320.0
+],
+"center_lonlat": [
+86.82856080485512,
+26.526825681960634
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_11",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+484200.0,
+2932760.0,
+486760.0,
+2935320.0
+],
+"center_lonlat": [
+86.85425653668352,
+26.52685425659394
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_12",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+486760.0,
+2932760.0,
+489320.0,
+2935320.0
+],
+"center_lonlat": [
+86.87995230379907,
+26.52687820145509
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_13",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+489320.0,
+2932760.0,
+491880.0,
+2935320.0
+],
+"center_lonlat": [
+86.90564809998041,
+26.526897516521938
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_14",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+491880.0,
+2932760.0,
+494440.0,
+2935320.0
+],
+"center_lonlat": [
+86.93134391900617,
+26.526912201776653
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_20",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+481640.0,
+2935320.0,
+484200.0,
+2937880.0
+],
+"center_lonlat": [
+86.82852644534478,
+26.549940288356357
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_21",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+484200.0,
+2935320.0,
+486760.0,
+2937880.0
+],
+"center_lonlat": [
+86.85422732701346,
+26.549968891720074
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_22",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+486760.0,
+2935320.0,
+489320.0,
+2937880.0
+],
+"center_lonlat": [
+86.87992824399987,
+26.549992860656634
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_23",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+489320.0,
+2935320.0,
+491880.0,
+2937880.0
+],
+"center_lonlat": [
+86.90562919007726,
+26.55001219514388
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_24",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+491880.0,
+2935320.0,
+494440.0,
+2937880.0
+],
+"center_lonlat": [
+86.93133015901886,
+26.550026895163917
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_30",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+481640.0,
+2937880.0,
+484200.0,
+2940440.0
+],
+"center_lonlat": [
+86.82849204429002,
+26.573054819729983
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_31",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+484200.0,
+2937880.0,
+486760.0,
+2940440.0
+],
+"center_lonlat": [
+86.85419808202568,
+26.57308345183533
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_32",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+486760.0,
+2937880.0,
+489320.0,
+2940440.0
+],
+"center_lonlat": [
+86.87990415510968,
+26.573107444856703
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_33",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+489320.0,
+2937880.0,
+491880.0,
+2940440.0
+],
+"center_lonlat": [
+86.90561025730992,
+26.573126798771906
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_34",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+491880.0,
+2937880.0,
+494440.0,
+2940440.0
+],
+"center_lonlat": [
+86.93131638239416,
+26.57314151356304
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_40",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+481640.0,
+2940440.0,
+484200.0,
+2943000.0
+],
+"center_lonlat": [
+86.8284576016548,
+26.596169276036385
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_41",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+484200.0,
+2940440.0,
+486760.0,
+2943000.0
+],
+"center_lonlat": [
+86.85416880168951,
+26.596197936894598
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_42",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+486760.0,
+2940440.0,
+489320.0,
+2943000.0
+],
+"center_lonlat": [
+86.87988003710328,
+26.596221954010193
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_43",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+489320.0,
+2940440.0,
+491880.0,
+2943000.0
+],
+"center_lonlat": [
+86.90559130165852,
+26.596241327360946
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "saptari_44",
+"aoi": "saptari",
+"epsg": 32645,
+"bounds_utm": [
+491880.0,
+2940440.0,
+494440.0,
+2943000.0
+],
+"center_lonlat": [
+86.93130258911766,
+26.596256056928947
+],
+"note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+}
+]

@@ -29,7 +29,7 @@ gfm = {r["id"]: r for r in json.loads(gfm_p.read_text())["rows"]} if gfm_p.exist
 gfm_groups = json.loads(gfm_p.read_text())["groups"] if gfm_p.exists() else {}
 # 강 회랑 창(M103): 결합(M102)에는 없으므로 레이더 보고서에서 직접 읽는다
 river_rep = {}
-for tag in ("terai_radar_scan_r19", "terai_radar_scan_r12"):
+for tag in ("terai_radar_scan_r19", "terai_radar_scan_r12", "terai_radar_scan_x19", "terai_radar_scan_x12", "terai_radar_scan_u19"):
     p = ART.parent / "research-private/artifacts" / tag / "report.json"
     if p.exists():
         for w in json.loads(p.read_text())["windows"]: river_rep[w["id"]] = w
@@ -44,7 +44,7 @@ SITES = {
 }
 VERDICT = {
     "susta": ("clear signal", "River widened: sandbar submerged in the Narayani channel. Top two windows on both radar orbits; one also exceeds the classical new-water null.", "강폭 확대: 나라야니 하도 안 사주가 잠겼다. 두 레이더 궤도 모두 1·2위, 한 창은 고전 새-물 귀무도 넘었다."),
-    "devghat": ("weak", "Orbit 19 missed 17/25 windows (off-scene); orbit 158 reads all 25. One window flags at 6%. A river rising inside its banks is barely visible at 40 m.", "궤도19 장면 밖 17/25창, 궤도158 로 25/25. 한 창만 6% 깃발. 둑 안 수위 상승은 40 m 에서 거의 안 보인다."),
+    "devghat": ("clear signal", "At the gauge box only one window flagged (6%). But traced along the river, the braided Narayani from Devghat down to Tribeni widened on 18 of 22 reaches (mean flag 10%, GFM flood >1% on all 22). The site box had missed the river; the corridor did not.", "수위계 상자에서는 한 창(6%)만 떴다. 그러나 강을 따라 보면 데브갓→트리베니 사행 나라야니 22구간 중 18구간이 넓어졌다(깃발 평균 10%, GFM 홍수 >1% 22/22). 상자가 강을 비켜 놓였던 것이지 강이 조용했던 게 아니다."),
     "butwal": ("no signal", "Flags ≤1.7% on both orbits. Six houses and a bank section are below the 40 m token; the passes bracket the 27 Sep peak.", "두 궤도 깃발 ≤1.7%. 가옥 6채·둑은 40 m 토큰 아래 규모이고 통과 시각이 정점 전후다."),
     "dharapani": ("no signal", "Road-side slope failures are tens of metres — below this yardstick.", "도로변 사면 붕괴는 수십 m 규모라 이 자가 아니다."),
     "saptari": ("classical only", "Optical SCL water rose 10–31 pp in channel windows and radar new-water 10–16%, but the braided Koshi's ordinary null (23%) is wider than that. Neither embedding flags it.", "광학 SCL 물 +10~31%p, 레이더 새-물 10~16% 인데 코시 사행 하도의 평시 귀무(23%)가 더 넓다. 두 임베딩 모두 못 올린다."),
@@ -60,7 +60,7 @@ for w in wins:
     f = rank.get(w["id"])
     if f is None and w["id"] in river_rep and river_rep[w["id"]]["status"] == "ranked":
         rr = river_rep[w["id"]]
-        f = {"frac": rr["candidate_token_frac"], "source": "radar", "radar_frac": rr["candidate_token_frac"], "optical_frac": None, "radar_new_water": rr["water_new_frac_event"], "scl_water_delta": None, "radar_orbits": [12 if w["aoi"] == "river_koshi" else 19], "rank": None}
+        f = {"frac": rr["candidate_token_frac"], "source": "radar", "radar_frac": rr["candidate_token_frac"], "optical_frac": None, "radar_new_water": rr["water_new_frac_event"], "scl_water_delta": None, "radar_orbits": [12 if "koshi" in w["aoi"] else 19], "rank": None}
     frames = all((FR / f"{w['id']}_{k}").exists() for k in ("pre.jpg", "post.jpg", "delta.png"))
     feats.append({"type": "Feature", "id": w["id"], "geometry": {"type": "Polygon", "coordinates": [[list(p) for p in ring]]},
                   "properties": {"id": w["id"], "site": w["aoi"], "chapter": "september", "kind": "river_corridor" if "river_" in w["aoi"] else "flood_site",
@@ -127,8 +127,7 @@ out = {
                "figure": "/data/september/fusion_M102_figure.png"},
     "fused_top": [{"id": f["id"], "site": f["aoi"], "rank": f["rank"], "fused_frac": f["frac"], "source": f["source"], "radar_frac": f["radar_frac"], "optical_frac": f["optical_frac"], "radar_new_water": f["radar_new_water"], "scl_water_delta": f["scl_water_delta"], "center_lonlat": f["center_lonlat"], "gfm_flood_frac": gfm.get(f["id"], {}).get("gfm")} for f in fus["windows"][:12]],
     "gfm": {"measurement_id": "M106", "yardstick": "Copernicus GFM ensemble flood extent from the same Sentinel-1 passes (20 m)", "overall": {k: v for k, v in gfm_groups.items() if k.startswith("all_")},
-            "headline": "Our top-10 fused windows hold 5.4% GFM flood pixels vs 0.5% elsewhere (p = 0.0003); new-water top-10 hold 8.7% (p < 0.0001). Along the Narayani the reach ranking matches GFM at ρ = 0.97. At Saptari GFM maps 18% flood in the channel windows that the embedding missed and the classical new-water caught.",
-            "headline_ko": "결합 깃발 상위 10창의 GFM 홍수 픽셀 5.4% vs 나머지 0.5%(p 0.0003), 고전 새-물 상위 10창은 8.7%(p<0.0001). 나라야니 구간 순위는 GFM 과 ρ 0.97. 삽타리는 GFM 이 하도 창에 18% 홍수를 잡았고 임베딩은 놓치고 고전 새-물이 맞췄다."} if gfm_groups else None,
+            "headline": json.loads(gfm_p.read_text()).get("headline"), "headline_ko": json.loads(gfm_p.read_text()).get("headline_ko")} if gfm_groups else None,
     "scenes": scenes,
     "bounds": [82.9, 26.0, 87.4, 28.8],   # 부트왈(83.45)~삽타리(86.9) 전부 + 여백; 레일 패딩을 감안해 넉넉히
     "frames_dir": "/data/september/frames",

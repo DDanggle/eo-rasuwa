@@ -1667,3 +1667,5 @@ body.sept-body { overflow: hidden; }
 .sept-rail .rail-close { z-index: 2; }
 .sept-rail .funnel.small { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .sept-rail .funnel.small i { display: none; }
+.sept-rail .claim.gfm { border-left-color: #2a78d6; background: rgba(42,120,214,.08); }
+.sept-site .gfm-line { display: block; color: #2a78d6; font-size: 10px; margin: -2px 0 6px; }

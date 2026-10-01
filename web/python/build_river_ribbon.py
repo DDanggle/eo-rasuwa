@@ -20,7 +20,7 @@ SPAN = 2560
 
 wins = {w["id"]: w for w in json.loads((ROOT / "code/terai_flood_windows.json").read_text()) if "river_" in w["aoi"]}
 reports = {}
-for tag in ("terai_radar_scan_r19", "terai_radar_scan_r12"):
+for tag in ("terai_radar_scan_r19", "terai_radar_scan_r12", "terai_radar_scan_x19", "terai_radar_scan_x12", "terai_radar_scan_u19"):
     p = ART / tag / "report.json"
     if p.exists():
         r = json.loads(p.read_text())

@@ -372,7 +372,7 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   await stat(resolve(root, 'public' + sept.fusion.figure));
   const tokens = JSON.parse(await readFile(resolve(root, 'public/data/september-change-tokens.geojson'), 'utf8'));
   assert.ok(tokens.features.length > 1000 && tokens.features.length < 50000, 'change-token layer must be present and web-sized');
-  assert.ok(tokens.features.every((f) => typeof f.properties.d === 'number' && typeof f.properties.flag === 'boolean'), 'change tokens carry d and flag');
+  assert.ok(tokens.features.every((f) => typeof f.properties.x === 'number' && typeof f.properties.flag === 'boolean'), 'change tokens carry x (ratio to threshold) and flag');
   for (const d of sept.frames.s2_dates.saptari) assert.ok(d.startsWith('2026-09'), 'Saptari optical dates are September');
   if (sept.ribbon) {
     const rib = JSON.parse(await readFile(resolve(root, 'public' + sept.ribbon), 'utf8'));
@@ -382,7 +382,7 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   }
   for (const f of sept.fused_top.filter((x) => x.site === 'saptari')) for (const k of ['s2pre.jpg', 's2post.jpg']) await stat(resolve(root, `public/data/september/frames/${f.id}_${k}`));
   const verdicts = Object.values(sept.flood_sites).map((s) => s.verdict);
-  assert.equal(verdicts.filter((v) => v === 'clear signal').length, 1, 'only Susta carries a clear cross-orbit signal (M100/M100c)');
+  assert.equal(verdicts.filter((v) => v === 'clear signal').length, 2, 'Susta and Devghat (river-corridor reading, M105) carry clear signals');
   const text = JSON.stringify(sept);
   for (const bad of ['confirmed damage', 'damage confirmed', '피해 확정', 'detected flooding', 'households destroyed']) assert.ok(!text.includes(bad), `september.json must not say "${bad}"`);
   assert.match(sept.method.claim_boundary, /not damage/);

@@ -227,9 +227,9 @@
    "news": "Narayani 9.23 m at the gauge, 28 Sep (Chitwan)",
    "news_ko": "나라야니 수위 9.23 m, 9/28 (치트완)",
    "windows": 25,
-   "verdict": "weak",
-   "reading": "Orbit 19 missed 17/25 windows (off-scene); orbit 158 reads all 25. One window flags at 6%. A river rising inside its banks is barely visible at 40 m.",
-   "reading_ko": "궤도19 장면 밖 17/25창, 궤도158 로 25/25. 한 창만 6% 깃발. 둑 안 수위 상승은 40 m 에서 거의 안 보인다.",
+   "verdict": "clear signal",
+   "reading": "At the gauge box only one window flagged (6%). But traced along the river, the braided Narayani from Devghat down to Tribeni widened on 18 of 22 reaches (mean flag 10%, GFM flood >1% on all 22). The site box had missed the river; the corridor did not.",
+   "reading_ko": "수위계 상자에서는 한 창(6%)만 떴다. 그러나 강을 따라 보면 데브갓→트리베니 사행 나라야니 22구간 중 18구간이 넓어졌다(깃발 평균 10%, GFM 홍수 >1% 22/22). 상자가 강을 비켜 놓였던 것이지 강이 조용했던 게 아니다.",
    "top": [
     {
      "id": "devghat_10",
@@ -800,21 +800,21 @@
   "measurement_id": "M106",
   "yardstick": "Copernicus GFM ensemble flood extent from the same Sentinel-1 passes (20 m)",
   "overall": {
-   "all_fused_flag_top10": {
-    "gfm_mean_top10": 0.053468622147810584,
-    "gfm_mean_rest": 0.005130653908096103,
-    "permutation_p": 0.00027499862500687496,
-    "spearman": 0.5090640888833092
-   },
-   "all_new_water_top10": {
-    "gfm_mean_top10": 0.08743481105297922,
-    "gfm_mean_rest": 0.003120820245068374,
+   "all_fused_flag_top20": {
+    "gfm_mean_top20": 0.1917190049514563,
+    "gfm_mean_rest": 0.014718066788776308,
     "permutation_p": 4.9999750001249995e-06,
-    "spearman": 0.407356725880359
+    "spearman": 0.592570232259698
+   },
+   "all_new_water_top20": {
+    "gfm_mean_top20": 0.21051785714285715,
+    "gfm_mean_rest": 0.013589006597100585,
+    "permutation_p": 4.9999750001249995e-06,
+    "spearman": 0.7875108578462398
    }
   },
-  "headline": "Our top-10 fused windows hold 5.4% GFM flood pixels vs 0.5% elsewhere (p = 0.0003); new-water top-10 hold 8.7% (p < 0.0001). Along the Narayani the reach ranking matches GFM at ρ = 0.97. At Saptari GFM maps 18% flood in the channel windows that the embedding missed and the classical new-water caught.",
-  "headline_ko": "결합 깃발 상위 10창의 GFM 홍수 픽셀 5.4% vs 나머지 0.5%(p 0.0003), 고전 새-물 상위 10창은 8.7%(p<0.0001). 나라야니 구간 순위는 GFM 과 ρ 0.97. 삽타리는 GFM 이 하도 창에 18% 홍수를 잡았고 임베딩은 놓치고 고전 새-물이 맞췄다."
+  "headline": "Across 353 windows, the 20 highest fused-flag windows hold 19.2% GFM flood pixels vs 1.5% elsewhere (p = 0.0000); the 20 highest new-water windows hold 21.1% (p = 0.0000). Along the Narayani below Susta the reach ranking matches GFM at ρ = 0.97; GFM maps the lower Gandak into Bihar at up to 39% flood. At Saptari GFM finds 19% flood in channel windows the embedding missed and the classical new-water caught (ρ +0.77).",
+  "headline_ko": "창 353개 중 결합 깃발 상위 20창의 GFM 홍수 픽셀 19.2% vs 나머지 1.5%(p 0.0000), 고전 새-물 상위 20창은 21.1%(p 0.0000). 수스타 아래 나라야니 구간 순위는 GFM 과 ρ 0.97; 비하르 쪽 간다크 하류는 GFM 홍수 최대 39%. 삽타리는 GFM 이 하도 창에 19% 홍수를 잡았고 임베딩은 놓치고 고전 새-물이 맞췄다(ρ +0.77)."
  },
  "scenes": [
   {
@@ -897,8 +897,8 @@
  "change_tokens": "/data/september-change-tokens.geojson",
  "ribbon": "/data/september-river-ribbon.geojson",
  "river": {
-  "segments": 232,
-  "observed": 54,
+  "segments": 268,
+  "observed": 230,
   "per_river": {
    "river_narayani": {
     "km": 46.1,

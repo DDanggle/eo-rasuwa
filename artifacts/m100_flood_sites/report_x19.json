@@ -1,0 +1,2740 @@
+{
+ "schema": "terai-radar-scan-v1",
+ "measurement_id": "M104",
+ "model_id": "OLMOEARTH_V1_BASE",
+ "claim": "radar-only 3v1 change ranking at news-reported late-September flood sites, with a classical new-water fraction as an independent yardstick; reading order, not damage",
+ "orbit": 19,
+ "orbit_direction": "descending",
+ "aois": [
+  "xriver_narayani",
+  "xriver_tinau",
+  "xriver_rapti",
+  "xriver_bagmati"
+ ],
+ "gap_days": {
+  "event": [
+   36,
+   24,
+   12
+  ],
+  "placebo": [
+   36,
+   24,
+   12
+  ]
+ },
+ "dates": [
+  "2026-07-07",
+  "2026-07-19",
+  "2026-07-31",
+  "2026-08-12",
+  "2026-08-24",
+  "2026-09-05",
+  "2026-09-17",
+  "2026-09-29"
+ ],
+ "event_pair": {
+  "base": [
+   "2026-08-24",
+   "2026-09-05",
+   "2026-09-17"
+  ],
+  "target": "2026-09-29"
+ },
+ "placebo_pair": {
+  "base": [
+   "2026-07-07",
+   "2026-07-19",
+   "2026-07-31"
+  ],
+  "target": "2026-08-12"
+ },
+ "input_unit": "gamma0 dB",
+ "threshold_placebo_p99": 0.36046647548675353,
+ "placebo_tokens": 417735,
+ "regional_median_d_event": 0.1563931554555893,
+ "water_rule": "VV drop < -3.0 dB vs base median AND VV < -16.0 dB",
+ "water_new_frac_placebo_p99": 0.4148370361328125,
+ "windows": [
+  {
+   "id": "bagmatix_00",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.431186526815,
+    27.333228364151495
+   ],
+   "bounds_utm": [
+    343520.0,
+    3023040.0,
+    346080.0,
+    3025600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15184080600738525,
+   "d_placebo_mean": 0.1565130054950714,
+   "water_new_frac_event": 0.0119781494140625,
+   "water_new_frac_placebo": 0.0053253173828125,
+   "dvv_event_db": 0.08136772364377975,
+   "dvv_placebo_db": 0.04173005744814873,
+   "candidate_token_frac": 0.003662109375,
+   "status": "ranked",
+   "rank": 76,
+   "excess_over_median": -0.0045523494482040405
+  },
+  {
+   "id": "bagmatix_01",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.41758695848254,
+    27.322965658922673
+   ],
+   "bounds_utm": [
+    342160.0,
+    3021920.0,
+    344720.0,
+    3024480.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1566358208656311,
+   "d_placebo_mean": 0.16654253005981445,
+   "water_new_frac_event": 0.012054443359375,
+   "water_new_frac_placebo": 0.0083770751953125,
+   "dvv_event_db": 0.23383396863937378,
+   "dvv_placebo_db": 0.23657763004302979,
+   "candidate_token_frac": 0.007568359375,
+   "status": "ranked",
+   "rank": 62,
+   "excess_over_median": 0.00024266541004180908
+  },
+  {
+   "id": "bagmatix_02",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.42348526630607,
+    27.30606308260128
+   ],
+   "bounds_utm": [
+    342720.0,
+    3020040.0,
+    345280.0,
+    3022600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1545891910791397,
+   "d_placebo_mean": 0.16016033291816711,
+   "water_new_frac_event": 0.0106048583984375,
+   "water_new_frac_placebo": 0.0080108642578125,
+   "dvv_event_db": 0.3903231918811798,
+   "dvv_placebo_db": 0.16010046005249023,
+   "candidate_token_frac": 0.010498046875,
+   "status": "ranked",
+   "rank": 54,
+   "excess_over_median": -0.001803964376449585
+  },
+  {
+   "id": "bagmatix_03",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.43303332467133,
+    27.288117958073133
+   ],
+   "bounds_utm": [
+    343640.0,
+    3018040.0,
+    346200.0,
+    3020600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14788487553596497,
+   "d_placebo_mean": 0.15393772721290588,
+   "water_new_frac_event": 0.011474609375,
+   "water_new_frac_placebo": 0.0098724365234375,
+   "dvv_event_db": 0.43453386425971985,
+   "dvv_placebo_db": 0.2276206910610199,
+   "candidate_token_frac": 0.00439453125,
+   "status": "ranked",
+   "rank": 72,
+   "excess_over_median": -0.008508279919624329
+  },
+  {
+   "id": "bagmatix_04",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.45652813293297,
+    27.284046617382195
+   ],
+   "bounds_utm": [
+    345960.0,
+    3017560.0,
+    348520.0,
+    3020120.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1558554470539093,
+   "d_placebo_mean": 0.16183072328567505,
+   "water_new_frac_event": 0.017425537109375,
+   "water_new_frac_placebo": 0.01458740234375,
+   "dvv_event_db": 0.4659495949745178,
+   "dvv_placebo_db": 0.32275742292404175,
+   "candidate_token_frac": 0.014404296875,
+   "status": "ranked",
+   "rank": 47,
+   "excess_over_median": -0.0005377084016799927
+  },
+  {
+   "id": "bagmatix_05",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.47247329955857,
+    27.270501604809763
+   ],
+   "bounds_utm": [
+    347520.0,
+    3016040.0,
+    350080.0,
+    3018600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15996940433979034,
+   "d_placebo_mean": 0.16797897219657898,
+   "water_new_frac_event": 0.0149688720703125,
+   "water_new_frac_placebo": 0.01141357421875,
+   "dvv_event_db": 0.5600901246070862,
+   "dvv_placebo_db": 0.5407077670097351,
+   "candidate_token_frac": 0.01123046875,
+   "status": "ranked",
+   "rank": 50,
+   "excess_over_median": 0.00357624888420105
+  },
+  {
+   "id": "bagmatix_06",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.48602027314026,
+    27.254762367283053
+   ],
+   "bounds_utm": [
+    348840.0,
+    3014280.0,
+    351400.0,
+    3016840.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15313634276390076,
+   "d_placebo_mean": 0.17317700386047363,
+   "water_new_frac_event": 0.0108795166015625,
+   "water_new_frac_placebo": 0.0068511962890625,
+   "dvv_event_db": 0.13845813274383545,
+   "dvv_placebo_db": 0.49457934498786926,
+   "candidate_token_frac": 0.0048828125,
+   "status": "ranked",
+   "rank": 70,
+   "excess_over_median": -0.0032568126916885376
+  },
+  {
+   "id": "bagmatix_07",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.4875055124499,
+    27.23455919822909
+   ],
+   "bounds_utm": [
+    348960.0,
+    3012040.0,
+    351520.0,
+    3014600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15072786808013916,
+   "d_placebo_mean": 0.16292604804039001,
+   "water_new_frac_event": 0.0074462890625,
+   "water_new_frac_placebo": 0.0054931640625,
+   "dvv_event_db": 0.12039371579885483,
+   "dvv_placebo_db": 0.07917153835296631,
+   "candidate_token_frac": 0.002685546875,
+   "status": "ranked",
+   "rank": 79,
+   "excess_over_median": -0.005665287375450134
+  },
+  {
+   "id": "bagmatix_08",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.496968962771,
+    27.221662958341096
+   ],
+   "bounds_utm": [
+    349880.0,
+    3010600.0,
+    352440.0,
+    3013160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14954833686351776,
+   "d_placebo_mean": 0.14942950010299683,
+   "water_new_frac_event": 0.015777587890625,
+   "water_new_frac_placebo": 0.0124664306640625,
+   "dvv_event_db": 0.3025546073913574,
+   "dvv_placebo_db": 0.10850067436695099,
+   "candidate_token_frac": 0.006103515625,
+   "status": "ranked",
+   "rank": 67,
+   "excess_over_median": -0.006844818592071533
+  },
+  {
+   "id": "bagmatix_09",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.50407021378084,
+    27.20404699824356
+   ],
+   "bounds_utm": [
+    350560.0,
+    3008640.0,
+    353120.0,
+    3011200.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13801124691963196,
+   "d_placebo_mean": 0.14407847821712494,
+   "water_new_frac_event": 0.012847900390625,
+   "water_new_frac_placebo": 0.0090484619140625,
+   "dvv_event_db": 0.07876526564359665,
+   "dvv_placebo_db": 0.005882006138563156,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 95,
+   "excess_over_median": -0.018381908535957336
+  },
+  {
+   "id": "bagmatix_10",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.49365991180865,
+    27.19743639855448
+   ],
+   "bounds_utm": [
+    349520.0,
+    3007920.0,
+    352080.0,
+    3010480.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12476669251918793,
+   "d_placebo_mean": 0.13425008952617645,
+   "water_new_frac_event": 0.0139007568359375,
+   "water_new_frac_placebo": 0.0097198486328125,
+   "dvv_event_db": -0.0528777539730072,
+   "dvv_placebo_db": -0.06277886778116226,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 84,
+   "excess_over_median": -0.03162646293640137
+  },
+  {
+   "id": "bagmatix_11",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.48899033104847,
+    27.184387962838066
+   ],
+   "bounds_utm": [
+    349040.0,
+    3006480.0,
+    351600.0,
+    3009040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12259918451309204,
+   "d_placebo_mean": 0.1303318589925766,
+   "water_new_frac_event": 0.013214111328125,
+   "water_new_frac_placebo": 0.0113067626953125,
+   "dvv_event_db": -0.09084224700927734,
+   "dvv_placebo_db": -0.0031614904291927814,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 96,
+   "excess_over_median": -0.03379397094249725
+  },
+  {
+   "id": "bagmatix_12",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.48830462061994,
+    27.17535405082308
+   ],
+   "bounds_utm": [
+    348960.0,
+    3005480.0,
+    351520.0,
+    3008040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12702277302742004,
+   "d_placebo_mean": 0.13574975728988647,
+   "water_new_frac_event": 0.0110015869140625,
+   "water_new_frac_placebo": 0.009613037109375,
+   "dvv_event_db": -0.06869645416736603,
+   "dvv_placebo_db": -0.0012292065657675266,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 97,
+   "excess_over_median": -0.02937038242816925
+  },
+  {
+   "id": "bagmatix_13",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.5020962979538,
+    27.17044716588089
+   ],
+   "bounds_utm": [
+    350320.0,
+    3004920.0,
+    352880.0,
+    3007480.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12450283020734787,
+   "d_placebo_mean": 0.13443496823310852,
+   "water_new_frac_event": 0.013031005859375,
+   "water_new_frac_placebo": 0.010986328125,
+   "dvv_event_db": -0.0611204169690609,
+   "dvv_placebo_db": 0.07209262996912003,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 98,
+   "excess_over_median": -0.031890325248241425
+  },
+  {
+   "id": "bagmatix_14",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.49213155057262,
+    27.160952781246255
+   ],
+   "bounds_utm": [
+    349320.0,
+    3003880.0,
+    351880.0,
+    3006440.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12585924565792084,
+   "d_placebo_mean": 0.13910233974456787,
+   "water_new_frac_event": 0.010528564453125,
+   "water_new_frac_placebo": 0.010284423828125,
+   "dvv_event_db": 0.003769276197999716,
+   "dvv_placebo_db": -0.027163654565811157,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 99,
+   "excess_over_median": -0.030533909797668457
+  },
+  {
+   "id": "bagmatix_15",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.48594657047714,
+    27.140666695591978
+   ],
+   "bounds_utm": [
+    348680.0,
+    3001640.0,
+    351240.0,
+    3004200.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13735054433345795,
+   "d_placebo_mean": 0.144876629114151,
+   "water_new_frac_event": 0.0064544677734375,
+   "water_new_frac_placebo": 0.01348876953125,
+   "dvv_event_db": 0.28865936398506165,
+   "dvv_placebo_db": -0.07533939182758331,
+   "candidate_token_frac": 0.00244140625,
+   "status": "ranked",
+   "rank": 81,
+   "excess_over_median": -0.019042611122131348
+  },
+  {
+   "id": "bagmatix_16",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.47207845346925,
+    27.12174121393933
+   ],
+   "bounds_utm": [
+    347280.0,
+    2999560.0,
+    349840.0,
+    3002120.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14356198906898499,
+   "d_placebo_mean": 0.1620393544435501,
+   "water_new_frac_event": 0.0122528076171875,
+   "water_new_frac_placebo": 0.0203704833984375,
+   "dvv_event_db": 0.4153604507446289,
+   "dvv_placebo_db": 0.00874718651175499,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 85,
+   "excess_over_median": -0.012831166386604309
+  },
+  {
+   "id": "bagmatix_17",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.45902168184917,
+    27.102823359476467
+   ],
+   "bounds_utm": [
+    345960.0,
+    2997480.0,
+    348520.0,
+    3000040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14470496773719788,
+   "d_placebo_mean": 0.15086963772773743,
+   "water_new_frac_event": 0.0130462646484375,
+   "water_new_frac_placebo": 0.0216522216796875,
+   "dvv_event_db": 0.4957960844039917,
+   "dvv_placebo_db": 0.311708003282547,
+   "candidate_token_frac": 0.000732421875,
+   "status": "ranked",
+   "rank": 90,
+   "excess_over_median": -0.011688187718391418
+  },
+  {
+   "id": "bagmatix_18",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.44515259954225,
+    27.084617518495325
+   ],
+   "bounds_utm": [
+    344560.0,
+    2995480.0,
+    347120.0,
+    2998040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15306732058525085,
+   "d_placebo_mean": 0.15812021493911743,
+   "water_new_frac_event": 0.0163116455078125,
+   "water_new_frac_placebo": 0.0184173583984375,
+   "dvv_event_db": 0.5345239639282227,
+   "dvv_placebo_db": 0.44835853576660156,
+   "candidate_token_frac": 0.004638671875,
+   "status": "ranked",
+   "rank": 71,
+   "excess_over_median": -0.00332583487033844
+  },
+  {
+   "id": "bagmatix_19",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.43126781825679,
+    27.067854471932588
+   ],
+   "bounds_utm": [
+    343160.0,
+    2993640.0,
+    345720.0,
+    2996200.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14751392602920532,
+   "d_placebo_mean": 0.16564986109733582,
+   "water_new_frac_event": 0.0187225341796875,
+   "water_new_frac_placebo": 0.0197906494140625,
+   "dvv_event_db": 0.38067498803138733,
+   "dvv_placebo_db": 0.4092808663845062,
+   "candidate_token_frac": 0.005859375,
+   "status": "ranked",
+   "rank": 69,
+   "excess_over_median": -0.008879229426383972
+  },
+  {
+   "id": "bagmatix_20",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.4198214372774,
+    27.050034378880987
+   ],
+   "bounds_utm": [
+    342000.0,
+    2991680.0,
+    344560.0,
+    2994240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16306206583976746,
+   "d_placebo_mean": 0.18339435756206512,
+   "water_new_frac_event": 0.022430419921875,
+   "water_new_frac_placebo": 0.02294921875,
+   "dvv_event_db": 0.15928170084953308,
+   "dvv_placebo_db": 0.5627160668373108,
+   "candidate_token_frac": 0.008056640625,
+   "status": "ranked",
+   "rank": 60,
+   "excess_over_median": 0.006668910384178162
+  },
+  {
+   "id": "bagmatix_21",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.41406795306303,
+    27.029028150128568
+   ],
+   "bounds_utm": [
+    341400.0,
+    2989360.0,
+    343960.0,
+    2991920.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.158705934882164,
+   "d_placebo_mean": 0.18967083096504211,
+   "water_new_frac_event": 0.0193023681640625,
+   "water_new_frac_placebo": 0.0225677490234375,
+   "dvv_event_db": 0.18208172917366028,
+   "dvv_placebo_db": 0.4389498233795166,
+   "candidate_token_frac": 0.01123046875,
+   "status": "ranked",
+   "rank": 51,
+   "excess_over_median": 0.002312779426574707
+  },
+  {
+   "id": "bagmatix_22",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.39769924142773,
+    27.01764992648857
+   ],
+   "bounds_utm": [
+    339760.0,
+    2988120.0,
+    342320.0,
+    2990680.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16501565277576447,
+   "d_placebo_mean": 0.19427558779716492,
+   "water_new_frac_event": 0.0279083251953125,
+   "water_new_frac_placebo": 0.0296783447265625,
+   "dvv_event_db": 0.11561760306358337,
+   "dvv_placebo_db": 0.6320325136184692,
+   "candidate_token_frac": 0.0146484375,
+   "status": "ranked",
+   "rank": 44,
+   "excess_over_median": 0.008622497320175171
+  },
+  {
+   "id": "bagmatix_23",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.38868613686586,
+    26.999494116958875
+   ],
+   "bounds_utm": [
+    338840.0,
+    2986120.0,
+    341400.0,
+    2988680.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16512875258922577,
+   "d_placebo_mean": 0.18504053354263306,
+   "water_new_frac_event": 0.0154571533203125,
+   "water_new_frac_placebo": 0.01800537109375,
+   "dvv_event_db": 0.3133510947227478,
+   "dvv_placebo_db": 0.6300830245018005,
+   "candidate_token_frac": 0.01025390625,
+   "status": "ranked",
+   "rank": 55,
+   "excess_over_median": 0.008735597133636475
+  },
+  {
+   "id": "bagmatix_24",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.39018812334034,
+    26.97893087385826
+   ],
+   "bounds_utm": [
+    338960.0,
+    2983840.0,
+    341520.0,
+    2986400.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14519985020160675,
+   "d_placebo_mean": 0.17410174012184143,
+   "water_new_frac_event": 0.0237274169921875,
+   "water_new_frac_placebo": 0.0558624267578125,
+   "dvv_event_db": 0.4467737078666687,
+   "dvv_placebo_db": 0.13745808601379395,
+   "candidate_token_frac": 0.00341796875,
+   "status": "ranked",
+   "rank": 78,
+   "excess_over_median": -0.011193305253982544
+  },
+  {
+   "id": "bagmatix_25",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.3953099527481,
+    26.958769846516034
+   ],
+   "bounds_utm": [
+    339440.0,
+    2981600.0,
+    342000.0,
+    2984160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14498893916606903,
+   "d_placebo_mean": 0.18095946311950684,
+   "water_new_frac_event": 0.0189361572265625,
+   "water_new_frac_placebo": 0.0388641357421875,
+   "dvv_event_db": 0.8674666285514832,
+   "dvv_placebo_db": 0.509550929069519,
+   "candidate_token_frac": 0.00390625,
+   "status": "ranked",
+   "rank": 74,
+   "excess_over_median": -0.011404216289520264
+  },
+  {
+   "id": "bagmatix_26",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.38912095810323,
+    26.94064618919444
+   ],
+   "bounds_utm": [
+    338800.0,
+    2979600.0,
+    341360.0,
+    2982160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15143617987632751,
+   "d_placebo_mean": 0.17740413546562195,
+   "water_new_frac_event": 0.008392333984375,
+   "water_new_frac_placebo": 0.0482940673828125,
+   "dvv_event_db": 1.3440037965774536,
+   "dvv_placebo_db": 0.13866081833839417,
+   "candidate_token_frac": 0.0068359375,
+   "status": "ranked",
+   "rank": 65,
+   "excess_over_median": -0.00495697557926178
+  },
+  {
+   "id": "bagmatix_27",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.38939795460425,
+    26.921151970587786
+   ],
+   "bounds_utm": [
+    338800.0,
+    2977440.0,
+    341360.0,
+    2980000.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15052297711372375,
+   "d_placebo_mean": 0.16332542896270752,
+   "water_new_frac_event": 0.007965087890625,
+   "water_new_frac_placebo": 0.0445098876953125,
+   "dvv_event_db": 1.0112510919570923,
+   "dvv_placebo_db": 0.3563004434108734,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 100,
+   "excess_over_median": -0.0058701783418655396
+  },
+  {
+   "id": "bagmatix_28",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.38117775493888,
+    26.904449042924035
+   ],
+   "bounds_utm": [
+    337960.0,
+    2975600.0,
+    340520.0,
+    2978160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15222641825675964,
+   "d_placebo_mean": 0.1739223301410675,
+   "water_new_frac_event": 0.0133819580078125,
+   "water_new_frac_placebo": 0.0487213134765625,
+   "dvv_event_db": 1.0090726613998413,
+   "dvv_placebo_db": 0.23201875388622284,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 86,
+   "excess_over_median": -0.004166737198829651
+  },
+  {
+   "id": "bagmatix_29",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.35997759675773,
+    26.894455737964734
+   ],
+   "bounds_utm": [
+    335840.0,
+    2974520.0,
+    338400.0,
+    2977080.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1570940613746643,
+   "d_placebo_mean": 0.18628618121147156,
+   "water_new_frac_event": 0.0096435546875,
+   "water_new_frac_placebo": 0.0512542724609375,
+   "dvv_event_db": 1.1032910346984863,
+   "dvv_placebo_db": -0.27137815952301025,
+   "candidate_token_frac": 0.006103515625,
+   "status": "ranked",
+   "rank": 68,
+   "excess_over_median": 0.0007009059190750122
+  },
+  {
+   "id": "bagmatix_30",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.35421028500863,
+    26.8756134730036
+   ],
+   "bounds_utm": [
+    335240.0,
+    2972440.0,
+    337800.0,
+    2975000.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14793995022773743,
+   "d_placebo_mean": 0.18038272857666016,
+   "water_new_frac_event": 0.02105712890625,
+   "water_new_frac_placebo": 0.039215087890625,
+   "dvv_event_db": 0.9612653851509094,
+   "dvv_placebo_db": 0.37723129987716675,
+   "candidate_token_frac": 0.003662109375,
+   "status": "ranked",
+   "rank": 77,
+   "excess_over_median": -0.008453205227851868
+  },
+  {
+   "id": "bagmatix_31",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.34763450316741,
+    26.857122605058528
+   ],
+   "bounds_utm": [
+    334560.0,
+    2970400.0,
+    337120.0,
+    2972960.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15176600217819214,
+   "d_placebo_mean": 0.16952653229236603,
+   "water_new_frac_event": 0.0167694091796875,
+   "water_new_frac_placebo": 0.0414276123046875,
+   "dvv_event_db": 1.0392301082611084,
+   "dvv_placebo_db": 0.5496092438697815,
+   "candidate_token_frac": 0.002685546875,
+   "status": "ranked",
+   "rank": 80,
+   "excess_over_median": -0.004627153277397156
+  },
+  {
+   "id": "bagmatix_32",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.34629744043588,
+    26.838331749892536
+   ],
+   "bounds_utm": [
+    334400.0,
+    2968320.0,
+    336960.0,
+    2970880.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16918203234672546,
+   "d_placebo_mean": 0.18161219358444214,
+   "water_new_frac_event": 0.0102081298828125,
+   "water_new_frac_placebo": 0.0388946533203125,
+   "dvv_event_db": 1.0916168689727783,
+   "dvv_placebo_db": 0.31197595596313477,
+   "candidate_token_frac": 0.009521484375,
+   "status": "ranked",
+   "rank": 57,
+   "excess_over_median": 0.01278887689113617
+  },
+  {
+   "id": "bagmatix_33",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.33752855104879,
+    26.83245196063275
+   ],
+   "bounds_utm": [
+    333520.0,
+    2967680.0,
+    336080.0,
+    2970240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.17867237329483032,
+   "d_placebo_mean": 0.18308404088020325,
+   "water_new_frac_event": 0.01898193359375,
+   "water_new_frac_placebo": 0.04376220703125,
+   "dvv_event_db": 1.1554659605026245,
+   "dvv_placebo_db": 0.3562668561935425,
+   "candidate_token_frac": 0.01513671875,
+   "status": "ranked",
+   "rank": 43,
+   "excess_over_median": 0.022279217839241028
+  },
+  {
+   "id": "bagmatix_34",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.3297506223382,
+    26.813946207819708
+   ],
+   "bounds_utm": [
+    332720.0,
+    2965640.0,
+    335280.0,
+    2968200.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.17695999145507812,
+   "d_placebo_mean": 0.18033070862293243,
+   "water_new_frac_event": 0.029327392578125,
+   "water_new_frac_placebo": 0.0434417724609375,
+   "dvv_event_db": 0.8524669408798218,
+   "dvv_placebo_db": 0.2801510691642761,
+   "candidate_token_frac": 0.03271484375,
+   "status": "ranked",
+   "rank": 33,
+   "excess_over_median": 0.02056683599948883
+  },
+  {
+   "id": "bagmatix_35",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.32239858180967,
+    26.794000870024547
+   ],
+   "bounds_utm": [
+    331960.0,
+    2963440.0,
+    334520.0,
+    2966000.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16431115567684174,
+   "d_placebo_mean": 0.1805696040391922,
+   "water_new_frac_event": 0.0123443603515625,
+   "water_new_frac_placebo": 0.0543975830078125,
+   "dvv_event_db": 0.985206127166748,
+   "dvv_placebo_db": -0.09499414265155792,
+   "candidate_token_frac": 0.010986328125,
+   "status": "ranked",
+   "rank": 52,
+   "excess_over_median": 0.007918000221252441
+  },
+  {
+   "id": "bagmatix_36",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.32508777917252,
+    26.775257454449147
+   ],
+   "bounds_utm": [
+    332200.0,
+    2961360.0,
+    334760.0,
+    2963920.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15607307851314545,
+   "d_placebo_mean": 0.19470053911209106,
+   "water_new_frac_event": 0.0119171142578125,
+   "water_new_frac_placebo": 0.057830810546875,
+   "dvv_event_db": 0.9716272950172424,
+   "dvv_placebo_db": -0.280916690826416,
+   "candidate_token_frac": 0.00732421875,
+   "status": "ranked",
+   "rank": 64,
+   "excess_over_median": -0.00032007694244384766
+  },
+  {
+   "id": "bagmatix_37",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.32935803294924,
+    26.758337879179418
+   ],
+   "bounds_utm": [
+    332600.0,
+    2959480.0,
+    335160.0,
+    2962040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1563931554555893,
+   "d_placebo_mean": 0.17902958393096924,
+   "water_new_frac_event": 0.01239013671875,
+   "water_new_frac_placebo": 0.057037353515625,
+   "dvv_event_db": 0.8993364572525024,
+   "dvv_placebo_db": -0.0065043047070503235,
+   "candidate_token_frac": 0.007568359375,
+   "status": "ranked",
+   "rank": 63,
+   "excess_over_median": 0.0
+  },
+  {
+   "id": "bagmatix_38",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.3388906220964,
+    26.738952382415064
+   ],
+   "bounds_utm": [
+    333520.0,
+    2957320.0,
+    336080.0,
+    2959880.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1600957214832306,
+   "d_placebo_mean": 0.17959028482437134,
+   "water_new_frac_event": 0.035369873046875,
+   "water_new_frac_placebo": 0.0523223876953125,
+   "dvv_event_db": 0.5514534711837769,
+   "dvv_placebo_db": 0.12679976224899292,
+   "candidate_token_frac": 0.015625,
+   "status": "ranked",
+   "rank": 42,
+   "excess_over_median": 0.0037025660276412964
+  },
+  {
+   "id": "bagmatix_39",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.3226494586882,
+    26.722152201679904
+   ],
+   "bounds_utm": [
+    331880.0,
+    2955480.0,
+    334440.0,
+    2958040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15413153171539307,
+   "d_placebo_mean": 0.1814359575510025,
+   "water_new_frac_event": 0.0325469970703125,
+   "water_new_frac_placebo": 0.0366363525390625,
+   "dvv_event_db": 0.22612491250038147,
+   "dvv_placebo_db": 0.1560419499874115,
+   "candidate_token_frac": 0.008056640625,
+   "status": "ranked",
+   "rank": 61,
+   "excess_over_median": -0.002261623740196228
+  },
+  {
+   "id": "bagmatix_40",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.30884603574948,
+    26.703935103737315
+   ],
+   "bounds_utm": [
+    330480.0,
+    2953480.0,
+    333040.0,
+    2956040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16794441640377045,
+   "d_placebo_mean": 0.1972052901983261,
+   "water_new_frac_event": 0.02886962890625,
+   "water_new_frac_placebo": 0.0515594482421875,
+   "dvv_event_db": 0.6988762021064758,
+   "dvv_placebo_db": -0.12738357484340668,
+   "candidate_token_frac": 0.023193359375,
+   "status": "ranked",
+   "rank": 37,
+   "excess_over_median": 0.011551260948181152
+  },
+  {
+   "id": "bagmatix_41",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.3103022149272,
+    26.686982390925923
+   ],
+   "bounds_utm": [
+    330600.0,
+    2951600.0,
+    333160.0,
+    2954160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15824025869369507,
+   "d_placebo_mean": 0.17959895730018616,
+   "water_new_frac_event": 0.011871337890625,
+   "water_new_frac_placebo": 0.03839111328125,
+   "dvv_event_db": 0.5827740430831909,
+   "dvv_placebo_db": -0.028976932168006897,
+   "candidate_token_frac": 0.019287109375,
+   "status": "ranked",
+   "rank": 41,
+   "excess_over_median": 0.001847103238105774
+  },
+  {
+   "id": "bagmatix_42",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.29444733370069,
+    26.671989191037408
+   ],
+   "bounds_utm": [
+    329000.0,
+    2949960.0,
+    331560.0,
+    2952520.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1356739103794098,
+   "d_placebo_mean": 0.16170668601989746,
+   "water_new_frac_event": 0.0041656494140625,
+   "water_new_frac_placebo": 0.0248260498046875,
+   "dvv_event_db": 0.5751428008079529,
+   "dvv_placebo_db": 0.18659467995166779,
+   "candidate_token_frac": 0.00244140625,
+   "status": "ranked",
+   "rank": 82,
+   "excess_over_median": -0.020719245076179504
+  },
+  {
+   "id": "bagmatix_43",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.28549682284192,
+    26.6523839842458
+   ],
+   "bounds_utm": [
+    328080.0,
+    2947800.0,
+    330640.0,
+    2950360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16536451876163483,
+   "d_placebo_mean": 0.174899160861969,
+   "water_new_frac_event": 0.0345306396484375,
+   "water_new_frac_placebo": 0.039794921875,
+   "dvv_event_db": 0.05263616889715195,
+   "dvv_placebo_db": -0.1893402636051178,
+   "candidate_token_frac": 0.033447265625,
+   "status": "ranked",
+   "rank": 32,
+   "excess_over_median": 0.008971363306045532
+  },
+  {
+   "id": "bagmatix_44",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.27734174343765,
+    26.633510042477635
+   ],
+   "bounds_utm": [
+    327240.0,
+    2945720.0,
+    329800.0,
+    2948280.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13742095232009888,
+   "d_placebo_mean": 0.14827752113342285,
+   "water_new_frac_event": 0.013336181640625,
+   "water_new_frac_placebo": 0.030181884765625,
+   "dvv_event_db": 0.41740745306015015,
+   "dvv_placebo_db": 0.38317129015922546,
+   "candidate_token_frac": 0.009033203125,
+   "status": "ranked",
+   "rank": 58,
+   "excess_over_median": -0.018972203135490417
+  },
+  {
+   "id": "bagmatix_45",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.26517844807697,
+    26.614225792166657
+   ],
+   "bounds_utm": [
+    326000.0,
+    2943600.0,
+    328560.0,
+    2946160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1432899683713913,
+   "d_placebo_mean": 0.1567615419626236,
+   "water_new_frac_event": 0.0265045166015625,
+   "water_new_frac_placebo": 0.0610504150390625,
+   "dvv_event_db": 0.008607245981693268,
+   "dvv_placebo_db": -0.025249864906072617,
+   "candidate_token_frac": 0.0146484375,
+   "status": "ranked",
+   "rank": 45,
+   "excess_over_median": -0.013103187084197998
+  },
+  {
+   "id": "bagmatix_46",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.28333759021389,
+    26.608669047625508
+   ],
+   "bounds_utm": [
+    327800.0,
+    2942960.0,
+    330360.0,
+    2945520.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15013311803340912,
+   "d_placebo_mean": 0.1693267822265625,
+   "water_new_frac_event": 0.0352020263671875,
+   "water_new_frac_placebo": 0.0785980224609375,
+   "dvv_event_db": -0.06838631629943848,
+   "dvv_placebo_db": -0.16640517115592957,
+   "candidate_token_frac": 0.023193359375,
+   "status": "ranked",
+   "rank": 38,
+   "excess_over_median": -0.006260037422180176
+  },
+  {
+   "id": "bagmatix_47",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.30349770289946,
+    26.603494855226035
+   ],
+   "bounds_utm": [
+    329800.0,
+    2942360.0,
+    332360.0,
+    2944920.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1476227045059204,
+   "d_placebo_mean": 0.16528958082199097,
+   "water_new_frac_event": 0.017059326171875,
+   "water_new_frac_placebo": 0.0584716796875,
+   "dvv_event_db": 0.5306491255760193,
+   "dvv_placebo_db": -0.26496246457099915,
+   "candidate_token_frac": 0.010986328125,
+   "status": "ranked",
+   "rank": 53,
+   "excess_over_median": -0.008770450949668884
+  },
+  {
+   "id": "bagmatix_48",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.30058902304117,
+    26.582879228208792
+   ],
+   "bounds_utm": [
+    329480.0,
+    2940080.0,
+    332040.0,
+    2942640.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14809589087963104,
+   "d_placebo_mean": 0.15967795252799988,
+   "water_new_frac_event": 0.0117645263671875,
+   "water_new_frac_placebo": 0.039031982421875,
+   "dvv_event_db": 0.4759939908981323,
+   "dvv_placebo_db": -0.25627923011779785,
+   "candidate_token_frac": 0.009765625,
+   "status": "ranked",
+   "rank": 56,
+   "excess_over_median": -0.008297264575958252
+  },
+  {
+   "id": "bagmatix_49",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.3204214164157,
+    26.57228243999631
+   ],
+   "bounds_utm": [
+    331440.0,
+    2938880.0,
+    334000.0,
+    2941440.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.16028209030628204,
+   "d_placebo_mean": 0.17429688572883606,
+   "water_new_frac_event": 0.024261474609375,
+   "water_new_frac_placebo": 0.06146240234375,
+   "dvv_event_db": 0.3456411361694336,
+   "dvv_placebo_db": -0.5977979898452759,
+   "candidate_token_frac": 0.029541015625,
+   "status": "ranked",
+   "rank": 34,
+   "excess_over_median": 0.003888934850692749
+  },
+  {
+   "id": "bagmatix_50",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.32712828898585,
+    26.552863439032087
+   ],
+   "bounds_utm": [
+    332080.0,
+    2936720.0,
+    334640.0,
+    2939280.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15183986723423004,
+   "d_placebo_mean": 0.16291344165802002,
+   "water_new_frac_event": 0.0119171142578125,
+   "water_new_frac_placebo": 0.030975341796875,
+   "dvv_event_db": 0.43133246898651123,
+   "dvv_placebo_db": -0.26576024293899536,
+   "candidate_token_frac": 0.019775390625,
+   "status": "ranked",
+   "rank": 40,
+   "excess_over_median": -0.004553288221359253
+  },
+  {
+   "id": "bagmatix_51",
+   "aoi": "xriver_bagmati",
+   "center_lonlat": [
+    85.34542530057392,
+    26.536828680222584
+   ],
+   "bounds_utm": [
+    333880.0,
+    2934920.0,
+    336440.0,
+    2937480.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.15354463458061218,
+   "d_placebo_mean": 0.1702738106250763,
+   "water_new_frac_event": 0.0194091796875,
+   "water_new_frac_placebo": 0.0406951904296875,
+   "dvv_event_db": 0.405466228723526,
+   "dvv_placebo_db": -0.4963594377040863,
+   "candidate_token_frac": 0.0146484375,
+   "status": "ranked",
+   "rank": 46,
+   "excess_over_median": -0.002848520874977112
+  },
+  {
+   "id": "narayanix_18",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.84481899934599,
+    27.30676346376298
+   ],
+   "bounds_utm": [
+    186440.0,
+    3023080.0,
+    189000.0,
+    3025640.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1787649393081665,
+   "d_placebo_mean": 0.1577712744474411,
+   "water_new_frac_event": 0.1122589111328125,
+   "water_new_frac_placebo": 0.3369903564453125,
+   "dvv_event_db": -0.27470457553863525,
+   "dvv_placebo_db": -1.9056017398834229,
+   "candidate_token_frac": 0.052734375,
+   "status": "ranked",
+   "rank": 28,
+   "excess_over_median": 0.02237178385257721
+  },
+  {
+   "id": "narayanix_19",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.84298928028153,
+    27.28579520147507
+   ],
+   "bounds_utm": [
+    186200.0,
+    3020760.0,
+    188760.0,
+    3023320.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.20750877261161804,
+   "d_placebo_mean": 0.17825067043304443,
+   "water_new_frac_event": 0.1553802490234375,
+   "water_new_frac_placebo": 0.276458740234375,
+   "dvv_event_db": 0.2429332584142685,
+   "dvv_placebo_db": -1.5644803047180176,
+   "candidate_token_frac": 0.038818359375,
+   "status": "ranked",
+   "rank": 30,
+   "excess_over_median": 0.05111561715602875
+  },
+  {
+   "id": "narayanix_20",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.85867043168972,
+    27.273880953406007
+   ],
+   "bounds_utm": [
+    187720.0,
+    3019400.0,
+    190280.0,
+    3021960.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1949460804462433,
+   "d_placebo_mean": 0.15980273485183716,
+   "water_new_frac_event": 0.0039520263671875,
+   "water_new_frac_placebo": 0.0077056884765625,
+   "dvv_event_db": 1.3861172199249268,
+   "dvv_placebo_db": 0.0053494954481720924,
+   "candidate_token_frac": 0.01171875,
+   "status": "ranked",
+   "rank": 49,
+   "excess_over_median": 0.03855292499065399
+  },
+  {
+   "id": "narayanix_21",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.87392459242294,
+    27.262676803940774
+   ],
+   "bounds_utm": [
+    189200.0,
+    3018120.0,
+    191760.0,
+    3020680.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.2267550379037857,
+   "d_placebo_mean": 0.16244712471961975,
+   "water_new_frac_event": 0.0358428955078125,
+   "water_new_frac_placebo": 0.0064849853515625,
+   "dvv_event_db": 0.7910065054893494,
+   "dvv_placebo_db": -0.0909850150346756,
+   "candidate_token_frac": 0.076171875,
+   "status": "ranked",
+   "rank": 22,
+   "excess_over_median": 0.07036188244819641
+  },
+  {
+   "id": "narayanix_22",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.86267883621133,
+    27.246188282702178
+   ],
+   "bounds_utm": [
+    188040.0,
+    3016320.0,
+    190600.0,
+    3018880.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.23364970088005066,
+   "d_placebo_mean": 0.19816404581069946,
+   "water_new_frac_event": 0.198089599609375,
+   "water_new_frac_placebo": 0.397857666015625,
+   "dvv_event_db": -0.6317505240440369,
+   "dvv_placebo_db": -2.6144676208496094,
+   "candidate_token_frac": 0.0869140625,
+   "status": "ranked",
+   "rank": 18,
+   "excess_over_median": 0.07725654542446136
+  },
+  {
+   "id": "narayanix_23",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.88203301333895,
+    27.23254909288507
+   ],
+   "bounds_utm": [
+    189920.0,
+    3014760.0,
+    192480.0,
+    3017320.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.21225276589393616,
+   "d_placebo_mean": 0.17318475246429443,
+   "water_new_frac_event": 0.254058837890625,
+   "water_new_frac_placebo": 0.3204803466796875,
+   "dvv_event_db": -2.0681560039520264,
+   "dvv_placebo_db": -1.6530473232269287,
+   "candidate_token_frac": 0.086669921875,
+   "status": "ranked",
+   "rank": 19,
+   "excess_over_median": 0.05585961043834686
+  },
+  {
+   "id": "narayanix_24",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.90389664971173,
+    27.23014796689708
+   ],
+   "bounds_utm": [
+    192080.0,
+    3014440.0,
+    194640.0,
+    3017000.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.20511126518249512,
+   "d_placebo_mean": 0.18963375687599182,
+   "water_new_frac_event": 0.2383270263671875,
+   "water_new_frac_placebo": 0.3101348876953125,
+   "dvv_event_db": -1.7508258819580078,
+   "dvv_placebo_db": -1.4906411170959473,
+   "candidate_token_frac": 0.055419921875,
+   "status": "ranked",
+   "rank": 27,
+   "excess_over_median": 0.04871810972690582
+  },
+  {
+   "id": "narayanix_25",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.9262721090321,
+    27.223785486555304
+   ],
+   "bounds_utm": [
+    194280.0,
+    3013680.0,
+    196840.0,
+    3016240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.2366389036178589,
+   "d_placebo_mean": 0.19564613699913025,
+   "water_new_frac_event": 0.3863677978515625,
+   "water_new_frac_placebo": 0.2413177490234375,
+   "dvv_event_db": -3.9608540534973145,
+   "dvv_placebo_db": -0.6285691261291504,
+   "candidate_token_frac": 0.111572265625,
+   "status": "ranked",
+   "rank": 14,
+   "excess_over_median": 0.08024574816226959
+  },
+  {
+   "id": "narayanix_26",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.94442493790939,
+    27.209388843892857
+   ],
+   "bounds_utm": [
+    196040.0,
+    3012040.0,
+    198600.0,
+    3014600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.2343207597732544,
+   "d_placebo_mean": 0.2215854376554489,
+   "water_new_frac_event": 0.3371429443359375,
+   "water_new_frac_placebo": 0.367218017578125,
+   "dvv_event_db": -3.5285885334014893,
+   "dvv_placebo_db": -1.4943212270736694,
+   "candidate_token_frac": 0.105224609375,
+   "status": "ranked",
+   "rank": 16,
+   "excess_over_median": 0.0779276043176651
+  },
+  {
+   "id": "narayanix_27",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.95846186802257,
+    27.197786902806623
+   ],
+   "bounds_utm": [
+    197400.0,
+    3010720.0,
+    199960.0,
+    3013280.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.20427395403385162,
+   "d_placebo_mean": 0.19919264316558838,
+   "water_new_frac_event": 0.259063720703125,
+   "water_new_frac_placebo": 0.4148406982421875,
+   "dvv_event_db": -2.0622811317443848,
+   "dvv_placebo_db": -2.088343620300293,
+   "candidate_token_frac": 0.036376953125,
+   "status": "ranked",
+   "rank": 31,
+   "excess_over_median": 0.04788079857826233
+  },
+  {
+   "id": "narayanix_28",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.96829416139998,
+    27.177432323728574
+   ],
+   "bounds_utm": [
+    198320.0,
+    3008440.0,
+    200880.0,
+    3011000.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.18167665600776672,
+   "d_placebo_mean": 0.16965985298156738,
+   "water_new_frac_event": 0.2178192138671875,
+   "water_new_frac_placebo": 0.3060760498046875,
+   "dvv_event_db": -1.5032572746276855,
+   "dvv_placebo_db": -1.6365512609481812,
+   "candidate_token_frac": 0.024658203125,
+   "status": "ranked",
+   "rank": 36,
+   "excess_over_median": 0.02528350055217743
+  },
+  {
+   "id": "narayanix_29",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    83.98775612473318,
+    27.173882767005463
+   ],
+   "bounds_utm": [
+    200240.0,
+    3008000.0,
+    202800.0,
+    3010560.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.20242872834205627,
+   "d_placebo_mean": 0.20416513085365295,
+   "water_new_frac_event": 0.3358154296875,
+   "water_new_frac_placebo": 0.427703857421875,
+   "dvv_event_db": -2.0899410247802734,
+   "dvv_placebo_db": -2.5511984825134277,
+   "candidate_token_frac": 0.0634765625,
+   "status": "ranked",
+   "rank": 26,
+   "excess_over_median": 0.04603557288646698
+  },
+  {
+   "id": "narayanix_30",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.01234368018277,
+    27.174769937287163
+   ],
+   "bounds_utm": [
+    202680.0,
+    3008040.0,
+    205240.0,
+    3010600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.21488788723945618,
+   "d_placebo_mean": 0.18929004669189453,
+   "water_new_frac_event": 0.1891326904296875,
+   "water_new_frac_placebo": 0.2397308349609375,
+   "dvv_event_db": -1.0753227472305298,
+   "dvv_placebo_db": -0.9646430611610413,
+   "candidate_token_frac": 0.07373046875,
+   "status": "ranked",
+   "rank": 23,
+   "excess_over_median": 0.05849473178386688
+  },
+  {
+   "id": "narayanix_31",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.0355383925691,
+    27.167323763992627
+   ],
+   "bounds_utm": [
+    204960.0,
+    3007160.0,
+    207520.0,
+    3009720.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.24584946036338806,
+   "d_placebo_mean": 0.16912931203842163,
+   "water_new_frac_event": 0.334381103515625,
+   "water_new_frac_placebo": 0.1644439697265625,
+   "dvv_event_db": -4.354249954223633,
+   "dvv_placebo_db": -0.5556989908218384,
+   "candidate_token_frac": 0.17236328125,
+   "status": "ranked",
+   "rank": 12,
+   "excess_over_median": 0.08945630490779877
+  },
+  {
+   "id": "narayanix_32",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.04731281458653,
+    27.149168723468478
+   ],
+   "bounds_utm": [
+    206080.0,
+    3005120.0,
+    208640.0,
+    3007680.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.17941468954086304,
+   "d_placebo_mean": 0.151641845703125,
+   "water_new_frac_event": 0.1502227783203125,
+   "water_new_frac_placebo": 0.22711181640625,
+   "dvv_event_db": -1.0197409391403198,
+   "dvv_placebo_db": -1.2628995180130005,
+   "candidate_token_frac": 0.043701171875,
+   "status": "ranked",
+   "rank": 29,
+   "excess_over_median": 0.023021534085273743
+  },
+  {
+   "id": "narayanix_33",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.04668207084076,
+    27.127143300305548
+   ],
+   "bounds_utm": [
+    205960.0,
+    3002680.0,
+    208520.0,
+    3005240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.23951484262943268,
+   "d_placebo_mean": 0.1490941345691681,
+   "water_new_frac_event": 0.3055877685546875,
+   "water_new_frac_placebo": 0.2084808349609375,
+   "dvv_event_db": -2.890089511871338,
+   "dvv_placebo_db": -1.017931580543518,
+   "candidate_token_frac": 0.177978515625,
+   "status": "ranked",
+   "rank": 11,
+   "excess_over_median": 0.08312168717384338
+  },
+  {
+   "id": "narayanix_34",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.03919064356374,
+    27.105334170210124
+   ],
+   "bounds_utm": [
+    205160.0,
+    3000280.0,
+    207720.0,
+    3002840.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.27388864755630493,
+   "d_placebo_mean": 0.1846333146095276,
+   "water_new_frac_event": 0.31195068359375,
+   "water_new_frac_placebo": 0.2294464111328125,
+   "dvv_event_db": -3.4873247146606445,
+   "dvv_placebo_db": -0.8794000148773193,
+   "candidate_token_frac": 0.2392578125,
+   "status": "ranked",
+   "rank": 4,
+   "excess_over_median": 0.11749549210071564
+  },
+  {
+   "id": "narayanix_35",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.04778079638747,
+    27.085307103912385
+   ],
+   "bounds_utm": [
+    205960.0,
+    2998040.0,
+    208520.0,
+    3000600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.3199940025806427,
+   "d_placebo_mean": 0.17338722944259644,
+   "water_new_frac_event": 0.393218994140625,
+   "water_new_frac_placebo": 0.0404510498046875,
+   "dvv_event_db": -4.955382823944092,
+   "dvv_placebo_db": 0.32895979285240173,
+   "candidate_token_frac": 0.32080078125,
+   "status": "ranked",
+   "rank": 1,
+   "excess_over_median": 0.1636008471250534
+  },
+  {
+   "id": "narayanix_36",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.07235054744753,
+    27.086182225930308
+   ],
+   "bounds_utm": [
+    208400.0,
+    2998080.0,
+    210960.0,
+    3000640.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.2583044171333313,
+   "d_placebo_mean": 0.18969228863716125,
+   "water_new_frac_event": 0.39031982421875,
+   "water_new_frac_placebo": 0.216705322265625,
+   "dvv_event_db": -5.230990409851074,
+   "dvv_placebo_db": -0.8062620759010315,
+   "candidate_token_frac": 0.19580078125,
+   "status": "ranked",
+   "rank": 7,
+   "excess_over_median": 0.101911261677742
+  },
+  {
+   "id": "narayanix_37",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.09655537666802,
+    27.085602050731374
+   ],
+   "bounds_utm": [
+    210800.0,
+    2997960.0,
+    213360.0,
+    3000520.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1857285499572754,
+   "d_placebo_mean": 0.17418621480464935,
+   "water_new_frac_event": 0.1637725830078125,
+   "water_new_frac_placebo": 0.34100341796875,
+   "dvv_event_db": -0.748433530330658,
+   "dvv_placebo_db": -2.071852922439575,
+   "candidate_token_frac": 0.06640625,
+   "status": "ranked",
+   "rank": 24,
+   "excess_over_median": 0.029335394501686096
+  },
+  {
+   "id": "narayanix_38",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.11978223407093,
+    27.07597585775256
+   ],
+   "bounds_utm": [
+    213080.0,
+    2996840.0,
+    215640.0,
+    2999400.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.207052081823349,
+   "d_placebo_mean": 0.18530240654945374,
+   "water_new_frac_event": 0.17462158203125,
+   "water_new_frac_placebo": 0.4146575927734375,
+   "dvv_event_db": -0.6895155906677246,
+   "dvv_placebo_db": -2.3383588790893555,
+   "candidate_token_frac": 0.08251953125,
+   "status": "ranked",
+   "rank": 21,
+   "excess_over_median": 0.050658926367759705
+  },
+  {
+   "id": "narayanix_39",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.12917984711275,
+    27.055237553803405
+   ],
+   "bounds_utm": [
+    213960.0,
+    2994520.0,
+    216520.0,
+    2997080.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.26738762855529785,
+   "d_placebo_mean": 0.16952365636825562,
+   "water_new_frac_event": 0.2835540771484375,
+   "water_new_frac_placebo": 0.2921295166015625,
+   "dvv_event_db": -2.5255651473999023,
+   "dvv_placebo_db": -1.3707163333892822,
+   "candidate_token_frac": 0.183349609375,
+   "status": "ranked",
+   "rank": 10,
+   "excess_over_median": 0.11099447309970856
+  },
+  {
+   "id": "narayanix_40",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.13056395396147,
+    27.03253074011295
+   ],
+   "bounds_utm": [
+    214040.0,
+    2992000.0,
+    216600.0,
+    2994560.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.28023219108581543,
+   "d_placebo_mean": 0.19735854864120483,
+   "water_new_frac_event": 0.4207916259765625,
+   "water_new_frac_placebo": 0.16046142578125,
+   "dvv_event_db": -4.488330841064453,
+   "dvv_placebo_db": 0.11240672320127487,
+   "candidate_token_frac": 0.241455078125,
+   "status": "ranked",
+   "rank": 3,
+   "excess_over_median": 0.12383903563022614
+  },
+  {
+   "id": "narayanix_41",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.14395489612855,
+    27.01295502487106
+   ],
+   "bounds_utm": [
+    215320.0,
+    2989800.0,
+    217880.0,
+    2992360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.3109481930732727,
+   "d_placebo_mean": 0.20849192142486572,
+   "water_new_frac_event": 0.528472900390625,
+   "water_new_frac_placebo": 0.128936767578125,
+   "dvv_event_db": -6.960873603820801,
+   "dvv_placebo_db": 0.7366146445274353,
+   "candidate_token_frac": 0.280029296875,
+   "status": "ranked",
+   "rank": 2,
+   "excess_over_median": 0.1545550376176834
+  },
+  {
+   "id": "narayanix_42",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.14894013806926,
+    26.991042481712164
+   ],
+   "bounds_utm": [
+    215760.0,
+    2987360.0,
+    218320.0,
+    2989920.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.28443121910095215,
+   "d_placebo_mean": 0.19062082469463348,
+   "water_new_frac_event": 0.392242431640625,
+   "water_new_frac_placebo": 0.2296600341796875,
+   "dvv_event_db": -4.334076881408691,
+   "dvv_placebo_db": -1.0975282192230225,
+   "candidate_token_frac": 0.220703125,
+   "status": "ranked",
+   "rank": 5,
+   "excess_over_median": 0.12803806364536285
+  },
+  {
+   "id": "narayanix_43",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.1539230470612,
+    26.969129550775364
+   ],
+   "bounds_utm": [
+    216200.0,
+    2984920.0,
+    218760.0,
+    2987480.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.2308809906244278,
+   "d_placebo_mean": 0.18539834022521973,
+   "water_new_frac_event": 0.344879150390625,
+   "water_new_frac_placebo": 0.2927703857421875,
+   "dvv_event_db": -3.52695631980896,
+   "dvv_placebo_db": -1.3513996601104736,
+   "candidate_token_frac": 0.129638671875,
+   "status": "ranked",
+   "rank": 13,
+   "excess_over_median": 0.0744878351688385
+  },
+  {
+   "id": "narayanix_44",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.17001078284267,
+    26.953935594301242
+   ],
+   "bounds_utm": [
+    217760.0,
+    2983200.0,
+    220320.0,
+    2985760.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.2165154665708542,
+   "d_placebo_mean": 0.17991164326667786,
+   "water_new_frac_event": 0.2575225830078125,
+   "water_new_frac_placebo": 0.294189453125,
+   "dvv_event_db": -2.1485228538513184,
+   "dvv_placebo_db": -1.6021300554275513,
+   "candidate_token_frac": 0.095458984375,
+   "status": "ranked",
+   "rank": 17,
+   "excess_over_median": 0.06012231111526489
+  },
+  {
+   "id": "narayanix_45",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.18968945229969,
+    26.939893809708455
+   ],
+   "bounds_utm": [
+    219680.0,
+    2981600.0,
+    222240.0,
+    2984160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.24529306590557098,
+   "d_placebo_mean": 0.16598165035247803,
+   "water_new_frac_event": 0.3293304443359375,
+   "water_new_frac_placebo": 0.3482818603515625,
+   "dvv_event_db": -3.2058005332946777,
+   "dvv_placebo_db": -1.9637501239776611,
+   "candidate_token_frac": 0.185546875,
+   "status": "ranked",
+   "rank": 9,
+   "excess_over_median": 0.08889991044998169
+  },
+  {
+   "id": "narayanix_46",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.19386554481711,
+    26.91760178929123
+   ],
+   "bounds_utm": [
+    220040.0,
+    2979120.0,
+    222600.0,
+    2981680.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.27687180042266846,
+   "d_placebo_mean": 0.17056414484977722,
+   "water_new_frac_event": 0.3437347412109375,
+   "water_new_frac_placebo": 0.23858642578125,
+   "dvv_event_db": -3.3081326484680176,
+   "dvv_placebo_db": -0.9976933598518372,
+   "candidate_token_frac": 0.2080078125,
+   "status": "ranked",
+   "rank": 6,
+   "excess_over_median": 0.12047864496707916
+  },
+  {
+   "id": "narayanix_47",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.19280959102979,
+    26.895205538624932
+   ],
+   "bounds_utm": [
+    219880.0,
+    2976640.0,
+    222440.0,
+    2979200.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.2533140480518341,
+   "d_placebo_mean": 0.1769079864025116,
+   "water_new_frac_event": 0.313934326171875,
+   "water_new_frac_placebo": 0.26947021484375,
+   "dvv_event_db": -3.5162930488586426,
+   "dvv_placebo_db": -1.327660322189331,
+   "candidate_token_frac": 0.1884765625,
+   "status": "ranked",
+   "rank": 8,
+   "excess_over_median": 0.09692089259624481
+  },
+  {
+   "id": "narayanix_48",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.19496253609863,
+    26.87323391270337
+   ],
+   "bounds_utm": [
+    220040.0,
+    2974200.0,
+    222600.0,
+    2976760.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.18758150935173035,
+   "d_placebo_mean": 0.16475170850753784,
+   "water_new_frac_event": 0.170013427734375,
+   "water_new_frac_placebo": 0.3368988037109375,
+   "dvv_event_db": -1.235809326171875,
+   "dvv_placebo_db": -1.9119594097137451,
+   "candidate_token_frac": 0.066162109375,
+   "status": "ranked",
+   "rank": 25,
+   "excess_over_median": 0.031188353896141052
+  },
+  {
+   "id": "narayanix_49",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.21185241964724,
+    26.857328040118507
+   ],
+   "bounds_utm": [
+    221680.0,
+    2972400.0,
+    224240.0,
+    2974960.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.20072488486766815,
+   "d_placebo_mean": 0.16745802760124207,
+   "water_new_frac_event": 0.2388153076171875,
+   "water_new_frac_placebo": 0.2941131591796875,
+   "dvv_event_db": -2.256053924560547,
+   "dvv_placebo_db": -1.5538861751556396,
+   "candidate_token_frac": 0.083984375,
+   "status": "ranked",
+   "rank": 20,
+   "excess_over_median": 0.04433172941207886
+  },
+  {
+   "id": "narayanix_50",
+   "aoi": "xriver_narayani",
+   "center_lonlat": [
+    84.22639515404494,
+    26.838486607394355
+   ],
+   "bounds_utm": [
+    223080.0,
+    2970280.0,
+    225640.0,
+    2972840.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.22454950213432312,
+   "d_placebo_mean": 0.17658621072769165,
+   "water_new_frac_event": 0.205474853515625,
+   "water_new_frac_placebo": 0.34423828125,
+   "dvv_event_db": -1.7589471340179443,
+   "dvv_placebo_db": -1.865770936012268,
+   "candidate_token_frac": 0.107666015625,
+   "status": "ranked",
+   "rank": 15,
+   "excess_over_median": 0.06815634667873383
+  },
+  {
+   "id": "raptix_00",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.57332115260108,
+    27.56025812689017
+   ],
+   "bounds_utm": [
+    259120.0,
+    3049560.0,
+    261680.0,
+    3052120.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1443871259689331,
+   "d_placebo_mean": 0.16279345750808716,
+   "water_new_frac_event": 0.0120849609375,
+   "water_new_frac_placebo": 0.004180908203125,
+   "dvv_event_db": 0.38620078563690186,
+   "dvv_placebo_db": 0.5751558542251587,
+   "candidate_token_frac": 0.00390625,
+   "status": "ranked",
+   "rank": 75,
+   "excess_over_median": -0.012006029486656189
+  },
+  {
+   "id": "raptix_01",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.55612954890387,
+    27.55021163587863
+   ],
+   "bounds_utm": [
+    257400.0,
+    3048480.0,
+    259960.0,
+    3051040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14124193787574768,
+   "d_placebo_mean": 0.1430549919605255,
+   "water_new_frac_event": 0.0126800537109375,
+   "water_new_frac_placebo": 0.0042877197265625,
+   "dvv_event_db": 0.14677610993385315,
+   "dvv_placebo_db": 0.2359967678785324,
+   "candidate_token_frac": 0.0068359375,
+   "status": "ranked",
+   "rank": 66,
+   "excess_over_median": -0.015151217579841614
+  },
+  {
+   "id": "raptix_02",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.5415332869122,
+    27.55103682269172
+   ],
+   "bounds_utm": [
+    255960.0,
+    3048600.0,
+    258520.0,
+    3051160.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1454068422317505,
+   "d_placebo_mean": 0.14632336795330048,
+   "water_new_frac_event": 0.0153045654296875,
+   "water_new_frac_placebo": 0.0045318603515625,
+   "dvv_event_db": 0.16801922023296356,
+   "dvv_placebo_db": 0.22605876624584198,
+   "candidate_token_frac": 0.0087890625,
+   "status": "ranked",
+   "rank": 59,
+   "excess_over_median": -0.010986313223838806
+  },
+  {
+   "id": "raptix_03",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.52307537870153,
+    27.543490461282577
+   ],
+   "bounds_utm": [
+    254120.0,
+    3047800.0,
+    256680.0,
+    3050360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14250662922859192,
+   "d_placebo_mean": 0.13996775448322296,
+   "water_new_frac_event": 0.017120361328125,
+   "water_new_frac_placebo": 0.004241943359375,
+   "dvv_event_db": -0.0028844932094216347,
+   "dvv_placebo_db": 0.09482873976230621,
+   "candidate_token_frac": 0.012451171875,
+   "status": "ranked",
+   "rank": 48,
+   "excess_over_median": -0.013886526226997375
+  },
+  {
+   "id": "raptix_04",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.50465784877655,
+    27.552183809359114
+   ],
+   "bounds_utm": [
+    252320.0,
+    3048800.0,
+    254880.0,
+    3051360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13943949341773987,
+   "d_placebo_mean": 0.1429869383573532,
+   "water_new_frac_event": 0.0128173828125,
+   "water_new_frac_placebo": 0.0049896240234375,
+   "dvv_event_db": -0.15328741073608398,
+   "dvv_placebo_db": 0.1915387213230133,
+   "candidate_token_frac": 0.00439453125,
+   "status": "ranked",
+   "rank": 73,
+   "excess_over_median": -0.016953662037849426
+  },
+  {
+   "id": "raptix_05",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.49330259654222,
+    27.570746954517762
+   ],
+   "bounds_utm": [
+    251240.0,
+    3050880.0,
+    253800.0,
+    3053440.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12763071060180664,
+   "d_placebo_mean": 0.1478445827960968,
+   "water_new_frac_event": 0.006103515625,
+   "water_new_frac_placebo": 0.002960205078125,
+   "dvv_event_db": 0.02314845658838749,
+   "dvv_placebo_db": 0.2767569422721863,
+   "candidate_token_frac": 0.00048828125,
+   "status": "ranked",
+   "rank": 91,
+   "excess_over_median": -0.028762444853782654
+  },
+  {
+   "id": "raptix_06",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.47772889750532,
+    27.57876586721959
+   ],
+   "bounds_utm": [
+    249720.0,
+    3051800.0,
+    252280.0,
+    3054360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1304139792919159,
+   "d_placebo_mean": 0.1433292031288147,
+   "water_new_frac_event": 0.0067291259765625,
+   "water_new_frac_placebo": 0.0033111572265625,
+   "dvv_event_db": 0.19320479035377502,
+   "dvv_placebo_db": 0.25148290395736694,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 87,
+   "excess_over_median": -0.0259791761636734
+  },
+  {
+   "id": "raptix_07",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.45942122154881,
+    27.56471738163852
+   ],
+   "bounds_utm": [
+    247880.0,
+    3050280.0,
+    250440.0,
+    3052840.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1275971233844757,
+   "d_placebo_mean": 0.13846293091773987,
+   "water_new_frac_event": 0.0092010498046875,
+   "water_new_frac_placebo": 0.0041351318359375,
+   "dvv_event_db": 0.12643715739250183,
+   "dvv_placebo_db": 0.3005550801753998,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 93,
+   "excess_over_median": -0.028796032071113586
+  },
+  {
+   "id": "raptix_08",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.43712348409439,
+    27.56575120547292
+   ],
+   "bounds_utm": [
+    245680.0,
+    3050440.0,
+    248240.0,
+    3053000.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12573441863059998,
+   "d_placebo_mean": 0.13681542873382568,
+   "water_new_frac_event": 0.0076904296875,
+   "water_new_frac_placebo": 0.004852294921875,
+   "dvv_event_db": 0.1389741450548172,
+   "dvv_placebo_db": 0.21348163485527039,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 101,
+   "excess_over_median": -0.03065873682498932
+  },
+  {
+   "id": "raptix_09",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.42637903413674,
+    27.557612538574222
+   ],
+   "bounds_utm": [
+    244600.0,
+    3049560.0,
+    247160.0,
+    3052120.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12727896869182587,
+   "d_placebo_mean": 0.13498704135417938,
+   "water_new_frac_event": 0.01220703125,
+   "water_new_frac_placebo": 0.0061187744140625,
+   "dvv_event_db": 0.08832114189863205,
+   "dvv_placebo_db": 0.30261027812957764,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 88,
+   "excess_over_median": -0.029114186763763428
+  },
+  {
+   "id": "raptix_10",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.40709201971158,
+    27.568441702324648
+   ],
+   "bounds_utm": [
+    242720.0,
+    3050800.0,
+    245280.0,
+    3053360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1285407543182373,
+   "d_placebo_mean": 0.13751745223999023,
+   "water_new_frac_event": 0.009490966796875,
+   "water_new_frac_placebo": 0.002655029296875,
+   "dvv_event_db": 0.1011146754026413,
+   "dvv_placebo_db": 0.1627434492111206,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 102,
+   "excess_over_median": -0.02785240113735199
+  },
+  {
+   "id": "raptix_11",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.38361360201773,
+    27.568001199222593
+   ],
+   "bounds_utm": [
+    240400.0,
+    3050800.0,
+    242960.0,
+    3053360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13125881552696228,
+   "d_placebo_mean": 0.14991530776023865,
+   "water_new_frac_event": 0.0089263916015625,
+   "water_new_frac_placebo": 0.0040740966796875,
+   "dvv_event_db": 0.07576356828212738,
+   "dvv_placebo_db": 0.32502371072769165,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 103,
+   "excess_over_median": -0.025134339928627014
+  },
+  {
+   "id": "raptix_12",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.35889543652394,
+    27.56861582535552
+   ],
+   "bounds_utm": [
+    237960.0,
+    3050920.0,
+    240520.0,
+    3053480.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1325012445449829,
+   "d_placebo_mean": 0.15766271948814392,
+   "water_new_frac_event": 0.006805419921875,
+   "water_new_frac_placebo": 0.003448486328125,
+   "dvv_event_db": -0.03485783189535141,
+   "dvv_placebo_db": 0.6499383449554443,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 94,
+   "excess_over_median": -0.023891910910606384
+  },
+  {
+   "id": "raptix_13",
+   "aoi": "xriver_rapti",
+   "center_lonlat": [
+    84.33768566651021,
+    27.558105754592876
+   ],
+   "bounds_utm": [
+    235840.0,
+    3049800.0,
+    238400.0,
+    3052360.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1259763240814209,
+   "d_placebo_mean": 0.13975323736667633,
+   "water_new_frac_event": 0.0040740966796875,
+   "water_new_frac_placebo": 0.003326416015625,
+   "dvv_event_db": 0.06831133365631104,
+   "dvv_placebo_db": 0.29237645864486694,
+   "candidate_token_frac": 0.00048828125,
+   "status": "ranked",
+   "rank": 92,
+   "excess_over_median": -0.030416831374168396
+  },
+  {
+   "id": "tinaux_00",
+   "aoi": "xriver_tinau",
+   "center_lonlat": [
+    83.60865783190017,
+    27.82221591015262
+   ],
+   "bounds_utm": [
+    755680.0,
+    3078960.0,
+    758240.0,
+    3081520.0
+   ],
+   "epsg": 32644,
+   "valid_event_frac": 0.55810546875,
+   "d_event_mean": 0.17929670214653015,
+   "d_placebo_mean": 0.17590594291687012,
+   "water_new_frac_event": 0.006018493188159982,
+   "water_new_frac_placebo": 0.0011165577342047931,
+   "dvv_event_db": -0.49067145586013794,
+   "dvv_placebo_db": 0.585257351398468,
+   "candidate_token_frac": 0.020559930008748905,
+   "status": "ranked",
+   "rank": 39,
+   "excess_over_median": 0.022903546690940857
+  },
+  {
+   "id": "tinaux_01",
+   "aoi": "xriver_tinau",
+   "center_lonlat": [
+    83.58637626877955,
+    27.82407893092209
+   ],
+   "bounds_utm": [
+    753480.0,
+    3079120.0,
+    756040.0,
+    3081680.0
+   ],
+   "epsg": 32644,
+   "valid_event_frac": 0.4921875,
+   "d_event_mean": 0.1915566623210907,
+   "d_placebo_mean": 0.18253199756145477,
+   "water_new_frac_event": 0.012387457311393978,
+   "water_new_frac_placebo": 0.0008340283569641367,
+   "dvv_event_db": -0.3263329267501831,
+   "dvv_placebo_db": 0.6225802898406982,
+   "candidate_token_frac": 0.027281746031746032,
+   "status": "ranked",
+   "rank": 35,
+   "excess_over_median": 0.035163506865501404
+  },
+  {
+   "id": "tinaux_02",
+   "aoi": "xriver_tinau",
+   "center_lonlat": [
+    83.58329679094795,
+    27.814031621837664
+   ],
+   "bounds_utm": [
+    753200.0,
+    3078000.0,
+    755760.0,
+    3080560.0
+   ],
+   "epsg": 32644,
+   "valid_event_frac": 0.940185546875,
+   "d_event_mean": 0.14908932149410248,
+   "d_placebo_mean": 0.15960904955863953,
+   "water_new_frac_event": 0.0023042970271322863,
+   "water_new_frac_placebo": 0.0019071215504735204,
+   "dvv_event_db": -0.37528130412101746,
+   "dvv_placebo_db": 0.36300593614578247,
+   "candidate_token_frac": 0.001038691249026227,
+   "status": "ranked",
+   "rank": 83,
+   "excess_over_median": -0.007303833961486816
+  },
+  {
+   "id": "tinaux_03",
+   "aoi": "xriver_tinau",
+   "center_lonlat": [
+    83.571732668778,
+    27.805586114168065
+   ],
+   "bounds_utm": [
+    752080.0,
+    3077040.0,
+    754640.0,
+    3079600.0
+   ],
+   "epsg": 32644,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1373268961906433,
+   "d_placebo_mean": 0.14282456040382385,
+   "water_new_frac_event": 0.005279541015625,
+   "water_new_frac_placebo": 0.0050048828125,
+   "dvv_event_db": -0.2786337435245514,
+   "dvv_placebo_db": 0.19146881997585297,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 89,
+   "excess_over_median": -0.019066259264945984
+  }
+ ],
+ "elapsed_s": 237.5,
+ "device": "cuda"
+}

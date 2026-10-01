@@ -19,8 +19,8 @@ const fallbackStyle = {
 };
 const SAT_TILES = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 
-type Lead = { id: string; site: string; rank: number; fused_frac: number; source: string; radar_frac: number | null; optical_frac: number | null; radar_new_water: number | null; scl_water_delta: number | null; center_lonlat: [number, number] };
-type Site = { name: string; name_ko: string; news: string; news_ko: string; windows: number; verdict: string; reading: string; reading_ko: string; top: Lead[] };
+type Lead = { id: string; site: string; rank: number; fused_frac: number; source: string; radar_frac: number | null; optical_frac: number | null; radar_new_water: number | null; scl_water_delta: number | null; center_lonlat: [number, number]; gfm_flood_frac?: number | null };
+type Site = { name: string; name_ko: string; news: string; news_ko: string; windows: number; verdict: string; reading: string; reading_ko: string; top: Lead[]; gfm?: { n: number; gfm_mean: number; gfm_max: number; windows_gfm_gt1pct: number; spearman_fused: number | null; spearman_new_water: number | null } | null };
 type September = {
   event: { name: string; name_ko: string; window: [string, string]; reported: string; reported_ko: string; relation_to_chapter1: string };
   method: { contract: string; yardsticks: string[]; fusion: string; claim_boundary: string };
@@ -34,6 +34,7 @@ type September = {
   river?: { segments: number; observed: number; reading: string; reading_ko: string; per_river: Record<string, { km: number; segments: number; observed: number; frac_mean: number | null; nw_mean: number | null; top_window: string | null; top_frac: number | null }> } | null;
   frames: { kind: string; delta: string; s2_sites: string[]; s2_dates: Record<string, [string, string]> };
   monsoon_status: { as_of: string; text: string; text_ko: string }; ledger: string[];
+  gfm?: { measurement_id: string; yardstick: string; headline: string; headline_ko: string } | null;
 };
 type Lightbox = { title: string; sub: string; id: string; site: string; orbits: number[]; single?: string };
 
@@ -188,11 +189,13 @@ export default function SeptemberPage() {
             <div className="zero"><b>{sept.source_corridor.windows}</b><span>{ko ? '발원지 → 눈' : 'source → snow'}</span></div>
           </div>
           <p className="claim">{ko ? '임베딩 깃발과 고전 새-물 비율, 두 레이더 궤도, 광학 SCL 물 변화를 함께 읽은 "먼저 볼 곳"입니다. 피해·수심·가구 수가 아닙니다.' : 'A reading order from embedding flags, a classical new-water fraction, a second radar orbit and Sentinel-2 SCL water change read together. Not damage, depth or household counts.'}</p>
+          {sept.gfm && <p className="claim gfm"><b>{ko ? '외부 자 · Copernicus GFM' : 'External yardstick · Copernicus GFM'}</b> — {ko ? sept.gfm.headline_ko : sept.gfm.headline}</p>}
           {sites.map(([k, s]) => (
             <article key={k} className={`sept-site ${VERDICT[s.verdict]?.cls ?? ''}`}>
               <header><strong>{ko ? s.name_ko : s.name}</strong><em>{ko ? VERDICT[s.verdict]?.ko : VERDICT[s.verdict]?.en}</em></header>
               <small>{ko ? s.news_ko : s.news}</small>
               <p>{ko ? s.reading_ko : s.reading}</p>
+              {s.gfm && <small className="gfm-line">{ko ? `Copernicus GFM(같은 통과): 홍수 >1% 창 ${s.gfm.windows_gfm_gt1pct}/${s.gfm.n} · 최대 ${pct(s.gfm.gfm_max, 1)}` : `Copernicus GFM (same pass): ${s.gfm.windows_gfm_gt1pct}/${s.gfm.n} windows >1% flood · max ${pct(s.gfm.gfm_max, 1)}`}{s.gfm.spearman_new_water != null ? ` · ρ(${ko ? '새-물' : 'new-water'}) ${s.gfm.spearman_new_water >= 0 ? '+' : ''}${s.gfm.spearman_new_water.toFixed(2)}` : ''}</small>}
               {s.top[0] && <button onClick={() => fly(s.top[0].center_lonlat, 11.6)}>◎ {ko ? `창 ${s.windows}개로 이동` : `GO TO ${s.windows} WINDOWS`}</button>}
             </article>
           ))}
@@ -240,7 +243,7 @@ export default function SeptemberPage() {
                 <figure className="over"><img src={`${FR}/${f.id}_post.jpg`} alt="" loading="lazy" /><img className="ov" src={`${FR}/${f.id}_delta.png`} alt="AI change field" loading="lazy" /><figcaption>AI Δ</figcaption></figure>
                 <span className="strip-hint" aria-hidden="true">⤢ {ko ? '비교' : 'COMPARE'}</span>
               </div>
-              <footer><span>{pct(f.fused_frac)} {ko ? '결합' : 'fused'}{f.radar_new_water != null ? ` · ${ko ? '새-물' : 'new-water'} ${pct(f.radar_new_water)}` : ''}{f.scl_water_delta != null ? ` · SCL ${ko ? '물' : 'water'} ${f.scl_water_delta >= 0 ? '+' : ''}${(100 * f.scl_water_delta).toFixed(0)}pp` : ''}</span><button onClick={() => fly(f.center_lonlat, 12.4)}>◎ {ko ? '지도' : 'MAP'}</button></footer>
+              <footer><span>{pct(f.fused_frac)} {ko ? '결합' : 'fused'}{f.radar_new_water != null ? ` · ${ko ? '새-물' : 'new-water'} ${pct(f.radar_new_water)}` : ''}{f.scl_water_delta != null ? ` · SCL ${ko ? '물' : 'water'} ${f.scl_water_delta >= 0 ? '+' : ''}${(100 * f.scl_water_delta).toFixed(0)}pp` : ''}{f.gfm_flood_frac != null ? ` · GFM ${pct(f.gfm_flood_frac, 1)}` : ''}</span><button onClick={() => fly(f.center_lonlat, 12.4)}>◎ {ko ? '지도' : 'MAP'}</button></footer>
             </article>); })}
           <figure className="sept-figure">
             <img src={sept.fusion.figure} alt="What fusion changed" loading="lazy" onClick={() => setLightbox({ title: ko ? '결합(M102)이 바꾼 것과 안 바꾼 것' : 'What fusion (M102) did and did not change', sub: ko ? sept.fusion.headline_ko : sept.fusion.headline, id: '', site: '', orbits: [], single: sept.fusion.figure })} />

@@ -1,0 +1,23 @@
+{
+ "schema_version": "oe-review-profile/v1",
+ "name": "네팔 9월 하순 홍수 지점 — 광학+레이더 결합 후보 (M102)",
+ "unit": "창(2.56 km)",
+ "question": "뉴스가 지목한 홍수 지점 중 어느 창을 먼저 봐야 하나?",
+ "id_field": "window_id",
+ "score_field": "fused_flag_frac",
+ "score_label": "결합 깃발 비율 (자기 평시 p99 초과 토큰 비율)",
+ "review_if": "gte",
+ "review_threshold": 0.05,
+ "coverage_field": "valid_fraction",
+ "minimum_coverage": 0.2,
+ "observed_at_field": "observed_at",
+ "source_field": "source",
+ "sources": [
+  "Sentinel-1 RTC (OlmoEarth frozen, 3v1)",
+  "Sentinel-2 L2A (OlmoEarth frozen, 3v1, unsealed)",
+  "Sentinel-1 + Sentinel-2 (max of own-placebo exceedance)"
+ ],
+ "review_next": "레이더 전후·SCL 물 변화·고해상도 영상으로 확인. 등급은 '먼저 볼 곳'이며 피해가 아님",
+ "usable_next": "다음 궤도 통과(12일) 후 재실행; 광학은 첫 맑은 사후 장면에서 추가",
+ "hold_next": "유효한 사후 장면(레이더 RTC 또는 창 판독 ≥50% 광학)을 확보한 뒤 재실행"
+}

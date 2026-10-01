@@ -1,0 +1,713 @@
+{
+ "schema": "nepal-september-2026/v1",
+ "generated_at": "2026-10-01T00:00:00Z",
+ "event": {
+  "name": "Late-September monsoon floods and landslides",
+  "name_ko": "9월 하순 몬순 홍수·산사태",
+  "window": [
+   "2026-09-24",
+   "2026-09-29"
+  ],
+  "reported": "21 dead, 5 missing, 300+ landslides, flash-flood alerts in 49 of 77 districts (press, 27–29 Sep)",
+  "reported_ko": "사망 21·실종 5·산사태 300건 이상·77개 군 중 49개 돌발홍수 경보 (언론, 9/27~29)",
+  "relation_to_chapter1": "Same monsoon season, different mechanism: rain-driven river floods and hillside slips across the lowlands, not a glacier collapse. The 26 Aug source corridor is re-observed here with the same contract."
+ },
+ "method": {
+  "contract": "same 3-vs-1 radar contract as M92/M93 (36/24/12-day gaps, own-placebo p99 threshold), dates shifted 12 days; 2.56 km windows; frozen OlmoEarth v1 Base",
+  "yardsticks": [
+   "radar new-water fraction (VV drop > 3 dB vs base median and VV < −16 dB, own-placebo p99 null)",
+   "Sentinel-2 SCL water-class change where a readable post scene exists",
+   "second radar orbit as replication"
+  ],
+  "fusion": "max(optical, mean of radar orbits) on a common scale: own-placebo p99 exceedance fraction (null ≈ 1%)",
+  "claim_boundary": "a reading order for people, not damage, depth, household counts or cause; 0 field labels"
+ },
+ "source_corridor": {
+  "measurement_id": "M99",
+  "orbit": 19,
+  "target": "2026-09-29",
+  "windows": 56,
+  "threshold": 0.24988223612308502,
+  "flag_mean": 0.09664045061383929,
+  "top": [
+   {
+    "id": "v094",
+    "rank": 1,
+    "frac": 0.766845703125,
+    "center_lonlat": [
+     85.59829106375645,
+     28.231122013150838
+    ],
+    "snow_frac_0928": 0.93
+   },
+   {
+    "id": "v093",
+    "rank": 2,
+    "frac": 0.334716796875,
+    "center_lonlat": [
+     85.5985928101226,
+     28.208019813341828
+    ],
+    "snow_frac_0928": 0.55
+   },
+   {
+    "id": "v096",
+    "rank": 3,
+    "frac": 0.27392578125,
+    "center_lonlat": [
+     85.59768650033479,
+     28.27732616957678
+    ],
+    "snow_frac_0928": 0.91
+   },
+   {
+    "id": "v098",
+    "rank": 4,
+    "frac": 0.2275390625,
+    "center_lonlat": [
+     85.59708050714208,
+     28.3235300014436
+    ],
+    "snow_frac_0928": 0.94
+   },
+   {
+    "id": "v061",
+    "rank": 5,
+    "frac": 0.185791015625,
+    "center_lonlat": [
+     85.46721087555858,
+     28.275924311578006
+    ],
+    "snow_frac_0928": null
+   },
+   {
+    "id": "v047",
+    "rank": 6,
+    "frac": 0.18408203125,
+    "center_lonlat": [
+     85.47697909515874,
+     28.27636536988844
+    ],
+    "snow_frac_0928": null
+   }
+  ],
+  "unosat_source_touching_top6": 0,
+  "reading": "The post-flood ranking no longer points at the August source (0/6 windows touch the UNOSAT polygons; the August change is absorbed into the 3-date memory). The new top windows are the upper Langtang valley at ~5,000 m, where the 28 Sep scene classifies 88–94% of the window as snow that was absent on 18 and 21 Sep. The embedding read fresh snow — a real surface change, but not debris movement. Region-wide VV fell 0.69 dB (wet surfaces), inflating absolute flags about 3×; ranks are usable, absolute rates are not.",
+  "reading_ko": "사후 순위는 8월 발원지를 더 가리키지 않는다(UNOSAT 폴리곤에 닿는 상위 창 0/6, 8월 변화는 3장 기억에 흡수). 새 상위는 랑탕 상류 약 5,000 m 로, 9/28 장면에서 창의 88~94%가 눈으로 분류되고 9/18·21 에는 눈이 없었다. 임베딩이 읽은 것은 신설 눈이다. 회랑 전체 VV 가 0.69 dB 떨어져(젖은 지표) 절대 깃발율이 약 3배 부풀었다. 순위는 쓰되 절대치는 할인한다."
+ },
+ "optical_readability": [
+  {
+   "date": "2026-09-28",
+   "scene_cloud_pct": 1.6,
+   "window_readable_median_pct": 21.4,
+   "windows_ge80": 12,
+   "windows_ge50": 19,
+   "windows_ge20": 28
+  },
+  {
+   "date": "2026-09-26",
+   "scene_cloud_pct": 89.8,
+   "window_readable_median_pct": 0.0,
+   "windows_ge80": 0,
+   "windows_ge50": 0,
+   "windows_ge20": 0
+  },
+  {
+   "date": "2026-09-21",
+   "scene_cloud_pct": 60.3,
+   "window_readable_median_pct": 11.1,
+   "windows_ge80": 2,
+   "windows_ge50": 11,
+   "windows_ge20": 22
+  },
+  {
+   "date": "2026-09-18",
+   "scene_cloud_pct": 53.7,
+   "window_readable_median_pct": 2.5,
+   "windows_ge80": 0,
+   "windows_ge50": 5,
+   "windows_ge20": 14
+  }
+ ],
+ "flood_sites": {
+  "susta": {
+   "name": "Susta",
+   "name_ko": "수스타",
+   "news": "272 houses inundated (Nawalparasi West)",
+   "news_ko": "272가구 침수 (나왈파라시 서부)",
+   "windows": 25,
+   "verdict": "clear signal",
+   "reading": "River widened: sandbar submerged in the Narayani channel. Top two windows on both radar orbits; one also exceeds the classical new-water null.",
+   "reading_ko": "강폭 확대: 나라야니 하도 안 사주가 잠겼다. 두 레이더 궤도 모두 1·2위, 한 창은 고전 새-물 귀무도 넘었다.",
+   "top": [
+    {
+     "id": "susta_11",
+     "rank": 1,
+     "fused_frac": 0.154541015625,
+     "source": "radar",
+     "radar_frac": 0.154541015625,
+     "optical_frac": null,
+     "radar_new_water": 0.08382415771484375,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      83.8733720624998,
+      27.437342141977936
+     ]
+    },
+    {
+     "id": "susta_01",
+     "rank": 2,
+     "fused_frac": 0.1519775390625,
+     "source": "radar",
+     "radar_frac": 0.1519775390625,
+     "optical_frac": null,
+     "radar_new_water": 0.05301666259765625,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      83.87277409102022,
+      27.414259514946455
+     ]
+    },
+    {
+     "id": "susta_20",
+     "rank": 3,
+     "fused_frac": 0.06005859375,
+     "source": "radar",
+     "radar_frac": 0.06005859375,
+     "optical_frac": null,
+     "radar_new_water": 0.001251220703125,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      83.84809425970371,
+      27.460956649424677
+     ]
+    }
+   ],
+   "grades": {
+    "A": 0,
+    "B": 3,
+    "C": 0,
+    "-": 22
+   }
+  },
+  "devghat": {
+   "name": "Devghat",
+   "name_ko": "데브갓",
+   "news": "Narayani 9.23 m at the gauge, 28 Sep (Chitwan)",
+   "news_ko": "나라야니 수위 9.23 m, 9/28 (치트완)",
+   "windows": 25,
+   "verdict": "weak",
+   "reading": "Orbit 19 missed 17/25 windows (off-scene); orbit 158 reads all 25. One window flags at 6%. A river rising inside its banks is barely visible at 40 m.",
+   "reading_ko": "궤도19 장면 밖 17/25창, 궤도158 로 25/25. 한 창만 6% 깃발. 둑 안 수위 상승은 40 m 에서 거의 안 보인다.",
+   "top": [
+    {
+     "id": "devghat_10",
+     "rank": 4,
+     "fused_frac": 0.0554644332068507,
+     "source": "radar",
+     "radar_frac": 0.0554644332068507,
+     "optical_frac": null,
+     "radar_new_water": 0.047677142381629886,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      84.37367496077374,
+      27.695930742844983
+     ]
+    },
+    {
+     "id": "devghat_11",
+     "rank": 17,
+     "fused_frac": 0.029293007936246042,
+     "source": "radar",
+     "radar_frac": 0.029293007936246042,
+     "optical_frac": null,
+     "radar_new_water": 0.03073459955132668,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      84.3996121466591,
+      27.69642051529473
+     ]
+    },
+    {
+     "id": "devghat_33",
+     "rank": 34,
+     "fused_frac": 0.014404296875,
+     "source": "radar",
+     "radar_frac": 0.014404296875,
+     "optical_frac": null,
+     "radar_new_water": 0.010040283203125,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      84.45041393592109,
+      27.743561222574197
+     ]
+    }
+   ],
+   "grades": {
+    "A": 0,
+    "B": 1,
+    "C": 0,
+    "-": 7
+   }
+  },
+  "butwal": {
+   "name": "Butwal",
+   "name_ko": "부트왈",
+   "news": "Tinau river swept 6 houses, ~1,000 evacuated (Rupandehi)",
+   "news_ko": "티나우강 가옥 6채 유실, 약 1,000명 대피 (루판데히)",
+   "windows": 25,
+   "verdict": "no signal",
+   "reading": "Flags ≤1.7% on both orbits. Six houses and a bank section are below the 40 m token; the passes bracket the 27 Sep peak.",
+   "reading_ko": "두 궤도 깃발 ≤1.7%. 가옥 6채·둑은 40 m 토큰 아래 규모이고 통과 시각이 정점 전후다.",
+   "top": [
+    {
+     "id": "butwal_02",
+     "rank": 38,
+     "fused_frac": 0.0133056640625,
+     "source": "radar",
+     "radar_frac": 0.0133056640625,
+     "optical_frac": null,
+     "radar_new_water": 0.00127410888671875,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      83.45398083274215,
+      27.658670998169523
+     ]
+    },
+    {
+     "id": "butwal_00",
+     "rank": 42,
+     "fused_frac": 0.011474609375,
+     "source": "radar",
+     "radar_frac": 0.011474609375,
+     "optical_frac": null,
+     "radar_new_water": 0.0017852783203125,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      83.40211654649643,
+      27.65958001171562
+     ]
+    },
+    {
+     "id": "butwal_04",
+     "rank": 45,
+     "fused_frac": 0.01025390625,
+     "source": "radar",
+     "radar_frac": 0.01025390625,
+     "optical_frac": null,
+     "radar_new_water": 0.000244140625,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      83.50584266518264,
+      27.657742608246597
+     ]
+    }
+   ],
+   "grades": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "-": 25
+   }
+  },
+  "dharapani": {
+   "name": "Narayangadh–Muglin road",
+   "name_ko": "나라얀가드–무글린 도로",
+   "news": "landslides at Dharapani, Simaldhara, Simaltal, Aaptari (Chitwan)",
+   "news_ko": "다라파니·심알다라·심알탈·압타리 산사태 (치트완)",
+   "windows": 25,
+   "verdict": "no signal",
+   "reading": "Road-side slope failures are tens of metres — below this yardstick.",
+   "reading_ko": "도로변 사면 붕괴는 수십 m 규모라 이 자가 아니다.",
+   "top": [
+    {
+     "id": "dharapani_02",
+     "rank": 59,
+     "fused_frac": 0.00634765625,
+     "source": "radar",
+     "radar_frac": 0.00634765625,
+     "optical_frac": null,
+     "radar_new_water": 0.0203399658203125,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      84.46112714050781,
+      27.75386366704715
+     ]
+    },
+    {
+     "id": "dharapani_12",
+     "rank": 61,
+     "fused_frac": 0.005859375,
+     "source": "radar",
+     "radar_frac": 0.005859375,
+     "optical_frac": null,
+     "radar_new_water": 0.0075531005859375,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      84.46059094486304,
+      27.77695155153335
+     ]
+    },
+    {
+     "id": "dharapani_03",
+     "rank": 77,
+     "fused_frac": 0.00439453125,
+     "source": "radar",
+     "radar_frac": 0.00439453125,
+     "optical_frac": null,
+     "radar_new_water": 0.0003662109375,
+     "scl_water_delta": null,
+     "center_lonlat": [
+      84.48707982465358,
+      27.754337966703623
+     ]
+    }
+   ],
+   "grades": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "-": 25
+   }
+  },
+  "saptari": {
+   "name": "Saptari (Koshi right bank)",
+   "name_ko": "삽타리 (코시 우안)",
+   "news": "217 homes flooded, Hanumannagar Kankalini / Tilathi Koiladi",
+   "news_ko": "217가구 침수, 하누만나가르·틸라티",
+   "windows": 25,
+   "verdict": "classical only",
+   "reading": "Optical SCL water rose 10–31 pp in channel windows and radar new-water 10–16%, but the braided Koshi's ordinary null (23%) is wider than that. Neither embedding flags it.",
+   "reading_ko": "광학 SCL 물 +10~31%p, 레이더 새-물 10~16% 인데 코시 사행 하도의 평시 귀무(23%)가 더 넓다. 두 임베딩 모두 못 올린다.",
+   "top": [
+    {
+     "id": "saptari_31",
+     "rank": 5,
+     "fused_frac": 0.05192052980132451,
+     "source": "both",
+     "radar_frac": 0.0,
+     "optical_frac": 0.05192052980132451,
+     "radar_new_water": 0.0008087158203125,
+     "scl_water_delta": -0.0002644856770833333,
+     "center_lonlat": [
+      86.85419808202568,
+      26.57308345183533
+     ]
+    },
+    {
+     "id": "saptari_10",
+     "rank": 6,
+     "fused_frac": 0.04739943633102742,
+     "source": "both",
+     "radar_frac": 0.0,
+     "optical_frac": 0.04739943633102742,
+     "radar_new_water": 0.0011749267578125,
+     "scl_water_delta": -0.00016276041666666666,
+     "center_lonlat": [
+      86.82856080485512,
+      26.526825681960634
+     ]
+    },
+    {
+     "id": "saptari_41",
+     "rank": 7,
+     "fused_frac": 0.047277556440903055,
+     "source": "both",
+     "radar_frac": 0.001953125,
+     "optical_frac": 0.047277556440903055,
+     "radar_new_water": 0.0011749267578125,
+     "scl_water_delta": -0.0001220703125,
+     "center_lonlat": [
+      86.85416880168951,
+      26.596197936894598
+     ]
+    }
+   ],
+   "grades": {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "-": 25
+   }
+  }
+ },
+ "fusion": {
+  "measurement_id": "M102",
+  "coverage": {
+   "radar_only": 100,
+   "optical_only": 0,
+   "both": 25
+  },
+  "agreement_saptari": {
+   "n": 25,
+   "spearman_radar_vs_optical": -0.5015384615384615,
+   "top5_overlap": 0
+  },
+  "headline": "Fusion added no coverage here (radar already read 125/125) and did not improve the ranking: where both sensors read the same windows (Saptari) they disagree (ρ −0.50), and max-fusion promotes the noisier sensor. Fusion earns its value where one sensor is blind (M95: 47 → 97), not here.",
+  "headline_ko": "여기선 결합이 커버리지를 넓히지 못했고(레이더가 이미 125/125) 순위도 좋아지지 않았다. 두 센서가 같은 창을 읽는 삽타리에서 서로 어긋나(ρ −0.50) max 결합은 더 시끄러운 쪽을 올린다. 결합의 값어치는 한 센서가 눈먼 곳(M95: 47→97)에서 생긴다.",
+  "figure": "/data/september/fusion_M102_figure.png"
+ },
+ "fused_top": [
+  {
+   "id": "susta_11",
+   "site": "susta",
+   "rank": 1,
+   "fused_frac": 0.154541015625,
+   "source": "radar",
+   "radar_frac": 0.154541015625,
+   "optical_frac": null,
+   "radar_new_water": 0.08382415771484375,
+   "scl_water_delta": null,
+   "center_lonlat": [
+    83.8733720624998,
+    27.437342141977936
+   ]
+  },
+  {
+   "id": "susta_01",
+   "site": "susta",
+   "rank": 2,
+   "fused_frac": 0.1519775390625,
+   "source": "radar",
+   "radar_frac": 0.1519775390625,
+   "optical_frac": null,
+   "radar_new_water": 0.05301666259765625,
+   "scl_water_delta": null,
+   "center_lonlat": [
+    83.87277409102022,
+    27.414259514946455
+   ]
+  },
+  {
+   "id": "susta_20",
+   "site": "susta",
+   "rank": 3,
+   "fused_frac": 0.06005859375,
+   "source": "radar",
+   "radar_frac": 0.06005859375,
+   "optical_frac": null,
+   "radar_new_water": 0.001251220703125,
+   "scl_water_delta": null,
+   "center_lonlat": [
+    83.84809425970371,
+    27.460956649424677
+   ]
+  },
+  {
+   "id": "devghat_10",
+   "site": "devghat",
+   "rank": 4,
+   "fused_frac": 0.0554644332068507,
+   "source": "radar",
+   "radar_frac": 0.0554644332068507,
+   "optical_frac": null,
+   "radar_new_water": 0.047677142381629886,
+   "scl_water_delta": null,
+   "center_lonlat": [
+    84.37367496077374,
+    27.695930742844983
+   ]
+  },
+  {
+   "id": "saptari_31",
+   "site": "saptari",
+   "rank": 5,
+   "fused_frac": 0.05192052980132451,
+   "source": "both",
+   "radar_frac": 0.0,
+   "optical_frac": 0.05192052980132451,
+   "radar_new_water": 0.0008087158203125,
+   "scl_water_delta": -0.0002644856770833333,
+   "center_lonlat": [
+    86.85419808202568,
+    26.57308345183533
+   ]
+  },
+  {
+   "id": "saptari_10",
+   "site": "saptari",
+   "rank": 6,
+   "fused_frac": 0.04739943633102742,
+   "source": "both",
+   "radar_frac": 0.0,
+   "optical_frac": 0.04739943633102742,
+   "radar_new_water": 0.0011749267578125,
+   "scl_water_delta": -0.00016276041666666666,
+   "center_lonlat": [
+    86.82856080485512,
+    26.526825681960634
+   ]
+  },
+  {
+   "id": "saptari_41",
+   "site": "saptari",
+   "rank": 7,
+   "fused_frac": 0.047277556440903055,
+   "source": "both",
+   "radar_frac": 0.001953125,
+   "optical_frac": 0.047277556440903055,
+   "radar_new_water": 0.0011749267578125,
+   "scl_water_delta": -0.0001220703125,
+   "center_lonlat": [
+    86.85416880168951,
+    26.596197936894598
+   ]
+  },
+  {
+   "id": "saptari_40",
+   "site": "saptari",
+   "rank": 8,
+   "fused_frac": 0.045085190039318476,
+   "source": "both",
+   "radar_frac": 0.0,
+   "optical_frac": 0.045085190039318476,
+   "radar_new_water": 0.0014495849609375,
+   "scl_water_delta": -0.0001220703125,
+   "center_lonlat": [
+    86.8284576016548,
+    26.596169276036385
+   ]
+  },
+  {
+   "id": "saptari_30",
+   "site": "saptari",
+   "rank": 9,
+   "fused_frac": 0.04464751958224543,
+   "source": "both",
+   "radar_frac": 0.0,
+   "optical_frac": 0.04464751958224543,
+   "radar_new_water": 0.0010986328125,
+   "scl_water_delta": -0.00042724609375,
+   "center_lonlat": [
+    86.82849204429002,
+    26.573054819729983
+   ]
+  },
+  {
+   "id": "saptari_00",
+   "site": "saptari",
+   "rank": 10,
+   "fused_frac": 0.04365325077399381,
+   "source": "both",
+   "radar_frac": 0.0009765625,
+   "optical_frac": 0.04365325077399381,
+   "radar_new_water": 0.0008392333984375,
+   "scl_water_delta": -8.138020833333333e-05,
+   "center_lonlat": [
+    86.82859512285698,
+    26.50371100058799
+   ]
+  },
+  {
+   "id": "saptari_32",
+   "site": "saptari",
+   "rank": 11,
+   "fused_frac": 0.04295125164690382,
+   "source": "both",
+   "radar_frac": 0.0,
+   "optical_frac": 0.04295125164690382,
+   "radar_new_water": 0.0003509521484375,
+   "scl_water_delta": -0.00010172526041666667,
+   "center_lonlat": [
+    86.87990415510968,
+    26.573107444856703
+   ]
+  },
+  {
+   "id": "saptari_20",
+   "site": "saptari",
+   "rank": 12,
+   "fused_frac": 0.04289473684210526,
+   "source": "both",
+   "radar_frac": 0.000732421875,
+   "optical_frac": 0.04289473684210526,
+   "radar_new_water": 0.000762939453125,
+   "scl_water_delta": -0.00040690104166666663,
+   "center_lonlat": [
+    86.82852644534478,
+    26.549940288356357
+   ]
+  }
+ ],
+ "scenes": [
+  {
+   "id": "s1-2026-09-12",
+   "sensor": "Sentinel-1 (orbit 121)",
+   "acquired_at": "2026-09-12T00:10:00Z",
+   "state": "analysed",
+   "detail": "M99b base"
+  },
+  {
+   "id": "s1-2026-09-17",
+   "sensor": "Sentinel-1 (orbit 19)",
+   "acquired_at": "2026-09-17T00:18:00Z",
+   "state": "analysed",
+   "detail": "M99/M100 base"
+  },
+  {
+   "id": "s2-2026-09-21",
+   "sensor": "Sentinel-2",
+   "acquired_at": "2026-09-21T04:57:00Z",
+   "state": "catalog",
+   "detail": "pre-flood optical; Terai windows 84–97% readable"
+  },
+  {
+   "id": "s1-2026-09-24",
+   "sensor": "Sentinel-1 (orbit 121)",
+   "acquired_at": "2026-09-24T00:10:00Z",
+   "state": "analysed",
+   "detail": "M99b target — rain begins this morning"
+  },
+  {
+   "id": "s1-2026-09-26",
+   "sensor": "Sentinel-1 (orbit 158)",
+   "acquired_at": "2026-09-26T12:20:00Z",
+   "state": "analysed",
+   "detail": "M100c target — day 3 of rain"
+  },
+  {
+   "id": "s2-2026-09-28",
+   "sensor": "Sentinel-2",
+   "acquired_at": "2026-09-28T04:47:00Z",
+   "state": "analysed",
+   "detail": "1.6% scene cloud at the source but 12/56 windows readable; Saptari 20/25 readable (M101)"
+  },
+  {
+   "id": "s1-2026-09-28",
+   "sensor": "Sentinel-1 (orbit 12)",
+   "acquired_at": "2026-09-28T12:15:00Z",
+   "state": "analysed",
+   "detail": "M100b target — Koshi peak day"
+  },
+  {
+   "id": "s1-2026-09-29",
+   "sensor": "Sentinel-1 (orbit 19)",
+   "acquired_at": "2026-09-29T00:18:00Z",
+   "state": "analysed",
+   "detail": "M99 / M100 target — after the 27–28 Sep peaks; RTC arrived 30 Sep"
+  }
+ ],
+ "bounds": [
+  82.9,
+  26.0,
+  87.4,
+  28.8
+ ],
+ "frames_dir": "/data/september/frames",
+ "download": "/data/september-windows.geojson",
+ "monsoon_status": {
+  "as_of": "2026-09-29",
+  "text": "Withdrawal not yet declared; long-run average 2 Oct, last four years 8–16 Oct. Post-flood optical for the western sites waits for the first clear pass.",
+  "text_ko": "철수 미선언. 평년 10/2, 최근 4년은 10/8~16. 서부 지점 사후 광학은 첫 맑은 통과를 기다린다."
+ },
+ "ledger": [
+  "M99",
+  "M99a",
+  "M99b",
+  "M100",
+  "M100b",
+  "M100c",
+  "M101",
+  "M102"
+ ]
+}

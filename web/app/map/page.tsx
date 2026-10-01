@@ -135,6 +135,24 @@ type CurrentDecision = {
   allowed_claim: string;
 };
 
+// ── 9월 챕터(24~29 Sep 몬순 홍수): scenario.json 과 별개 파일. 숫자는 장부 M99~M102 에서만 온다 ──
+type SeptLead = { id: string; site: string; rank: number; fused_frac: number; source: string; radar_frac: number | null; optical_frac: number | null; radar_new_water: number | null; scl_water_delta: number | null; center_lonlat: [number, number] };
+type SeptSite = { name: string; name_ko: string; news: string; news_ko: string; windows: number; verdict: string; reading: string; reading_ko: string; top: SeptLead[] };
+type September = {
+  schema: string; generated_at: string;
+  event: { name: string; name_ko: string; window: [string, string]; reported: string; reported_ko: string; relation_to_chapter1: string };
+  method: { contract: string; yardsticks: string[]; fusion: string; claim_boundary: string };
+  source_corridor: { measurement_id: string; orbit: number; target: string; windows: number; threshold: number; flag_mean: number; top: { id: string; rank: number; frac: number; center_lonlat: [number, number]; snow_frac_0928: number | null }[]; unosat_source_touching_top6: number; reading: string; reading_ko: string };
+  flood_sites: Record<string, SeptSite>;
+  fusion: { measurement_id: string; coverage: { radar_only: number; optical_only: number; both: number }; agreement_saptari: { n: number; spearman_radar_vs_optical: number; top5_overlap: number } | null; headline: string; headline_ko: string; figure: string };
+  fused_top: SeptLead[];
+  scenes: { id: string; sensor: string; acquired_at: string; state: string; detail: string }[];
+  bounds: [number, number, number, number]; frames_dir: string; download: string;
+  monsoon_status: { as_of: string; text: string; text_ko: string }; ledger: string[];
+};
+const SEPT_SITE_ORDER = ['susta', 'devghat', 'saptari', 'butwal', 'dharapani'] as const;
+const septPostLabel = (lead: { site: string; radar_orbits?: number[] }) => lead.site === 'saptari' ? 'POST · 28 SEP · S1' : (lead.radar_orbits && lead.radar_orbits.length === 1 && lead.radar_orbits[0] === 158) ? 'POST · 26 SEP · S1' : 'POST · 29 SEP · S1';
+
 type Scenario = {
   generated_at: string;
   event: { name: string; occurred_at: string; cause_status: string; evidence_status: string };
@@ -256,6 +274,7 @@ type TimelineItem = {
   sensor: string;    // "S2" | "S1" | "EVENT"
   state: string;     // READY | IMPACT | PENDING | PLANNED
   selectable: boolean;
+  title?: string;    // 정적 항목 툴팁(9월 장면 설명)
 };
 
 const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
@@ -405,6 +424,8 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 결함의 방어. 'unsupported'면 지도 대신 정적 장면 이미지로 강등 표시한다.
   const [mapStatus, setMapStatus] = useState<'init' | 'ready' | 'unsupported'>('init');
   const [scenario, setScenario] = useState<Scenario | null>(null);
+  const [sept, setSept] = useState<September | null>(null);            // 9월 챕터 요약
+  const [septGeo, setSeptGeo] = useState<FeatureCollection | null>(null); // 9월 창 181개(홍수 지점 125 + 발원 회랑 56)
   const [hydrography, setHydrography] = useState<Hydrography | null>(null);
   // 데이터 로드와 WASM은 별개 채널이다. 이전 버전은 scenario fetch 실패를
   // wasmStatus='failed'로 표시해 "시뮬레이션이 죽었다"는 오보를 냈다.
@@ -415,10 +436,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
   const [viewDim, setViewDim] = useState<'2d' | '3d'>('2d');
-  const [zone, setZone] = useState<0 | 1 | 2>(0);  // 0 overview · 1 source→impact · 2 impact→downstream
-  const zoneRef = useRef<0 | 1 | 2>(0);
+  const [zone, setZone] = useState<0 | 1 | 2 | 3>(0);  // 0 overview · 1 source→impact · 2 impact→downstream · 3 late-September monsoon (chapter 2)
+  const zoneRef = useRef<0 | 1 | 2 | 3>(0);
   const focusDoneRef = useRef(false);
-  const prevZoneRef = useRef<0 | 1 | 2>(0);
+  const prevZoneRef = useRef<0 | 1 | 2 | 3>(0);
   // SSR과 첫 client render는 반드시 같은 값이어야 한다. window.hash를 state initializer에서
   // 읽으면 /#story 직링크에서 hydration mismatch가 난다(2026-08-29 브라우저 QA 실측).
   const [storyOpen, setStoryOpen] = useState(storyDefault);
@@ -774,10 +795,20 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     return () => { cancelled = true; };
   }, [reloadKey]);
 
+  // 9월 챕터 자산은 별도 파일. 없으면(구 빌드) 챕터 버튼만 비활성.
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/data/september.json').then((r) => r.ok ? r.json() as Promise<September> : null).then((j) => { if (!cancelled) setSept(j); }).catch(() => undefined);
+    fetch('/data/september-windows.geojson').then((r) => r.ok ? r.json() as Promise<FeatureCollection> : null).then((g) => { if (!cancelled) setSeptGeo(g); }).catch(() => undefined);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- URL 파라미터 1회 동기화 (/map?zone=3, 첫 화면 2장 링크)
+    try { if (new URLSearchParams(window.location.search).get('zone') === '3') { zoneRef.current = 3; initialCorridorFitRef.current = true; setZone(3); } } catch { /* noop */ }  // /map?zone=3 — 첫 화면 2장 링크; 최초 회랑 맞춤이 9월 카메라를 덮지 않게 가드
+    return () => { cancelled = true; };
+  }, []);
+
   // ── 타임라인: 전부 scenario.json에서 파생 ──
   const timeline = useMemo<TimelineItem[]>(() => {
     if (!scenario) return [];
-    const items: TimelineItem[] = scenario.scene_records.map((s) => ({
+    const items: TimelineItem[] = scenario.scene_records.filter((s) => zone !== 3 || s.acquired_at >= '2026-08-24').map((s) => ({
       id: s.id, kind: 'scene', iso: s.acquired_at, date: shortDate(s.acquired_at),
       sensor: shortSensor(s.sensor),
       state: s.state === 'live_partial' ? 'LIVE·PART' : s.state === 'live_ready' ? 'LIVE' : 'READY',
@@ -787,7 +818,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       id: 'event', kind: 'event', iso: scenario.event.occurred_at,
       date: shortDate(scenario.event.occurred_at), sensor: 'EVENT', state: 'IMPACT', selectable: false,
     });
-    scenario.scheduled_scenes.forEach((s, i) => items.push({
+    if (zone !== 3) scenario.scheduled_scenes.forEach((s, i) => items.push({
       id: `scheduled-${i}`, kind: 'scheduled', iso: s.acquired_at, date: shortDate(s.acquired_at),
       sensor: shortSensor(s.sensor),
       state: s.state === 'missed_coverage' ? 'MISSED'
@@ -798,8 +829,10 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
         : s.state === 'analysed_independent_orbit' ? 'ANALYSED' : 'PENDING',
       selectable: false,
     }));
+    // 9월 장면(챕터 2): 지도에 깔리는 래스터는 없으므로 정적 항목. 설명은 툴팁으로.
+    if (zone === 3) sept?.scenes.forEach((s) => items.push({ id: s.id, kind: 'scheduled', iso: s.acquired_at, date: shortDate(s.acquired_at), sensor: shortSensor(s.sensor), state: s.state === 'analysed' ? 'ANALYSED' : 'CATALOG', selectable: false, title: `${s.sensor} · ${s.detail}` }));
     return items.sort((a, b) => a.iso.localeCompare(b.iso));
-  }, [scenario]);
+  }, [scenario, sept, zone]);
 
   useEffect(() => {
     const fc = scenario?.candidates?.geojson;
@@ -1388,7 +1421,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
   // 두 구역 모드(2026-08-30): 1 = 빙하 발원→충격(렌데 계곡·산사면 격자), 2 = 충격→하류(강 창). 레이어 필터 + 카메라.
   useEffect(() => {
     const map = mapRef.current; if (!map || !mapReady) return;
-    const kinds = zone === 1 ? ['lhende', 'hillslope'] : zone === 2 ? ['river'] : null;
+    const kinds = zone === 1 ? ['lhende', 'hillslope'] : zone === 2 ? ['river'] : zone === 3 ? ['__none__'] : null;  // 3: 8월 후보 숨김, 9월 창만
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const kindFilter: any = kinds ? ['in', ['get', 'kind'], ['literal', kinds]] : null;
     const apply = () => {
@@ -1396,9 +1429,13 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
       if (map.getLayer('scan-center-dot')) map.setFilter('scan-center-dot', kindFilter);
       if (map.getLayer('ai-candidate-rank')) map.setFilter('ai-candidate-rank', kindFilter ? ['all', ['==', ['get', 'review_status'], 'lead'], kindFilter] : ['==', ['get', 'review_status'], 'lead']);
       for (const id of ['olmo-canonical-fill', 'olmo-canonical-line', 'olmo-canonical-rank', 'ai-similar-line']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', 'none');  // 2026-08-30: 봉인 27창·검색 윤곽은 지도에서 숨김(방법 문서로)
-      const b = zone !== 0 ? scenario?.geomorph?.zone_bounds?.[String(zone)] : null;
+      for (const id of ['sept-fill', 'sept-line', 'sept-rank']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', zone === 3 ? 'visible' : 'none');
+      if (map.getLayer('ai-candidate-line')) map.setLayoutProperty('ai-candidate-line', 'visibility', zone === 3 ? 'none' : 'visible');
+      // 1장용 maxBounds(83.2~87.8 × 26.6~29.8)는 삽타리(26.55 N)·부트왈(83.45 E)을 화면 밖에 둔다 → 2장에서만 넓힌다.
+      map.setMaxBounds(zone === 3 ? [[80.5, 25.0], [90.0, 30.5]] : [[83.2, 26.6], [87.8, 29.8]]);  // 2장은 maxBounds 가 fitBounds 를 가로로 눌러 패딩이 무시되지 않게 충분히 넓힌다
+      const b = zone === 3 ? (sept?.bounds ?? [82.9, 26.0, 87.4, 28.8]) : zone !== 0 ? scenario?.geomorph?.zone_bounds?.[String(zone)] : null;
       zoneRef.current = zone;  // 장면 효과가 구역 카메라를 덮어쓰지 않게(아래 fitScene 가드)
-      if (b) map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: scenePadding(), duration: prefersReducedMotion() ? 0 : 900, pitch: 0, bearing: 0, maxZoom: 12.5 });
+      if (b) map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: zone === 3 ? { top: 100, right: 360, bottom: 200, left: 320 } : scenePadding(), duration: prefersReducedMotion() ? 0 : 900, pitch: 0, bearing: 0, maxZoom: zone === 3 ? 8.5 : 12.5 });  // 챕터 2: 양쪽 레일·타임라인을 피해 다섯 지점이 다 들어오게
       else if (zone === 0 && scenario && prevZoneRef.current !== 0) fitCorridor();  // 구역이 실제로 0으로 돌아올 때만 (styleRevision 재실행마다 회랑으로 튀던 결함 수정)
       prevZoneRef.current = zone;
     };
@@ -1406,7 +1443,36 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
     (window as any).__map = map;
     if (map.getLayer('ai-candidate-fill')) apply(); else map.once('idle', apply);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zone, mapReady, styleRevision]);
+  }, [zone, mapReady, styleRevision, sept]);
+
+  // 9월 창 레이어(챕터 2). 색 = 결합 깃발 비율 (자기 평시 p99 초과 토큰 비율; 귀무 1%). 클릭 → 레이더 전후·Δz.
+  useEffect(() => {
+    const map = mapRef.current; if (!map || !mapReady || !septGeo) return;
+    const attach = () => {
+      if (!map.getSource('sept-windows')) map.addSource('sept-windows', { type: 'geojson', data: septGeo });
+      const vis = zoneRef.current === 3 ? 'visible' : 'none';
+      const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const color: any = ['case', ['!', ['has', 'fused_frac']], '#9a9a9a', ['step', ['coalesce', ['get', 'fused_frac'], 0], '#c9d6e6', 0.01, '#7fb0e6', 0.05, '#eb6834', 0.10, '#b8306f']];
+      if (!map.getLayer('sept-fill')) map.addLayer({ id: 'sept-fill', type: 'fill', source: 'sept-windows', layout: { visibility: vis }, paint: { 'fill-color': color, 'fill-opacity': ['case', ['==', ['get', 'kind'], 'source_corridor'], 0.45, 0.6] } }, before);
+      if (!map.getLayer('sept-line')) map.addLayer({ id: 'sept-line', type: 'line', source: 'sept-windows', layout: { visibility: vis }, paint: { 'line-color': ['case', ['>=', ['coalesce', ['get', 'fused_frac'], 0], 0.05], '#eb6834', '#72908a'], 'line-width': ['case', ['>=', ['coalesce', ['get', 'fused_frac'], 0], 0.05], 2, 0.5], 'line-opacity': 0.9 } }, before);
+      if (!map.getLayer('sept-rank')) map.addLayer({ id: 'sept-rank', type: 'symbol', source: 'sept-windows', filter: ['all', ['==', ['get', 'kind'], 'flood_site'], ['<=', ['coalesce', ['get', 'rank'], 999], 6]], layout: { visibility: vis, 'text-field': ['concat', '#', ['to-string', ['get', 'rank']]], 'text-size': 11, 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true }, paint: { 'text-color': '#16151a', 'text-halo-color': '#ffffff', 'text-halo-width': 1.4 } });
+      map.on('click', 'sept-fill', (e) => {
+        const f = e.features?.[0]; if (!f) return; const pr = f.properties as Record<string, unknown>;
+        const id = String(pr.id); const site = String(pr.site); const frac = typeof pr.fused_frac === 'number' ? pr.fused_frac : null;
+        const orbits = (() => { try { return JSON.parse(String(pr.radar_orbits ?? '[]')) as number[]; } catch { return []; } })();
+        const nw = typeof pr.radar_new_water === 'number' ? pr.radar_new_water : null; const snow = typeof pr.snow_frac_0928 === 'number' ? pr.snow_frac_0928 : null;
+        const sub = site === 'source'
+          ? `source corridor · ${frac == null ? 'not ranked' : (100 * frac).toFixed(1) + '% of tokens beyond the ordinary p99 (29 Sep vs 24 Aug·5 Sep·17 Sep)'}${snow != null ? ` · 28 Sep SCL snow ${(100 * snow).toFixed(0)}%` : ''}`
+          : `${sept?.flood_sites[site]?.name ?? site} · ${frac == null ? 'unobservable' : (100 * frac).toFixed(1) + '% fused flag'}${nw != null ? ` · classical new-water ${(100 * nw).toFixed(1)}%` : ''}${orbits.length ? ` · orbit ${orbits.join('+')}` : ''}`;
+        if (pr.frames) openLightbox({ title: `Window ${id}`, sub, before: `/data/september/frames/${id}_pre.jpg`, after: `/data/september/frames/${id}_post.jpg`, beforeLabel: 'PRE · base median (3 passes) · S1 VV', afterLabel: septPostLabel({ site, radar_orbits: orbits }), extra: [{ src: `/data/september/frames/${id}_delta.png`, under: `/data/september/frames/${id}_post.jpg`, label: 'AI change field · orange = beyond the ordinary p99' }] });
+      });
+      map.on('mouseenter', 'sept-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'sept-fill', () => { map.getCanvas().style.cursor = ''; });
+    };
+    if (map.isStyleLoaded()) attach(); else map.once('idle', attach);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapReady, styleRevision, septGeo]);
 
   const fitScene = useCallback((scene: SceneRecord, duration = 900) => {
     const map = mapRef.current;
@@ -1813,7 +1879,19 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           </p>
         </aside>
       )}
-      {changeRibbon && (
+      {zone === 3 && sept && (
+        <figure className="map-legend-card sept-card" aria-label="Chapter 2 legend">
+          <figcaption>Chapter 2 · 24–29 Sep monsoon</figcaption>
+          <p className="lg-claim"><b>{sept.event.reported}</b></p>
+          <p className="lg-claim">{sept.event.relation_to_chapter1}</p>
+          <ul className="sept-legend"><li><i style={{ background: '#c9d6e6' }} />&lt; 1% (null)</li><li><i style={{ background: '#7fb0e6' }} />1–5%</li><li><i style={{ background: '#eb6834' }} />5–10%</li><li><i style={{ background: '#b8306f' }} />≥ 10%</li><li><i style={{ background: '#9a9a9a' }} />unobservable</li></ul>
+          <p className="lg-sub">fused flag = share of 40 m tokens beyond each sensor&apos;s own ordinary p99 · 125 flood-site windows (5 news sites) + 56 source-corridor windows</p>
+          <p className="lg-claim"><b>Source corridor ({sept.source_corridor.measurement_id}, 56 windows → 29 Sep):</b> the ranking no longer points at the August source; the new top windows are fresh snow above 4,500 m, not moved debris. Region-wide wet surfaces inflate absolute flags ~3× — read ranks, not rates.</p>
+          <figure className="sept-figure"><img src={sept.fusion.figure} alt="What the optical–radar fusion changed at the five flood sites" loading="lazy" onClick={() => openLightbox({ title: 'Fusion M102 — coverage · Saptari agreement · fused top 15', sub: sept.fusion.headline, before: sept.fusion.figure, after: sept.fusion.figure, beforeLabel: 'FIGURE', afterLabel: 'FIGURE' })} /><figcaption>Tap to enlarge · {sept.fusion.headline}</figcaption></figure>
+          <p className="lg-sub">{sept.method.claim_boundary}. Monsoon: {sept.monsoon_status.text}</p>
+        </figure>
+      )}
+      {changeRibbon && zone !== 3 && (
         <figure className="map-legend-card" aria-label="Map legend">
           <figcaption>Change since the event</figcaption>
           <p className="lg-claim">
@@ -1889,6 +1967,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
           <button className={zone === 0 ? 'is-active' : ''} onClick={() => setZone(0)} disabled={mapStatus !== 'ready'}>WHOLE CHAIN</button>
           <button className={zone === 1 ? 'is-active' : ''} onClick={() => setZone(1)} disabled={mapStatus !== 'ready'}>1 · SOURCE → IMPACT</button>
           <button className={zone === 2 ? 'is-active' : ''} onClick={() => setZone(2)} disabled={mapStatus !== 'ready'}>2 · IMPACT → DOWNSTREAM</button>
+          <button className={zone === 3 ? 'is-active sept' : 'sept'} onClick={() => setZone(3)} disabled={mapStatus !== 'ready' || !sept} title={sept ? 'Chapter 2 · 24–29 Sep monsoon floods · 5 news sites + the source corridor re-observed' : 'September data not in this build'}>3 · 24–29 SEP MONSOON</button>
         </div>
         <div className="map-toggles" role="group" aria-label="Map layers">
         <button className={`map-toggle ${satTiles ? 'is-active' : 'attract'}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">SATELLITE<em className="toggle-sub">{satTiles ? 'tap a tile to compare' : 'all 369 windows'}</em></button>
@@ -2006,12 +2085,41 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
 
       {rightOpen && (
       <aside className="right-rail glass-panel">
-        <div className="panel-heading"><span>6</span><div><p>REVIEW LEADS</p><strong>Where to look first</strong></div></div>
+        <div className="panel-heading"><span>{zone === 3 ? (sept ? sept.fused_top.filter((f) => f.fused_frac >= 0.05).length : '·') : 6}</span><div><p>{zone === 3 ? 'SEPTEMBER LEADS · 24–29 SEP' : 'REVIEW LEADS'}</p><strong>Where to look first</strong></div></div>
         <div className="rail-tabs" role="tablist" aria-label="Right rail sections">
           <button role="tab" aria-selected={railTab === 'leads'} className={railTab === 'leads' ? 'is-active' : ''} onClick={() => setRailTab('leads')}>LEADS</button>
           <button role="tab" aria-selected={railTab === 'evidence'} className={railTab === 'evidence' ? 'is-active' : ''} onClick={() => setRailTab('evidence')}>EVIDENCE &amp; METHODS</button>
         </div>
-        {railTab === 'leads' && scenario?.candidates && (
+        {railTab === 'leads' && zone === 3 && sept && (
+            <div className="candidate-cards">
+              <p className="cand-help">Fused flag = share of 40 m tokens beyond that sensor&apos;s own ordinary p99 (null ≈ 1%); radar from two orbits averaged, optical where a readable post scene exists. Below 5% is noise.</p>
+              {sept.fused_top.filter((f) => f.fused_frac >= 0.05).map((f) => { const site = sept.flood_sites[f.site]; const geo = septGeo?.features.find((g) => String(g.properties?.id) === f.id); const orbits = (geo?.properties?.radar_orbits as number[] | undefined) ?? []; return (
+                <article key={f.id} className="cand-card">
+                  <header><b>#{f.rank}</b><strong>{site?.name ?? f.site}</strong><small>{f.id.toUpperCase()} · {f.source === 'both' ? 'RADAR + OPTICAL' : f.source.toUpperCase()}{orbits.length ? ` · ORBIT ${orbits.join('+')}` : ''}</small></header>
+                  <div className="cand-strip" role="button" tabIndex={0}
+                       onClick={() => openLightbox({ title: `#${f.rank} · ${site?.name ?? f.site} · ${f.id}`, sub: `${(100 * f.fused_frac).toFixed(1)}% fused flag${f.radar_new_water != null ? ` · classical new-water ${(100 * f.radar_new_water).toFixed(1)}%` : ''}${f.scl_water_delta != null ? ` · SCL water ${f.scl_water_delta >= 0 ? '+' : ''}${(100 * f.scl_water_delta).toFixed(0)} pp` : ''}`, before: `/data/september/frames/${f.id}_pre.jpg`, after: `/data/september/frames/${f.id}_post.jpg`, beforeLabel: 'PRE · base median · S1 VV', afterLabel: septPostLabel({ site: f.site, radar_orbits: orbits }), extra: [{ src: `/data/september/frames/${f.id}_delta.png`, under: `/data/september/frames/${f.id}_post.jpg`, label: 'AI change field · orange = beyond the ordinary p99' }] })}
+                       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); (e.currentTarget as HTMLElement).click(); } }}>
+                    <figure><img src={`/data/september/frames/${f.id}_pre.jpg`} alt="before" loading="lazy" /><figcaption>PRE · S1</figcaption></figure>
+                    <figure><img src={`/data/september/frames/${f.id}_post.jpg`} alt="after" loading="lazy" /><figcaption>{septPostLabel({ site: f.site, radar_orbits: orbits }).replace('POST · ', '').replace(' · S1', '')}</figcaption></figure>
+                    <figure><img src={`/data/september/frames/${f.id}_delta.png`} alt="AI change field" loading="lazy" style={{ backgroundImage: `url(/data/september/frames/${f.id}_post.jpg)`, backgroundSize: 'cover' }} /><figcaption>AI Δ</figcaption></figure>
+                    <span className="strip-hint" aria-hidden="true">⤢ COMPARE</span>
+                  </div>
+                  <footer><span>{(100 * f.fused_frac).toFixed(1)}% fused flag{f.radar_new_water != null ? ` · new-water ${(100 * f.radar_new_water).toFixed(1)}%` : ''}</span>
+                    <button onClick={() => mapRef.current?.flyTo({ center: f.center_lonlat, zoom: 12.2, duration: prefersReducedMotion() ? 0 : 900 })}>◎ SHOW ON MAP</button></footer>
+                </article>); })}
+              <div className="sept-sites">
+                {SEPT_SITE_ORDER.map((k) => { const st = sept.flood_sites[k]; if (!st) return null; return (
+                  <article key={k} className={`sept-site v-${st.verdict.replace(/\s+/g, '-')}`}>
+                    <header><strong>{st.name}</strong><em>{st.verdict.toUpperCase()}</em></header>
+                    <small>{st.news}</small>
+                    <p>{st.reading}</p>
+                    {st.top[0] && <button onClick={() => mapRef.current?.flyTo({ center: st.top[0].center_lonlat, zoom: 11.6, duration: prefersReducedMotion() ? 0 : 900 })}>◎ {st.windows} WINDOWS ON MAP</button>}
+                  </article>); })}
+              </div>
+              <p className="cand-help">Source corridor (56 windows, {sept.source_corridor.measurement_id}): top windows are fresh snow above 4,500 m, not moved debris — see the left panel. <a href={sept.download} download>Download all 181 September windows (GeoJSON)</a>.</p>
+            </div>
+          )}
+        {railTab === 'leads' && zone !== 3 && scenario?.candidates && (
             <div className="candidate-cards">
               
               <div className="candidate-scopes" role="group" aria-label="Filter AI candidate windows">
@@ -2441,7 +2549,7 @@ function MapExperience({ storyDefault = false }: { storyDefault?: boolean }) {
             <div
               key={scene.id}
               className={`scene static ${scene.kind}${['ANALYSED', 'PUBLISHED', 'PLANNED', 'PENDING', 'MISSED', 'CATALOG'].includes(scene.state) ? ` has-status ${scene.state.toLowerCase()}` : ''}`}
-              title={scene.kind === 'event' ? scenario?.event.name : 'Not yet acquirable — cannot be shown on the map'}
+              title={scene.title ?? (scene.kind === 'event' ? scenario?.event.name : 'Not yet acquirable — cannot be shown on the map')}
             >
               <span className={`scene-node ${scene.state.toLowerCase()}`} /><strong>{scene.date}</strong><small>{scene.sensor}</small><em>{scene.state}</em>
             </div>

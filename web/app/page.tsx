@@ -6,9 +6,12 @@ import { useEffect, useState } from 'react';
 type Lead = { id: string; rank: number; place: string; kind: string; candidate_token_frac: number; candidate_token_frac_single_pair: number | null; observable: number; center_lonlat: [number, number]; images: { pre: string; post: string; delta: string }; external_reports: { urls: string[]; verified_by_this_build: boolean } };
 type Review = { funnel: { scanned: number; observable: number; leads: number; confirmed_damage_labels: number }; by_zone: Record<string, { total: number; observable: number }>; threshold: number | null; leads: Lead[]; reobserve: { id: string; place: string; candidate_token_frac: number; observable: number; images: { pre: string; post: string; delta: string } }[]; download: string; all_observable_download?: string; posthoc_note: string };
 type Scenario = { generated_at: string; review?: Review | null; placebo_extended?: { threshold_pooled3: number } | null };
+// 챕터 2(24~29 Sep 몬순): 별도 파일 september.json. 숫자는 장부 M99~M102 에서만.
+type September = { event: { reported: string; reported_ko: string }; source_corridor: { windows: number; reading: string; reading_ko: string }; flood_sites: Record<string, { name: string; name_ko: string; news: string; news_ko: string; windows: number; verdict: string; reading: string; reading_ko: string; top: { id: string; center_lonlat: [number, number] }[] }>; fused_top: { id: string; site: string; fused_frac: number }[]; fusion: { headline: string; headline_ko: string; figure: string }; monsoon_status: { text: string; text_ko: string }; download: string };
 
 export default function Landing() {
   const [sc, setSc] = useState<Scenario | null>(null);
+  const [sept, setSept] = useState<September | null>(null);
   const [ko, setKo] = useState(true);
   // 언어: middleware가 IP 국가로 심은 lang 쿠키 → 없으면 브라우저 언어
   useEffect(() => {
@@ -23,7 +26,7 @@ export default function Landing() {
   const chooseLang = (isKo: boolean) => { setKo(isKo); try { document.cookie = `lang=${isKo ? 'ko' : 'en'};path=/;max-age=31536000`; } catch { /* noop */ } };
   const [swipe, setSwipe] = useState(50);
   useEffect(() => { document.body.classList.add('page-scroll'); return () => document.body.classList.remove('page-scroll'); }, []);
-  useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); }, []);
+  useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); fetch('/data/september.json').then((r) => r.ok ? r.json() as Promise<September> : null).then(setSept).catch(() => undefined); }, []);
   const rv = sc?.review ?? null; const lead = rv?.leads[0];
   const pct = (x: number | null | undefined) => x == null ? '—' : `${(100 * x).toFixed(0)}%`;
   return (
@@ -49,6 +52,33 @@ export default function Landing() {
           <a href="https://github.com/DDanggle/eo-rasuwa" className="btn" target="_blank" rel="noreferrer">GITHUB ↗</a>
         </div>
       </section>
+
+      {sept && (() => { const sites = ['susta', 'devghat', 'saptari', 'butwal', 'dharapani'].map((k) => sept.flood_sites[k]).filter(Boolean); const clear = sites.filter((s) => s.verdict === 'clear signal').length; const nWin = sites.reduce((a, s) => a + s.windows, 0); const V: Record<string, [string, string]> = { 'clear signal': ['뚜렷', 'CLEAR'], weak: ['약함', 'WEAK'], 'no signal': ['신호 없음', 'NO SIGNAL'], 'classical only': ['고전 자만', 'CLASSICAL ONLY'] }; return (
+      <section className="chapters" id="chapters">
+        <p className="kicker">{ko ? '두 장 — 같은 모델, 같은 계약, 다른 재난' : 'TWO CHAPTERS — same model, same contract, different disasters'}</p>
+        <div className="chapter-grid">
+          <article className="chapter ch1">
+            <small>{ko ? '1장 · 2026년 8월 26일' : 'CHAPTER 1 · 26 AUG 2026'}</small>
+            <h2>{ko ? '빙하 붕괴에서 시작된 돌발 홍수' : 'A flash flood that began with a glacier collapse'}</h2>
+            <p>{ko ? `랑탕 발원지에서 치트완까지 621 km. 창 ${rv?.funnel.scanned ?? 100}곳 중 ${rv?.funnel.observable ?? 47}곳 판독, ${rv?.funnel.leads ?? 6}곳 우선 검토. 위의 내용이 이 장입니다.` : `621 km from the Langtang source to Chitwan. ${rv?.funnel.scanned ?? 100} windows, ${rv?.funnel.observable ?? 47} observable, ${rv?.funnel.leads ?? 6} review leads — the chapter above.`}</p>
+            <a href="/map" className="btn">{ko ? '1장 지도' : 'CHAPTER 1 MAP'}</a>
+          </article>
+          <article className="chapter ch2">
+            <small>{ko ? '2장 · 2026년 9월 24~29일' : 'CHAPTER 2 · 24–29 SEP 2026'}</small>
+            <h2>{ko ? '몬순 막바지 호우 — 뉴스가 지목한 다섯 곳' : 'The late-monsoon rains — five places the news named'}</h2>
+            <p>{ko ? sept.event.reported_ko : sept.event.reported}</p>
+            <div className="funnel small" role="img" aria-label={`${sites.length} sites, ${nWin} windows, ${clear} clear signal`}>
+              <div><b>{sites.length}</b><span>{ko ? '지점' : 'news sites'}</span></div><i>→</i>
+              <div><b>{nWin}</b><span>{ko ? '레이더 창' : 'radar windows'}</span></div><i>→</i>
+              <div className="lead"><b>{clear}</b><span>{ko ? '뚜렷한 신호' : 'clear signal'}</span></div><i>·</i>
+              <div className="zero"><b>{sept.source_corridor.windows}</b><span>{ko ? '발원지 재관측 → 눈' : 'source re-observed → snow'}</span></div>
+            </div>
+            <ul className="verdicts">{sites.map((s) => <li key={s.name}><b>{ko ? s.name_ko : s.name}</b><em>{ko ? V[s.verdict]?.[0] ?? s.verdict : V[s.verdict]?.[1] ?? s.verdict}</em><span>{ko ? s.reading_ko : s.reading}</span></li>)}</ul>
+            <p className="note">{ko ? sept.fusion.headline_ko : sept.fusion.headline} {ko ? sept.monsoon_status.text_ko : sept.monsoon_status.text}</p>
+            <div className="cta"><a href="/map?zone=3" className="btn primary">{ko ? '2장 지도 열기' : 'OPEN CHAPTER 2 ON THE MAP'}</a><a href={sept.download} className="btn" download>{ko ? '9월 창 181개 GeoJSON' : 'DOWNLOAD 181 SEPTEMBER WINDOWS'}</a></div>
+          </article>
+        </div>
+      </section>); })()}
 
       <section className="how">
         <p className="kicker">{ko ? '어떻게 작동하나' : 'HOW IT WORKS'}</p>

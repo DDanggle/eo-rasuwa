@@ -1512,3 +1512,41 @@ a.brand-lockup { text-decoration: none; color: inherit; }
   .source-box { left: 8px; right: 8px; width: auto; top: 118px;
     max-height: calc(100svh - 420px); }
 }
+
+/* ── Chapter 2 · 24–29 Sep monsoon (2026-10-01) ── */
+.map-mode-switch.zone-switch button.sept { border-left: 2px solid var(--orange); }
+.map-mode-switch.zone-switch button.sept.is-active { background: var(--orange); color: #fff; }
+.sept-card .sept-figure { margin: 8px 0 4px; }
+.sept-card .sept-figure img { width: 100%; display: block; border: 1px solid var(--line, #e3e0d8); cursor: zoom-in; }
+.sept-card .sept-figure figcaption { font-family: var(--font-geist-mono); font-size: 8.5px; color: var(--muted); padding-top: 3px; letter-spacing: .05em; }
+.sept-legend { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 10px; font-family: var(--font-geist-mono); font-size: 8.5px; color: var(--muted); }
+.sept-legend i { display: inline-block; width: 12px; height: 8px; margin-right: 4px; vertical-align: middle; border: 1px solid rgba(0,0,0,.12); }
+.sept-sites { display: grid; gap: 6px; margin-top: 8px; }
+.sept-site { border: 1px solid var(--line, #e3e0d8); border-left: 3px solid #72908a; padding: 7px 8px; background: var(--surface, #fffefb); }
+.sept-site.v-clear-signal { border-left-color: var(--orange); }
+.sept-site.v-weak { border-left-color: #7fb0e6; }
+.sept-site.v-classical-only { border-left-color: #b8306f; }
+.sept-site header { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+.sept-site header strong { font-size: 12px; }
+.sept-site header em { font-style: normal; font-family: var(--font-geist-mono); font-size: 8.5px; letter-spacing: .06em; color: var(--muted); }
+.sept-site small { display: block; color: var(--muted); font-size: 10.5px; margin: 2px 0 4px; }
+.sept-site p { margin: 0 0 6px; font-size: 11.5px; line-height: 1.45; }
+.sept-site button { font: 600 9px var(--font-geist-mono); letter-spacing: .05em; border: 1px solid var(--line-strong, #d5d1c6); background: transparent; padding: 3px 7px; cursor: pointer; }
+.landing .chapters { padding: 28px 0 8px; border-top: 1px solid var(--line, #e3e0d8); }
+.landing .chapter-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 18px; align-items: start; }
+.landing .chapter { border: 1px solid var(--line, #e3e0d8); padding: 16px 18px; background: var(--surface, #fffefb); }
+.landing .chapter.ch2 { border-top: 3px solid var(--orange); }
+.landing .chapter small { font-family: var(--font-geist-mono); font-size: 9.5px; letter-spacing: .08em; color: var(--muted); }
+.landing .chapter h2 { margin: 6px 0 8px; font-size: 20px; line-height: 1.2; }
+.landing .chapter p { margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; }
+.landing .funnel.small > div b { font-size: 22px; }
+.landing .verdicts { list-style: none; margin: 10px 0; padding: 0; display: grid; gap: 6px; }
+.landing .verdicts li { display: grid; grid-template-columns: 150px 92px 1fr; gap: 8px; align-items: baseline; font-size: 12.5px; line-height: 1.4; }
+.landing .verdicts li b { font-weight: 600; }
+.landing .verdicts li em { font-style: normal; font-family: var(--font-geist-mono); font-size: 9px; letter-spacing: .06em; color: var(--muted); }
+.landing .verdicts li span { color: var(--muted); }
+@media (max-width: 760px) { .landing .chapter-grid { grid-template-columns: 1fr; } .landing .verdicts li { grid-template-columns: 1fr; gap: 2px; } }
+.map-legend-card.sept-card { max-height: calc(100svh - 270px); overflow-y: auto; }  /* 상단 챕터 바(~80px)·여백을 덮지 않게 */
+.map-legend-card.sept-card .lg-claim { font-size: 11.5px; line-height: 1.45; }
+.map-legend-card .lg-sub { font-size: 10.5px; line-height: 1.4; color: var(--muted); margin: 4px 0 6px; }
+.map-legend-card.sept-card figcaption { font-weight: 700; }

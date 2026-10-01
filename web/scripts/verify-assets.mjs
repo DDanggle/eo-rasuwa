@@ -356,3 +356,24 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   optical_only_coverage: `${fus.headline.optical_readable}/${fus.headline.windows_total}`,
   scaling_sizes: lad.ladder.length,
   scaling_monotone: lad.monotone_improvement_with_size }, null, 2));
+
+// ── Chapter 2 · 24–29 Sep monsoon (september.json is a separate file; scenario.json stays sealed) ──
+{
+  const sept = JSON.parse(await readFile(resolve(root, 'public/data/september.json'), 'utf8'));
+  const geo = JSON.parse(await readFile(resolve(root, 'public/data/september-windows.geojson'), 'utf8'));
+  assert.equal(sept.schema, 'nepal-september-2026/v1');
+  assert.equal(geo.features.length, 181, 'september windows must be 125 flood-site + 56 source-corridor windows');
+  assert.equal(geo.features.filter((f) => f.properties.kind === 'flood_site').length, 125);
+  assert.equal(geo.features.filter((f) => f.properties.kind === 'source_corridor').length, 56);
+  assert.equal(sept.source_corridor.unosat_source_touching_top6, 0, 'M99: the September ranking must not be presented as pointing at the August source');
+  for (const f of sept.fused_top) {
+    for (const k of ['pre.jpg', 'post.jpg', 'delta.png']) await stat(resolve(root, `public/data/september/frames/${f.id}_${k}`));
+  }
+  await stat(resolve(root, 'public' + sept.fusion.figure));
+  const verdicts = Object.values(sept.flood_sites).map((s) => s.verdict);
+  assert.equal(verdicts.filter((v) => v === 'clear signal').length, 1, 'only Susta carries a clear cross-orbit signal (M100/M100c)');
+  const text = JSON.stringify(sept);
+  for (const bad of ['confirmed damage', 'damage confirmed', '피해 확정', 'detected flooding', 'households destroyed']) assert.ok(!text.includes(bad), `september.json must not say "${bad}"`);
+  assert.match(sept.method.claim_boundary, /not damage/);
+  console.log(`september: ${geo.features.length} windows · ${sept.fused_top.length} fused leads · verdicts ${verdicts.join('/')}`);
+}

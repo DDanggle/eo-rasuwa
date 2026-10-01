@@ -24,6 +24,9 @@ t19 = L("m100_flood_sites/report_t19.json"); t158 = L("m100_flood_sites/report_t
 s2 = L("m100_flood_sites/report_s2_saptari_M101.json")
 summ = L("m100_flood_sites/summary.json")
 wins = json.loads((ROOT / "code/terai_flood_windows.json").read_text())
+gfm_p = ART / "m100_flood_sites/gfm_score_M106.json"
+gfm = {r["id"]: r for r in json.loads(gfm_p.read_text())["rows"]} if gfm_p.exists() else {}
+gfm_groups = json.loads(gfm_p.read_text())["groups"] if gfm_p.exists() else {}
 # 강 회랑 창(M103): 결합(M102)에는 없으므로 레이더 보고서에서 직접 읽는다
 river_rep = {}
 for tag in ("terai_radar_scan_r19", "terai_radar_scan_r12"):
@@ -64,7 +67,8 @@ for w in wins:
                                  "fused_frac": f["frac"] if f else None, "source": f["source"] if f else "unobservable",
                                  "radar_frac": f["radar_frac"] if f else None, "optical_frac": f["optical_frac"] if f else None,
                                  "radar_new_water": f["radar_new_water"] if f else None, "scl_water_delta": f["scl_water_delta"] if f else None,
-                                 "radar_orbits": f["radar_orbits"] if f else [], "rank": f["rank"] if f else None, "frames": frames}})
+                                 "radar_orbits": f["radar_orbits"] if f else [], "rank": f["rank"] if f else None, "frames": frames,
+                                 "gfm_flood_frac": gfm[w["id"]]["gfm"] if w["id"] in gfm else None}})
 # ---- 발원 회랑 창 (56, M99) ----
 m99w = {w["id"]: w for w in m99["windows"]}
 bw45 = Transformer.from_crs(32645, 4326, always_xy=True)
@@ -88,7 +92,8 @@ for a, meta in SITES.items():
     v = VERDICT[a]
     by_site[a] = {**meta, "windows": len(rows), "verdict": v[0], "reading": v[1], "reading_ko": v[2],
                   "top": [{"id": f["id"], "rank": f["rank"], "fused_frac": f["frac"], "source": f["source"], "radar_frac": f["radar_frac"], "optical_frac": f["optical_frac"],
-                           "radar_new_water": f["radar_new_water"], "scl_water_delta": f["scl_water_delta"], "center_lonlat": f["center_lonlat"]} for f in top],
+                           "radar_new_water": f["radar_new_water"], "scl_water_delta": f["scl_water_delta"], "center_lonlat": f["center_lonlat"], "gfm_flood_frac": gfm.get(f["id"], {}).get("gfm")} for f in top],
+                  "gfm": gfm_groups.get(a),
                   "grades": g.get("grades")}
 scenes = [
     {"id": "s1-2026-09-12", "sensor": "Sentinel-1 (orbit 121)", "acquired_at": "2026-09-12T00:10:00Z", "state": "analysed", "detail": "M99b base"},
@@ -120,7 +125,10 @@ out = {
                "headline": "Fusion added no coverage here (radar already read 125/125) and did not improve the ranking: where both sensors read the same windows (Saptari) they disagree (ρ −0.50), and max-fusion promotes the noisier sensor. Fusion earns its value where one sensor is blind (M95: 47 → 97), not here.",
                "headline_ko": "여기선 결합이 커버리지를 넓히지 못했고(레이더가 이미 125/125) 순위도 좋아지지 않았다. 두 센서가 같은 창을 읽는 삽타리에서 서로 어긋나(ρ −0.50) max 결합은 더 시끄러운 쪽을 올린다. 결합의 값어치는 한 센서가 눈먼 곳(M95: 47→97)에서 생긴다.",
                "figure": "/data/september/fusion_M102_figure.png"},
-    "fused_top": [{"id": f["id"], "site": f["aoi"], "rank": f["rank"], "fused_frac": f["frac"], "source": f["source"], "radar_frac": f["radar_frac"], "optical_frac": f["optical_frac"], "radar_new_water": f["radar_new_water"], "scl_water_delta": f["scl_water_delta"], "center_lonlat": f["center_lonlat"]} for f in fus["windows"][:12]],
+    "fused_top": [{"id": f["id"], "site": f["aoi"], "rank": f["rank"], "fused_frac": f["frac"], "source": f["source"], "radar_frac": f["radar_frac"], "optical_frac": f["optical_frac"], "radar_new_water": f["radar_new_water"], "scl_water_delta": f["scl_water_delta"], "center_lonlat": f["center_lonlat"], "gfm_flood_frac": gfm.get(f["id"], {}).get("gfm")} for f in fus["windows"][:12]],
+    "gfm": {"measurement_id": "M106", "yardstick": "Copernicus GFM ensemble flood extent from the same Sentinel-1 passes (20 m)", "overall": {k: v for k, v in gfm_groups.items() if k.startswith("all_")},
+            "headline": "Our top-10 fused windows hold 5.4% GFM flood pixels vs 0.5% elsewhere (p = 0.0003); new-water top-10 hold 8.7% (p < 0.0001). Along the Narayani the reach ranking matches GFM at ρ = 0.97. At Saptari GFM maps 18% flood in the channel windows that the embedding missed and the classical new-water caught.",
+            "headline_ko": "결합 깃발 상위 10창의 GFM 홍수 픽셀 5.4% vs 나머지 0.5%(p 0.0003), 고전 새-물 상위 10창은 8.7%(p<0.0001). 나라야니 구간 순위는 GFM 과 ρ 0.97. 삽타리는 GFM 이 하도 창에 18% 홍수를 잡았고 임베딩은 놓치고 고전 새-물이 맞췄다."} if gfm_groups else None,
     "scenes": scenes,
     "bounds": [82.9, 26.0, 87.4, 28.8],   # 부트왈(83.45)~삽타리(86.9) 전부 + 여백; 레일 패딩을 감안해 넉넉히
     "frames_dir": "/data/september/frames",

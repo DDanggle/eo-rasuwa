@@ -152,7 +152,8 @@
      "center_lonlat": [
       83.8733720624998,
       27.437342141977936
-     ]
+     ],
+     "gfm_flood_frac": 0.025914315569487985
     },
     {
      "id": "susta_01",
@@ -166,7 +167,8 @@
      "center_lonlat": [
       83.87277409102022,
       27.414259514946455
-     ]
+     ],
+     "gfm_flood_frac": 0.049750297265160524
     },
     {
      "id": "susta_20",
@@ -180,9 +182,38 @@
      "center_lonlat": [
       83.84809425970371,
       27.460956649424677
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     }
    ],
+   "gfm": {
+    "n": 25,
+    "gfm_mean": 0.00452241692923421,
+    "gfm_max": 0.049750297265160524,
+    "windows_gfm_gt1pct": 3,
+    "spearman_fused": 0.5430769230769231,
+    "spearman_new_water": 0.57,
+    "top3_by_gfm": [
+     {
+      "id": "susta_01",
+      "gfm": 0.0498,
+      "fused": 0.152,
+      "nw": 0.053
+     },
+     {
+      "id": "susta_11",
+      "gfm": 0.0259,
+      "fused": 0.1545,
+      "nw": 0.0838
+     },
+     {
+      "id": "susta_12",
+      "gfm": 0.0224,
+      "fused": 0.0236,
+      "nw": 0.0213
+     }
+    ]
+   },
    "grades": {
     "A": 0,
     "B": 3,
@@ -212,7 +243,8 @@
      "center_lonlat": [
       84.37367496077374,
       27.695930742844983
-     ]
+     ],
+     "gfm_flood_frac": 0.039153270730542734
     },
     {
      "id": "devghat_11",
@@ -226,7 +258,8 @@
      "center_lonlat": [
       84.3996121466591,
       27.69642051529473
-     ]
+     ],
+     "gfm_flood_frac": 0.0033643380170195925
     },
     {
      "id": "devghat_33",
@@ -240,9 +273,38 @@
      "center_lonlat": [
       84.45041393592109,
       27.743561222574197
-     ]
+     ],
+     "gfm_flood_frac": 0.00020408163265306123
     }
    ],
+   "gfm": {
+    "n": 25,
+    "gfm_mean": 0.0031956656594924965,
+    "gfm_max": 0.039153270730542734,
+    "windows_gfm_gt1pct": 2,
+    "spearman_fused": 0.6392307692307693,
+    "spearman_new_water": 0.7569230769230769,
+    "top3_by_gfm": [
+     {
+      "id": "devghat_10",
+      "gfm": 0.0392,
+      "fused": 0.0555,
+      "nw": 0.0477
+     },
+     {
+      "id": "devghat_00",
+      "gfm": 0.0188,
+      "fused": 0.0112,
+      "nw": 0.0214
+     },
+     {
+      "id": "devghat_01",
+      "gfm": 0.0077,
+      "fused": 0.0054,
+      "nw": 0.0039
+     }
+    ]
+   },
    "grades": {
     "A": 0,
     "B": 1,
@@ -272,7 +334,8 @@
      "center_lonlat": [
       83.45398083274215,
       27.658670998169523
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     },
     {
      "id": "butwal_00",
@@ -286,7 +349,8 @@
      "center_lonlat": [
       83.40211654649643,
       27.65958001171562
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     },
     {
      "id": "butwal_04",
@@ -300,9 +364,38 @@
      "center_lonlat": [
       83.50584266518264,
       27.657742608246597
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     }
    ],
+   "gfm": {
+    "n": 25,
+    "gfm_mean": 0.0,
+    "gfm_max": 0.0,
+    "windows_gfm_gt1pct": 0,
+    "spearman_fused": 0.37461538461538463,
+    "spearman_new_water": -0.33,
+    "top3_by_gfm": [
+     {
+      "id": "butwal_00",
+      "gfm": 0.0,
+      "fused": 0.0115,
+      "nw": 0.0018
+     },
+     {
+      "id": "butwal_01",
+      "gfm": 0.0,
+      "fused": 0.0092,
+      "nw": 0.0021
+     },
+     {
+      "id": "butwal_02",
+      "gfm": 0.0,
+      "fused": 0.0133,
+      "nw": 0.0013
+     }
+    ]
+   },
    "grades": {
     "A": 0,
     "B": 0,
@@ -332,7 +425,8 @@
      "center_lonlat": [
       84.46112714050781,
       27.75386366704715
-     ]
+     ],
+     "gfm_flood_frac": 0.0007142857142857143
     },
     {
      "id": "dharapani_12",
@@ -346,7 +440,8 @@
      "center_lonlat": [
       84.46059094486304,
       27.77695155153335
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     },
     {
      "id": "dharapani_03",
@@ -360,9 +455,38 @@
      "center_lonlat": [
       84.48707982465358,
       27.754337966703623
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     }
    ],
+   "gfm": {
+    "n": 25,
+    "gfm_mean": 0.00018571428571428572,
+    "gfm_max": 0.003826530612244898,
+    "windows_gfm_gt1pct": 0,
+    "spearman_fused": 0.10846153846153846,
+    "spearman_new_water": -0.3484615384615385,
+    "top3_by_gfm": [
+     {
+      "id": "dharapani_00",
+      "gfm": 0.0038,
+      "fused": 0.0024,
+      "nw": 0.0139
+     },
+     {
+      "id": "dharapani_02",
+      "gfm": 0.0007,
+      "fused": 0.0063,
+      "nw": 0.0203
+     },
+     {
+      "id": "dharapani_01",
+      "gfm": 0.0001,
+      "fused": 0.0012,
+      "nw": 0.0052
+     }
+    ]
+   },
    "grades": {
     "A": 0,
     "B": 0,
@@ -392,7 +516,8 @@
      "center_lonlat": [
       86.85419808202568,
       26.57308345183533
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     },
     {
      "id": "saptari_10",
@@ -406,7 +531,8 @@
      "center_lonlat": [
       86.82856080485512,
       26.526825681960634
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     },
     {
      "id": "saptari_41",
@@ -420,9 +546,38 @@
      "center_lonlat": [
       86.85416880168951,
       26.596197936894598
-     ]
+     ],
+     "gfm_flood_frac": 0.0
     }
    ],
+   "gfm": {
+    "n": 25,
+    "gfm_mean": 0.0268126368470441,
+    "gfm_max": 0.1861119799812324,
+    "windows_gfm_gt1pct": 8,
+    "spearman_fused": -0.41000000000000003,
+    "spearman_new_water": 0.7692307692307693,
+    "top3_by_gfm": [
+     {
+      "id": "saptari_02",
+      "gfm": 0.1861,
+      "fused": 0.0207,
+      "nw": 0.103
+     },
+     {
+      "id": "saptari_04",
+      "gfm": 0.1775,
+      "fused": 0.0354,
+      "nw": 0.1461
+     },
+     {
+      "id": "saptari_24",
+      "gfm": 0.1176,
+      "fused": 0.0141,
+      "nw": 0.155
+     }
+    ]
+   },
    "grades": {
     "A": 0,
     "B": 0,
@@ -461,7 +616,8 @@
    "center_lonlat": [
     83.8733720624998,
     27.437342141977936
-   ]
+   ],
+   "gfm_flood_frac": 0.025914315569487985
   },
   {
    "id": "susta_01",
@@ -476,7 +632,8 @@
    "center_lonlat": [
     83.87277409102022,
     27.414259514946455
-   ]
+   ],
+   "gfm_flood_frac": 0.049750297265160524
   },
   {
    "id": "susta_20",
@@ -491,7 +648,8 @@
    "center_lonlat": [
     83.84809425970371,
     27.460956649424677
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "devghat_10",
@@ -506,7 +664,8 @@
    "center_lonlat": [
     84.37367496077374,
     27.695930742844983
-   ]
+   ],
+   "gfm_flood_frac": 0.039153270730542734
   },
   {
    "id": "saptari_31",
@@ -521,7 +680,8 @@
    "center_lonlat": [
     86.85419808202568,
     26.57308345183533
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "saptari_10",
@@ -536,7 +696,8 @@
    "center_lonlat": [
     86.82856080485512,
     26.526825681960634
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "saptari_41",
@@ -551,7 +712,8 @@
    "center_lonlat": [
     86.85416880168951,
     26.596197936894598
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "saptari_40",
@@ -566,7 +728,8 @@
    "center_lonlat": [
     86.8284576016548,
     26.596169276036385
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "saptari_30",
@@ -581,7 +744,8 @@
    "center_lonlat": [
     86.82849204429002,
     26.573054819729983
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "saptari_00",
@@ -596,7 +760,8 @@
    "center_lonlat": [
     86.82859512285698,
     26.50371100058799
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "saptari_32",
@@ -611,7 +776,8 @@
    "center_lonlat": [
     86.87990415510968,
     26.573107444856703
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   },
   {
    "id": "saptari_20",
@@ -626,9 +792,30 @@
    "center_lonlat": [
     86.82852644534478,
     26.549940288356357
-   ]
+   ],
+   "gfm_flood_frac": 0.0
   }
  ],
+ "gfm": {
+  "measurement_id": "M106",
+  "yardstick": "Copernicus GFM ensemble flood extent from the same Sentinel-1 passes (20 m)",
+  "overall": {
+   "all_fused_flag_top10": {
+    "gfm_mean_top10": 0.053468622147810584,
+    "gfm_mean_rest": 0.005130653908096103,
+    "permutation_p": 0.00027499862500687496,
+    "spearman": 0.5090640888833092
+   },
+   "all_new_water_top10": {
+    "gfm_mean_top10": 0.08743481105297922,
+    "gfm_mean_rest": 0.003120820245068374,
+    "permutation_p": 4.9999750001249995e-06,
+    "spearman": 0.407356725880359
+   }
+  },
+  "headline": "Our top-10 fused windows hold 5.4% GFM flood pixels vs 0.5% elsewhere (p = 0.0003); new-water top-10 hold 8.7% (p < 0.0001). Along the Narayani the reach ranking matches GFM at ρ = 0.97. At Saptari GFM maps 18% flood in the channel windows that the embedding missed and the classical new-water caught.",
+  "headline_ko": "결합 깃발 상위 10창의 GFM 홍수 픽셀 5.4% vs 나머지 0.5%(p 0.0003), 고전 새-물 상위 10창은 8.7%(p<0.0001). 나라야니 구간 순위는 GFM 과 ρ 0.97. 삽타리는 GFM 이 하도 창에 18% 홍수를 잡았고 임베딩은 놓치고 고전 새-물이 맞췄다."
+ },
  "scenes": [
   {
    "id": "s1-2026-09-12",

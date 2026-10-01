@@ -1,0 +1,2036 @@
+{
+ "schema": "gfm-external-score-v1",
+ "measurement_id": "M106",
+ "yardstick": "Copernicus GFM ensemble flood extent, same Sentinel-1 passes (29 Sep orbit 19 / 28 Sep orbit 12), 20 m, downloaded from stac.eodc.eu without auth",
+ "n_windows": 179,
+ "groups": {
+  "all_fused_flag_top10": {
+   "gfm_mean_top10": 0.053468622147810584,
+   "gfm_mean_rest": 0.005130653908096103,
+   "permutation_p": 0.00027499862500687496,
+   "spearman": 0.5090640888833092
+  },
+  "all_new_water_top10": {
+   "gfm_mean_top10": 0.08743481105297922,
+   "gfm_mean_rest": 0.003120820245068374,
+   "permutation_p": 4.9999750001249995e-06,
+   "spearman": 0.407356725880359
+  },
+  "butwal": {
+   "n": 25,
+   "gfm_mean": 0.0,
+   "gfm_max": 0.0,
+   "windows_gfm_gt1pct": 0,
+   "spearman_fused": 0.37461538461538463,
+   "spearman_new_water": -0.33,
+   "top3_by_gfm": [
+    {
+     "id": "butwal_00",
+     "gfm": 0.0,
+     "fused": 0.0115,
+     "nw": 0.0018
+    },
+    {
+     "id": "butwal_01",
+     "gfm": 0.0,
+     "fused": 0.0092,
+     "nw": 0.0021
+    },
+    {
+     "id": "butwal_02",
+     "gfm": 0.0,
+     "fused": 0.0133,
+     "nw": 0.0013
+    }
+   ]
+  },
+  "devghat": {
+   "n": 25,
+   "gfm_mean": 0.0031956656594924965,
+   "gfm_max": 0.039153270730542734,
+   "windows_gfm_gt1pct": 2,
+   "spearman_fused": 0.6392307692307693,
+   "spearman_new_water": 0.7569230769230769,
+   "top3_by_gfm": [
+    {
+     "id": "devghat_10",
+     "gfm": 0.0392,
+     "fused": 0.0555,
+     "nw": 0.0477
+    },
+    {
+     "id": "devghat_00",
+     "gfm": 0.0188,
+     "fused": 0.0112,
+     "nw": 0.0214
+    },
+    {
+     "id": "devghat_01",
+     "gfm": 0.0077,
+     "fused": 0.0054,
+     "nw": 0.0039
+    }
+   ]
+  },
+  "dharapani": {
+   "n": 25,
+   "gfm_mean": 0.00018571428571428572,
+   "gfm_max": 0.003826530612244898,
+   "windows_gfm_gt1pct": 0,
+   "spearman_fused": 0.10846153846153846,
+   "spearman_new_water": -0.3484615384615385,
+   "top3_by_gfm": [
+    {
+     "id": "dharapani_00",
+     "gfm": 0.0038,
+     "fused": 0.0024,
+     "nw": 0.0139
+    },
+    {
+     "id": "dharapani_02",
+     "gfm": 0.0007,
+     "fused": 0.0063,
+     "nw": 0.0203
+    },
+    {
+     "id": "dharapani_01",
+     "gfm": 0.0001,
+     "fused": 0.0012,
+     "nw": 0.0052
+    }
+   ]
+  },
+  "river_koshi": {
+   "n": 31,
+   "gfm_mean": 1.681684105730843e-05,
+   "gfm_max": 0.0005213220727765613,
+   "windows_gfm_gt1pct": 0,
+   "spearman_fused": -0.2745967741935484,
+   "spearman_new_water": -0.2120967741935484,
+   "top3_by_gfm": [
+    {
+     "id": "koshi_01",
+     "gfm": 0.0005,
+     "fused": 0.0054,
+     "nw": 0.005
+    },
+    {
+     "id": "koshi_00",
+     "gfm": 0.0,
+     "fused": 0.0002,
+     "nw": 0.0031
+    },
+    {
+     "id": "koshi_02",
+     "gfm": 0.0,
+     "fused": 0.0005,
+     "nw": 0.0029
+    }
+   ]
+  },
+  "river_narayani": {
+   "n": 18,
+   "gfm_mean": 0.029629698157580184,
+   "gfm_max": 0.10035714285714285,
+   "windows_gfm_gt1pct": 10,
+   "spearman_fused": 0.9669762641898865,
+   "spearman_new_water": 0.8988648090815273,
+   "top3_by_gfm": [
+    {
+     "id": "narayani_00",
+     "gfm": 0.1004,
+     "fused": 0.1711,
+     "nw": 0.1088
+    },
+    {
+     "id": "narayani_15",
+     "gfm": 0.0678,
+     "fused": 0.1272,
+     "nw": 0.0988
+    },
+    {
+     "id": "narayani_12",
+     "gfm": 0.0673,
+     "fused": 0.2253,
+     "nw": 0.1515
+    }
+   ]
+  },
+  "river_tinau": {
+   "n": 5,
+   "gfm_mean": 0.0,
+   "gfm_max": 0.0,
+   "windows_gfm_gt1pct": 0,
+   "spearman_fused": -0.19999999999999998,
+   "spearman_new_water": -0.9999999999999999,
+   "top3_by_gfm": [
+    {
+     "id": "tinau_00",
+     "gfm": 0.0,
+     "fused": 0.0022,
+     "nw": 0.0125
+    },
+    {
+     "id": "tinau_01",
+     "gfm": 0.0,
+     "fused": 0.0015,
+     "nw": 0.0095
+    },
+    {
+     "id": "tinau_02",
+     "gfm": 0.0,
+     "fused": 0.0029,
+     "nw": 0.0063
+    }
+   ]
+  },
+  "saptari": {
+   "n": 25,
+   "gfm_mean": 0.0268126368470441,
+   "gfm_max": 0.1861119799812324,
+   "windows_gfm_gt1pct": 8,
+   "spearman_fused": -0.41000000000000003,
+   "spearman_new_water": 0.7692307692307693,
+   "top3_by_gfm": [
+    {
+     "id": "saptari_02",
+     "gfm": 0.1861,
+     "fused": 0.0207,
+     "nw": 0.103
+    },
+    {
+     "id": "saptari_04",
+     "gfm": 0.1775,
+     "fused": 0.0354,
+     "nw": 0.1461
+    },
+    {
+     "id": "saptari_24",
+     "gfm": 0.1176,
+     "fused": 0.0141,
+     "nw": 0.155
+    }
+   ]
+  },
+  "susta": {
+   "n": 25,
+   "gfm_mean": 0.00452241692923421,
+   "gfm_max": 0.049750297265160524,
+   "windows_gfm_gt1pct": 3,
+   "spearman_fused": 0.5430769230769231,
+   "spearman_new_water": 0.57,
+   "top3_by_gfm": [
+    {
+     "id": "susta_01",
+     "gfm": 0.0498,
+     "fused": 0.152,
+     "nw": 0.053
+    },
+    {
+     "id": "susta_11",
+     "gfm": 0.0259,
+     "fused": 0.1545,
+     "nw": 0.0838
+    },
+    {
+     "id": "susta_12",
+     "gfm": 0.0224,
+     "fused": 0.0236,
+     "nw": 0.0213
+    }
+   ]
+  }
+ },
+ "rows": [
+  {
+   "id": "butwal_00",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.011474609375,
+   "nw": 0.0017852783203125,
+   "fused": 0.011474609375
+  },
+  {
+   "id": "butwal_01",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0008974964572508266,
+   "flag": 0.0091552734375,
+   "nw": 0.00213623046875,
+   "fused": 0.0091552734375
+  },
+  {
+   "id": "butwal_02",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0133056640625,
+   "nw": 0.00127410888671875,
+   "fused": 0.0133056640625
+  },
+  {
+   "id": "butwal_03",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0081787109375,
+   "nw": 0.00028228759765625,
+   "fused": 0.0081787109375
+  },
+  {
+   "id": "butwal_04",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.01025390625,
+   "nw": 0.000244140625,
+   "fused": 0.01025390625
+  },
+  {
+   "id": "butwal_10",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0025980160604629193,
+   "flag": 0.0067138671875,
+   "nw": 0.00127410888671875,
+   "fused": 0.0067138671875
+  },
+  {
+   "id": "butwal_11",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.007080078125,
+   "nw": 0.00133514404296875,
+   "fused": 0.007080078125
+  },
+  {
+   "id": "butwal_12",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0098876953125,
+   "nw": 0.00150299072265625,
+   "fused": 0.0098876953125
+  },
+  {
+   "id": "butwal_13",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00439453125,
+   "nw": 0.000213623046875,
+   "fused": 0.00439453125
+  },
+  {
+   "id": "butwal_14",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0048828125,
+   "nw": 0.00020599365234375,
+   "fused": 0.0048828125
+  },
+  {
+   "id": "butwal_20",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0068359375,
+   "nw": 0.00041961669921875,
+   "fused": 0.0068359375
+  },
+  {
+   "id": "butwal_21",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0086669921875,
+   "nw": 0.0006561279296875,
+   "fused": 0.0086669921875
+  },
+  {
+   "id": "butwal_22",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0054931640625,
+   "nw": 0.0003509521484375,
+   "fused": 0.0054931640625
+  },
+  {
+   "id": "butwal_23",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00537109375,
+   "nw": 0.000335693359375,
+   "fused": 0.00537109375
+  },
+  {
+   "id": "butwal_24",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0057373046875,
+   "nw": 0.0015411376953125,
+   "fused": 0.0057373046875
+  },
+  {
+   "id": "butwal_30",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0089111328125,
+   "nw": 0.0011749267578125,
+   "fused": 0.0089111328125
+  },
+  {
+   "id": "butwal_31",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0050048828125,
+   "nw": 0.00240325927734375,
+   "fused": 0.0050048828125
+  },
+  {
+   "id": "butwal_32",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0057373046875,
+   "nw": 0.002838134765625,
+   "fused": 0.0057373046875
+  },
+  {
+   "id": "butwal_33",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00439453125,
+   "nw": 0.00397491455078125,
+   "fused": 0.00439453125
+  },
+  {
+   "id": "butwal_34",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0045166015625,
+   "nw": 0.00254058837890625,
+   "fused": 0.0045166015625
+  },
+  {
+   "id": "butwal_40",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00341796875,
+   "nw": 0.0007781982421875,
+   "fused": 0.00341796875
+  },
+  {
+   "id": "butwal_41",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0029296875,
+   "nw": 0.00193023681640625,
+   "fused": 0.0029296875
+  },
+  {
+   "id": "butwal_42",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.006103515625,
+   "nw": 0.002288818359375,
+   "fused": 0.006103515625
+  },
+  {
+   "id": "butwal_43",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00390625,
+   "nw": 0.0031280517578125,
+   "fused": 0.00390625
+  },
+  {
+   "id": "butwal_44",
+   "site": "butwal",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.004150390625,
+   "nw": 0.00341033935546875,
+   "fused": 0.004150390625
+  },
+  {
+   "id": "devghat_00",
+   "site": "devghat",
+   "gfm": 0.018775510204081632,
+   "gfm_water": null,
+   "gfm_ref": 0.025306122448979593,
+   "flag": 0.01123046875,
+   "nw": 0.02138519287109375,
+   "fused": 0.01123046875
+  },
+  {
+   "id": "devghat_01",
+   "site": "devghat",
+   "gfm": 0.007704081632653061,
+   "gfm_water": null,
+   "gfm_ref": 0.006071428571428571,
+   "flag": 0.00537109375,
+   "nw": 0.00392913818359375,
+   "fused": 0.00537109375
+  },
+  {
+   "id": "devghat_02",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0015869140625,
+   "nw": 0.00042724609375,
+   "fused": 0.0015869140625
+  },
+  {
+   "id": "devghat_03",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.00045918367346938773,
+   "flag": 0.0011005200345092026,
+   "nw": 0.00024470392385253346,
+   "fused": 0.0011005200345092026
+  },
+  {
+   "id": "devghat_04",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0031860226104830423,
+   "flag": 0.002487920875232608,
+   "nw": 0.0007663917647185523,
+   "fused": 0.002487920875232608
+  },
+  {
+   "id": "devghat_10",
+   "site": "devghat",
+   "gfm": 0.039153270730542734,
+   "gfm_water": null,
+   "gfm_ref": 0.03948979591836735,
+   "flag": 0.0554644332068507,
+   "nw": 0.047677142381629886,
+   "fused": 0.0554644332068507
+  },
+  {
+   "id": "devghat_11",
+   "site": "devghat",
+   "gfm": 0.0033643380170195925,
+   "gfm_water": 0.055412626162675636,
+   "gfm_ref": 0.07964285714285714,
+   "flag": 0.029293007936246042,
+   "nw": 0.03073459955132668,
+   "fused": 0.029293007936246042
+  },
+  {
+   "id": "devghat_12",
+   "site": "devghat",
+   "gfm": 0.002372564526565533,
+   "gfm_water": 0.11222949169602416,
+   "gfm_ref": 0.035,
+   "flag": 0.011928835193803016,
+   "nw": 0.011441714547710875,
+   "fused": 0.011928835193803016
+  },
+  {
+   "id": "devghat_13",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.003173828125,
+   "nw": 0.0006103515625,
+   "fused": 0.003173828125
+  },
+  {
+   "id": "devghat_14",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.002197265625,
+   "nw": 0.00018310546875,
+   "fused": 0.002197265625
+  },
+  {
+   "id": "devghat_20",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00390625,
+   "nw": 0.001556396484375,
+   "fused": 0.00390625
+  },
+  {
+   "id": "devghat_21",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.005126953125,
+   "nw": 0.002410888671875,
+   "fused": 0.005126953125
+  },
+  {
+   "id": "devghat_22",
+   "site": "devghat",
+   "gfm": 0.0014795918367346938,
+   "gfm_water": 0.07556122448979592,
+   "gfm_ref": 0.051326530612244896,
+   "flag": 0.01123046875,
+   "nw": 0.0092926025390625,
+   "fused": 0.01123046875
+  },
+  {
+   "id": "devghat_23",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.004150390625,
+   "nw": 0.000152587890625,
+   "fused": 0.004150390625
+  },
+  {
+   "id": "devghat_24",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00244140625,
+   "nw": 7.62939453125e-05,
+   "fused": 0.00244140625
+  },
+  {
+   "id": "devghat_30",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0033673469387755102,
+   "gfm_ref": 0.0,
+   "flag": 0.00390625,
+   "nw": 0.000640869140625,
+   "fused": 0.00390625
+  },
+  {
+   "id": "devghat_31",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.002197265625,
+   "nw": 0.00048828125,
+   "fused": 0.002197265625
+  },
+  {
+   "id": "devghat_32",
+   "site": "devghat",
+   "gfm": 0.00010204081632653062,
+   "gfm_water": 0.06107142857142857,
+   "gfm_ref": 0.02729591836734694,
+   "flag": 0.00390625,
+   "nw": 0.009033203125,
+   "fused": 0.00390625
+  },
+  {
+   "id": "devghat_33",
+   "site": "devghat",
+   "gfm": 0.00020408163265306123,
+   "gfm_water": 0.02035714285714286,
+   "gfm_ref": 0.00413265306122449,
+   "flag": 0.014404296875,
+   "nw": 0.010040283203125,
+   "fused": 0.014404296875
+  },
+  {
+   "id": "devghat_34",
+   "site": "devghat",
+   "gfm": 0.00020554984583761563,
+   "gfm_water": 0.027852004110996916,
+   "gfm_ref": 0.008427543679342241,
+   "flag": 0.003662109375,
+   "nw": 0.00482177734375,
+   "fused": 0.003662109375
+  },
+  {
+   "id": "devghat_40",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.003622448979591837,
+   "gfm_ref": 0.0,
+   "flag": 0.00732421875,
+   "nw": 0.0073089599609375,
+   "fused": 0.00732421875
+  },
+  {
+   "id": "devghat_41",
+   "site": "devghat",
+   "gfm": 0.0017346938775510204,
+   "gfm_water": 0.008775510204081632,
+   "gfm_ref": 0.0016836734693877551,
+   "flag": 0.005126953125,
+   "nw": 0.006103515625,
+   "fused": 0.005126953125
+  },
+  {
+   "id": "devghat_42",
+   "site": "devghat",
+   "gfm": 0.004285714285714286,
+   "gfm_water": 0.010510204081632652,
+   "gfm_ref": 0.0013775510204081633,
+   "flag": 0.0048828125,
+   "nw": 0.0070343017578125,
+   "fused": 0.0048828125
+  },
+  {
+   "id": "devghat_43",
+   "site": "devghat",
+   "gfm": 0.0005102040816326531,
+   "gfm_water": 0.05923469387755102,
+   "gfm_ref": 0.019489795918367348,
+   "flag": 0.014404296875,
+   "nw": 0.0160980224609375,
+   "fused": 0.014404296875
+  },
+  {
+   "id": "devghat_44",
+   "site": "devghat",
+   "gfm": 0.0,
+   "gfm_water": 0.022096608427543678,
+   "gfm_ref": 0.013874614594039054,
+   "flag": 0.00341796875,
+   "nw": 0.0041351318359375,
+   "fused": 0.00341796875
+  },
+  {
+   "id": "susta_00",
+   "site": "susta",
+   "gfm": 0.0029488703923900117,
+   "gfm_water": null,
+   "gfm_ref": 0.050606420927467304,
+   "flag": 0.026611328125,
+   "nw": 0.00931549072265625,
+   "fused": 0.026611328125
+  },
+  {
+   "id": "susta_01",
+   "site": "susta",
+   "gfm": 0.049750297265160524,
+   "gfm_water": null,
+   "gfm_ref": 0.1590963139120095,
+   "flag": 0.1519775390625,
+   "nw": 0.05301666259765625,
+   "fused": 0.1519775390625
+  },
+  {
+   "id": "susta_02",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.002853745541022592,
+   "flag": 0.023681640625,
+   "nw": 0.00386810302734375,
+   "fused": 0.023681640625
+  },
+  {
+   "id": "susta_03",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0034244946492271106,
+   "flag": 0.003173828125,
+   "nw": 0.00140380859375,
+   "fused": 0.003173828125
+  },
+  {
+   "id": "susta_04",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.00031280517578125,
+   "fused": 0.001953125
+  },
+  {
+   "id": "susta_10",
+   "site": "susta",
+   "gfm": 0.0030651340996168583,
+   "gfm_water": null,
+   "gfm_ref": 0.011612142646625405,
+   "flag": 0.02685546875,
+   "nw": 0.00647735595703125,
+   "fused": 0.02685546875
+  },
+  {
+   "id": "susta_11",
+   "site": "susta",
+   "gfm": 0.025914315569487985,
+   "gfm_water": null,
+   "gfm_ref": 0.06269592476489028,
+   "flag": 0.154541015625,
+   "nw": 0.08382415771484375,
+   "fused": 0.154541015625
+  },
+  {
+   "id": "susta_12",
+   "site": "susta",
+   "gfm": 0.022392507449978713,
+   "gfm_water": null,
+   "gfm_ref": 0.1583652618135377,
+   "flag": 0.0235595703125,
+   "nw": 0.02130126953125,
+   "fused": 0.0235595703125
+  },
+  {
+   "id": "susta_13",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0023193359375,
+   "nw": 0.00379180908203125,
+   "fused": 0.0023193359375
+  },
+  {
+   "id": "susta_14",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0054931640625,
+   "nw": 0.000213623046875,
+   "fused": 0.0054931640625
+  },
+  {
+   "id": "susta_20",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.010416171224732462,
+   "flag": 0.06005859375,
+   "nw": 0.001251220703125,
+   "fused": 0.06005859375
+  },
+  {
+   "id": "susta_21",
+   "site": "susta",
+   "gfm": 0.002996432818073722,
+   "gfm_water": null,
+   "gfm_ref": 0.007086801426872771,
+   "flag": 0.031982421875,
+   "nw": 0.00127410888671875,
+   "fused": 0.031982421875
+  },
+  {
+   "id": "susta_22",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.017578125,
+   "nw": 0.00080108642578125,
+   "fused": 0.017578125
+  },
+  {
+   "id": "susta_23",
+   "site": "susta",
+   "gfm": 9.512485136741974e-05,
+   "gfm_water": null,
+   "gfm_ref": 0.11781212841854935,
+   "flag": 0.0086669921875,
+   "nw": 0.003662109375,
+   "fused": 0.0086669921875
+  },
+  {
+   "id": "susta_24",
+   "site": "susta",
+   "gfm": 0.005897740784780023,
+   "gfm_water": null,
+   "gfm_ref": 0.058977407847800235,
+   "flag": 0.0218505859375,
+   "nw": 0.0062408447265625,
+   "fused": 0.0218505859375
+  },
+  {
+   "id": "susta_30",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.025634765625,
+   "nw": 0.000213623046875,
+   "fused": 0.025634765625
+  },
+  {
+   "id": "susta_31",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0118408203125,
+   "nw": 0.00048065185546875,
+   "fused": 0.0118408203125
+  },
+  {
+   "id": "susta_32",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.010009765625,
+   "nw": 0.000457763671875,
+   "fused": 0.010009765625
+  },
+  {
+   "id": "susta_33",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.031200951248513673,
+   "flag": 0.008544921875,
+   "nw": 0.00304412841796875,
+   "fused": 0.008544921875
+  },
+  {
+   "id": "susta_34",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.07058263971462544,
+   "flag": 0.005859375,
+   "nw": 0.00511932373046875,
+   "fused": 0.005859375
+  },
+  {
+   "id": "susta_40",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0118408203125,
+   "nw": 0.00051116943359375,
+   "fused": 0.0118408203125
+  },
+  {
+   "id": "susta_41",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0074462890625,
+   "nw": 0.001922607421875,
+   "fused": 0.0074462890625
+  },
+  {
+   "id": "susta_42",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00390625,
+   "nw": 0.00238037109375,
+   "fused": 0.00390625
+  },
+  {
+   "id": "susta_43",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.036004756242568374,
+   "flag": 0.0025634765625,
+   "nw": 0.00412750244140625,
+   "fused": 0.0025634765625
+  },
+  {
+   "id": "susta_44",
+   "site": "susta",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.1007372175980975,
+   "flag": 0.001220703125,
+   "nw": 0.004913330078125,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "dharapani_00",
+   "site": "dharapani",
+   "gfm": 0.003826530612244898,
+   "gfm_water": 0.031224489795918367,
+   "gfm_ref": 0.005510204081632653,
+   "flag": 0.00244140625,
+   "nw": 0.013916015625,
+   "fused": 0.00244140625
+  },
+  {
+   "id": "dharapani_01",
+   "site": "dharapani",
+   "gfm": 0.00010204081632653062,
+   "gfm_water": 0.04428571428571428,
+   "gfm_ref": 0.012755102040816327,
+   "flag": 0.001220703125,
+   "nw": 0.0052032470703125,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "dharapani_02",
+   "site": "dharapani",
+   "gfm": 0.0007142857142857143,
+   "gfm_water": 0.07908163265306123,
+   "gfm_ref": 0.026224489795918366,
+   "flag": 0.00634765625,
+   "nw": 0.0203399658203125,
+   "fused": 0.00634765625
+  },
+  {
+   "id": "dharapani_03",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00439453125,
+   "nw": 0.0003662109375,
+   "fused": 0.00439453125
+  },
+  {
+   "id": "dharapani_04",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0009765625,
+   "nw": 0.0008392333984375,
+   "fused": 0.0009765625
+  },
+  {
+   "id": "dharapani_10",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001220703125,
+   "nw": 0.0063018798828125,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "dharapani_11",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.00836734693877551,
+   "gfm_ref": 0.0012755102040816326,
+   "flag": 0.001708984375,
+   "nw": 0.006622314453125,
+   "fused": 0.001708984375
+  },
+  {
+   "id": "dharapani_12",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.01193877551020408,
+   "gfm_ref": 0.010918367346938776,
+   "flag": 0.005859375,
+   "nw": 0.0075531005859375,
+   "fused": 0.005859375
+  },
+  {
+   "id": "dharapani_13",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00341796875,
+   "nw": 0.0048065185546875,
+   "fused": 0.00341796875
+  },
+  {
+   "id": "dharapani_14",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0009765625,
+   "nw": 0.0040435791015625,
+   "fused": 0.0009765625
+  },
+  {
+   "id": "dharapani_20",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0036468505859375,
+   "fused": 0.0
+  },
+  {
+   "id": "dharapani_21",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001220703125,
+   "nw": 0.007598876953125,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "dharapani_22",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001220703125,
+   "nw": 0.0030364990234375,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "dharapani_23",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00048828125,
+   "nw": 0.0075531005859375,
+   "fused": 0.00048828125
+  },
+  {
+   "id": "dharapani_24",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00244140625,
+   "nw": 0.009246826171875,
+   "fused": 0.00244140625
+  },
+  {
+   "id": "dharapani_30",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.0085601806640625,
+   "fused": 0.001953125
+  },
+  {
+   "id": "dharapani_31",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00244140625,
+   "nw": 0.0110015869140625,
+   "fused": 0.00244140625
+  },
+  {
+   "id": "dharapani_32",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0014795918367346938,
+   "gfm_ref": 0.0014795918367346938,
+   "flag": 0.0009765625,
+   "nw": 0.0115203857421875,
+   "fused": 0.0009765625
+  },
+  {
+   "id": "dharapani_33",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.015594482421875,
+   "fused": 0.001953125
+  },
+  {
+   "id": "dharapani_34",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.019256591796875,
+   "fused": 0.001953125
+  },
+  {
+   "id": "dharapani_40",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0009765625,
+   "nw": 0.020751953125,
+   "fused": 0.0009765625
+  },
+  {
+   "id": "dharapani_41",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.004150390625,
+   "nw": 0.01507568359375,
+   "fused": 0.004150390625
+  },
+  {
+   "id": "dharapani_42",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00390625,
+   "nw": 0.0135650634765625,
+   "fused": 0.00390625
+  },
+  {
+   "id": "dharapani_43",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001220703125,
+   "nw": 0.00665283203125,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "dharapani_44",
+   "site": "dharapani",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.002685546875,
+   "nw": 0.012725830078125,
+   "fused": 0.002685546875
+  },
+  {
+   "id": "saptari_00",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0009765625,
+   "nw": 0.0008392333984375,
+   "fused": 0.04365325077399381
+  },
+  {
+   "id": "saptari_01",
+   "site": "saptari",
+   "gfm": 0.059326451881972685,
+   "gfm_water": 0.08763424043373996,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.0335540771484375,
+   "fused": 0.038931297709923665
+  },
+  {
+   "id": "saptari_02",
+   "site": "saptari",
+   "gfm": 0.1861119799812324,
+   "gfm_water": 0.3865081847565426,
+   "gfm_ref": 0.10395162131164634,
+   "flag": 0.011962890625,
+   "nw": 0.10296630859375,
+   "fused": 0.020684371807967315
+  },
+  {
+   "id": "saptari_03",
+   "site": "saptari",
+   "gfm": 0.026483161297049317,
+   "gfm_water": 0.7340736106766761,
+   "gfm_ref": 0.5351371077051402,
+   "flag": 0.01318359375,
+   "nw": 0.027740478515625,
+   "fused": 0.01983635011157947
+  },
+  {
+   "id": "saptari_04",
+   "site": "saptari",
+   "gfm": 0.1774580335731415,
+   "gfm_water": 0.3821290793452195,
+   "gfm_ref": 0.13570013554373891,
+   "flag": 0.007568359375,
+   "nw": 0.1461334228515625,
+   "fused": 0.035426166257453526
+  },
+  {
+   "id": "saptari_10",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0011749267578125,
+   "fused": 0.04739943633102742
+  },
+  {
+   "id": "saptari_11",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.001928891669273277,
+   "gfm_ref": 0.001928891669273277,
+   "flag": 0.000244140625,
+   "nw": 0.0005340576171875,
+   "fused": 0.02600896860986547
+  },
+  {
+   "id": "saptari_12",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.002606610363882807,
+   "gfm_ref": 0.0015118340110520279,
+   "flag": 0.0009765625,
+   "nw": 0.0021820068359375,
+   "fused": 0.01389631213254944
+  },
+  {
+   "id": "saptari_13",
+   "site": "saptari",
+   "gfm": 0.00010426441455531227,
+   "gfm_water": 0.27697841726618705,
+   "gfm_ref": 0.23840058388072152,
+   "flag": 0.0048828125,
+   "nw": 0.030548095703125,
+   "fused": 0.040149710785981625
+  },
+  {
+   "id": "saptari_14",
+   "site": "saptari",
+   "gfm": 0.02695235116254822,
+   "gfm_water": 0.527890730893546,
+   "gfm_ref": 0.46392451256386197,
+   "flag": 0.0224609375,
+   "nw": 0.1560821533203125,
+   "fused": 0.0224609375
+  },
+  {
+   "id": "saptari_20",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000732421875,
+   "nw": 0.000762939453125,
+   "fused": 0.04289473684210526
+  },
+  {
+   "id": "saptari_21",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0009383797309978105,
+   "gfm_ref": 0.0009383797309978105,
+   "flag": 0.00048828125,
+   "nw": 0.0010223388671875,
+   "fused": 0.02191464821222607
+  },
+  {
+   "id": "saptari_22",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.0005950927734375,
+   "fused": 0.026884422110552763
+  },
+  {
+   "id": "saptari_23",
+   "site": "saptari",
+   "gfm": 0.018194140339901993,
+   "gfm_water": 0.03586695860702742,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.013671875,
+   "fused": 0.02109111361079865
+  },
+  {
+   "id": "saptari_24",
+   "site": "saptari",
+   "gfm": 0.11761025961839225,
+   "gfm_water": 0.5269002189552706,
+   "gfm_ref": 0.3754040246064018,
+   "flag": 0.01318359375,
+   "nw": 0.1550445556640625,
+   "fused": 0.014140681653372008
+  },
+  {
+   "id": "saptari_30",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0010986328125,
+   "fused": 0.04464751958224543
+  },
+  {
+   "id": "saptari_31",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0013033051819414034,
+   "gfm_ref": 0.0013033051819414034,
+   "flag": 0.0,
+   "nw": 0.0008087158203125,
+   "fused": 0.05192052980132451
+  },
+  {
+   "id": "saptari_32",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0003509521484375,
+   "fused": 0.04295125164690382
+  },
+  {
+   "id": "saptari_33",
+   "site": "saptari",
+   "gfm": 0.006516525909707017,
+   "gfm_water": 0.03617975185069336,
+   "gfm_ref": 0.00823688874986967,
+   "flag": 0.001220703125,
+   "nw": 0.0258941650390625,
+   "fused": 0.019432370237790847
+  },
+  {
+   "id": "saptari_34",
+   "site": "saptari",
+   "gfm": 0.04582421019705974,
+   "gfm_water": 0.17109790428526744,
+   "gfm_ref": 0.1070795537483057,
+   "flag": 0.02490234375,
+   "nw": 0.095977783203125,
+   "fused": 0.02490234375
+  },
+  {
+   "id": "saptari_40",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0014495849609375,
+   "fused": 0.045085190039318476
+  },
+  {
+   "id": "saptari_41",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.0011749267578125,
+   "fused": 0.047277556440903055
+  },
+  {
+   "id": "saptari_42",
+   "site": "saptari",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0025787353515625,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "saptari_43",
+   "site": "saptari",
+   "gfm": 5.2132207277656134e-05,
+   "gfm_water": 0.003805651131268898,
+   "gfm_ref": 0.003753518923991242,
+   "flag": 0.0009765625,
+   "nw": 0.0009765625,
+   "fused": 0.0009765625
+  },
+  {
+   "id": "saptari_44",
+   "site": "saptari",
+   "gfm": 0.005682410593264519,
+   "gfm_water": 0.038160775727244294,
+   "gfm_ref": 0.008966739651756855,
+   "flag": 0.001953125,
+   "nw": 0.02447509765625,
+   "fused": 0.001953125
+  },
+  {
+   "id": "narayani_00",
+   "site": "river_narayani",
+   "gfm": 0.10035714285714285,
+   "gfm_water": null,
+   "gfm_ref": 0.0836734693877551,
+   "flag": 0.171142578125,
+   "nw": 0.1088104248046875,
+   "fused": 0.171142578125
+  },
+  {
+   "id": "narayani_01",
+   "site": "river_narayani",
+   "gfm": 0.06173469387755102,
+   "gfm_water": null,
+   "gfm_ref": 0.054948979591836734,
+   "flag": 0.217041015625,
+   "nw": 0.1241302490234375,
+   "fused": 0.217041015625
+  },
+  {
+   "id": "narayani_02",
+   "site": "river_narayani",
+   "gfm": 0.015306122448979591,
+   "gfm_water": null,
+   "gfm_ref": 0.04260204081632653,
+   "flag": 0.04345703125,
+   "nw": 0.0555877685546875,
+   "fused": 0.04345703125
+  },
+  {
+   "id": "narayani_03",
+   "site": "river_narayani",
+   "gfm": 0.005051020408163265,
+   "gfm_water": null,
+   "gfm_ref": 0.037244897959183676,
+   "flag": 0.009033203125,
+   "nw": 0.019073486328125,
+   "fused": 0.009033203125
+  },
+  {
+   "id": "narayani_04",
+   "site": "river_narayani",
+   "gfm": 0.0017346938775510204,
+   "gfm_water": null,
+   "gfm_ref": 0.06908163265306122,
+   "flag": 0.00341796875,
+   "nw": 0.012451171875,
+   "fused": 0.00341796875
+  },
+  {
+   "id": "narayani_05",
+   "site": "river_narayani",
+   "gfm": 0.0006122448979591836,
+   "gfm_water": null,
+   "gfm_ref": 0.06964285714285715,
+   "flag": 0.00244140625,
+   "nw": 0.010345458984375,
+   "fused": 0.00244140625
+  },
+  {
+   "id": "narayani_06",
+   "site": "river_narayani",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.08790816326530612,
+   "flag": 0.0,
+   "nw": 0.010162353515625,
+   "fused": 0.0
+  },
+  {
+   "id": "narayani_07",
+   "site": "river_narayani",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.06551020408163265,
+   "flag": 0.004638671875,
+   "nw": 0.0107421875,
+   "fused": 0.004638671875
+  },
+  {
+   "id": "narayani_08",
+   "site": "river_narayani",
+   "gfm": 0.006326530612244898,
+   "gfm_water": null,
+   "gfm_ref": 0.08071428571428571,
+   "flag": 0.009765625,
+   "nw": 0.01226806640625,
+   "fused": 0.009765625
+  },
+  {
+   "id": "narayani_09",
+   "site": "river_narayani",
+   "gfm": 0.006326530612244898,
+   "gfm_water": null,
+   "gfm_ref": 0.1679081632653061,
+   "flag": 0.010986328125,
+   "nw": 0.0122222900390625,
+   "fused": 0.010986328125
+  },
+  {
+   "id": "narayani_10",
+   "site": "river_narayani",
+   "gfm": 0.005894590846047157,
+   "gfm_water": null,
+   "gfm_ref": 0.21789181692094314,
+   "flag": 0.0107421875,
+   "nw": 0.015167236328125,
+   "fused": 0.0107421875
+  },
+  {
+   "id": "narayani_11",
+   "site": "river_narayani",
+   "gfm": 0.03306122448979592,
+   "gfm_water": null,
+   "gfm_ref": 0.1267605633802817,
+   "flag": 0.05419921875,
+   "nw": 0.06231689453125,
+   "fused": 0.05419921875
+  },
+  {
+   "id": "narayani_12",
+   "site": "river_narayani",
+   "gfm": 0.06728691476590637,
+   "gfm_water": null,
+   "gfm_ref": 0.1851140456182473,
+   "flag": 0.225341796875,
+   "nw": 0.151519775390625,
+   "fused": 0.225341796875
+  },
+  {
+   "id": "narayani_13",
+   "site": "river_narayani",
+   "gfm": 0.05551020408163265,
+   "gfm_water": null,
+   "gfm_ref": 0.15770408163265306,
+   "flag": 0.11962890625,
+   "nw": 0.1074066162109375,
+   "fused": 0.11962890625
+  },
+  {
+   "id": "narayani_14",
+   "site": "river_narayani",
+   "gfm": 0.025051020408163264,
+   "gfm_water": null,
+   "gfm_ref": 0.12076530612244898,
+   "flag": 0.064453125,
+   "nw": 0.0657806396484375,
+   "fused": 0.064453125
+  },
+  {
+   "id": "narayani_15",
+   "site": "river_narayani",
+   "gfm": 0.06775510204081632,
+   "gfm_water": null,
+   "gfm_ref": 0.3279591836734694,
+   "flag": 0.127197265625,
+   "nw": 0.0987548828125,
+   "fused": 0.127197265625
+  },
+  {
+   "id": "narayani_16",
+   "site": "river_narayani",
+   "gfm": 0.025816326530612246,
+   "gfm_water": null,
+   "gfm_ref": 0.36918367346938774,
+   "flag": 0.09765625,
+   "nw": 0.1079864501953125,
+   "fused": 0.09765625
+  },
+  {
+   "id": "narayani_17",
+   "site": "river_narayani",
+   "gfm": 0.05551020408163265,
+   "gfm_water": null,
+   "gfm_ref": 0.33193877551020406,
+   "flag": 0.11328125,
+   "nw": 0.1416473388671875,
+   "fused": 0.11328125
+  },
+  {
+   "id": "tinau_00",
+   "site": "river_tinau",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.002197265625,
+   "nw": 0.012542724609375,
+   "fused": 0.002197265625
+  },
+  {
+   "id": "tinau_01",
+   "site": "river_tinau",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00146484375,
+   "nw": 0.00946044921875,
+   "fused": 0.00146484375
+  },
+  {
+   "id": "tinau_02",
+   "site": "river_tinau",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.0029296875,
+   "nw": 0.0062713623046875,
+   "fused": 0.0029296875
+  },
+  {
+   "id": "tinau_03",
+   "site": "river_tinau",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.001708984375,
+   "nw": 0.005859375,
+   "fused": 0.001708984375
+  },
+  {
+   "id": "tinau_04",
+   "site": "river_tinau",
+   "gfm": 0.0,
+   "gfm_water": null,
+   "gfm_ref": 0.0,
+   "flag": 0.00146484375,
+   "nw": 0.005126953125,
+   "fused": 0.00146484375
+  },
+  {
+   "id": "koshi_00",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.018976123449066833,
+   "gfm_ref": 0.018194140339901993,
+   "flag": 0.000244140625,
+   "nw": 0.0030517578125,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "koshi_01",
+   "site": "river_koshi",
+   "gfm": 0.0005213220727765613,
+   "gfm_water": 0.0005213220727765613,
+   "gfm_ref": 0.0,
+   "flag": 0.00537109375,
+   "nw": 0.0049896240234375,
+   "fused": 0.00537109375
+  },
+  {
+   "id": "koshi_02",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00048828125,
+   "nw": 0.0028839111328125,
+   "fused": 0.00048828125
+  },
+  {
+   "id": "koshi_03",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.00189208984375,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "koshi_04",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0016632080078125,
+   "fused": 0.0
+  },
+  {
+   "id": "koshi_05",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.002288818359375,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "koshi_06",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.0019073486328125,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "koshi_07",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000732421875,
+   "nw": 0.00140380859375,
+   "fused": 0.000732421875
+  },
+  {
+   "id": "koshi_08",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.0014495849609375,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "koshi_09",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00048828125,
+   "nw": 0.0019378662109375,
+   "fused": 0.00048828125
+  },
+  {
+   "id": "koshi_10",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.005859375,
+   "nw": 0.0020599365234375,
+   "fused": 0.005859375
+  },
+  {
+   "id": "koshi_11",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001220703125,
+   "nw": 0.0012969970703125,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "koshi_12",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.0019378662109375,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "koshi_13",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001708984375,
+   "nw": 0.0028076171875,
+   "fused": 0.001708984375
+  },
+  {
+   "id": "koshi_14",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00048828125,
+   "nw": 0.0045013427734375,
+   "fused": 0.00048828125
+  },
+  {
+   "id": "koshi_15",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000732421875,
+   "nw": 0.0036163330078125,
+   "fused": 0.000732421875
+  },
+  {
+   "id": "koshi_16",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.0033721923828125,
+   "fused": 0.001953125
+  },
+  {
+   "id": "koshi_17",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000732421875,
+   "nw": 0.003021240234375,
+   "fused": 0.000732421875
+  },
+  {
+   "id": "koshi_18",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000244140625,
+   "nw": 0.0023651123046875,
+   "fused": 0.000244140625
+  },
+  {
+   "id": "koshi_19",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0,
+   "nw": 0.0036468505859375,
+   "fused": 0.0
+  },
+  {
+   "id": "koshi_20",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00146484375,
+   "nw": 0.003448486328125,
+   "fused": 0.00146484375
+  },
+  {
+   "id": "koshi_21",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000732421875,
+   "nw": 0.0033721923828125,
+   "fused": 0.000732421875
+  },
+  {
+   "id": "koshi_22",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0009765625,
+   "nw": 0.002593994140625,
+   "fused": 0.0009765625
+  },
+  {
+   "id": "koshi_23",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001220703125,
+   "nw": 0.00238037109375,
+   "fused": 0.001220703125
+  },
+  {
+   "id": "koshi_24",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.0027313232421875,
+   "fused": 0.001953125
+  },
+  {
+   "id": "koshi_25",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000732421875,
+   "nw": 0.0025177001953125,
+   "fused": 0.000732421875
+  },
+  {
+   "id": "koshi_26",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.003326416015625,
+   "fused": 0.001953125
+  },
+  {
+   "id": "koshi_27",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.001953125,
+   "nw": 0.0029144287109375,
+   "fused": 0.001953125
+  },
+  {
+   "id": "koshi_28",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.00146484375,
+   "nw": 0.00177001953125,
+   "fused": 0.00146484375
+  },
+  {
+   "id": "koshi_29",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.0009765625,
+   "nw": 0.001220703125,
+   "fused": 0.0009765625
+  },
+  {
+   "id": "koshi_30",
+   "site": "river_koshi",
+   "gfm": 0.0,
+   "gfm_water": 0.0,
+   "gfm_ref": 0.0,
+   "flag": 0.000732421875,
+   "nw": 0.0020751953125,
+   "fused": 0.000732421875
+  }
+ ]
+}

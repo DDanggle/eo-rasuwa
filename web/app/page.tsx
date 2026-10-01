@@ -33,7 +33,7 @@ export default function Landing() {
     <main className="landing">
       <nav className="landing-nav">
         <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026</span>
-        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
+        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/september" className="nav-link">{ko ? '2장 · 9월' : 'CHAPTER 2 · SEP'}</a><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
       </nav>
 
       <section className="hero">
@@ -75,7 +75,7 @@ export default function Landing() {
             </div>
             <ul className="verdicts">{sites.map((s) => <li key={s.name}><b>{ko ? s.name_ko : s.name}</b><em>{ko ? V[s.verdict]?.[0] ?? s.verdict : V[s.verdict]?.[1] ?? s.verdict}</em><span>{ko ? s.reading_ko : s.reading}</span></li>)}</ul>
             <p className="note">{ko ? sept.fusion.headline_ko : sept.fusion.headline} {ko ? sept.monsoon_status.text_ko : sept.monsoon_status.text}</p>
-            <div className="cta"><a href="/map?zone=3" className="btn primary">{ko ? '2장 지도 열기' : 'OPEN CHAPTER 2 ON THE MAP'}</a><a href={sept.download} className="btn" download>{ko ? '9월 창 181개 GeoJSON' : 'DOWNLOAD 181 SEPTEMBER WINDOWS'}</a></div>
+            <div className="cta"><a href="/september" className="btn primary">{ko ? '2장 지도 열기' : 'OPEN CHAPTER 2 ON THE MAP'}</a><a href={sept.download} className="btn" download>{ko ? '9월 창 181개 GeoJSON' : 'DOWNLOAD 181 SEPTEMBER WINDOWS'}</a></div>
           </article>
         </div>
       </section>); })()}

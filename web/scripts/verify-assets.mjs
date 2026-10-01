@@ -362,9 +362,9 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   const sept = JSON.parse(await readFile(resolve(root, 'public/data/september.json'), 'utf8'));
   const geo = JSON.parse(await readFile(resolve(root, 'public/data/september-windows.geojson'), 'utf8'));
   assert.equal(sept.schema, 'nepal-september-2026/v1');
-  assert.equal(geo.features.length, 181, 'september windows must be 125 flood-site + 56 source-corridor windows');
-  assert.equal(geo.features.filter((f) => f.properties.kind === 'flood_site').length, 125);
-  assert.equal(geo.features.filter((f) => f.properties.kind === 'source_corridor').length, 56);
+  const nFlood = geo.features.filter((f) => f.properties.kind === 'flood_site').length, nSrc = geo.features.filter((f) => f.properties.kind === 'source_corridor').length, nRiver = geo.features.filter((f) => f.properties.kind === 'river_corridor').length;
+  assert.equal(nFlood, 125, '125 flood-site windows (5 sites × 25)'); assert.equal(nSrc, 56, '56 source-corridor windows');
+  assert.ok(nRiver >= 54, 'river-corridor windows present (M103+)'); assert.equal(geo.features.length, nFlood + nSrc + nRiver, 'window kinds partition the layer');
   assert.equal(sept.source_corridor.unosat_source_touching_top6, 0, 'M99: the September ranking must not be presented as pointing at the August source');
   for (const f of sept.fused_top) {
     for (const k of ['pre.jpg', 'post.jpg', 'delta.png']) await stat(resolve(root, `public/data/september/frames/${f.id}_${k}`));
@@ -374,6 +374,12 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   assert.ok(tokens.features.length > 1000 && tokens.features.length < 50000, 'change-token layer must be present and web-sized');
   assert.ok(tokens.features.every((f) => typeof f.properties.d === 'number' && typeof f.properties.flag === 'boolean'), 'change tokens carry d and flag');
   for (const d of sept.frames.s2_dates.saptari) assert.ok(d.startsWith('2026-09'), 'Saptari optical dates are September');
+  if (sept.ribbon) {
+    const rib = JSON.parse(await readFile(resolve(root, 'public' + sept.ribbon), 'utf8'));
+    assert.ok(rib.features.length >= 40, 'river ribbon must cover the three rivers');
+    assert.ok(rib.features.some((f) => !f.properties.observed) || rib.features.every((f) => f.properties.observed), 'ribbon keeps unobserved reaches instead of deleting them');
+    assert.ok(rib.features.filter((f) => f.properties.observed).every((f) => typeof f.properties.frac === 'number'), 'observed reaches carry frac');
+  }
   for (const f of sept.fused_top.filter((x) => x.site === 'saptari')) for (const k of ['s2pre.jpg', 's2post.jpg']) await stat(resolve(root, `public/data/september/frames/${f.id}_${k}`));
   const verdicts = Object.values(sept.flood_sites).map((s) => s.verdict);
   assert.equal(verdicts.filter((v) => v === 'clear signal').length, 1, 'only Susta carries a clear cross-orbit signal (M100/M100c)');

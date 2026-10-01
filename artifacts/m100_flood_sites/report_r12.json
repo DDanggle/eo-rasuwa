@@ -1,0 +1,865 @@
+{
+ "schema": "terai-radar-scan-v1",
+ "measurement_id": "M103b",
+ "model_id": "OLMOEARTH_V1_BASE",
+ "claim": "radar-only 3v1 change ranking at news-reported late-September flood sites, with a classical new-water fraction as an independent yardstick; reading order, not damage",
+ "orbit": 12,
+ "orbit_direction": "ascending",
+ "aois": [
+  "river_koshi"
+ ],
+ "gap_days": {
+  "event": [
+   36,
+   24,
+   12
+  ],
+  "placebo": [
+   36,
+   24,
+   12
+  ]
+ },
+ "dates": [
+  "2026-07-06",
+  "2026-07-18",
+  "2026-07-30",
+  "2026-08-11",
+  "2026-08-23",
+  "2026-09-04",
+  "2026-09-16",
+  "2026-09-28"
+ ],
+ "event_pair": {
+  "base": [
+   "2026-08-23",
+   "2026-09-04",
+   "2026-09-16"
+  ],
+  "target": "2026-09-28"
+ },
+ "placebo_pair": {
+  "base": [
+   "2026-07-06",
+   "2026-07-18",
+   "2026-07-30"
+  ],
+  "target": "2026-08-11"
+ },
+ "input_unit": "gamma0 dB",
+ "threshold_placebo_p99": 0.3120730072259903,
+ "placebo_tokens": 126976,
+ "regional_median_d_event": 0.13408705592155457,
+ "water_rule": "VV drop < -3.0 dB vs base median AND VV < -16.0 dB",
+ "water_new_frac_placebo_p99": 0.005416870117187498,
+ "windows": [
+  {
+   "id": "koshi_00",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.95224075196674,
+    26.481052265924017
+   ],
+   "bounds_utm": [
+    493960.0,
+    2927680.0,
+    496520.0,
+    2930240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1347203254699707,
+   "d_placebo_mean": 0.1573239117860794,
+   "water_new_frac_event": 0.0030517578125,
+   "water_new_frac_placebo": 0.0063323974609375,
+   "dvv_event_db": -0.013208652846515179,
+   "dvv_placebo_db": 0.13830646872520447,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 23,
+   "excess_over_median": 0.0006332695484161377
+  },
+  {
+   "id": "koshi_01",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.9522502931428,
+    26.45793734045337
+   ],
+   "bounds_utm": [
+    493960.0,
+    2925120.0,
+    496520.0,
+    2927680.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14045098423957825,
+   "d_placebo_mean": 0.16076461970806122,
+   "water_new_frac_event": 0.0049896240234375,
+   "water_new_frac_placebo": 0.0032806396484375,
+   "dvv_event_db": -0.06022627651691437,
+   "dvv_placebo_db": -0.0068518612533807755,
+   "candidate_token_frac": 0.00537109375,
+   "status": "ranked",
+   "rank": 2,
+   "excess_over_median": 0.006363928318023682
+  },
+  {
+   "id": "koshi_02",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.94985244311005,
+    26.43554386095116
+   ],
+   "bounds_utm": [
+    493720.0,
+    2922640.0,
+    496280.0,
+    2925200.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13307660818099976,
+   "d_placebo_mean": 0.17273032665252686,
+   "water_new_frac_event": 0.0028839111328125,
+   "water_new_frac_placebo": 0.001556396484375,
+   "dvv_event_db": -0.07042631506919861,
+   "dvv_placebo_db": -0.18866772949695587,
+   "candidate_token_frac": 0.00048828125,
+   "status": "ranked",
+   "rank": 20,
+   "excess_over_median": -0.0010104477405548096
+  },
+  {
+   "id": "koshi_03",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.93862742793813,
+    26.420370224582737
+   ],
+   "bounds_utm": [
+    492600.0,
+    2920960.0,
+    495160.0,
+    2923520.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14030984044075012,
+   "d_placebo_mean": 0.16693037748336792,
+   "water_new_frac_event": 0.00189208984375,
+   "water_new_frac_placebo": 0.0011444091796875,
+   "dvv_event_db": 0.03232920542359352,
+   "dvv_placebo_db": -0.1904296576976776,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 24,
+   "excess_over_median": 0.006222784519195557
+  },
+  {
+   "id": "koshi_04",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.93222057133273,
+    26.40122512821954
+   ],
+   "bounds_utm": [
+    491960.0,
+    2918840.0,
+    494520.0,
+    2921400.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1324031800031662,
+   "d_placebo_mean": 0.16971340775489807,
+   "water_new_frac_event": 0.0016632080078125,
+   "water_new_frac_placebo": 0.001251220703125,
+   "dvv_event_db": -0.07445487380027771,
+   "dvv_placebo_db": -0.17793717980384827,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 30,
+   "excess_over_median": -0.0016838759183883667
+  },
+  {
+   "id": "koshi_05",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.93383758001444,
+    26.378833053360385
+   ],
+   "bounds_utm": [
+    492120.0,
+    2916360.0,
+    494680.0,
+    2918920.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1326291710138321,
+   "d_placebo_mean": 0.1754014641046524,
+   "water_new_frac_event": 0.002288818359375,
+   "water_new_frac_placebo": 0.0008087158203125,
+   "dvv_event_db": -0.3671412169933319,
+   "dvv_placebo_db": -0.2205464243888855,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 25,
+   "excess_over_median": -0.0014578849077224731
+  },
+  {
+   "id": "koshi_06",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.93264677017909,
+    26.357884302119388
+   ],
+   "bounds_utm": [
+    492000.0,
+    2914040.0,
+    494560.0,
+    2916600.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13207897543907166,
+   "d_placebo_mean": 0.1598074734210968,
+   "water_new_frac_event": 0.0019073486328125,
+   "water_new_frac_placebo": 0.0018310546875,
+   "dvv_event_db": -0.3554497957229614,
+   "dvv_placebo_db": -0.10127107799053192,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 26,
+   "excess_over_median": -0.00200808048248291
+  },
+  {
+   "id": "koshi_07",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.93065319446632,
+    26.33946333531197
+   ],
+   "bounds_utm": [
+    491800.0,
+    2912000.0,
+    494360.0,
+    2914560.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13277968764305115,
+   "d_placebo_mean": 0.1614512950181961,
+   "water_new_frac_event": 0.00140380859375,
+   "water_new_frac_placebo": 0.0020294189453125,
+   "dvv_event_db": -0.2808721959590912,
+   "dvv_placebo_db": -0.14061063528060913,
+   "candidate_token_frac": 0.000732421875,
+   "status": "ranked",
+   "rank": 14,
+   "excess_over_median": -0.001307368278503418
+  },
+  {
+   "id": "koshi_08",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.9122258875354,
+    26.323922600363353
+   ],
+   "bounds_utm": [
+    489960.0,
+    2910280.0,
+    492520.0,
+    2912840.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13237130641937256,
+   "d_placebo_mean": 0.17303411662578583,
+   "water_new_frac_event": 0.0014495849609375,
+   "water_new_frac_placebo": 0.0020904541015625,
+   "dvv_event_db": -0.004568357020616531,
+   "dvv_placebo_db": 0.007001038640737534,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 27,
+   "excess_over_median": -0.0017157495021820068
+  },
+  {
+   "id": "koshi_09",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.91184067495269,
+    26.30333519280607
+   ],
+   "bounds_utm": [
+    489920.0,
+    2908000.0,
+    492480.0,
+    2910560.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13316917419433594,
+   "d_placebo_mean": 0.1550034135580063,
+   "water_new_frac_event": 0.0019378662109375,
+   "water_new_frac_placebo": 0.0027618408203125,
+   "dvv_event_db": -0.3441033363342285,
+   "dvv_placebo_db": -0.09148119390010834,
+   "candidate_token_frac": 0.00048828125,
+   "status": "ranked",
+   "rank": 21,
+   "excess_over_median": -0.0009178817272186279
+  },
+  {
+   "id": "koshi_10",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.89582592795841,
+    26.28743256992322
+   ],
+   "bounds_utm": [
+    488320.0,
+    2906240.0,
+    490880.0,
+    2908800.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1413126140832901,
+   "d_placebo_mean": 0.1687449812889099,
+   "water_new_frac_event": 0.0020599365234375,
+   "water_new_frac_placebo": 0.0014190673828125,
+   "dvv_event_db": -0.42300504446029663,
+   "dvv_placebo_db": -0.20749728381633759,
+   "candidate_token_frac": 0.005859375,
+   "status": "ranked",
+   "rank": 1,
+   "excess_over_median": 0.007225558161735535
+  },
+  {
+   "id": "koshi_11",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.88743139696157,
+    26.2672001452315
+   ],
+   "bounds_utm": [
+    487480.0,
+    2904000.0,
+    490040.0,
+    2906560.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13439998030662537,
+   "d_placebo_mean": 0.1690574586391449,
+   "water_new_frac_event": 0.0012969970703125,
+   "water_new_frac_placebo": 0.0007171630859375,
+   "dvv_event_db": -0.173839271068573,
+   "dvv_placebo_db": -0.44531214237213135,
+   "candidate_token_frac": 0.001220703125,
+   "status": "ranked",
+   "rank": 10,
+   "excess_over_median": 0.0003129243850708008
+  },
+  {
+   "id": "koshi_12",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.88745158828478,
+    26.246251654895115
+   ],
+   "bounds_utm": [
+    487480.0,
+    2901680.0,
+    490040.0,
+    2904240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13610775768756866,
+   "d_placebo_mean": 0.16535474359989166,
+   "water_new_frac_event": 0.0019378662109375,
+   "water_new_frac_placebo": 0.0013275146484375,
+   "dvv_event_db": -0.2515241205692291,
+   "dvv_placebo_db": -0.20989838242530823,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 28,
+   "excess_over_median": 0.002020701766014099
+  },
+  {
+   "id": "koshi_13",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.8910745137923,
+    26.226750609301575
+   ],
+   "bounds_utm": [
+    487840.0,
+    2899520.0,
+    490400.0,
+    2902080.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13882045447826385,
+   "d_placebo_mean": 0.17127177119255066,
+   "water_new_frac_event": 0.0028076171875,
+   "water_new_frac_placebo": 0.001953125,
+   "dvv_event_db": -0.23598824441432953,
+   "dvv_placebo_db": -0.10365801304578781,
+   "candidate_token_frac": 0.001708984375,
+   "status": "ranked",
+   "rank": 7,
+   "excess_over_median": 0.0047333985567092896
+  },
+  {
+   "id": "koshi_14",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.89149474084563,
+    26.205441117574605
+   ],
+   "bounds_utm": [
+    487880.0,
+    2897160.0,
+    490440.0,
+    2899720.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1365690529346466,
+   "d_placebo_mean": 0.174359992146492,
+   "water_new_frac_event": 0.0045013427734375,
+   "water_new_frac_placebo": 0.0021514892578125,
+   "dvv_event_db": -0.35839352011680603,
+   "dvv_placebo_db": -0.23169663548469543,
+   "candidate_token_frac": 0.00048828125,
+   "status": "ranked",
+   "rank": 22,
+   "excess_over_median": 0.002481997013092041
+  },
+  {
+   "id": "koshi_15",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.88671000715989,
+    26.184849927405125
+   ],
+   "bounds_utm": [
+    487400.0,
+    2894880.0,
+    489960.0,
+    2897440.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13429665565490723,
+   "d_placebo_mean": 0.1758405566215515,
+   "water_new_frac_event": 0.0036163330078125,
+   "water_new_frac_placebo": 0.0017242431640625,
+   "dvv_event_db": -0.20169086754322052,
+   "dvv_placebo_db": -0.25558701157569885,
+   "candidate_token_frac": 0.000732421875,
+   "status": "ranked",
+   "rank": 15,
+   "excess_over_median": 0.00020959973335266113
+  },
+  {
+   "id": "koshi_16",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.87551992290427,
+    26.16714261339439
+   ],
+   "bounds_utm": [
+    486280.0,
+    2892920.0,
+    488840.0,
+    2895480.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.14368191361427307,
+   "d_placebo_mean": 0.17630663514137268,
+   "water_new_frac_event": 0.0033721923828125,
+   "water_new_frac_placebo": 0.0016326904296875,
+   "dvv_event_db": -0.016929682344198227,
+   "dvv_placebo_db": -0.17088103294372559,
+   "candidate_token_frac": 0.001953125,
+   "status": "ranked",
+   "rank": 3,
+   "excess_over_median": 0.009594857692718506
+  },
+  {
+   "id": "koshi_17",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.86873819650026,
+    26.146910174858704
+   ],
+   "bounds_utm": [
+    485600.0,
+    2890680.0,
+    488160.0,
+    2893240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12985946238040924,
+   "d_placebo_mean": 0.1566532552242279,
+   "water_new_frac_event": 0.003021240234375,
+   "water_new_frac_placebo": 0.0015716552734375,
+   "dvv_event_db": -0.04893992096185684,
+   "dvv_placebo_db": -0.5020920634269714,
+   "candidate_token_frac": 0.000732421875,
+   "status": "ranked",
+   "rank": 16,
+   "excess_over_median": -0.004227593541145325
+  },
+  {
+   "id": "koshi_18",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.86516181503094,
+    26.124874463601138
+   ],
+   "bounds_utm": [
+    485240.0,
+    2888240.0,
+    487800.0,
+    2890800.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13079488277435303,
+   "d_placebo_mean": 0.15754948556423187,
+   "water_new_frac_event": 0.0023651123046875,
+   "water_new_frac_placebo": 0.0021820068359375,
+   "dvv_event_db": -0.05485137552022934,
+   "dvv_placebo_db": -0.48388344049453735,
+   "candidate_token_frac": 0.000244140625,
+   "status": "ranked",
+   "rank": 29,
+   "excess_over_median": -0.003292173147201538
+  },
+  {
+   "id": "koshi_19",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.85278186569029,
+    26.106080579184564
+   ],
+   "bounds_utm": [
+    484000.0,
+    2886160.0,
+    486560.0,
+    2888720.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12094947695732117,
+   "d_placebo_mean": 0.15274399518966675,
+   "water_new_frac_event": 0.0036468505859375,
+   "water_new_frac_placebo": 0.001953125,
+   "dvv_event_db": -0.15187831223011017,
+   "dvv_placebo_db": -0.6741138100624084,
+   "candidate_token_frac": 0.0,
+   "status": "ranked",
+   "rank": 31,
+   "excess_over_median": -0.013137578964233398
+  },
+  {
+   "id": "koshi_20",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.83839899787021,
+    26.092340013420046
+   ],
+   "bounds_utm": [
+    482560.0,
+    2884640.0,
+    485120.0,
+    2887200.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13408705592155457,
+   "d_placebo_mean": 0.17085739970207214,
+   "water_new_frac_event": 0.003448486328125,
+   "water_new_frac_placebo": 0.001556396484375,
+   "dvv_event_db": -0.20569804310798645,
+   "dvv_placebo_db": -0.6059421300888062,
+   "candidate_token_frac": 0.00146484375,
+   "status": "ranked",
+   "rank": 8,
+   "excess_over_median": 0.0
+  },
+  {
+   "id": "koshi_21",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.83242778442494,
+    26.072106596600133
+   ],
+   "bounds_utm": [
+    481960.0,
+    2882400.0,
+    484520.0,
+    2884960.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12973912060260773,
+   "d_placebo_mean": 0.16635307669639587,
+   "water_new_frac_event": 0.0033721923828125,
+   "water_new_frac_placebo": 0.0013427734375,
+   "dvv_event_db": -0.1820765882730484,
+   "dvv_placebo_db": -0.8214824795722961,
+   "candidate_token_frac": 0.000732421875,
+   "status": "ranked",
+   "rank": 17,
+   "excess_over_median": -0.004347935318946838
+  },
+  {
+   "id": "koshi_22",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.8256513946157,
+    26.056928583519998
+   ],
+   "bounds_utm": [
+    481280.0,
+    2880720.0,
+    483840.0,
+    2883280.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1305602341890335,
+   "d_placebo_mean": 0.17153161764144897,
+   "water_new_frac_event": 0.002593994140625,
+   "water_new_frac_placebo": 0.0010986328125,
+   "dvv_event_db": -0.10248444229364395,
+   "dvv_placebo_db": -0.5745002031326294,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 12,
+   "excess_over_median": -0.003526821732521057
+  },
+  {
+   "id": "koshi_23",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.82048540505306,
+    26.035611983505433
+   ],
+   "bounds_utm": [
+    480760.0,
+    2878360.0,
+    483320.0,
+    2880920.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13504496216773987,
+   "d_placebo_mean": 0.18049360811710358,
+   "water_new_frac_event": 0.00238037109375,
+   "water_new_frac_placebo": 0.00189208984375,
+   "dvv_event_db": 0.08283208310604095,
+   "dvv_placebo_db": -0.39912939071655273,
+   "candidate_token_frac": 0.001220703125,
+   "status": "ranked",
+   "rank": 11,
+   "excess_over_median": 0.0009579062461853027
+  },
+  {
+   "id": "koshi_24",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.8241089919942,
+    26.018640414774524
+   ],
+   "bounds_utm": [
+    481120.0,
+    2876480.0,
+    483680.0,
+    2879040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1355183869600296,
+   "d_placebo_mean": 0.17680588364601135,
+   "water_new_frac_event": 0.0027313232421875,
+   "water_new_frac_placebo": 0.001129150390625,
+   "dvv_event_db": 0.059543345123529434,
+   "dvv_placebo_db": -0.26602768898010254,
+   "candidate_token_frac": 0.001953125,
+   "status": "ranked",
+   "rank": 4,
+   "excess_over_median": 0.0014313310384750366
+  },
+  {
+   "id": "koshi_25",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.8277352097366,
+    25.99914036062865
+   ],
+   "bounds_utm": [
+    481480.0,
+    2874320.0,
+    484040.0,
+    2876880.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13863927125930786,
+   "d_placebo_mean": 0.16678914427757263,
+   "water_new_frac_event": 0.0025177001953125,
+   "water_new_frac_placebo": 0.001983642578125,
+   "dvv_event_db": 0.024321425706148148,
+   "dvv_placebo_db": -0.08609248697757721,
+   "candidate_token_frac": 0.000732421875,
+   "status": "ranked",
+   "rank": 18,
+   "excess_over_median": 0.004552215337753296
+  },
+  {
+   "id": "koshi_26",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.81857351771241,
+    25.97890230236007
+   ],
+   "bounds_utm": [
+    480560.0,
+    2872080.0,
+    483120.0,
+    2874640.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1417563557624817,
+   "d_placebo_mean": 0.17745453119277954,
+   "water_new_frac_event": 0.003326416015625,
+   "water_new_frac_placebo": 0.0023345947265625,
+   "dvv_event_db": -0.05297752842307091,
+   "dvv_placebo_db": -0.24693357944488525,
+   "candidate_token_frac": 0.001953125,
+   "status": "ranked",
+   "rank": 5,
+   "excess_over_median": 0.007669299840927124
+  },
+  {
+   "id": "koshi_27",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.80621264690951,
+    25.96227132515182
+   ],
+   "bounds_utm": [
+    479320.0,
+    2870240.0,
+    481880.0,
+    2872800.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13723614811897278,
+   "d_placebo_mean": 0.16258060932159424,
+   "water_new_frac_event": 0.0029144287109375,
+   "water_new_frac_placebo": 0.0015106201171875,
+   "dvv_event_db": -0.05348517745733261,
+   "dvv_placebo_db": -0.1855868548154831,
+   "candidate_token_frac": 0.001953125,
+   "status": "ranked",
+   "rank": 6,
+   "excess_over_median": 0.003149092197418213
+  },
+  {
+   "id": "koshi_28",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.80025399851574,
+    25.941675085155133
+   ],
+   "bounds_utm": [
+    478720.0,
+    2867960.0,
+    481280.0,
+    2870520.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.12999247014522552,
+   "d_placebo_mean": 0.15251898765563965,
+   "water_new_frac_event": 0.00177001953125,
+   "water_new_frac_placebo": 0.0010986328125,
+   "dvv_event_db": -0.052660997956991196,
+   "dvv_placebo_db": -0.3592410087585449,
+   "candidate_token_frac": 0.00146484375,
+   "status": "ranked",
+   "rank": 9,
+   "excess_over_median": -0.0040945857763290405
+  },
+  {
+   "id": "koshi_29",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.80148696907959,
+    25.92108857890762
+   ],
+   "bounds_utm": [
+    478840.0,
+    2865680.0,
+    481400.0,
+    2868240.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.1242111474275589,
+   "d_placebo_mean": 0.1405615210533142,
+   "water_new_frac_event": 0.001220703125,
+   "water_new_frac_placebo": 0.0022125244140625,
+   "dvv_event_db": -0.22985273599624634,
+   "dvv_placebo_db": -0.29862967133522034,
+   "candidate_token_frac": 0.0009765625,
+   "status": "ranked",
+   "rank": 13,
+   "excess_over_median": -0.009875908493995667
+  },
+  {
+   "id": "koshi_30",
+   "aoi": "river_koshi",
+   "center_lonlat": [
+    86.79672797882668,
+    25.901216122962754
+   ],
+   "bounds_utm": [
+    478360.0,
+    2863480.0,
+    480920.0,
+    2866040.0
+   ],
+   "epsg": 32645,
+   "valid_event_frac": 1.0,
+   "d_event_mean": 0.13220494985580444,
+   "d_placebo_mean": 0.16393119096755981,
+   "water_new_frac_event": 0.0020751953125,
+   "water_new_frac_placebo": 0.002105712890625,
+   "dvv_event_db": -0.13546204566955566,
+   "dvv_placebo_db": -0.6648833751678467,
+   "candidate_token_frac": 0.000732421875,
+   "status": "ranked",
+   "rank": 19,
+   "excess_over_median": -0.001882106065750122
+  }
+ ],
+ "elapsed_s": 72.2,
+ "device": "cuda"
+}

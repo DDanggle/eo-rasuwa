@@ -45,6 +45,40 @@ CONTRACTS: dict[str, dict] = {
         "base_placebo": ["2026-07-16", "2026-07-28", "2026-08-09"], "target_placebo": "2026-08-21",
         "out": "terai_radar_scan_t158",
     },
+    # M103 — 강을 따라 2.56 km 간격으로 이어 붙인 창(1장 회랑 방식). 나라야니(데브갓→수스타→국경)·티나우(부트왈 하류)는 궤도 19, 코시(삽타리)는 궤도 12.
+    "r19": {
+        "measurement_id": "M103", "orbit": 19, "direction": "descending",
+        "aois": ["river_narayani", "river_tinau"],
+        "dates": ["2026-07-07", "2026-07-19", "2026-07-31", "2026-08-12", "2026-08-24", "2026-09-05", "2026-09-17", "2026-09-29"],
+        "base_event": ["2026-08-24", "2026-09-05", "2026-09-17"], "target_event": "2026-09-29",
+        "base_placebo": ["2026-07-07", "2026-07-19", "2026-07-31"], "target_placebo": "2026-08-12",
+        "out": "terai_radar_scan_r19",
+    },
+    "r12": {
+        "measurement_id": "M103b", "orbit": 12, "direction": "ascending",
+        "aois": ["river_koshi"],
+        "dates": ["2026-07-06", "2026-07-18", "2026-07-30", "2026-08-11", "2026-08-23", "2026-09-04", "2026-09-16", "2026-09-28"],
+        "base_event": ["2026-08-23", "2026-09-04", "2026-09-16"], "target_event": "2026-09-28",
+        "base_placebo": ["2026-07-06", "2026-07-18", "2026-07-30"], "target_placebo": "2026-08-11",
+        "out": "terai_radar_scan_r12",
+    },
+    # M104 — 확장 회랑: 테라이 큰 강 본류 전 구간(나라야니·티나우·동라프티·바그마티 = 궤도 19, 코시 = 궤도 12).
+    "x19": {
+        "measurement_id": "M104", "orbit": 19, "direction": "descending",
+        "aois": ["xriver_narayani", "xriver_tinau", "xriver_rapti", "xriver_bagmati"],
+        "dates": ["2026-07-07", "2026-07-19", "2026-07-31", "2026-08-12", "2026-08-24", "2026-09-05", "2026-09-17", "2026-09-29"],
+        "base_event": ["2026-08-24", "2026-09-05", "2026-09-17"], "target_event": "2026-09-29",
+        "base_placebo": ["2026-07-07", "2026-07-19", "2026-07-31"], "target_placebo": "2026-08-12",
+        "out": "terai_radar_scan_x19",
+    },
+    "x12": {
+        "measurement_id": "M104b", "orbit": 12, "direction": "ascending",
+        "aois": ["xriver_koshi"],
+        "dates": ["2026-07-06", "2026-07-18", "2026-07-30", "2026-08-11", "2026-08-23", "2026-09-04", "2026-09-16", "2026-09-28"],
+        "base_event": ["2026-08-23", "2026-09-04", "2026-09-16"], "target_event": "2026-09-28",
+        "base_placebo": ["2026-07-06", "2026-07-18", "2026-07-30"], "target_placebo": "2026-08-11",
+        "out": "terai_radar_scan_x12",
+    },
 }
 SIZE, PATCH, CROP = 256, 4, 64
 MODEL_ID_NAME = "OLMOEARTH_V1_BASE"
@@ -72,7 +106,8 @@ def stage_prepare(wins, C):
     SIGN_TTL = 1500.0
     cat = pystac_client.Client.open("https://planetarycomputer.microsoft.com/api/stac/v1")
     # 지점(AOI)마다 장면이 다를 수 있으므로 AOI 별로 item 을 푼다.
-    centers = {a: next(w for w in wins if w["aoi"] == a)["center_lonlat"] for a in C["aois"]}
+    # 2026-10-01: 긴 강 회랑은 같은 궤도 안에서도 프레임이 바뀌므로 장면을 창마다 찾는다(AOI 중심 1점이면 끝 창이 nodata).
+    centers = {w["id"]: w["center_lonlat"] for w in wins}
     raw: dict[tuple, object] = {}
     for a, pt in centers.items():
         for d in DATES:
@@ -85,26 +120,28 @@ def stage_prepare(wins, C):
                 except Exception:
                     if attempt == 4: raise
                     time.sleep(8 * (attempt + 1))
-            if not found: raise SystemExit(f"no orbit-{ORBIT} RTC for {a} {d}")
+            if not found:
+                print("no scene", a, d, "→ window skipped", flush=True); raw[(a, d)] = None; continue
             raw[(a, d)] = found[0]
         print("items", a, len(DATES), flush=True)
     signed: dict = {}; signed_at = [0.0]
 
     def fresh(key):
         if time.time() - signed_at[0] > SIGN_TTL:
-            for k, v in raw.items(): signed[k] = pc.sign(v)
+            for k, v in raw.items(): signed[k] = pc.sign(v) if v is not None else None
             signed_at[0] = time.time(); print("resigned", len(signed), flush=True)
         return signed[key]
 
     for w in wins:
         out = OUT / "prepare" / f"{w['id']}.npz"
         if out.exists(): print(w["id"], "cached", flush=True); continue
+        if any(raw.get((w["id"], d)) is None for d in DATES): print(w["id"], "skipped (no scene on some date)", flush=True); continue
         cube = np.full((2, len(DATES), SIZE, SIZE), np.nan, dtype="float32")
         for ti, d in enumerate(DATES):
             for bi, band in enumerate(("vv", "vh")):
                 for attempt in range(4):
                     try:
-                        it = fresh((w["aoi"], d))
+                        it = fresh((w["id"], d))
                         with rasterio.open(it.assets[band].href) as ds:
                             b = transform_bounds(f"EPSG:{w['epsg']}", ds.crs, *w["bounds_utm"])
                             arr = ds.read(1, window=from_bounds(*b, transform=ds.transform), out_shape=(SIZE, SIZE),

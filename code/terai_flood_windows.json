@@ -1998,5 +1998,3541 @@
 26.596256056928947
 ],
 "note": "Hanumannagar Kankalini / Tilathi Koiladi on the Koshi right bank, Saptari \u2014 217 homes flooded"
+},
+{
+"id": "narayani_00",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+198000.0,
+3049480.0,
+200560.0,
+3052040.0
+],
+"center_lonlat": [
+83.954953040373,
+27.547353312842656
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 1.3
+},
+{
+"id": "narayani_01",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+195920.0,
+3049400.0,
+198480.0,
+3051960.0
+],
+"center_lonlat": [
+83.9339357120162,
+27.546169199420707
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 3.8
+},
+{
+"id": "narayani_02",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+194440.0,
+3048600.0,
+197000.0,
+3051160.0
+],
+"center_lonlat": [
+83.91916858572276,
+27.538626055432335
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 6.4
+},
+{
+"id": "narayani_03",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+194720.0,
+3046160.0,
+197280.0,
+3048720.0
+],
+"center_lonlat": [
+83.92261340962224,
+27.516692633119312
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 9.0
+},
+{
+"id": "narayani_04",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+197040.0,
+3046280.0,
+199600.0,
+3048840.0
+],
+"center_lonlat": [
+83.94604163268947,
+27.51829195666882
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 11.5
+},
+{
+"id": "narayani_05",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+198880.0,
+3046760.0,
+201440.0,
+3049320.0
+],
+"center_lonlat": [
+83.96452805448334,
+27.52302691126933
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 14.1
+},
+{
+"id": "narayani_06",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+198720.0,
+3044640.0,
+201280.0,
+3047200.0
+],
+"center_lonlat": [
+83.96343547056365,
+27.503879326423995
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 16.6
+},
+{
+"id": "narayani_07",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+196400.0,
+3043560.0,
+198960.0,
+3046120.0
+],
+"center_lonlat": [
+83.94024927414125,
+27.49362873705459
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 19.2
+},
+{
+"id": "narayani_08",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+196720.0,
+3041120.0,
+199280.0,
+3043680.0
+],
+"center_lonlat": [
+83.94409193062083,
+27.471703095847293
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 21.8
+},
+{
+"id": "narayani_09",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+195720.0,
+3038960.0,
+198280.0,
+3041520.0
+],
+"center_lonlat": [
+83.93452393324955,
+27.452008251543383
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 24.3
+},
+{
+"id": "narayani_10",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+193360.0,
+3037960.0,
+195920.0,
+3040520.0
+],
+"center_lonlat": [
+83.9109270269533,
+27.442466101589105
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 26.9
+},
+{
+"id": "narayani_11",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+190960.0,
+3037080.0,
+193520.0,
+3039640.0
+],
+"center_lonlat": [
+83.8869000151181,
+27.43399299616049
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 29.4
+},
+{
+"id": "narayani_12",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+188800.0,
+3035920.0,
+191360.0,
+3038480.0
+],
+"center_lonlat": [
+83.86537293583119,
+27.423046576103886
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 32.0
+},
+{
+"id": "narayani_13",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+188560.0,
+3033800.0,
+191120.0,
+3036360.0
+],
+"center_lonlat": [
+83.86348876984164,
+27.40388128994491
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 34.6
+},
+{
+"id": "narayani_14",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+187160.0,
+3032520.0,
+189720.0,
+3035080.0
+],
+"center_lonlat": [
+83.84967593791093,
+27.392023867300672
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 37.1
+},
+{
+"id": "narayani_15",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+187840.0,
+3030160.0,
+190400.0,
+3032720.0
+],
+"center_lonlat": [
+83.85714521679341,
+27.370904780832028
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 39.7
+},
+{
+"id": "narayani_16",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+187760.0,
+3027680.0,
+190320.0,
+3030240.0
+],
+"center_lonlat": [
+83.85696938201254,
+27.348530632645502
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 42.2
+},
+{
+"id": "narayani_17",
+"aoi": "river_narayani",
+"epsg": 32645,
+"bounds_utm": [
+187040.0,
+3025280.0,
+189600.0,
+3027840.0
+],
+"center_lonlat": [
+83.85031314744283,
+27.32673200011313
+],
+"note": "Narayani from Devghat down to Susta / the Indian border",
+"km_along": 44.8
+},
+{
+"id": "tinau_00",
+"aoi": "river_tinau",
+"epsg": 32644,
+"bounds_utm": [
+749360.0,
+3075080.0,
+751920.0,
+3077640.0
+],
+"center_lonlat": [
+83.54373372298284,
+27.78842080381779
+],
+"note": "Tinau from Butwal down the fan",
+"km_along": 1.3
+},
+{
+"id": "tinau_01",
+"aoi": "river_tinau",
+"epsg": 32644,
+"bounds_utm": [
+749000.0,
+3072960.0,
+751560.0,
+3075520.0
+],
+"center_lonlat": [
+83.53963860878746,
+27.76936839460304
+],
+"note": "Tinau from Butwal down the fan",
+"km_along": 3.8
+},
+{
+"id": "tinau_02",
+"aoi": "river_tinau",
+"epsg": 32644,
+"bounds_utm": [
+746960.0,
+3072000.0,
+749520.0,
+3074560.0
+],
+"center_lonlat": [
+83.51875522826992,
+27.761088961127907
+],
+"note": "Tinau from Butwal down the fan",
+"km_along": 6.4
+},
+{
+"id": "tinau_03",
+"aoi": "river_tinau",
+"epsg": 32644,
+"bounds_utm": [
+745120.0,
+3070720.0,
+747680.0,
+3073280.0
+],
+"center_lonlat": [
+83.49983642424051,
+27.749883415535177
+],
+"note": "Tinau from Butwal down the fan",
+"km_along": 9.0
+},
+{
+"id": "tinau_04",
+"aoi": "river_tinau",
+"epsg": 32644,
+"bounds_utm": [
+742800.0,
+3070440.0,
+745360.0,
+3073000.0
+],
+"center_lonlat": [
+83.47625982632155,
+27.74778139661962
+],
+"note": "Tinau from Butwal down the fan",
+"km_along": 11.5
+},
+{
+"id": "koshi_00",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+493960.0,
+2927680.0,
+496520.0,
+2930240.0
+],
+"center_lonlat": [
+86.95224075196674,
+26.481052265924017
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 1.3
+},
+{
+"id": "koshi_01",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+493960.0,
+2925120.0,
+496520.0,
+2927680.0
+],
+"center_lonlat": [
+86.9522502931428,
+26.45793734045337
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 3.8
+},
+{
+"id": "koshi_02",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+493720.0,
+2922640.0,
+496280.0,
+2925200.0
+],
+"center_lonlat": [
+86.94985244311005,
+26.43554386095116
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 6.4
+},
+{
+"id": "koshi_03",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+492600.0,
+2920960.0,
+495160.0,
+2923520.0
+],
+"center_lonlat": [
+86.93862742793813,
+26.420370224582737
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 9.0
+},
+{
+"id": "koshi_04",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+491960.0,
+2918840.0,
+494520.0,
+2921400.0
+],
+"center_lonlat": [
+86.93222057133273,
+26.40122512821954
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 11.5
+},
+{
+"id": "koshi_05",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+492120.0,
+2916360.0,
+494680.0,
+2918920.0
+],
+"center_lonlat": [
+86.93383758001444,
+26.378833053360385
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 14.1
+},
+{
+"id": "koshi_06",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+492000.0,
+2914040.0,
+494560.0,
+2916600.0
+],
+"center_lonlat": [
+86.93264677017909,
+26.357884302119388
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 16.6
+},
+{
+"id": "koshi_07",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+491800.0,
+2912000.0,
+494360.0,
+2914560.0
+],
+"center_lonlat": [
+86.93065319446632,
+26.33946333531197
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 19.2
+},
+{
+"id": "koshi_08",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+489960.0,
+2910280.0,
+492520.0,
+2912840.0
+],
+"center_lonlat": [
+86.9122258875354,
+26.323922600363353
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 21.8
+},
+{
+"id": "koshi_09",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+489920.0,
+2908000.0,
+492480.0,
+2910560.0
+],
+"center_lonlat": [
+86.91184067495269,
+26.30333519280607
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 24.3
+},
+{
+"id": "koshi_10",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+488320.0,
+2906240.0,
+490880.0,
+2908800.0
+],
+"center_lonlat": [
+86.89582592795841,
+26.28743256992322
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 26.9
+},
+{
+"id": "koshi_11",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+487480.0,
+2904000.0,
+490040.0,
+2906560.0
+],
+"center_lonlat": [
+86.88743139696157,
+26.2672001452315
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 29.4
+},
+{
+"id": "koshi_12",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+487480.0,
+2901680.0,
+490040.0,
+2904240.0
+],
+"center_lonlat": [
+86.88745158828478,
+26.246251654895115
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 32.0
+},
+{
+"id": "koshi_13",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+487840.0,
+2899520.0,
+490400.0,
+2902080.0
+],
+"center_lonlat": [
+86.8910745137923,
+26.226750609301575
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 34.6
+},
+{
+"id": "koshi_14",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+487880.0,
+2897160.0,
+490440.0,
+2899720.0
+],
+"center_lonlat": [
+86.89149474084563,
+26.205441117574605
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 37.1
+},
+{
+"id": "koshi_15",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+487400.0,
+2894880.0,
+489960.0,
+2897440.0
+],
+"center_lonlat": [
+86.88671000715989,
+26.184849927405125
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 39.7
+},
+{
+"id": "koshi_16",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+486280.0,
+2892920.0,
+488840.0,
+2895480.0
+],
+"center_lonlat": [
+86.87551992290427,
+26.16714261339439
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 42.2
+},
+{
+"id": "koshi_17",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+485600.0,
+2890680.0,
+488160.0,
+2893240.0
+],
+"center_lonlat": [
+86.86873819650026,
+26.146910174858704
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 44.8
+},
+{
+"id": "koshi_18",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+485240.0,
+2888240.0,
+487800.0,
+2890800.0
+],
+"center_lonlat": [
+86.86516181503094,
+26.124874463601138
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 47.4
+},
+{
+"id": "koshi_19",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+484000.0,
+2886160.0,
+486560.0,
+2888720.0
+],
+"center_lonlat": [
+86.85278186569029,
+26.106080579184564
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 49.9
+},
+{
+"id": "koshi_20",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+482560.0,
+2884640.0,
+485120.0,
+2887200.0
+],
+"center_lonlat": [
+86.83839899787021,
+26.092340013420046
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 52.5
+},
+{
+"id": "koshi_21",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+481960.0,
+2882400.0,
+484520.0,
+2884960.0
+],
+"center_lonlat": [
+86.83242778442494,
+26.072106596600133
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 55.0
+},
+{
+"id": "koshi_22",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+481280.0,
+2880720.0,
+483840.0,
+2883280.0
+],
+"center_lonlat": [
+86.8256513946157,
+26.056928583519998
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 57.6
+},
+{
+"id": "koshi_23",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+480760.0,
+2878360.0,
+483320.0,
+2880920.0
+],
+"center_lonlat": [
+86.82048540505306,
+26.035611983505433
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 60.2
+},
+{
+"id": "koshi_24",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+481120.0,
+2876480.0,
+483680.0,
+2879040.0
+],
+"center_lonlat": [
+86.8241089919942,
+26.018640414774524
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 62.7
+},
+{
+"id": "koshi_25",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+481480.0,
+2874320.0,
+484040.0,
+2876880.0
+],
+"center_lonlat": [
+86.8277352097366,
+25.99914036062865
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 65.3
+},
+{
+"id": "koshi_26",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+480560.0,
+2872080.0,
+483120.0,
+2874640.0
+],
+"center_lonlat": [
+86.81857351771241,
+25.97890230236007
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 67.8
+},
+{
+"id": "koshi_27",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+479320.0,
+2870240.0,
+481880.0,
+2872800.0
+],
+"center_lonlat": [
+86.80621264690951,
+25.96227132515182
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 70.4
+},
+{
+"id": "koshi_28",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+478720.0,
+2867960.0,
+481280.0,
+2870520.0
+],
+"center_lonlat": [
+86.80025399851574,
+25.941675085155133
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 73.0
+},
+{
+"id": "koshi_29",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+478840.0,
+2865680.0,
+481400.0,
+2868240.0
+],
+"center_lonlat": [
+86.80148696907959,
+25.92108857890762
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 75.5
+},
+{
+"id": "koshi_30",
+"aoi": "river_koshi",
+"epsg": 32645,
+"bounds_utm": [
+478360.0,
+2863480.0,
+480920.0,
+2866040.0
+],
+"center_lonlat": [
+86.79672797882668,
+25.901216122962754
+],
+"note": "Koshi at the barrage reach, Saptari bank",
+"km_along": 78.1
+},
+{
+"id": "narayanix_18",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+186440.0,
+3023080.0,
+189000.0,
+3025640.0
+],
+"center_lonlat": [
+83.84481899934599,
+27.30676346376298
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 47.4
+},
+{
+"id": "narayanix_19",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+186200.0,
+3020760.0,
+188760.0,
+3023320.0
+],
+"center_lonlat": [
+83.84298928028153,
+27.28579520147507
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 49.9
+},
+{
+"id": "narayanix_20",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+187720.0,
+3019400.0,
+190280.0,
+3021960.0
+],
+"center_lonlat": [
+83.85867043168972,
+27.273880953406007
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 52.5
+},
+{
+"id": "narayanix_21",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+189200.0,
+3018120.0,
+191760.0,
+3020680.0
+],
+"center_lonlat": [
+83.87392459242294,
+27.262676803940774
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 55.0
+},
+{
+"id": "narayanix_22",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+188040.0,
+3016320.0,
+190600.0,
+3018880.0
+],
+"center_lonlat": [
+83.86267883621133,
+27.246188282702178
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 57.6
+},
+{
+"id": "narayanix_23",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+189920.0,
+3014760.0,
+192480.0,
+3017320.0
+],
+"center_lonlat": [
+83.88203301333895,
+27.23254909288507
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 60.2
+},
+{
+"id": "narayanix_24",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+192080.0,
+3014440.0,
+194640.0,
+3017000.0
+],
+"center_lonlat": [
+83.90389664971173,
+27.23014796689708
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 62.7
+},
+{
+"id": "narayanix_25",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+194280.0,
+3013680.0,
+196840.0,
+3016240.0
+],
+"center_lonlat": [
+83.9262721090321,
+27.223785486555304
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 65.3
+},
+{
+"id": "narayanix_26",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+196040.0,
+3012040.0,
+198600.0,
+3014600.0
+],
+"center_lonlat": [
+83.94442493790939,
+27.209388843892857
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 67.8
+},
+{
+"id": "narayanix_27",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+197400.0,
+3010720.0,
+199960.0,
+3013280.0
+],
+"center_lonlat": [
+83.95846186802257,
+27.197786902806623
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 70.4
+},
+{
+"id": "narayanix_28",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+198320.0,
+3008440.0,
+200880.0,
+3011000.0
+],
+"center_lonlat": [
+83.96829416139998,
+27.177432323728574
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 73.0
+},
+{
+"id": "narayanix_29",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+200240.0,
+3008000.0,
+202800.0,
+3010560.0
+],
+"center_lonlat": [
+83.98775612473318,
+27.173882767005463
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 75.5
+},
+{
+"id": "narayanix_30",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+202680.0,
+3008040.0,
+205240.0,
+3010600.0
+],
+"center_lonlat": [
+84.01234368018277,
+27.174769937287163
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 78.1
+},
+{
+"id": "narayanix_31",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+204960.0,
+3007160.0,
+207520.0,
+3009720.0
+],
+"center_lonlat": [
+84.0355383925691,
+27.167323763992627
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 80.6
+},
+{
+"id": "narayanix_32",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+206080.0,
+3005120.0,
+208640.0,
+3007680.0
+],
+"center_lonlat": [
+84.04731281458653,
+27.149168723468478
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 83.2
+},
+{
+"id": "narayanix_33",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+205960.0,
+3002680.0,
+208520.0,
+3005240.0
+],
+"center_lonlat": [
+84.04668207084076,
+27.127143300305548
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 85.8
+},
+{
+"id": "narayanix_34",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+205160.0,
+3000280.0,
+207720.0,
+3002840.0
+],
+"center_lonlat": [
+84.03919064356374,
+27.105334170210124
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 88.3
+},
+{
+"id": "narayanix_35",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+205960.0,
+2998040.0,
+208520.0,
+3000600.0
+],
+"center_lonlat": [
+84.04778079638747,
+27.085307103912385
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 90.9
+},
+{
+"id": "narayanix_36",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+208400.0,
+2998080.0,
+210960.0,
+3000640.0
+],
+"center_lonlat": [
+84.07235054744753,
+27.086182225930308
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 93.4
+},
+{
+"id": "narayanix_37",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+210800.0,
+2997960.0,
+213360.0,
+3000520.0
+],
+"center_lonlat": [
+84.09655537666802,
+27.085602050731374
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 96.0
+},
+{
+"id": "narayanix_38",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+213080.0,
+2996840.0,
+215640.0,
+2999400.0
+],
+"center_lonlat": [
+84.11978223407093,
+27.07597585775256
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 98.6
+},
+{
+"id": "narayanix_39",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+213960.0,
+2994520.0,
+216520.0,
+2997080.0
+],
+"center_lonlat": [
+84.12917984711275,
+27.055237553803405
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 101.1
+},
+{
+"id": "narayanix_40",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+214040.0,
+2992000.0,
+216600.0,
+2994560.0
+],
+"center_lonlat": [
+84.13056395396147,
+27.03253074011295
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 103.7
+},
+{
+"id": "narayanix_41",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+215320.0,
+2989800.0,
+217880.0,
+2992360.0
+],
+"center_lonlat": [
+84.14395489612855,
+27.01295502487106
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 106.2
+},
+{
+"id": "narayanix_42",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+215760.0,
+2987360.0,
+218320.0,
+2989920.0
+],
+"center_lonlat": [
+84.14894013806926,
+26.991042481712164
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 108.8
+},
+{
+"id": "narayanix_43",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+216200.0,
+2984920.0,
+218760.0,
+2987480.0
+],
+"center_lonlat": [
+84.1539230470612,
+26.969129550775364
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 111.4
+},
+{
+"id": "narayanix_44",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+217760.0,
+2983200.0,
+220320.0,
+2985760.0
+],
+"center_lonlat": [
+84.17001078284267,
+26.953935594301242
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 113.9
+},
+{
+"id": "narayanix_45",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+219680.0,
+2981600.0,
+222240.0,
+2984160.0
+],
+"center_lonlat": [
+84.18968945229969,
+26.939893809708455
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 116.5
+},
+{
+"id": "narayanix_46",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+220040.0,
+2979120.0,
+222600.0,
+2981680.0
+],
+"center_lonlat": [
+84.19386554481711,
+26.91760178929123
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 119.0
+},
+{
+"id": "narayanix_47",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+219880.0,
+2976640.0,
+222440.0,
+2979200.0
+],
+"center_lonlat": [
+84.19280959102979,
+26.895205538624932
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 121.6
+},
+{
+"id": "narayanix_48",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+220040.0,
+2974200.0,
+222600.0,
+2976760.0
+],
+"center_lonlat": [
+84.19496253609863,
+26.87323391270337
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 124.2
+},
+{
+"id": "narayanix_49",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+221680.0,
+2972400.0,
+224240.0,
+2974960.0
+],
+"center_lonlat": [
+84.21185241964724,
+26.857328040118507
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 126.7
+},
+{
+"id": "narayanix_50",
+"aoi": "xriver_narayani",
+"epsg": 32645,
+"bounds_utm": [
+223080.0,
+2970280.0,
+225640.0,
+2972840.0
+],
+"center_lonlat": [
+84.22639515404494,
+26.838486607394355
+],
+"note": "Narayani / Gandak, full Nepal reach into Bihar",
+"km_along": 129.3
+},
+{
+"id": "tinaux_00",
+"aoi": "xriver_tinau",
+"epsg": 32644,
+"bounds_utm": [
+755680.0,
+3078960.0,
+758240.0,
+3081520.0
+],
+"center_lonlat": [
+83.60865783190017,
+27.82221591015262
+],
+"note": "Tinau, Butwal to the border",
+"km_along": 1.3
+},
+{
+"id": "tinaux_01",
+"aoi": "xriver_tinau",
+"epsg": 32644,
+"bounds_utm": [
+753480.0,
+3079120.0,
+756040.0,
+3081680.0
+],
+"center_lonlat": [
+83.58637626877955,
+27.82407893092209
+],
+"note": "Tinau, Butwal to the border",
+"km_along": 3.8
+},
+{
+"id": "tinaux_02",
+"aoi": "xriver_tinau",
+"epsg": 32644,
+"bounds_utm": [
+753200.0,
+3078000.0,
+755760.0,
+3080560.0
+],
+"center_lonlat": [
+83.58329679094795,
+27.814031621837664
+],
+"note": "Tinau, Butwal to the border",
+"km_along": 6.4
+},
+{
+"id": "tinaux_03",
+"aoi": "xriver_tinau",
+"epsg": 32644,
+"bounds_utm": [
+752080.0,
+3077040.0,
+754640.0,
+3079600.0
+],
+"center_lonlat": [
+83.571732668778,
+27.805586114168065
+],
+"note": "Tinau, Butwal to the border",
+"km_along": 9.0
+},
+{
+"id": "koshix_00",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+442600.0,
+3000840.0,
+445160.0,
+3003400.0
+],
+"center_lonlat": [
+86.4336608288674,
+27.14046757219837
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 1.3
+},
+{
+"id": "koshix_01",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+443040.0,
+2999960.0,
+445600.0,
+3002520.0
+],
+"center_lonlat": [
+86.43814066904663,
+27.132540787782624
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 3.8
+},
+{
+"id": "koshix_02",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+444520.0,
+2998440.0,
+447080.0,
+3001000.0
+],
+"center_lonlat": [
+86.45314133843192,
+27.118877158235247
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 6.4
+},
+{
+"id": "koshix_03",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+446240.0,
+2996840.0,
+448800.0,
+2999400.0
+],
+"center_lonlat": [
+86.47056289755585,
+27.104498743803756
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 9.0
+},
+{
+"id": "koshix_04",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+448040.0,
+2996960.0,
+450600.0,
+2999520.0
+],
+"center_lonlat": [
+86.48871642800252,
+27.105649360468856
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 11.5
+},
+{
+"id": "koshix_05",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+449880.0,
+2997680.0,
+452440.0,
+3000240.0
+],
+"center_lonlat": [
+86.50725017881575,
+27.112215924048705
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 14.1
+},
+{
+"id": "koshix_06",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+451600.0,
+2999080.0,
+454160.0,
+3001640.0
+],
+"center_lonlat": [
+86.5245494474859,
+27.124915098829693
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 16.6
+},
+{
+"id": "koshix_07",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+453480.0,
+3000440.0,
+456040.0,
+3003000.0
+],
+"center_lonlat": [
+86.54346867710873,
+27.13725630410088
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 19.2
+},
+{
+"id": "koshix_08",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+455280.0,
+3001360.0,
+457840.0,
+3003920.0
+],
+"center_lonlat": [
+86.56160020865464,
+27.145620088047004
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 21.8
+},
+{
+"id": "koshix_09",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+457640.0,
+3002040.0,
+460200.0,
+3004600.0
+],
+"center_lonlat": [
+86.58539433044008,
+27.151831604156964
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 24.3
+},
+{
+"id": "koshix_10",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+459720.0,
+3000680.0,
+462280.0,
+3003240.0
+],
+"center_lonlat": [
+86.6064296295293,
+27.13961370278152
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 26.9
+},
+{
+"id": "koshix_11",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+462040.0,
+3000040.0,
+464600.0,
+3002600.0
+],
+"center_lonlat": [
+86.62986064415362,
+27.13389931486793
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 29.4
+},
+{
+"id": "koshix_12",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+464360.0,
+2999320.0,
+466920.0,
+3001880.0
+],
+"center_lonlat": [
+86.65329154849361,
+27.12745872738237
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 32.0
+},
+{
+"id": "koshix_13",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+466080.0,
+2997880.0,
+468640.0,
+3000440.0
+],
+"center_lonlat": [
+86.6706849860498,
+27.114499763666696
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 34.6
+},
+{
+"id": "koshix_14",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+468000.0,
+2996520.0,
+470560.0,
+2999080.0
+],
+"center_lonlat": [
+86.69009004088517,
+27.102265317486967
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 37.1
+},
+{
+"id": "koshix_15",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+469040.0,
+2994400.0,
+471600.0,
+2996960.0
+],
+"center_lonlat": [
+86.70063255915065,
+27.083147955999546
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 39.7
+},
+{
+"id": "koshix_16",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+470240.0,
+2992400.0,
+472800.0,
+2994960.0
+],
+"center_lonlat": [
+86.71278226495122,
+27.06511643481356
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 42.2
+},
+{
+"id": "koshix_17",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+471440.0,
+2990600.0,
+474000.0,
+2993160.0
+],
+"center_lonlat": [
+86.72492366379196,
+27.04888947362295
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 44.8
+},
+{
+"id": "koshix_18",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+472800.0,
+2988840.0,
+475360.0,
+2991400.0
+],
+"center_lonlat": [
+86.73867382770719,
+27.033025543524932
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 47.4
+},
+{
+"id": "koshix_19",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+473720.0,
+2986680.0,
+476280.0,
+2989240.0
+],
+"center_lonlat": [
+86.7479927395028,
+27.013540944527467
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 49.9
+},
+{
+"id": "koshix_20",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+474160.0,
+2984360.0,
+476720.0,
+2986920.0
+],
+"center_lonlat": [
+86.75247390596928,
+26.992602674846722
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 52.5
+},
+{
+"id": "koshix_21",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+474520.0,
+2982160.0,
+477080.0,
+2984720.0
+],
+"center_lonlat": [
+86.75614492857586,
+26.972746223174365
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 55.0
+},
+{
+"id": "koshix_22",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+475320.0,
+2980000.0,
+477880.0,
+2982560.0
+],
+"center_lonlat": [
+86.76424680423305,
+26.953258233113306
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 57.6
+},
+{
+"id": "koshix_23",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+475240.0,
+2977560.0,
+477800.0,
+2980120.0
+],
+"center_lonlat": [
+86.76348679395456,
+26.931227118800884
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 60.2
+},
+{
+"id": "koshix_24",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+475600.0,
+2975240.0,
+478160.0,
+2977800.0
+],
+"center_lonlat": [
+86.7671560353137,
+26.910286745943587
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 62.7
+},
+{
+"id": "koshix_25",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+476160.0,
+2973000.0,
+478720.0,
+2975560.0
+],
+"center_lonlat": [
+86.77283628522665,
+26.890071752503683
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 65.3
+},
+{
+"id": "koshix_26",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+477360.0,
+2971920.0,
+479920.0,
+2974480.0
+],
+"center_lonlat": [
+86.78493784964692,
+26.880339691149018
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 67.8
+},
+{
+"id": "koshix_27",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+479640.0,
+2971040.0,
+482200.0,
+2973600.0
+],
+"center_lonlat": [
+86.80790724047729,
+26.872427503616805
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 70.4
+},
+{
+"id": "koshix_28",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+481920.0,
+2971360.0,
+484480.0,
+2973920.0
+],
+"center_lonlat": [
+86.83085733600758,
+26.875346024961267
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 73.0
+},
+{
+"id": "koshix_29",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+483640.0,
+2972760.0,
+486200.0,
+2975320.0
+],
+"center_lonlat": [
+86.84815738143114,
+26.88800588918979
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 75.5
+},
+{
+"id": "koshix_30",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+485800.0,
+2973520.0,
+488360.0,
+2976080.0
+],
+"center_lonlat": [
+86.86989881360317,
+26.89488940934214
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 78.1
+},
+{
+"id": "koshix_31",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+488160.0,
+2973800.0,
+490720.0,
+2976360.0
+],
+"center_lonlat": [
+86.89366102267046,
+26.897437336514628
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 80.6
+},
+{
+"id": "koshix_32",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+490520.0,
+2973880.0,
+493080.0,
+2976440.0
+],
+"center_lonlat": [
+86.91742562490539,
+26.89817552536366
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 83.2
+},
+{
+"id": "koshix_33",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+492440.0,
+2974600.0,
+495000.0,
+2977160.0
+],
+"center_lonlat": [
+86.93675648073774,
+26.904686180359594
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 85.8
+},
+{
+"id": "koshix_34",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+494920.0,
+2974440.0,
+497480.0,
+2977000.0
+],
+"center_lonlat": [
+86.96173210948812,
+26.90325056143118
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 88.3
+},
+{
+"id": "koshix_35",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+496600.0,
+2974400.0,
+499160.0,
+2976960.0
+],
+"center_lonlat": [
+86.97865061188817,
+26.902892983428092
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 90.9
+},
+{
+"id": "koshix_36",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+498240.0,
+2972960.0,
+500800.0,
+2975520.0
+],
+"center_lonlat": [
+86.9951667295399,
+26.889893145887232
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 93.4
+},
+{
+"id": "koshix_37",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+500160.0,
+2973240.0,
+502720.0,
+2975800.0
+],
+"center_lonlat": [
+87.01450013393794,
+26.892420530167545
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 96.0
+},
+{
+"id": "koshix_38",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+502160.0,
+2974480.0,
+504720.0,
+2977040.0
+],
+"center_lonlat": [
+87.03464262217912,
+26.90361264590069
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 98.6
+},
+{
+"id": "koshix_39",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+504160.0,
+2974600.0,
+506720.0,
+2977160.0
+],
+"center_lonlat": [
+87.05478419838728,
+26.90468971514136
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 101.1
+},
+{
+"id": "koshix_40",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+506080.0,
+2975000.0,
+508640.0,
+2977560.0
+],
+"center_lonlat": [
+87.0741221447535,
+26.908292374156527
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 103.7
+},
+{
+"id": "koshix_41",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+507960.0,
+2975520.0,
+510520.0,
+2978080.0
+],
+"center_lonlat": [
+87.09305935029171,
+26.912976090097565
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 106.2
+},
+{
+"id": "koshix_42",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+509920.0,
+2976320.0,
+512480.0,
+2978880.0
+],
+"center_lonlat": [
+87.11280636545716,
+26.920184648320816
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 108.8
+},
+{
+"id": "koshix_43",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+512160.0,
+2977120.0,
+514720.0,
+2979680.0
+],
+"center_lonlat": [
+87.13537621258618,
+26.927387752039593
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 111.4
+},
+{
+"id": "koshix_44",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+514080.0,
+2975920.0,
+516640.0,
+2978480.0
+],
+"center_lonlat": [
+87.15470084152477,
+26.91653348377034
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 113.9
+},
+{
+"id": "koshix_45",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+515400.0,
+2973920.0,
+517960.0,
+2976480.0
+],
+"center_lonlat": [
+87.16796867665758,
+26.89846094091849
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 116.5
+},
+{
+"id": "koshix_46",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+515000.0,
+2971440.0,
+517560.0,
+2974000.0
+],
+"center_lonlat": [
+87.16390835496765,
+26.876074490787996
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 119.0
+},
+{
+"id": "koshix_47",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+513760.0,
+2969640.0,
+516320.0,
+2972200.0
+],
+"center_lonlat": [
+87.1514023289628,
+26.859836698975457
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 121.6
+},
+{
+"id": "koshix_48",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+513040.0,
+2967240.0,
+515600.0,
+2969800.0
+],
+"center_lonlat": [
+87.14412691602193,
+26.838175250474293
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 124.2
+},
+{
+"id": "koshix_49",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+513040.0,
+2964960.0,
+515600.0,
+2967520.0
+],
+"center_lonlat": [
+87.14410086903743,
+26.817589616267316
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 126.7
+},
+{
+"id": "koshix_50",
+"aoi": "xriver_koshi",
+"epsg": 32645,
+"bounds_utm": [
+512920.0,
+2962880.0,
+515480.0,
+2965440.0
+],
+"center_lonlat": [
+87.14286978399325,
+26.79881091040345
+],
+"note": "Koshi, Chatara to the barrage and the border",
+"km_along": 129.3
+},
+{
+"id": "raptix_00",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+259120.0,
+3049560.0,
+261680.0,
+3052120.0
+],
+"center_lonlat": [
+84.57332115260108,
+27.56025812689017
+],
+"note": "East Rapti through Chitwan",
+"km_along": 1.3
+},
+{
+"id": "raptix_01",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+257400.0,
+3048480.0,
+259960.0,
+3051040.0
+],
+"center_lonlat": [
+84.55612954890387,
+27.55021163587863
+],
+"note": "East Rapti through Chitwan",
+"km_along": 3.8
+},
+{
+"id": "raptix_02",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+255960.0,
+3048600.0,
+258520.0,
+3051160.0
+],
+"center_lonlat": [
+84.5415332869122,
+27.55103682269172
+],
+"note": "East Rapti through Chitwan",
+"km_along": 6.4
+},
+{
+"id": "raptix_03",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+254120.0,
+3047800.0,
+256680.0,
+3050360.0
+],
+"center_lonlat": [
+84.52307537870153,
+27.543490461282577
+],
+"note": "East Rapti through Chitwan",
+"km_along": 9.0
+},
+{
+"id": "raptix_04",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+252320.0,
+3048800.0,
+254880.0,
+3051360.0
+],
+"center_lonlat": [
+84.50465784877655,
+27.552183809359114
+],
+"note": "East Rapti through Chitwan",
+"km_along": 11.5
+},
+{
+"id": "raptix_05",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+251240.0,
+3050880.0,
+253800.0,
+3053440.0
+],
+"center_lonlat": [
+84.49330259654222,
+27.570746954517762
+],
+"note": "East Rapti through Chitwan",
+"km_along": 14.1
+},
+{
+"id": "raptix_06",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+249720.0,
+3051800.0,
+252280.0,
+3054360.0
+],
+"center_lonlat": [
+84.47772889750532,
+27.57876586721959
+],
+"note": "East Rapti through Chitwan",
+"km_along": 16.6
+},
+{
+"id": "raptix_07",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+247880.0,
+3050280.0,
+250440.0,
+3052840.0
+],
+"center_lonlat": [
+84.45942122154881,
+27.56471738163852
+],
+"note": "East Rapti through Chitwan",
+"km_along": 19.2
+},
+{
+"id": "raptix_08",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+245680.0,
+3050440.0,
+248240.0,
+3053000.0
+],
+"center_lonlat": [
+84.43712348409439,
+27.56575120547292
+],
+"note": "East Rapti through Chitwan",
+"km_along": 21.8
+},
+{
+"id": "raptix_09",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+244600.0,
+3049560.0,
+247160.0,
+3052120.0
+],
+"center_lonlat": [
+84.42637903413674,
+27.557612538574222
+],
+"note": "East Rapti through Chitwan",
+"km_along": 24.3
+},
+{
+"id": "raptix_10",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+242720.0,
+3050800.0,
+245280.0,
+3053360.0
+],
+"center_lonlat": [
+84.40709201971158,
+27.568441702324648
+],
+"note": "East Rapti through Chitwan",
+"km_along": 26.9
+},
+{
+"id": "raptix_11",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+240400.0,
+3050800.0,
+242960.0,
+3053360.0
+],
+"center_lonlat": [
+84.38361360201773,
+27.568001199222593
+],
+"note": "East Rapti through Chitwan",
+"km_along": 29.4
+},
+{
+"id": "raptix_12",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+237960.0,
+3050920.0,
+240520.0,
+3053480.0
+],
+"center_lonlat": [
+84.35889543652394,
+27.56861582535552
+],
+"note": "East Rapti through Chitwan",
+"km_along": 32.0
+},
+{
+"id": "raptix_13",
+"aoi": "xriver_rapti",
+"epsg": 32645,
+"bounds_utm": [
+235840.0,
+3049800.0,
+238400.0,
+3052360.0
+],
+"center_lonlat": [
+84.33768566651021,
+27.558105754592876
+],
+"note": "East Rapti through Chitwan",
+"km_along": 34.6
+},
+{
+"id": "bagmatix_00",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+343520.0,
+3023040.0,
+346080.0,
+3025600.0
+],
+"center_lonlat": [
+85.431186526815,
+27.333228364151495
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 1.3
+},
+{
+"id": "bagmatix_01",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+342160.0,
+3021920.0,
+344720.0,
+3024480.0
+],
+"center_lonlat": [
+85.41758695848254,
+27.322965658922673
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 3.8
+},
+{
+"id": "bagmatix_02",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+342720.0,
+3020040.0,
+345280.0,
+3022600.0
+],
+"center_lonlat": [
+85.42348526630607,
+27.30606308260128
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 6.4
+},
+{
+"id": "bagmatix_03",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+343640.0,
+3018040.0,
+346200.0,
+3020600.0
+],
+"center_lonlat": [
+85.43303332467133,
+27.288117958073133
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 9.0
+},
+{
+"id": "bagmatix_04",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+345960.0,
+3017560.0,
+348520.0,
+3020120.0
+],
+"center_lonlat": [
+85.45652813293297,
+27.284046617382195
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 11.5
+},
+{
+"id": "bagmatix_05",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+347520.0,
+3016040.0,
+350080.0,
+3018600.0
+],
+"center_lonlat": [
+85.47247329955857,
+27.270501604809763
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 14.1
+},
+{
+"id": "bagmatix_06",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+348840.0,
+3014280.0,
+351400.0,
+3016840.0
+],
+"center_lonlat": [
+85.48602027314026,
+27.254762367283053
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 16.6
+},
+{
+"id": "bagmatix_07",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+348960.0,
+3012040.0,
+351520.0,
+3014600.0
+],
+"center_lonlat": [
+85.4875055124499,
+27.23455919822909
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 19.2
+},
+{
+"id": "bagmatix_08",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+349880.0,
+3010600.0,
+352440.0,
+3013160.0
+],
+"center_lonlat": [
+85.496968962771,
+27.221662958341096
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 21.8
+},
+{
+"id": "bagmatix_09",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+350560.0,
+3008640.0,
+353120.0,
+3011200.0
+],
+"center_lonlat": [
+85.50407021378084,
+27.20404699824356
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 24.3
+},
+{
+"id": "bagmatix_10",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+349520.0,
+3007920.0,
+352080.0,
+3010480.0
+],
+"center_lonlat": [
+85.49365991180865,
+27.19743639855448
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 26.9
+},
+{
+"id": "bagmatix_11",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+349040.0,
+3006480.0,
+351600.0,
+3009040.0
+],
+"center_lonlat": [
+85.48899033104847,
+27.184387962838066
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 29.4
+},
+{
+"id": "bagmatix_12",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+348960.0,
+3005480.0,
+351520.0,
+3008040.0
+],
+"center_lonlat": [
+85.48830462061994,
+27.17535405082308
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 32.0
+},
+{
+"id": "bagmatix_13",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+350320.0,
+3004920.0,
+352880.0,
+3007480.0
+],
+"center_lonlat": [
+85.5020962979538,
+27.17044716588089
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 34.6
+},
+{
+"id": "bagmatix_14",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+349320.0,
+3003880.0,
+351880.0,
+3006440.0
+],
+"center_lonlat": [
+85.49213155057262,
+27.160952781246255
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 37.1
+},
+{
+"id": "bagmatix_15",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+348680.0,
+3001640.0,
+351240.0,
+3004200.0
+],
+"center_lonlat": [
+85.48594657047714,
+27.140666695591978
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 39.7
+},
+{
+"id": "bagmatix_16",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+347280.0,
+2999560.0,
+349840.0,
+3002120.0
+],
+"center_lonlat": [
+85.47207845346925,
+27.12174121393933
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 42.2
+},
+{
+"id": "bagmatix_17",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+345960.0,
+2997480.0,
+348520.0,
+3000040.0
+],
+"center_lonlat": [
+85.45902168184917,
+27.102823359476467
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 44.8
+},
+{
+"id": "bagmatix_18",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+344560.0,
+2995480.0,
+347120.0,
+2998040.0
+],
+"center_lonlat": [
+85.44515259954225,
+27.084617518495325
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 47.4
+},
+{
+"id": "bagmatix_19",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+343160.0,
+2993640.0,
+345720.0,
+2996200.0
+],
+"center_lonlat": [
+85.43126781825679,
+27.067854471932588
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 49.9
+},
+{
+"id": "bagmatix_20",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+342000.0,
+2991680.0,
+344560.0,
+2994240.0
+],
+"center_lonlat": [
+85.4198214372774,
+27.050034378880987
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 52.5
+},
+{
+"id": "bagmatix_21",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+341400.0,
+2989360.0,
+343960.0,
+2991920.0
+],
+"center_lonlat": [
+85.41406795306303,
+27.029028150128568
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 55.0
+},
+{
+"id": "bagmatix_22",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+339760.0,
+2988120.0,
+342320.0,
+2990680.0
+],
+"center_lonlat": [
+85.39769924142773,
+27.01764992648857
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 57.6
+},
+{
+"id": "bagmatix_23",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+338840.0,
+2986120.0,
+341400.0,
+2988680.0
+],
+"center_lonlat": [
+85.38868613686586,
+26.999494116958875
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 60.2
+},
+{
+"id": "bagmatix_24",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+338960.0,
+2983840.0,
+341520.0,
+2986400.0
+],
+"center_lonlat": [
+85.39018812334034,
+26.97893087385826
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 62.7
+},
+{
+"id": "bagmatix_25",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+339440.0,
+2981600.0,
+342000.0,
+2984160.0
+],
+"center_lonlat": [
+85.3953099527481,
+26.958769846516034
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 65.3
+},
+{
+"id": "bagmatix_26",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+338800.0,
+2979600.0,
+341360.0,
+2982160.0
+],
+"center_lonlat": [
+85.38912095810323,
+26.94064618919444
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 67.8
+},
+{
+"id": "bagmatix_27",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+338800.0,
+2977440.0,
+341360.0,
+2980000.0
+],
+"center_lonlat": [
+85.38939795460425,
+26.921151970587786
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 70.4
+},
+{
+"id": "bagmatix_28",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+337960.0,
+2975600.0,
+340520.0,
+2978160.0
+],
+"center_lonlat": [
+85.38117775493888,
+26.904449042924035
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 73.0
+},
+{
+"id": "bagmatix_29",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+335840.0,
+2974520.0,
+338400.0,
+2977080.0
+],
+"center_lonlat": [
+85.35997759675773,
+26.894455737964734
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 75.5
+},
+{
+"id": "bagmatix_30",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+335240.0,
+2972440.0,
+337800.0,
+2975000.0
+],
+"center_lonlat": [
+85.35421028500863,
+26.8756134730036
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 78.1
+},
+{
+"id": "bagmatix_31",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+334560.0,
+2970400.0,
+337120.0,
+2972960.0
+],
+"center_lonlat": [
+85.34763450316741,
+26.857122605058528
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 80.6
+},
+{
+"id": "bagmatix_32",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+334400.0,
+2968320.0,
+336960.0,
+2970880.0
+],
+"center_lonlat": [
+85.34629744043588,
+26.838331749892536
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 83.2
+},
+{
+"id": "bagmatix_33",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+333520.0,
+2967680.0,
+336080.0,
+2970240.0
+],
+"center_lonlat": [
+85.33752855104879,
+26.83245196063275
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 85.8
+},
+{
+"id": "bagmatix_34",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+332720.0,
+2965640.0,
+335280.0,
+2968200.0
+],
+"center_lonlat": [
+85.3297506223382,
+26.813946207819708
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 88.3
+},
+{
+"id": "bagmatix_35",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+331960.0,
+2963440.0,
+334520.0,
+2966000.0
+],
+"center_lonlat": [
+85.32239858180967,
+26.794000870024547
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 90.9
+},
+{
+"id": "bagmatix_36",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+332200.0,
+2961360.0,
+334760.0,
+2963920.0
+],
+"center_lonlat": [
+85.32508777917252,
+26.775257454449147
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 93.4
+},
+{
+"id": "bagmatix_37",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+332600.0,
+2959480.0,
+335160.0,
+2962040.0
+],
+"center_lonlat": [
+85.32935803294924,
+26.758337879179418
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 96.0
+},
+{
+"id": "bagmatix_38",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+333520.0,
+2957320.0,
+336080.0,
+2959880.0
+],
+"center_lonlat": [
+85.3388906220964,
+26.738952382415064
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 98.6
+},
+{
+"id": "bagmatix_39",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+331880.0,
+2955480.0,
+334440.0,
+2958040.0
+],
+"center_lonlat": [
+85.3226494586882,
+26.722152201679904
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 101.1
+},
+{
+"id": "bagmatix_40",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+330480.0,
+2953480.0,
+333040.0,
+2956040.0
+],
+"center_lonlat": [
+85.30884603574948,
+26.703935103737315
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 103.7
+},
+{
+"id": "bagmatix_41",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+330600.0,
+2951600.0,
+333160.0,
+2954160.0
+],
+"center_lonlat": [
+85.3103022149272,
+26.686982390925923
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 106.2
+},
+{
+"id": "bagmatix_42",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+329000.0,
+2949960.0,
+331560.0,
+2952520.0
+],
+"center_lonlat": [
+85.29444733370069,
+26.671989191037408
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 108.8
+},
+{
+"id": "bagmatix_43",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+328080.0,
+2947800.0,
+330640.0,
+2950360.0
+],
+"center_lonlat": [
+85.28549682284192,
+26.6523839842458
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 111.4
+},
+{
+"id": "bagmatix_44",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+327240.0,
+2945720.0,
+329800.0,
+2948280.0
+],
+"center_lonlat": [
+85.27734174343765,
+26.633510042477635
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 113.9
+},
+{
+"id": "bagmatix_45",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+326000.0,
+2943600.0,
+328560.0,
+2946160.0
+],
+"center_lonlat": [
+85.26517844807697,
+26.614225792166657
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 116.5
+},
+{
+"id": "bagmatix_46",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+327800.0,
+2942960.0,
+330360.0,
+2945520.0
+],
+"center_lonlat": [
+85.28333759021389,
+26.608669047625508
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 119.0
+},
+{
+"id": "bagmatix_47",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+329800.0,
+2942360.0,
+332360.0,
+2944920.0
+],
+"center_lonlat": [
+85.30349770289946,
+26.603494855226035
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 121.6
+},
+{
+"id": "bagmatix_48",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+329480.0,
+2940080.0,
+332040.0,
+2942640.0
+],
+"center_lonlat": [
+85.30058902304117,
+26.582879228208792
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 124.2
+},
+{
+"id": "bagmatix_49",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+331440.0,
+2938880.0,
+334000.0,
+2941440.0
+],
+"center_lonlat": [
+85.3204214164157,
+26.57228243999631
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 126.7
+},
+{
+"id": "bagmatix_50",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+332080.0,
+2936720.0,
+334640.0,
+2939280.0
+],
+"center_lonlat": [
+85.32712828898585,
+26.552863439032087
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 129.3
+},
+{
+"id": "bagmatix_51",
+"aoi": "xriver_bagmati",
+"epsg": 32645,
+"bounds_utm": [
+333880.0,
+2934920.0,
+336440.0,
+2937480.0
+],
+"center_lonlat": [
+85.34542530057392,
+26.536828680222584
+],
+"note": "Bagmati across the eastern Terai",
+"km_along": 131.8
 }
 ]

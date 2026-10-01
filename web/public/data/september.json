@@ -708,6 +708,42 @@
   }
  },
  "change_tokens": "/data/september-change-tokens.geojson",
+ "ribbon": "/data/september-river-ribbon.geojson",
+ "river": {
+  "segments": 232,
+  "observed": 54,
+  "per_river": {
+   "river_narayani": {
+    "km": 46.1,
+    "segments": 18,
+    "observed": 18,
+    "frac_mean": 0.0713,
+    "nw_mean": 0.0626,
+    "top_window": "narayani_12",
+    "top_frac": 0.2253
+   },
+   "river_tinau": {
+    "km": 12.8,
+    "segments": 5,
+    "observed": 5,
+    "frac_mean": 0.002,
+    "nw_mean": 0.0079,
+    "top_window": "tinau_02",
+    "top_frac": 0.0029
+   },
+   "river_koshi": {
+    "km": 79.4,
+    "segments": 31,
+    "observed": 31,
+    "frac_mean": 0.0011,
+    "nw_mean": 0.0026,
+    "top_window": "koshi_10",
+    "top_frac": 0.0059
+   }
+  },
+  "reading": "Each reach is coloured by the share of 40 m tokens in its window that moved beyond the window's own ordinary range (same classes as chapter 1). Dashed grey = no readable radar for that reach.",
+  "reading_ko": "각 구간은 그 구간을 담은 창에서 평시 범위를 넘은 40 m 토큰 비율로 칠했습니다(1장과 같은 계급). 점선 회색 = 그 구간을 읽은 레이더가 없음."
+ },
  "download": "/data/september-windows.geojson",
  "change_token_rule": "40 m tokens drawn where Δz exceeds the window's ordinary p99 (flag) or where ≥50% of pixels became water-like (VV drop > 3 dB and VV < −16 dB). Source-corridor tokens only above 1.6× the threshold.",
  "monsoon_status": {

@@ -24,6 +24,12 @@ t19 = L("m100_flood_sites/report_t19.json"); t158 = L("m100_flood_sites/report_t
 s2 = L("m100_flood_sites/report_s2_saptari_M101.json")
 summ = L("m100_flood_sites/summary.json")
 wins = json.loads((ROOT / "code/terai_flood_windows.json").read_text())
+# 강 회랑 창(M103): 결합(M102)에는 없으므로 레이더 보고서에서 직접 읽는다
+river_rep = {}
+for tag in ("terai_radar_scan_r19", "terai_radar_scan_r12"):
+    p = ART.parent / "research-private/artifacts" / tag / "report.json"
+    if p.exists():
+        for w in json.loads(p.read_text())["windows"]: river_rep[w["id"]] = w
 src_wins = json.loads((ROOT / "code/source_radar_windows.json").read_text())
 
 SITES = {
@@ -49,9 +55,12 @@ for w in wins:
     x0, y0, x1, y1 = w["bounds_utm"]
     ring = [bw.transform(x, y) for x, y in ((x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0))]
     f = rank.get(w["id"])
+    if f is None and w["id"] in river_rep and river_rep[w["id"]]["status"] == "ranked":
+        rr = river_rep[w["id"]]
+        f = {"frac": rr["candidate_token_frac"], "source": "radar", "radar_frac": rr["candidate_token_frac"], "optical_frac": None, "radar_new_water": rr["water_new_frac_event"], "scl_water_delta": None, "radar_orbits": [12 if w["aoi"] == "river_koshi" else 19], "rank": None}
     frames = all((FR / f"{w['id']}_{k}").exists() for k in ("pre.jpg", "post.jpg", "delta.png"))
     feats.append({"type": "Feature", "id": w["id"], "geometry": {"type": "Polygon", "coordinates": [[list(p) for p in ring]]},
-                  "properties": {"id": w["id"], "site": w["aoi"], "chapter": "september", "kind": "flood_site",
+                  "properties": {"id": w["id"], "site": w["aoi"], "chapter": "september", "kind": "river_corridor" if "river_" in w["aoi"] else "flood_site",
                                  "fused_frac": f["frac"] if f else None, "source": f["source"] if f else "unobservable",
                                  "radar_frac": f["radar_frac"] if f else None, "optical_frac": f["optical_frac"] if f else None,
                                  "radar_new_water": f["radar_new_water"] if f else None, "scl_water_delta": f["scl_water_delta"] if f else None,
@@ -117,6 +126,18 @@ out = {
     "frames_dir": "/data/september/frames",
     "frames": {"kind": "Sentinel-1 false colour: R=VV, G=VH, B=VV−VH (dB), 3×3 median speckle filter; PRE = median of the three base passes; 384 px", "delta": "AI change field: transparent below the ordinary p99, orange→magenta above, white 1-px outline at the threshold", "s2_sites": ["saptari"], "s2_dates": {"saptari": ["2026-09-20", "2026-09-28"]}},
     "change_tokens": "/data/september-change-tokens.geojson",
+    "ribbon": "/data/september-river-ribbon.geojson" if (PUB / "september-river-ribbon.geojson").exists() else None,
+    "river": (lambda rb: None if rb is None else {
+        "segments": len(rb), "observed": sum(1 for x in rb if x["observed"]),
+        "per_river": {r: {"km": round(sum(1 for x in rb if x["river"] == r) * 2.56, 1), "segments": sum(1 for x in rb if x["river"] == r), "observed": sum(1 for x in rb if x["river"] == r and x["observed"]),
+                          "frac_mean": (lambda xs: round(sum(xs) / len(xs), 4) if xs else None)([x["frac"] for x in rb if x["river"] == r and x["observed"] and x["frac"] is not None]),
+                          "nw_mean": (lambda xs: round(sum(xs) / len(xs), 4) if xs else None)([x["nw"] for x in rb if x["river"] == r and x["observed"] and x["nw"] is not None]),
+                          "top_window": (lambda xs: xs[0]["window"] if xs else None)(sorted([x for x in rb if x["river"] == r and x["observed"] and x["frac"] is not None], key=lambda x: -x["frac"])),
+                          "top_frac": (lambda xs: round(xs[0]["frac"], 4) if xs else None)(sorted([x for x in rb if x["river"] == r and x["observed"] and x["frac"] is not None], key=lambda x: -x["frac"]))}
+                      for r in ("river_narayani", "river_tinau", "river_koshi")},
+        "reading": "Each reach is coloured by the share of 40 m tokens in its window that moved beyond the window's own ordinary range (same classes as chapter 1). Dashed grey = no readable radar for that reach.",
+        "reading_ko": "각 구간은 그 구간을 담은 창에서 평시 범위를 넘은 40 m 토큰 비율로 칠했습니다(1장과 같은 계급). 점선 회색 = 그 구간을 읽은 레이더가 없음."})(
+        [f["properties"] for f in json.loads((PUB / "september-river-ribbon.geojson").read_text())["features"]] if (PUB / "september-river-ribbon.geojson").exists() else None),
     "download": "/data/september-windows.geojson",
     "change_token_rule": "40 m tokens drawn where Δz exceeds the window's ordinary p99 (flag) or where ≥50% of pixels became water-like (VV drop > 3 dB and VV < −16 dB). Source-corridor tokens only above 1.6× the threshold.",
     "monsoon_status": {"as_of": "2026-09-29", "text": "Withdrawal not yet declared; long-run average 2 Oct, last four years 8–16 Oct. Post-flood optical for the western sites waits for the first clear pass.",

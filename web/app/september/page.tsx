@@ -30,7 +30,8 @@ type September = {
   fusion: { measurement_id: string; coverage: { radar_only: number; optical_only: number; both: number }; agreement_saptari: { n: number; spearman_radar_vs_optical: number; top5_overlap: number } | null; headline: string; headline_ko: string; figure: string };
   fused_top: Lead[];
   scenes: { id: string; sensor: string; acquired_at: string; state: string; detail: string }[];
-  bounds: [number, number, number, number]; download: string; change_tokens: string; change_token_rule: string;
+  bounds: [number, number, number, number]; download: string; change_tokens: string; change_token_rule: string; ribbon?: string | null;
+  river?: { segments: number; observed: number; reading: string; reading_ko: string; per_river: Record<string, { km: number; segments: number; observed: number; frac_mean: number | null; nw_mean: number | null; top_window: string | null; top_frac: number | null }> } | null;
   frames: { kind: string; delta: string; s2_sites: string[]; s2_dates: Record<string, [string, string]> };
   monsoon_status: { as_of: string; text: string; text_ko: string }; ledger: string[];
 };
@@ -55,6 +56,7 @@ export default function SeptemberPage() {
   const [swipe, setSwipe] = useState(50);
   const [showTokens, setShowTokens] = useState(true);
   const [showWindows, setShowWindows] = useState(true);
+  const [showRibbon, setShowRibbon] = useState(true);
   const [satellite, setSatellite] = useState(false);
   const [leftOpen, setLeftOpen] = useState(true);
   const [rightOpen, setRightOpen] = useState(true);
@@ -95,16 +97,32 @@ export default function SeptemberPage() {
     map.addControl(new AttributionControl({ compact: true }), 'bottom-left');
     const attach = () => {
       if (map.getSource('sept')) return;
+      // MapTiler outdoor 는 산악에서만 음영이 살고 테라이·인도 평야는 평평한 연두로 비어 보인다(사용자 지적). 전역 음영기복을 라벨 아래 깔아 질감을 맞춘다.
+      const firstSymbol = map.getStyle()?.layers?.find((l) => l.type === 'symbol')?.id;
+      map.addSource('hillshade-global', { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, maxzoom: 15, attribution: 'Hillshade © Esri' });
+      map.addLayer({ id: 'hillshade-global', type: 'raster', source: 'hillshade-global', paint: { 'raster-opacity': 0.42, 'raster-contrast': 0.15 } }, firstSymbol);
       map.addSource('satellite', { type: 'raster', tiles: [SAT_TILES], tileSize: 256, attribution: 'Esri World Imagery' });
-      map.addLayer({ id: 'satellite', type: 'raster', source: 'satellite', layout: { visibility: 'none' }, paint: { 'raster-saturation': -0.2 } });
+      map.addLayer({ id: 'satellite', type: 'raster', source: 'satellite', layout: { visibility: 'none' }, paint: { 'raster-saturation': -0.2 } }, firstSymbol);
       map.addSource('sept', { type: 'geojson', data: geo });
       map.addSource('tokens', { type: 'geojson', data: sept.change_tokens });
+      if (sept.ribbon) map.addSource('ribbon', { type: 'geojson', data: sept.ribbon });
       map.addLayer({ id: 'sept-fill', type: 'fill', source: 'sept', paint: { 'fill-color': '#000', 'fill-opacity': 0.001 } });   // 클릭 히트용
       map.addLayer({ id: 'sept-line', type: 'line', source: 'sept', paint: { 'line-color': ['case', ['>=', ['coalesce', ['get', 'fused_frac'], 0], 0.05], '#eb6834', ['!', ['has', 'fused_frac']], '#9a9a9a', '#5f7a74'], 'line-width': ['case', ['>=', ['coalesce', ['get', 'fused_frac'], 0], 0.05], 2.2, 0.7], 'line-opacity': 0.9 } });
       // 변화 토큰(40 m): 1장의 강 리본처럼 — 새 물은 파랑, 문턱 초과는 주황→자홍(초과 배수)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const tokColor: any = ['case', ['>=', ['get', 'nw'], 0.5], '#2a78d6', ['step', ['get', 'x'], '#f0a070', 1.3, '#eb6834', 1.8, '#c8414b', 2.5, '#b8306f']];
       map.addLayer({ id: 'tokens-fill', type: 'fill', source: 'tokens', paint: { 'fill-color': tokColor, 'fill-opacity': ['interpolate', ['linear'], ['zoom'], 7, 0.75, 12, 0.6] } });
+      if (sept.ribbon) {
+        // 강 리본: 1장과 같은 계급(0.5 / 2 / 5 / 8 %). 관측 불가 구간은 점선 회색으로 남긴다 — 지우지 않는다.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const ribColor: any = ['case', ['!', ['get', 'observed']], '#9a9a9a', ['step', ['coalesce', ['get', 'frac'], 0], '#7fb5c9', 0.005, '#ffd666', 0.02, '#ff983d', 0.05, '#ec5238', 0.08, '#ba185c']];
+        map.addLayer({ id: 'ribbon-casing', type: 'line', source: 'ribbon', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 7, 5, 12, 16], 'line-opacity': 0.9 } });
+        map.addLayer({ id: 'ribbon', type: 'line', source: 'ribbon', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ribColor, 'line-width': ['interpolate', ['linear'], ['zoom'], 7, 3, 12, 11], 'line-opacity': 0.95, 'line-dasharray': ['case', ['!', ['get', 'observed']], ['literal', [1.2, 1.4]], ['literal', [1, 0]]] } });
+        map.addLayer({ id: 'ribbon-hit', type: 'line', source: 'ribbon', paint: { 'line-color': '#000', 'line-opacity': 0.001, 'line-width': 18 } });
+        map.on('click', 'ribbon-hit', (e) => { const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr || !pr.window) return; const w = String(pr.window); const site = String(pr.river); openRef.current(w, site, site === 'river_koshi' ? [12] : [19]); });
+        map.on('mouseenter', 'ribbon-hit', () => { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', 'ribbon-hit', () => { map.getCanvas().style.cursor = ''; });
+      }
       map.addLayer({ id: 'sept-rank', type: 'symbol', source: 'sept', filter: ['all', ['==', ['get', 'kind'], 'flood_site'], ['<=', ['coalesce', ['get', 'rank'], 999], 6]],
         layout: { 'text-field': ['concat', '#', ['to-string', ['get', 'rank']]], 'text-size': 12, 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true, 'text-offset': [0, -1.1] }, paint: { 'text-color': '#16151a', 'text-halo-color': '#ffffff', 'text-halo-width': 1.5 } });
       map.on('click', 'sept-fill', (e) => { const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
@@ -126,6 +144,7 @@ export default function SeptemberPage() {
   }, [geo, sept]);
   useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; if (m.getLayer('tokens-fill')) m.setLayoutProperty('tokens-fill', 'visibility', showTokens ? 'visible' : 'none'); }, [showTokens, mapReady]);
   useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; for (const id of ['sept-line', 'sept-rank']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showWindows ? 'visible' : 'none'); }, [showWindows, mapReady]);
+  useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; for (const id of ['ribbon-casing', 'ribbon', 'ribbon-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showRibbon ? 'visible' : 'none'); }, [showRibbon, mapReady]);
   useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; if (m.getLayer('satellite')) m.setLayoutProperty('satellite', 'visibility', satellite ? 'visible' : 'none'); }, [satellite, mapReady]);
 
   const fly = (c: [number, number], zoom = 11.3) => mapRef.current?.flyTo({ center: c, zoom, duration: 900 });
@@ -140,8 +159,9 @@ export default function SeptemberPage() {
       <header className="sept-topbar">
         <div className="brand"><Link href="/" className="brand-link">Nepal <b>AI Twin</b></Link><small>{ko ? '2장 · 9월 24~29일 몬순 홍수' : 'CHAPTER 2 · 24–29 SEP MONSOON FLOODS'}</small></div>
         <div className="toggles">
+          <button className={showRibbon ? 'is-active' : ''} onClick={() => setShowRibbon((v) => !v)} disabled={!sept?.ribbon} title={ko ? '강을 2.56 km 구간으로 잘라 그 구간을 담은 창의 변화로 색칠 (1장과 같은 계급)' : 'River cut into 2.56 km reaches, coloured by the change in the window that holds each reach (same classes as chapter 1)'}>{ko ? '강 리본' : 'RIVER RIBBON'}</button>
           <button className={showTokens ? 'is-active' : ''} onClick={() => setShowTokens((v) => !v)} title={sept?.change_token_rule}>{ko ? '변화 토큰 40 m' : 'CHANGE TOKENS 40 m'}</button>
-          <button className={showWindows ? 'is-active' : ''} onClick={() => setShowWindows((v) => !v)}>{ko ? '창 181' : 'WINDOWS 181'}</button>
+          <button className={showWindows ? 'is-active' : ''} onClick={() => setShowWindows((v) => !v)}>{ko ? `창 ${geo?.features.length ?? ''}` : `WINDOWS ${geo?.features.length ?? ''}`}</button>
           <button className={satellite ? 'is-active' : ''} onClick={() => setSatellite((v) => !v)}>{ko ? '위성 배경' : 'SATELLITE'}</button>
         </div>
         <div className="links">
@@ -181,6 +201,11 @@ export default function SeptemberPage() {
             <button onClick={() => fly([85.52, 28.28], 10.4)}>◎ {ko ? '발원 회랑으로' : 'GO TO THE CORRIDOR'}</button>
           </article>
           <div className="legend">
+            {sept.ribbon && <>
+              <p className="eyebrow">{ko ? '강 리본 · 구간을 담은 창의 문턱 초과 토큰 비율' : 'RIVER RIBBON · share of tokens beyond the ordinary range in the reach’s window'}</p>
+              <ul className="sept-legend"><li><i style={{ background: '#7fb5c9' }} />&lt;0.5%</li><li><i style={{ background: '#ffd666' }} />0.5–2</li><li><i style={{ background: '#ff983d' }} />2–5</li><li><i style={{ background: '#ec5238' }} />5–8</li><li><i style={{ background: '#ba185c' }} />≥8%</li><li><i style={{ background: 'repeating-linear-gradient(90deg,#9a9a9a 0 3px,transparent 3px 6px)' }} />{ko ? '관측 불가' : 'unobservable'}</li></ul>
+              {sept.river && <small>{ko ? sept.river.reading_ko : sept.river.reading}</small>}
+            </>}
             <p className="eyebrow">{ko ? '변화 토큰 (40 m)' : 'CHANGE TOKENS (40 m)'}</p>
             <ul className="sept-legend col"><li><i style={{ background: '#2a78d6' }} />{ko ? '새 물 (픽셀 50% 이상 물로 바뀜)' : 'new water (≥50% of pixels turned water-like)'}</li><li><i style={{ background: '#f0a070' }} />{ko ? 'Δz 문턱 1.0~1.3배' : 'Δz 1.0–1.3× the ordinary p99'}</li><li><i style={{ background: '#eb6834' }} />1.3–1.8×</li><li><i style={{ background: '#c8414b' }} />1.8–2.5×</li><li><i style={{ background: '#b8306f' }} />≥ 2.5×</li></ul>
             <p className="eyebrow">{ko ? '창 테두리' : 'WINDOW OUTLINES'}</p>
@@ -219,7 +244,7 @@ export default function SeptemberPage() {
             <img src={sept.fusion.figure} alt="What fusion changed" loading="lazy" onClick={() => setLightbox({ title: ko ? '결합(M102)이 바꾼 것과 안 바꾼 것' : 'What fusion (M102) did and did not change', sub: ko ? sept.fusion.headline_ko : sept.fusion.headline, id: '', site: '', orbits: [], single: sept.fusion.figure })} />
             <figcaption>{ko ? sept.fusion.headline_ko : sept.fusion.headline}</figcaption>
           </figure>
-          <div className="dl"><a className="btn" href={sept.download} download>{ko ? '창 181개 GeoJSON' : '181 WINDOWS (GEOJSON)'}</a><a className="btn" href={sept.change_tokens} download>{ko ? '변화 토큰 GeoJSON' : 'CHANGE TOKENS (GEOJSON)'}</a></div>
+          <div className="dl"><a className="btn" href={sept.download} download>{ko ? `창 ${geo?.features.length ?? ''}개 GeoJSON` : `${geo?.features.length ?? ''} WINDOWS (GEOJSON)`}</a><a className="btn" href={sept.change_tokens} download>{ko ? '변화 토큰 GeoJSON' : 'CHANGE TOKENS (GEOJSON)'}</a></div>
         </aside>
       )}
 

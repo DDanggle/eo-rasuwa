@@ -117,7 +117,9 @@ export default function SeptemberPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ribColor: any = ['case', ['!', ['get', 'observed']], '#9a9a9a', ['step', ['coalesce', ['get', 'frac'], 0], '#7fb5c9', 0.005, '#ffd666', 0.02, '#ff983d', 0.05, '#ec5238', 0.08, '#ba185c']];
         map.addLayer({ id: 'ribbon-casing', type: 'line', source: 'ribbon', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 7, 5, 12, 16], 'line-opacity': 0.9 } });
-        map.addLayer({ id: 'ribbon', type: 'line', source: 'ribbon', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ribColor, 'line-width': ['interpolate', ['linear'], ['zoom'], 7, 3, 12, 11], 'line-opacity': 0.95, 'line-dasharray': ['case', ['!', ['get', 'observed']], ['literal', [1.2, 1.4]], ['literal', [1, 0]]] } });
+        // line-dasharray 는 데이터 기반 표현식을 받지 않는다(MapLibre) → 관측/미관측을 두 레이어로 나눈다
+        map.addLayer({ id: 'ribbon-unobs', type: 'line', source: 'ribbon', filter: ['!', ['get', 'observed']], layout: { 'line-cap': 'butt', 'line-join': 'round' }, paint: { 'line-color': '#8d8d8d', 'line-width': ['interpolate', ['linear'], ['zoom'], 7, 2.2, 12, 7], 'line-opacity': 0.8, 'line-dasharray': [1.4, 1.6] } });
+        map.addLayer({ id: 'ribbon', type: 'line', source: 'ribbon', filter: ['get', 'observed'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ribColor, 'line-width': ['interpolate', ['linear'], ['zoom'], 7, 4, 12, 12], 'line-opacity': 0.95 } });
         map.addLayer({ id: 'ribbon-hit', type: 'line', source: 'ribbon', paint: { 'line-color': '#000', 'line-opacity': 0.001, 'line-width': 18 } });
         map.on('click', 'ribbon-hit', (e) => { const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr || !pr.window) return; const w = String(pr.window); const site = String(pr.river); openRef.current(w, site, site === 'river_koshi' ? [12] : [19]); });
         map.on('mouseenter', 'ribbon-hit', () => { map.getCanvas().style.cursor = 'pointer'; });
@@ -144,7 +146,7 @@ export default function SeptemberPage() {
   }, [geo, sept]);
   useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; if (m.getLayer('tokens-fill')) m.setLayoutProperty('tokens-fill', 'visibility', showTokens ? 'visible' : 'none'); }, [showTokens, mapReady]);
   useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; for (const id of ['sept-line', 'sept-rank']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showWindows ? 'visible' : 'none'); }, [showWindows, mapReady]);
-  useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; for (const id of ['ribbon-casing', 'ribbon', 'ribbon-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showRibbon ? 'visible' : 'none'); }, [showRibbon, mapReady]);
+  useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; for (const id of ['ribbon-casing', 'ribbon-unobs', 'ribbon', 'ribbon-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showRibbon ? 'visible' : 'none'); }, [showRibbon, mapReady]);
   useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; if (m.getLayer('satellite')) m.setLayoutProperty('satellite', 'visibility', satellite ? 'visible' : 'none'); }, [satellite, mapReady]);
 
   const fly = (c: [number, number], zoom = 11.3) => mapRef.current?.flyTo({ center: c, zoom, duration: 900 });

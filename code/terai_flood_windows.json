@@ -5534,5 +5534,379 @@
 ],
 "note": "Bagmati across the eastern Terai",
 "km_along": 131.8
+},
+{
+"id": "narayaniu_03",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+241080.0,
+3063800.0,
+243640.0,
+3066360.0
+],
+"center_lonlat": [
+84.38771178396888,
+27.68536960102572
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 9.0
+},
+{
+"id": "narayaniu_05",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+237040.0,
+3065840.0,
+239600.0,
+3068400.0
+],
+"center_lonlat": [
+84.34633932546286,
+27.70298791224034
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 14.1
+},
+{
+"id": "narayaniu_06",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+234840.0,
+3064560.0,
+237400.0,
+3067120.0
+],
+"center_lonlat": [
+84.32433084094632,
+27.691015842397334
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 16.6
+},
+{
+"id": "narayaniu_07",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+233480.0,
+3062880.0,
+236040.0,
+3065440.0
+],
+"center_lonlat": [
+84.31092452088555,
+27.675599028488516
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 19.2
+},
+{
+"id": "narayaniu_08",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+231120.0,
+3062640.0,
+233680.0,
+3065200.0
+],
+"center_lonlat": [
+84.28707341424206,
+27.672968489629646
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 21.8
+},
+{
+"id": "narayaniu_09",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+230040.0,
+3060560.0,
+232600.0,
+3063120.0
+],
+"center_lonlat": [
+84.2765997015183,
+27.65399733889979
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 24.3
+},
+{
+"id": "narayaniu_10",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+228200.0,
+3059000.0,
+230760.0,
+3061560.0
+],
+"center_lonlat": [
+84.25831739916674,
+27.639562649112897
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 26.9
+},
+{
+"id": "narayaniu_11",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+226440.0,
+3057280.0,
+229000.0,
+3059840.0
+],
+"center_lonlat": [
+84.24088606352065,
+27.62369922490304
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 29.4
+},
+{
+"id": "narayaniu_12",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+224240.0,
+3056080.0,
+226800.0,
+3058640.0
+],
+"center_lonlat": [
+84.21888748819116,
+27.612433608134953
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 32.0
+},
+{
+"id": "narayaniu_13",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+222440.0,
+3054760.0,
+225000.0,
+3057320.0
+],
+"center_lonlat": [
+84.20096970776238,
+27.60016453518356
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 34.6
+},
+{
+"id": "narayaniu_14",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+220640.0,
+3053120.0,
+223200.0,
+3055680.0
+],
+"center_lonlat": [
+84.18312980298529,
+27.58500801957027
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 37.1
+},
+{
+"id": "narayaniu_15",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+218320.0,
+3052880.0,
+220880.0,
+3055440.0
+],
+"center_lonlat": [
+84.15970802971177,
+27.58236539605517
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 39.7
+},
+{
+"id": "narayaniu_16",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+217560.0,
+3050680.0,
+220120.0,
+3053240.0
+],
+"center_lonlat": [
+84.15252991704803,
+27.56237110593503
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 42.2
+},
+{
+"id": "narayaniu_17",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+215800.0,
+3049080.0,
+218360.0,
+3051640.0
+],
+"center_lonlat": [
+84.13509817142008,
+27.54757825775631
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 44.8
+},
+{
+"id": "narayaniu_18",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+214080.0,
+3049920.0,
+216640.0,
+3052480.0
+],
+"center_lonlat": [
+84.11750106821503,
+27.554792020438722
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 47.4
+},
+{
+"id": "narayaniu_19",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+211720.0,
+3049320.0,
+214280.0,
+3051880.0
+],
+"center_lonlat": [
+84.09376916474316,
+27.548884600271673
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 49.9
+},
+{
+"id": "narayaniu_20",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+209800.0,
+3050760.0,
+212360.0,
+3053320.0
+],
+"center_lonlat": [
+84.07400288095191,
+27.56145990588434
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 52.5
+},
+{
+"id": "narayaniu_21",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+208000.0,
+3050320.0,
+210560.0,
+3052880.0
+],
+"center_lonlat": [
+84.05589903455753,
+27.557107900479142
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 55.0
+},
+{
+"id": "narayaniu_22",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+206080.0,
+3048880.0,
+208640.0,
+3051440.0
+],
+"center_lonlat": [
+84.03682514486862,
+27.543711973276412
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 57.6
+},
+{
+"id": "narayaniu_23",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+204000.0,
+3048520.0,
+206560.0,
+3051080.0
+],
+"center_lonlat": [
+84.01587464608369,
+27.540015882768458
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 60.2
+},
+{
+"id": "narayaniu_24",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+201760.0,
+3049520.0,
+204320.0,
+3052080.0
+],
+"center_lonlat": [
+83.99297357384506,
+27.54854268365274
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 62.7
+},
+{
+"id": "narayaniu_25",
+"aoi": "xriver_narayani_upper",
+"epsg": 32645,
+"bounds_utm": [
+199720.0,
+3049800.0,
+202280.0,
+3052360.0
+],
+"center_lonlat": [
+83.97227052666126,
+27.550618586817194
+],
+"note": "Narayani from Devghat down to Tribeni (upper reach, braided)",
+"km_along": 65.3
 }
 ]

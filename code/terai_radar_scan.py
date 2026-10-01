@@ -79,6 +79,15 @@ CONTRACTS: dict[str, dict] = {
         "base_placebo": ["2026-07-06", "2026-07-18", "2026-07-30"], "target_placebo": "2026-08-11",
         "out": "terai_radar_scan_x12",
     },
+    # M105 — 데브갓→트리베니 상류 나라야니(사행 구간). OSM 조각이 끊겨 M103/M104 에서 빠졌던 60 km.
+    "u19": {
+        "measurement_id": "M105", "orbit": 19, "direction": "descending",
+        "aois": ["xriver_narayani_upper"],
+        "dates": ["2026-07-07", "2026-07-19", "2026-07-31", "2026-08-12", "2026-08-24", "2026-09-05", "2026-09-17", "2026-09-29"],
+        "base_event": ["2026-08-24", "2026-09-05", "2026-09-17"], "target_event": "2026-09-29",
+        "base_placebo": ["2026-07-07", "2026-07-19", "2026-07-31"], "target_placebo": "2026-08-12",
+        "out": "terai_radar_scan_u19",
+    },
 }
 SIZE, PATCH, CROP = 256, 4, 64
 MODEL_ID_NAME = "OLMOEARTH_V1_BASE"

@@ -115,7 +115,10 @@ out = {
     "scenes": scenes,
     "bounds": [82.9, 26.0, 87.4, 28.8],   # 부트왈(83.45)~삽타리(86.9) 전부 + 여백; 레일 패딩을 감안해 넉넉히
     "frames_dir": "/data/september/frames",
+    "frames": {"kind": "Sentinel-1 false colour: R=VV, G=VH, B=VV−VH (dB), 3×3 median speckle filter; PRE = median of the three base passes; 384 px", "delta": "AI change field: transparent below the ordinary p99, orange→magenta above, white 1-px outline at the threshold", "s2_sites": ["saptari"], "s2_dates": {"saptari": ["2026-09-20", "2026-09-28"]}},
+    "change_tokens": "/data/september-change-tokens.geojson",
     "download": "/data/september-windows.geojson",
+    "change_token_rule": "40 m tokens drawn where Δz exceeds the window's ordinary p99 (flag) or where ≥50% of pixels became water-like (VV drop > 3 dB and VV < −16 dB). Source-corridor tokens only above 1.6× the threshold.",
     "monsoon_status": {"as_of": "2026-09-29", "text": "Withdrawal not yet declared; long-run average 2 Oct, last four years 8–16 Oct. Post-flood optical for the western sites waits for the first clear pass.",
                        "text_ko": "철수 미선언. 평년 10/2, 최근 4년은 10/8~16. 서부 지점 사후 광학은 첫 맑은 통과를 기다린다."},
     "ledger": ["M99", "M99a", "M99b", "M100", "M100b", "M100c", "M101", "M102"],

@@ -370,6 +370,11 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
     for (const k of ['pre.jpg', 'post.jpg', 'delta.png']) await stat(resolve(root, `public/data/september/frames/${f.id}_${k}`));
   }
   await stat(resolve(root, 'public' + sept.fusion.figure));
+  const tokens = JSON.parse(await readFile(resolve(root, 'public/data/september-change-tokens.geojson'), 'utf8'));
+  assert.ok(tokens.features.length > 1000 && tokens.features.length < 50000, 'change-token layer must be present and web-sized');
+  assert.ok(tokens.features.every((f) => typeof f.properties.d === 'number' && typeof f.properties.flag === 'boolean'), 'change tokens carry d and flag');
+  for (const d of sept.frames.s2_dates.saptari) assert.ok(d.startsWith('2026-09'), 'Saptari optical dates are September');
+  for (const f of sept.fused_top.filter((x) => x.site === 'saptari')) for (const k of ['s2pre.jpg', 's2post.jpg']) await stat(resolve(root, `public/data/september/frames/${f.id}_${k}`));
   const verdicts = Object.values(sept.flood_sites).map((s) => s.verdict);
   assert.equal(verdicts.filter((v) => v === 'clear signal').length, 1, 'only Susta carries a clear cross-orbit signal (M100/M100c)');
   const text = JSON.stringify(sept);

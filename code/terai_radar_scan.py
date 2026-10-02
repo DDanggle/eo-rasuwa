@@ -88,6 +88,25 @@ CONTRACTS: dict[str, dict] = {
         "base_placebo": ["2026-07-07", "2026-07-19", "2026-07-31"], "target_placebo": "2026-08-12",
         "out": "terai_radar_scan_u19",
     },
+    # M108 — 2024년 9월 27~28일 홍수(바그마티·카트만두 사망 249명), 같은 강 회랑·같은 궤도 19. 2024 년엔 S1B 가 없어 09-08 통과가 비므로
+    # 3v1 대신 **2v1(36·12일)**. 평시 쌍도 같은 간격으로 맞춘다. 사후 10-02 는 정점 4~5일 뒤.
+    "y19": {
+        "measurement_id": "M108", "orbit": 19, "direction": "descending",
+        "aois": ["river_narayani", "river_tinau", "xriver_narayani", "xriver_tinau", "xriver_rapti", "xriver_bagmati", "xriver_narayani_upper"],
+        "dates": ["2024-07-10", "2024-08-03", "2024-08-15", "2024-08-27", "2024-09-20", "2024-10-02"],
+        "base_event": ["2024-08-27", "2024-09-20"], "target_event": "2024-10-02",
+        "base_placebo": ["2024-07-10", "2024-08-03"], "target_placebo": "2024-08-15",
+        "out": "terai_radar_scan_y19",
+    },
+    # M108b — 2026 을 2024 와 **같은 2v1(36·12일)** 로 다시 잰다(공정 비교). 큐브는 r19/x19/u19 prepare 를 링크해 재다운로드 없음.
+    "z19": {
+        "measurement_id": "M108b", "orbit": 19, "direction": "descending",
+        "aois": ["river_narayani", "river_tinau", "xriver_narayani", "xriver_tinau", "xriver_rapti", "xriver_bagmati", "xriver_narayani_upper"],
+        "dates": ["2026-07-07", "2026-07-19", "2026-07-31", "2026-08-12", "2026-08-24", "2026-09-05", "2026-09-17", "2026-09-29"],
+        "base_event": ["2026-08-24", "2026-09-17"], "target_event": "2026-09-29",
+        "base_placebo": ["2026-07-07", "2026-07-31"], "target_placebo": "2026-08-12",
+        "out": "terai_radar_scan_z19",
+    },
 }
 SIZE, PATCH, CROP = 256, 4, 64
 MODEL_ID_NAME = "OLMOEARTH_V1_BASE"

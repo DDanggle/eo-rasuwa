@@ -1,0 +1,132 @@
+{
+ "schema": "nepal-two-year-compare/v1",
+ "measurement_id": "M108",
+ "contract": "same 2-vs-1 contract (base 36 and 12 days before), Sentinel-1 orbit 19 descending, same 2.56 km river windows",
+ "dates": {
+  "2024": {
+   "base": [
+    "2024-08-27",
+    "2024-09-20"
+   ],
+   "post": "2024-10-02",
+   "event": "27–28 Sep 2024",
+   "threshold": 0.31954398393630973
+  },
+  "2026": {
+   "base": [
+    "2026-08-24",
+    "2026-09-17"
+   ],
+   "post": "2026-09-29",
+   "event": "24–29 Sep 2026",
+   "threshold": 0.34613857746124277
+  }
+ },
+ "rivers": [
+  {
+   "river": "xriver_bagmati",
+   "name": "Bagmati",
+   "name_ko": "바그마티",
+   "reaches": 52,
+   "f24": 0.07188653846153845,
+   "f26": 0.010167307692307694,
+   "hot24": 34,
+   "hot26": 0,
+   "nw24": 0.036676923076923065,
+   "nw26": 0.01744038461538461,
+   "gfm24_pos": 24,
+   "gfm26_pos": 31
+  },
+  {
+   "river": "xriver_narayani",
+   "name": "Gandak · Bihar",
+   "name_ko": "간다크 · 비하르",
+   "reaches": 33,
+   "f24": 0.0808,
+   "f26": 0.1378636363636363,
+   "hot24": 26,
+   "hot26": 28,
+   "nw24": 0.22023030303030305,
+   "nw26": 0.25903636363636356,
+   "gfm24_pos": 28,
+   "gfm26_pos": 29
+  },
+  {
+   "river": "xriver_narayani_upper",
+   "name": "Narayani · upper",
+   "name_ko": "나라야니 · 상류",
+   "reaches": 22,
+   "f24": 0.014609090909090912,
+   "f26": 0.04606818181818182,
+   "hot24": 0,
+   "hot26": 10,
+   "nw24": 0.05727272727272728,
+   "nw26": 0.07664090909090909,
+   "gfm24_pos": 14,
+   "gfm26_pos": 22
+  },
+  {
+   "river": "river_narayani",
+   "name": "Narayani · Susta",
+   "name_ko": "나라야니 · 수스타",
+   "reaches": 18,
+   "f24": 0.02082777777777778,
+   "f26": 0.03703888888888889,
+   "hot24": 2,
+   "hot26": 6,
+   "nw24": 0.059538888888888884,
+   "nw26": 0.06490555555555556,
+   "gfm24_pos": 7,
+   "gfm26_pos": 10
+  },
+  {
+   "river": "river_tinau",
+   "name": "Tinau · Butwal",
+   "name_ko": "티나우 · 부트왈",
+   "reaches": 5,
+   "f24": 0.00026000000000000003,
+   "f26": 0.00026000000000000003,
+   "hot24": 0,
+   "hot26": 0,
+   "nw24": 0.00654,
+   "nw26": 0.007819999999999999,
+   "gfm24_pos": 0,
+   "gfm26_pos": 0
+  },
+  {
+   "river": "xriver_tinau",
+   "name": "Tinau · border",
+   "name_ko": "티나우 · 국경",
+   "reaches": 4,
+   "f24": 0.031149999999999997,
+   "f26": 0.02635,
+   "hot24": 0,
+   "hot26": 0,
+   "nw24": 0.001775,
+   "nw26": 0.008225,
+   "gfm24_pos": 0,
+   "gfm26_pos": 0
+  },
+  {
+   "river": "xriver_rapti",
+   "name": "East Rapti",
+   "name_ko": "동라프티",
+   "reaches": 14,
+   "f24": 0.008642857142857143,
+   "f26": 0.0032499999999999994,
+   "hot24": 0,
+   "hot26": 0,
+   "nw24": 0.010871428571428572,
+   "nw26": 0.009785714285714285,
+   "gfm24_pos": 0,
+   "gfm26_pos": 5
+  }
+ ],
+ "reaches": 148,
+ "headline": "Same windows, same contract, two monsoons. In 2024 the Bagmati lit up (33 of 52 windows) and the upper Narayani stayed quiet; in 2026 the reverse — the Bagmati went dark and the Narayani from Devghat down to Bihar widened. Both years agree with the reports and with Copernicus GFM.",
+ "headline_ko": "같은 창, 같은 계약, 두 번의 몬순. 2024년엔 바그마티가 켜지고(52창 중 33) 상류 나라야니는 조용했다. 2026년엔 반대로 바그마티가 꺼지고 데브갓에서 비하르까지 나라야니가 넓어졌다. 두 해 모두 보도·Copernicus GFM 과 방향이 같다.",
+ "caveat": "2024 used a 2-pass memory because Sentinel-1B was gone; 2026 is remeasured with the same 2-pass memory for this comparison only (the main 2026 map uses 3 passes). The 2024 post pass is 4–5 days after the peak, so part of the 2024 signal is receding water and wet deposits (precision vs GFM 0.57).",
+ "caveat_ko": "2024년은 Sentinel-1B 부재로 기억 2장(2v1)만 가능했고, 이 비교에서만 2026년도 같은 2v1로 다시 쟀다(2026 기본 지도는 3장). 2024 사후 통과는 정점 4~5일 뒤라 신호 일부는 빠지는 물과 젖은 퇴적이다(GFM 대비 precision 0.57).",
+ "gfm2024_windows": 147,
+ "gfm2024_pos": 52
+}

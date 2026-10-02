@@ -374,6 +374,17 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
   assert.ok(tokens.features.length > 1000 && tokens.features.length < 50000, 'change-token layer must be present and web-sized');
   assert.ok(tokens.features.every((f) => typeof f.properties.x === 'number' && typeof f.properties.flag === 'boolean'), 'change tokens carry x (ratio to threshold) and flag');
   for (const d of sept.frames.s2_dates.saptari) assert.ok(d.startsWith('2026-09'), 'Saptari optical dates are September');
+  {
+    const cmp = JSON.parse(await readFile(resolve(root, 'public/data/september-compare.json'), 'utf8'));
+    const cr = JSON.parse(await readFile(resolve(root, 'public/data/september-compare-ribbon.geojson'), 'utf8'));
+    assert.equal(cmp.schema, 'nepal-two-year-compare/v1');
+    assert.equal(cr.features.length, cmp.reaches, 'compare ribbon reach count matches the summary');
+    assert.ok(cr.features.every((f) => typeof f.properties.f24 === 'number' && typeof f.properties.f26 === 'number' && Math.abs(f.properties.d - (f.properties.f26 - f.properties.f24)) < 1e-3), 'each reach carries both years and d = f26 − f24');
+    assert.deepEqual(cmp.dates['2024'].base.length, cmp.dates['2026'].base.length, 'both years use the same 2-pass memory');
+    const bag = cmp.rivers.find((r) => r.river === 'xriver_bagmati'); assert.ok(bag.hot24 > 20 && bag.hot26 === 0, 'M108: Bagmati lit in 2024, dark in 2026');
+    for (const f of cr.features.slice(0, 20)) for (const k of ['y24_pre.jpg', 'y24_post.jpg', 'y24_delta.png']) await stat(resolve(root, `public/data/september/frames/${f.properties.window}_${k}`));
+    console.log(`compare: ${cr.features.length} reaches · ${cmp.rivers.map((r) => `${r.river.replace(/x?river_/, '')} ${r.hot24}→${r.hot26}`).join(' · ')}`);
+  }
   if (sept.ribbon) {
     const rib = JSON.parse(await readFile(resolve(root, 'public' + sept.ribbon), 'utf8'));
     assert.ok(rib.features.length >= 40, 'river ribbon must cover the three rivers');

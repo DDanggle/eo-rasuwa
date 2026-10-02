@@ -1669,3 +1669,34 @@ body.sept-body { overflow: hidden; }
 .sept-rail .funnel.small i { display: none; }
 .sept-rail .claim.gfm { border-left-color: #2a78d6; background: rgba(42,120,214,.08); }
 .sept-site .gfm-line { display: block; color: #2a78d6; font-size: 10px; margin: -2px 0 6px; }
+
+/* ── /september · two-year compare (M108) ── */
+.sept-shell > .sept-stage.maplibregl-map { position: absolute; inset: 0; }   /* maplibre-gl.css 의 position:relative 가 덮어써 두 번째 지도가 화면 아래로 밀려났다(실측 top 950) */
+.sept-stage.b { pointer-events: none; z-index: 1; }
+.sept-shell > .sept-stage:first-child { z-index: 0; }
+.swipe-handle { position: absolute; z-index: 15; top: 60px; bottom: 0; width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 0 1px rgba(22,21,26,.35); cursor: ew-resize; touch-action: none; }
+.swipe-handle span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 50%; background: #fff; border: 1px solid rgba(22,21,26,.3); display: grid; place-items: center; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+.swipe-handle:focus-visible span { outline: 2px solid var(--orange); }
+.swipe-year { position: absolute; z-index: 15; top: 74px; display: flex; flex-direction: column; gap: 1px; padding: 6px 10px; background: color-mix(in srgb, var(--surface, #fffefb) 92%, transparent); border: 1px solid var(--line-strong, #d5d1c6); pointer-events: none; white-space: nowrap; }
+.swipe-year b { font: 700 18px/1 var(--font-geist-mono); }
+.swipe-year small { font: 9px var(--font-geist-mono); color: var(--muted); letter-spacing: .04em; }
+.swipe-year.left { text-align: right; }
+.viewseg { display: inline-flex; border: 1px solid var(--line-strong, #d5d1c6); background: var(--surface, #fffefb); }
+.viewseg button { font: 700 9.5px var(--font-geist-mono); letter-spacing: .07em; padding: 7px 11px; border: 0; border-right: 1px solid var(--line-strong, #d5d1c6); background: transparent; color: var(--ink); cursor: pointer; white-space: nowrap; }
+.viewseg button:last-child { border-right: 0; }
+.viewseg button.is-active { background: var(--ink); color: #fff; }
+.viewseg button:disabled { opacity: .4; cursor: default; }
+.sept-rail.cmp .lede { font-size: 12.5px; line-height: 1.5; margin: 6px 0 10px; }
+.sept-rail.cmp .note { font-size: 10.5px; line-height: 1.45; color: var(--muted); margin: 8px 0 0; }
+.dumbbell { margin: 4px 0 6px; }
+.dumbbell svg { width: 100%; height: auto; display: block; }
+.dumbbell figcaption { display: flex; align-items: center; gap: 6px; font: 9px var(--font-geist-mono); color: var(--muted); letter-spacing: .04em; margin-top: 2px; }
+.dumbbell figcaption i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; }
+.cmp-dates { margin: 10px 0 0; display: grid; gap: 4px; }
+.cmp-dates div { display: grid; grid-template-columns: 38px 1fr; gap: 6px; align-items: baseline; }
+.cmp-dates dt { font: 700 11px var(--font-geist-mono); }
+.cmp-dates dd { margin: 0; font: 10px var(--font-geist-mono); color: var(--muted); }
+.story-swipe .ov-full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.sept-rail.cmp .hint { font: 600 10px var(--font-geist-mono); letter-spacing: .04em; color: var(--orange); margin: -4px 0 6px; }
+.swipe-handle { user-select: none; -webkit-user-select: none; }
+.swipe-handle::before { content: ''; position: absolute; inset: 0 -12px; }   /* 잡기 쉬운 넓은 히트 영역 */

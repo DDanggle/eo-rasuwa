@@ -40,6 +40,21 @@ type Lightbox = { title: string; sub: string; id: string; site: string; orbits: 
 type CompareRiver = { river: string; name: string; name_ko: string; reaches: number; f24: number; f26: number; hot24: number; hot26: number; nw24: number; nw26: number; gfm24_pos: number; gfm26_pos: number };
 type Compare = { contract: string; dates: Record<'2024' | '2026', { base: string[]; post: string; event: string; threshold: number }>; rivers: CompareRiver[]; reaches: number; headline: string; headline_ko: string; caveat: string; caveat_ko: string };
 type View = 'now' | 'swipe' | 'diff';
+// ── 쉬운 화면(기본) ── 숫자 대신 사람 말: 크게 변함 / 조금 / 평소 / 못 봄
+type Level = 'big' | 'some' | 'normal' | 'unseen' | 'far';
+type Place = { name: string; name_ko: string; lonlat: [number, number]; lv26: Level; lv24: Level; focus_lonlat?: [number, number]; focus_window?: string; focus_river?: string; rivers?: string[]; rivers_ko?: string[]; big26?: number; obs26?: number; big24?: number; obs24?: number; gfm_agree?: number; nearest_big?: { km: number; lonlat: [number, number]; river: string; river_ko: string; window: string } | null };
+type Answer = { title: string; title_ko: string; lv26: Level; lv24: Level; window?: string; river?: string; has24: boolean; gfm: 'agree' | 'disagree' | 'none'; nearest_big?: Place['nearest_big']; count26?: [string, string]; count24?: [string, string] };
+const LV_COLOR: Record<Level, string> = { big: '#d7301f', some: '#f59e42', normal: '#9db8cc', unseen: '#a3a3a3', far: '#a3a3a3' };
+const LV_TEXT: Record<Level, [string, string]> = {
+  big: ['강이 평소보다 크게 변했습니다', 'The river changed far more than usual'],
+  some: ['강이 평소보다 조금 더 변했습니다', 'The river changed a little more than usual'],
+  normal: ['평소 수준입니다', 'About as usual'],
+  unseen: ['위성이 이 구간을 읽지 못했습니다', 'The satellite could not read this stretch'],
+  far: ['강 회랑에서 멀어 위성 판정 범위 밖입니다', 'Too far from the mapped rivers to judge'],
+};
+const LV_SHORT: Record<Level, [string, string]> = { big: ['크게 변함', 'changed a lot'], some: ['조금 변함', 'changed a little'], normal: ['평소 수준', 'as usual'], unseen: ['못 봄', 'not seen'], far: ['범위 밖', 'out of range'] };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const lvExpr = (prop: string): any => ['match', ['get', prop], 'big', LV_COLOR.big, 'some', LV_COLOR.some, 'normal', LV_COLOR.normal, LV_COLOR.unseen];
 // 1장과 같은 변화 계급 — 두 해에 같은 색을 써야 범례 하나로 공정하게 읽힌다
 const CLASS_COLORS = ['#7fb5c9', '#ffd666', '#ff983d', '#ec5238', '#ba185c'] as const;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,6 +91,15 @@ export default function SeptemberPage() {
   const [eoOpen, setEoOpen] = useState(false);
   const [mapReady, setMapReady] = useState(false);
   const [cmp, setCmp] = useState<Compare | null>(null);
+  const [expert, setExpert] = useState(false);          // 기본은 쉬운 화면
+  const [year, setYear] = useState<'2026' | '2024'>('2026');
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [answer, setAnswer] = useState<Answer | null>(null);
+  const [query, setQuery] = useState('');
+  const [picked, setPicked] = useState(false);
+  const [cardSwipe, setCardSwipe] = useState(50);
+  const expertRef = useRef(false); const yearRef = useRef<'2026' | '2024'>('2026');
+  const pickReachRef = useRef<(pr: Record<string, unknown>) => void>(() => {});   // 지도 클릭 핸들러가 최신 함수를 보게
   const [view, setView] = useState<View>('now');
   const [split, setSplit] = useState(60);   // 바그마티 오른쪽에서 시작: 처음엔 두 강 모두 2024, 왼쪽으로 끌면 바그마티→나라야니 순으로 2026 이 드러난다
   const SPLIT_MAX = 72;                    // 오른쪽 레일(380px) 뒤로 숨지 않게              // 스와이프 손잡이 위치(%)
@@ -91,6 +115,7 @@ export default function SeptemberPage() {
     document.body.classList.add('sept-body');
     try { const m = document.cookie.match(/(?:^|; )lang=(ko|en)/); if (m) setKo(m[1] === 'ko'); else if (!navigator.language.toLowerCase().startsWith('ko')) setKo(false); } catch { /* noop */ }  // eslint-disable-line react-hooks/set-state-in-effect
     fetch('/data/september.json').then((r) => r.json() as Promise<September>).then(setSept).catch(() => undefined);
+    fetch('/data/september-places.json').then((r) => (r.ok ? r.json() as Promise<Place[]> : [])).then(setPlaces).catch(() => undefined);
     fetch('/data/september-compare.json').then((r) => (r.ok ? r.json() as Promise<Compare> : null)).then(setCmp).catch(() => undefined);
     fetch('/data/september-windows.geojson').then((r) => r.json() as Promise<FeatureCollection>).then(setGeo).catch(() => undefined);
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightbox(null); }; window.addEventListener('keydown', h);
@@ -146,6 +171,15 @@ export default function SeptemberPage() {
         map.on('mouseenter', 'ribbon-hit', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ribbon-hit', () => { map.getCanvas().style.cursor = ''; });
       }
+      // 쉬운 화면 리본: 굵고 평이한 네 색. 못 본 구간은 점선 회색.
+      map.addSource('simple', { type: 'geojson', data: '/data/september-simple.geojson' });
+      map.addLayer({ id: 'simple-casing', type: 'line', source: 'simple', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 6, 9, 9, 13, 20] } });
+      map.addLayer({ id: 'simple-unseen', type: 'line', source: 'simple', filter: ['==', ['get', 'lv26'], 'unseen'], layout: { 'line-cap': 'butt' }, paint: { 'line-color': LV_COLOR.unseen, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 2, 13, 7], 'line-dasharray': [1.2, 1.4] } });
+      map.addLayer({ id: 'simple-line', type: 'line', source: 'simple', filter: ['!=', ['get', 'lv26'], 'unseen'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': lvExpr('lv26'), 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 3.5, 9, 6, 13, 15] } });
+      map.addLayer({ id: 'simple-hit', type: 'line', source: 'simple', paint: { 'line-color': '#000', 'line-opacity': 0.001, 'line-width': 24 } });
+      map.on('click', 'simple-hit', (e) => { const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (pr) pickReachRef.current(pr); });
+      map.on('mouseenter', 'simple-hit', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'simple-hit', () => { map.getCanvas().style.cursor = ''; });
       // 두 해 비교 리본(M108, 같은 2v1 계약). A 지도: 스와이프 왼쪽 = 2024, 차이 모드 = 2026−2024.
       map.addSource('cmp', { type: 'geojson', data: '/data/september-compare-ribbon.geojson' });
       map.addLayer({ id: 'cmp-casing', type: 'line', source: 'cmp', layout: { visibility: 'none', 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 7, 6, 12, 17] } });
@@ -174,15 +208,26 @@ export default function SeptemberPage() {
     return () => { ro.disconnect(); map.remove(); mapRef.current = null; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geo, sept]);
-  useEffect(() => { const m = mapRef.current; if (!m || !mapReady || viewRef.current !== 'now') return; if (m.getLayer('tokens-fill')) m.setLayoutProperty('tokens-fill', 'visibility', showTokens ? 'visible' : 'none'); }, [showTokens, mapReady]);
-  useEffect(() => { const m = mapRef.current; if (!m || !mapReady || viewRef.current !== 'now') return; for (const id of ['sept-line', 'sept-rank']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showWindows ? 'visible' : 'none'); }, [showWindows, mapReady]);
-  useEffect(() => { const m = mapRef.current; if (!m || !mapReady || viewRef.current !== 'now') return; for (const id of ['ribbon-casing', 'ribbon-unobs', 'ribbon', 'ribbon-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showRibbon ? 'visible' : 'none'); }, [showRibbon, mapReady]);
+  useEffect(() => { const m = mapRef.current; if (!m || !mapReady || viewRef.current !== 'now' || !expertRef.current) return; if (m.getLayer('tokens-fill')) m.setLayoutProperty('tokens-fill', 'visibility', showTokens ? 'visible' : 'none'); }, [showTokens, mapReady]);
+  useEffect(() => { const m = mapRef.current; if (!m || !mapReady || viewRef.current !== 'now' || !expertRef.current) return; for (const id of ['sept-line', 'sept-rank']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showWindows ? 'visible' : 'none'); }, [showWindows, mapReady]);
+  useEffect(() => { const m = mapRef.current; if (!m || !mapReady || viewRef.current !== 'now' || !expertRef.current) return; for (const id of ['ribbon-casing', 'ribbon-unobs', 'ribbon', 'ribbon-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', showRibbon ? 'visible' : 'none'); }, [showRibbon, mapReady]);
   useEffect(() => { const m = mapRef.current; if (!m || !mapReady) return; if (m.getLayer('satellite')) m.setLayoutProperty('satellite', 'visibility', satellite ? 'visible' : 'none'); }, [satellite, mapReady]);
 
+  // 쉬운 화면 ↔ 자세히: 쉬운 화면에선 쉬운 리본만 보이고 나머지는 전부 숨긴다
+  useEffect(() => {
+    expertRef.current = expert; yearRef.current = year;
+    const m = mapRef.current; if (!m || !mapReady) return;
+    const prop = year === '2024' ? 'lv24' : 'lv26';
+    for (const id of ['simple-casing', 'simple-line', 'simple-unseen', 'simple-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', expert ? 'none' : 'visible');
+    if (m.getLayer('simple-line')) { m.setPaintProperty('simple-line', 'line-color', lvExpr(prop)); m.setFilter('simple-line', ['!=', ['get', prop], 'unseen']); }
+    if (m.getLayer('simple-unseen')) m.setFilter('simple-unseen', ['==', ['get', prop], 'unseen']);
+    if (!expert) for (const id of ['ribbon-casing', 'ribbon-unobs', 'ribbon', 'ribbon-hit', 'tokens-fill', 'sept-line', 'sept-rank', 'cmp-casing', 'cmp-24', 'cmp-diff', 'cmp-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', 'none');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expert, year, mapReady]);
   // 보기 모드: 비교 중엔 토큰·창·기본 리본을 숨기고 비교 리본만 — 한 장면에 한 이야기
   useEffect(() => {
     viewRef.current = view;
-    const m = mapRef.current; if (!m || !mapReady) return;
+    const m = mapRef.current; if (!m || !mapReady || !expert) return;
     const vis = (id: string, on: boolean) => { if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'); };
     const now = view === 'now';
     for (const id of ['ribbon-casing', 'ribbon-unobs', 'ribbon', 'ribbon-hit']) vis(id, now && showRibbon);
@@ -190,7 +235,7 @@ export default function SeptemberPage() {
     vis('cmp-casing', !now); vis('cmp-hit', !now); vis('cmp-24', view === 'swipe'); vis('cmp-diff', view === 'diff');
     if (!now) { const b: [number, number, number, number] = [83.6, 26.6, 86.2, 28.0]; m.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: { top: 120, right: 380, bottom: 40, left: 40 }, duration: 800 }); }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, mapReady]);
+  }, [view, mapReady, expert]);
   // 스와이프용 B 지도(2026 리본): 첫 사용 때 만들고, A 의 카메라를 그대로 따라간다
   useEffect(() => {
     if (view !== 'swipe' || mapBRef.current || !mapNodeB.current || !mapRef.current) return;
@@ -219,6 +264,22 @@ export default function SeptemberPage() {
   };
 
   const fly = (c: [number, number], zoom = 11.3) => mapRef.current?.flyTo({ center: c, zoom, duration: 900 });
+  const pickReach = useCallback((pr: Record<string, unknown>) => {
+    const g = typeof pr.gfm26 === 'number' ? pr.gfm26 : null; const lv26 = String(pr.lv26) as Level;
+    setCardSwipe(50);
+    setAnswer({ title: `${String(pr.name)} · ${Number(pr.km).toFixed(0)} km`, title_ko: `${String(pr.name_ko)} · ${Number(pr.km).toFixed(0)} km 지점`, lv26, lv24: String(pr.lv24) as Level, window: pr.window ? String(pr.window) : undefined, river: String(pr.river),
+      has24: pr.has24 === true || pr.has24 === 'true', gfm: g == null || lv26 === 'unseen' ? 'none' : g > 0.01 ? 'agree' : 'disagree' });
+  }, []);
+  useEffect(() => { pickReachRef.current = pickReach; }, [pickReach]);
+  const pickPlace = (p: Place) => {
+    setQuery(ko ? p.name_ko : p.name); setCardSwipe(50);
+    fly(p.focus_lonlat ?? p.lonlat, p.lv26 === 'far' ? 9 : 11.2);
+    const cnt = (big?: number, obs?: number): [string, string] | undefined => obs ? [`반경 8 km 안 강 구간 ${obs}곳 중 ${big}곳이 크게 변함`, `${big} of ${obs} river stretches within 8 km changed a lot`] : undefined;
+    setPicked(true);
+    setAnswer({ title: p.name, title_ko: p.name_ko, lv26: p.lv26, lv24: p.lv24, window: p.focus_window, river: p.focus_river, has24: (p.obs24 ?? 0) > 0,
+      gfm: p.lv26 === 'far' || p.lv26 === 'unseen' ? 'none' : (p.gfm_agree ?? 0) > 0 ? 'agree' : p.lv26 === 'big' ? 'disagree' : 'none', nearest_big: p.lv26 === 'big' ? null : p.nearest_big, count26: cnt(p.big26, p.obs26), count24: cnt(p.big24, p.obs24) });
+  };
+  const matches = useMemo(() => { const q = query.trim().toLowerCase(); if (!q) return [] as Place[]; return places.filter((p) => p.name.toLowerCase().includes(q) || p.name_ko.includes(query.trim())).slice(0, 6); }, [query, places]);
   const leads = useMemo(() => (sept?.fused_top ?? []).filter((f) => f.fused_frac >= 0.05), [sept]);
   const sites = useMemo(() => SITE_ORDER.map((k) => [k, sept?.flood_sites[k]] as const).filter((x) => x[1]) as [string, Site][], [sept]);
   const hasS2 = (site: string) => !!sept?.frames.s2_sites.includes(site);
@@ -235,7 +296,59 @@ export default function SeptemberPage() {
         <div className="swipe-year right" style={{ left: `calc(${split}% + 14px)` }}><b style={{ color: Y26 }}>2026</b><small>{cmp?.dates['2026'].event} · post {cmp?.dates['2026'].post.slice(5)}</small></div>
       </>}
 
-      <header className="sept-topbar">
+      {!expert && (
+        <header className="sept-topbar simple">
+          <div className="brand"><Link href="/" className="brand-link">Nepal <b>AI Twin</b></Link><small>{ko ? '9월 24~29일 비, 위성으로 본 강' : 'The rivers after the 24–29 Sep rain, seen from orbit'}</small></div>
+          <div className="search">
+            <input value={query} onChange={(e) => { setQuery(e.target.value); setPicked(false); }} placeholder={ko ? '지명 검색 · 예: 수스타, 데브갓, 부트왈' : 'Search a place · e.g. Susta, Devghat, Butwal'} aria-label="search place" />
+            {matches.length > 0 && !picked && <ul>{matches.map((p) => <li key={p.name}><button onClick={() => pickPlace(p)}><b>{ko ? p.name_ko : p.name}</b><i style={{ background: LV_COLOR[p.lv26] }} /><span>{ko ? LV_SHORT[p.lv26][0] : LV_SHORT[p.lv26][1]}</span></button></li>)}</ul>}
+          </div>
+          <div className="viewseg" role="tablist" aria-label="Year">
+            {(['2026', '2024'] as const).map((y) => <button key={y} role="tab" aria-selected={year === y} className={year === y ? 'is-active' : ''} onClick={() => setYear(y)}>{ko ? `${y}년 9월` : `SEP ${y}`}</button>)}
+          </div>
+          <div className="links">
+            <button onClick={() => { setExpert(true); setAnswer(null); }}>{ko ? '자세히 보기 →' : 'DETAILS →'}</button>
+            <button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button>
+            <a href="/map" className="nav-link">{ko ? '← 8월 사건' : '← AUG EVENT'}</a>
+          </div>
+        </header>
+      )}
+      {!expert && (
+        <section className="simple-head">
+          <h1>{year === '2026'
+            ? (ko ? <>나라야니강이 <em>인도 국경 너머까지</em> 넓어졌습니다</> : <>The Narayani widened <em>all the way into India</em></>)
+            : (ko ? <>2024년엔 <em>바그마티강</em>이 넓어졌습니다</> : <>In 2024 it was the <em>Bagmati</em> that widened</>)}</h1>
+          <p>{year === '2026'
+            ? (ko ? '9월 24~29일 비 뒤 위성 레이더로 보면, 데브갓 아래부터 수스타를 지나 비하르까지 강이 평소보다 크게 변했습니다. 바그마티·코시·라프티·티나우는 대부분 평소 수준이었습니다.' : 'After the 24–29 Sep rain, satellite radar shows the river changing far more than usual from below Devghat, past Susta, into Bihar. The Bagmati, Koshi, Rapti and Tinau stayed mostly as usual.')
+            : (ko ? '같은 방법으로 2024년 9월 홍수를 보면 바그마티강 52구간 중 34곳이 크게 변했고, 나라야니 상류는 평소 수준이었습니다. 해마다 다른 강이 켜집니다.' : 'Measured the same way, the September 2024 flood changed 34 of 52 Bagmati stretches, while the upper Narayani stayed as usual. A different river lights up each year.')}</p>
+          <ul className="simple-legend">{(['big', 'some', 'normal', 'unseen'] as const).map((l) => <li key={l}><i className={l} style={{ background: LV_COLOR[l] }} />{ko ? LV_SHORT[l][0] : LV_SHORT[l][1]}</li>)}</ul>
+          <small>{ko ? '"평소"는 같은 곳의 몬순 평시 변화입니다. 피해가 아니라 평소보다 많이 변한 곳을 보여줍니다. 강을 누르거나 지명을 검색하세요.' : '"Usual" is the same place in an ordinary monsoon fortnight. This shows where the river changed more than usual, not damage. Tap a river or search a place.'}</small>
+        </section>
+      )}
+      {!expert && answer && (
+        <section className="answer-card" aria-live="polite">
+          <button className="x" onClick={() => setAnswer(null)} aria-label="close">×</button>
+          <p className="where">{ko ? answer.title_ko : answer.title}</p>
+          <h2><i style={{ background: LV_COLOR[year === '2024' ? answer.lv24 : answer.lv26] }} />{ko ? LV_TEXT[year === '2024' ? answer.lv24 : answer.lv26][0] : LV_TEXT[year === '2024' ? answer.lv24 : answer.lv26][1]}</h2>
+          <p className="when">{year === '2024' ? (ko ? '2024년 10월 2일 레이더 · 9월 27~28일 홍수 뒤' : 'Radar 2 Oct 2024 · after the 27–28 Sep flood') : (ko ? '2026년 9월 29일 레이더 · 9월 24~29일 비 뒤' : 'Radar 29 Sep 2026 · after the 24–29 Sep rain')}</p>
+          {(() => { const c = year === '2024' ? answer.count24 : answer.count26; return c ? <p className="count">{ko ? c[0] : c[1]}</p> : null; })()}
+          {year === '2026' && answer.gfm === 'agree' && <p className="chip ok">✓ {ko ? '유럽 코페르니쿠스 홍수 지도도 같은 곳을 물에 잠긴 곳으로 봤습니다' : 'The EU Copernicus flood map also marks this as flooded'}</p>}
+          {year === '2026' && answer.gfm === 'disagree' && answer.lv26 === 'big' && <p className="chip warn">{ko ? '코페르니쿠스 홍수 지도는 여기를 잠긴 곳으로 보지 않았습니다 — 물이 덮였다기보다 강 모양이 바뀌었을 수 있습니다' : 'Copernicus does not mark this as flooded — more likely the channel changed shape than land went under water'}</p>}
+          {answer.window && (
+            <div className="card-swipe story-swipe" style={{ ['--swipe' as string]: `${cardSwipe}%` }}>
+              <img src={`${FR}/${answer.window}${year === '2024' && answer.has24 ? '_y24' : ''}_post.jpg`} alt="after" />
+              <div className="swipe-clip"><img src={`${FR}/${answer.window}${year === '2024' && answer.has24 ? '_y24' : ''}_pre.jpg`} alt="before" /></div>
+              <div className="swipe-bar" /><span className="swipe-label pre">{ko ? '비 전' : 'BEFORE'}</span><span className="swipe-label post">{ko ? '비 후' : 'AFTER'}</span>
+              <input type="range" min={0} max={100} value={cardSwipe} aria-label="before / after" onChange={(e) => setCardSwipe(Number(e.target.value))} />
+            </div>)}
+          {answer.window && <p className="cap">{ko ? '위성 레이더 사진(2.56 km). 짙은 보라·검정이 물, 초록이 숲·논, 노랑이 마른 땅. 손잡이를 끌어 비교하세요.' : 'Satellite radar (2.56 km). Dark purple/black is water, green is forest and fields, yellow is dry ground. Drag to compare.'}</p>}
+          <p className="other">{year === '2026'
+            ? <>{ko ? '2024년 9월 홍수 때는: ' : 'In the Sep 2024 flood: '}<b style={{ color: answer.lv24 === 'big' ? LV_COLOR.big : undefined }}>{ko ? LV_SHORT[answer.lv24][0] : LV_SHORT[answer.lv24][1]}</b>{answer.lv24 === 'unseen' && (ko ? ' (같은 궤도 자료 없음)' : ' (no matching pass)')}</>
+            : <>{ko ? '2026년 9월에는: ' : 'In Sep 2026: '}<b style={{ color: answer.lv26 === 'big' ? LV_COLOR.big : undefined }}>{ko ? LV_SHORT[answer.lv26][0] : LV_SHORT[answer.lv26][1]}</b></>}</p>
+          {year === '2026' && answer.nearest_big && <button className="go" onClick={() => { fly(answer.nearest_big!.lonlat, 11.5); }}>{ko ? `가장 가까운 큰 변화: ${answer.nearest_big.river_ko} · ${answer.nearest_big.km} km →` : `Nearest big change: ${answer.nearest_big.river} · ${answer.nearest_big.km} km →`}</button>}
+        </section>
+      )}
+      {expert && <header className="sept-topbar">
         <div className="brand"><Link href="/" className="brand-link">Nepal <b>AI Twin</b></Link><small>{ko ? '2장 · 9월 24~29일 몬순 홍수' : 'CHAPTER 2 · 24–29 SEP MONSOON FLOODS'}</small></div>
         <div className="viewseg" role="tablist" aria-label="View">
           {(['now', 'swipe', 'diff'] as const).map((v) => <button key={v} role="tab" aria-selected={view === v} className={view === v ? 'is-active' : ''} disabled={v !== 'now' && !cmp} onClick={() => setView(v)}>{v === 'now' ? (ko ? '2026 지도' : '2026 MAP') : v === 'swipe' ? (ko ? '2024 ⇄ 2026' : '2024 ⇄ 2026') : (ko ? '두 해 차이' : 'DIFFERENCE')}</button>)}
@@ -248,14 +361,15 @@ export default function SeptemberPage() {
         </div>
         <div className="links">
           <button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button>
+          <button onClick={() => { setExpert(false); setView('now'); }}>{ko ? '← 쉽게 보기' : '← SIMPLE VIEW'}</button>
           <a href="/map" className="nav-link">{ko ? '← 1장 (8월 26일)' : '← CHAPTER 1 (26 AUG)'}</a>
         </div>
-      </header>
+      </header>}
 
-      <button style={{ display: view === 'now' ? undefined : 'none' }} className={`rail-toggle left ${leftOpen ? 'open' : ''}`} onClick={() => setLeftOpen((v) => !v)}>⟩ {ko ? '판별' : 'VERDICTS'}</button>
-      <button className={`rail-toggle right ${rightOpen ? 'open' : ''}`} onClick={() => setRightOpen((v) => !v)}>{ko ? '먼저 볼 창' : 'LEADS'} ⟨</button>
+      <button style={{ display: view === 'now' && expert ? undefined : 'none' }} className={`rail-toggle left ${leftOpen ? 'open' : ''}`} onClick={() => setLeftOpen((v) => !v)}>⟩ {ko ? '판별' : 'VERDICTS'}</button>
+      <button style={{ display: expert ? undefined : 'none' }} className={`rail-toggle right ${rightOpen ? 'open' : ''}`} onClick={() => setRightOpen((v) => !v)}>{ko ? '먼저 볼 창' : 'LEADS'} ⟨</button>
 
-      {view === 'now' && leftOpen && sept && (
+      {expert && view === 'now' && leftOpen && sept && (
         <aside className="sept-rail left">
           <button className="rail-close" onClick={() => setLeftOpen(false)} aria-label="close">⟨</button>
           <p className="eyebrow">{ko ? '무엇을 보고 있나' : 'WHAT YOU ARE LOOKING AT'}</p>
@@ -308,7 +422,7 @@ export default function SeptemberPage() {
         </aside>
       )}
 
-      {view !== 'now' && cmp && (
+      {expert && view !== 'now' && cmp && (
         <aside className="sept-rail right cmp">
           <div className="panel-heading"><span>2</span><div><p>{ko ? '두 해 · 같은 창 · 같은 계약' : 'TWO YEARS · SAME WINDOWS · SAME CONTRACT'}</p><strong>{ko ? '어느 강이 넓어졌나' : 'Which rivers widened'}</strong></div></div>
           <p className="lede">{ko ? cmp.headline_ko : cmp.headline}</p>
@@ -334,7 +448,7 @@ export default function SeptemberPage() {
           <p className="note">{ko ? '리본 구간을 누르면 그 창의 2024·2026 레이더 전후를 비교할 수 있습니다. 코시(궤도 12)는 2024년 대응 통과가 없어 빠졌습니다.' : 'Tap a reach to compare that window’s 2024 and 2026 radar before/after. The Koshi (orbit 12) has no matching 2024 pass and is left out.'}</p>
         </aside>
       )}
-      {view === 'now' && rightOpen && sept && (
+      {expert && view === 'now' && rightOpen && sept && (
         <aside className="sept-rail right">
           <button className="rail-close" onClick={() => setRightOpen(false)} aria-label="close">⟩</button>
           <div className="panel-heading"><span>{leads.length}</span><div><p>{ko ? '먼저 볼 창 · 9월 24~29일' : 'WINDOWS TO LOOK AT FIRST · 24–29 SEP'}</p><strong>{ko ? '결합 깃발 5% 이상' : 'Fused flag ≥ 5%'}</strong></div></div>
@@ -358,7 +472,7 @@ export default function SeptemberPage() {
         </aside>
       )}
 
-      {view === 'now' && sept && <section className="sept-timeline">
+      {expert && view === 'now' && sept && <section className="sept-timeline">
         <p className="eyebrow">{ko ? '쓴 장면 · 레이더는 구름을 뚫고, 광학은 삽타리에서만 열렸다' : 'SCENES USED · radar sees through cloud; optical opened only at Saptari'}</p>
         <ol>{sept.scenes.map((s) => <li key={s.id} className={s.state} title={s.detail}><b>{mono(s.acquired_at)}</b><small>{s.sensor.replace('Sentinel-', 'S').replace(' (orbit', ' ·').replace(')', '')}</small><em>{s.state.toUpperCase()}</em></li>)}</ol>
       </section>}

@@ -385,6 +385,15 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
     for (const f of cr.features.slice(0, 20)) for (const k of ['y24_pre.jpg', 'y24_post.jpg', 'y24_delta.png']) await stat(resolve(root, `public/data/september/frames/${f.properties.window}_${k}`));
     console.log(`compare: ${cr.features.length} reaches · ${cmp.rivers.map((r) => `${r.river.replace(/x?river_/, '')} ${r.hot24}→${r.hot26}`).join(' · ')}`);
   }
+  {
+    const simple = JSON.parse(await readFile(resolve(root, 'public/data/september-simple.geojson'), 'utf8'));
+    const places = JSON.parse(await readFile(resolve(root, 'public/data/september-places.json'), 'utf8'));
+    const ok = new Set(['big', 'some', 'normal', 'unseen']);
+    assert.ok(simple.features.every((f) => ok.has(f.properties.lv26) && ok.has(f.properties.lv24)), 'simple view levels are plain categories');
+    assert.ok(places.length >= 10 && places.every((p) => p.name && p.name_ko && p.lonlat), 'place lookup has names in both languages');
+    assert.equal(places.find((p) => p.name === 'Susta')?.lv26, 'big', 'Susta reads as a big change in 2026');
+    console.log(`simple: ${simple.features.length} reaches · ${places.length} places`);
+  }
   if (sept.ribbon) {
     const rib = JSON.parse(await readFile(resolve(root, 'public' + sept.ribbon), 'utf8'));
     assert.ok(rib.features.length >= 40, 'river ribbon must cover the three rivers');

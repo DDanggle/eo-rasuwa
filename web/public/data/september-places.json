@@ -1,0 +1,652 @@
+[
+ {
+  "name": "Devghat",
+  "name_ko": "데브갓",
+  "lonlat": [
+   84.425,
+   27.72
+  ],
+  "focus_lonlat": [
+   84.38759486842196,
+   27.685322012581725
+  ],
+  "focus_window": "narayaniu_03",
+  "focus_river": "xriver_narayani_upper",
+  "rivers_ko": [
+   "나라야니강"
+  ],
+  "rivers": [
+   "Narayani"
+  ],
+  "reaches_within_8km": 6,
+  "lv26": "normal",
+  "big26": 0,
+  "obs26": 2,
+  "lv24": "normal",
+  "big24": 0,
+  "obs24": 2,
+  "gfm_agree": 0,
+  "f26": 0.0186,
+  "gfm26": 0.036047634373994206,
+  "nearest_big": {
+   "km": 9.3,
+   "lonlat": [
+    84.32440353587026,
+    27.69103103175405
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_06"
+  }
+ },
+ {
+  "name": "Narayangadh / Bharatpur",
+  "name_ko": "나라얀가드·바라트푸르",
+  "lonlat": [
+   84.43,
+   27.69
+  ],
+  "focus_lonlat": [
+   84.38759486842196,
+   27.685322012581725
+  ],
+  "focus_window": "narayaniu_03",
+  "focus_river": "xriver_narayani_upper",
+  "rivers_ko": [
+   "나라야니강"
+  ],
+  "rivers": [
+   "Narayani"
+  ],
+  "reaches_within_8km": 6,
+  "lv26": "normal",
+  "big26": 0,
+  "obs26": 2,
+  "lv24": "normal",
+  "big24": 0,
+  "obs24": 2,
+  "gfm_agree": 0,
+  "f26": 0.0186,
+  "gfm26": 0.036047634373994206,
+  "nearest_big": {
+   "km": 9.4,
+   "lonlat": [
+    84.32440353587026,
+    27.69103103175405
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_06"
+  }
+ },
+ {
+  "name": "Gaindakot",
+  "name_ko": "가인다코트",
+  "lonlat": [
+   84.38,
+   27.7
+  ],
+  "focus_lonlat": [
+   84.31079982108335,
+   27.67570694501664
+  ],
+  "focus_window": "narayaniu_07",
+  "focus_river": "xriver_narayani_upper",
+  "rivers_ko": [
+   "나라야니강"
+  ],
+  "rivers": [
+   "Narayani"
+  ],
+  "reaches_within_8km": 8,
+  "lv26": "big",
+  "big26": 2,
+  "obs26": 4,
+  "lv24": "normal",
+  "big24": 0,
+  "obs24": 4,
+  "gfm_agree": 2,
+  "f26": 0.1831,
+  "gfm26": 0.05760204081632653,
+  "nearest_big": {
+   "km": 4.5,
+   "lonlat": [
+    84.32440353587026,
+    27.69103103175405
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_06"
+  }
+ },
+ {
+  "name": "Susta",
+  "name_ko": "수스타",
+  "lonlat": [
+   83.9,
+   27.46
+  ],
+  "focus_lonlat": [
+   83.86546383383319,
+   27.422902324470677
+  ],
+  "focus_window": "narayani_12",
+  "focus_river": "river_narayani",
+  "rivers_ko": [
+   "간다크강(나라야니 하류)",
+   "나라야니강"
+  ],
+  "rivers": [
+   "Gandak (Narayani)",
+   "Narayani"
+  ],
+  "reaches_within_8km": 29,
+  "lv26": "big",
+  "big26": 3,
+  "obs26": 11,
+  "lv24": "big",
+  "big24": 1,
+  "obs24": 11,
+  "gfm_agree": 3,
+  "f26": 0.2253,
+  "gfm26": 0.06728691476590637,
+  "nearest_big": {
+   "km": 2.5,
+   "lonlat": [
+    83.88701731137253,
+    27.433994697769265
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayani_11"
+  }
+ },
+ {
+  "name": "Tribeni",
+  "name_ko": "트리베니",
+  "lonlat": [
+   84.03,
+   27.45
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 9.6,
+   "lonlat": [
+    84.03684729917363,
+    27.5436798783141
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_22"
+  },
+  "reaches_within_8km": 0
+ },
+ {
+  "name": "Valmikinagar (India)",
+  "name_ko": "발미키나가르(인도)",
+  "lonlat": [
+   84.13,
+   27.43
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 12.9,
+   "lonlat": [
+    84.13519143661101,
+    27.54741724098177
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_17"
+  },
+  "reaches_within_8km": 0
+ },
+ {
+  "name": "Bagaha (India)",
+  "name_ko": "바가하(인도)",
+  "lonlat": [
+   84.09,
+   27.1
+  ],
+  "focus_lonlat": [
+   84.04762453956148,
+   27.085180779859453
+  ],
+  "focus_window": "narayanix_35",
+  "focus_river": "xriver_narayani",
+  "rivers_ko": [
+   "간다크강(나라야니 하류)"
+  ],
+  "rivers": [
+   "Gandak (Narayani)"
+  ],
+  "reaches_within_8km": 9,
+  "lv26": "big",
+  "big26": 8,
+  "obs26": 9,
+  "lv24": "big",
+  "big24": 8,
+  "obs24": 9,
+  "gfm_agree": 8,
+  "f26": 0.3208,
+  "gfm26": 0.3475,
+  "nearest_big": {
+   "km": 1.2,
+   "lonlat": [
+    84.09659316291028,
+    27.085647731520996
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_37"
+  }
+ },
+ {
+  "name": "Butwal",
+  "name_ko": "부트왈",
+  "lonlat": [
+   83.455,
+   27.705
+  ],
+  "focus_lonlat": [
+   83.51894179599094,
+   27.76116415810162
+  ],
+  "focus_window": "tinau_02",
+  "focus_river": "river_tinau",
+  "rivers_ko": [
+   "티나우강"
+  ],
+  "rivers": [
+   "Tinau"
+  ],
+  "reaches_within_8km": 5,
+  "lv26": "normal",
+  "big26": 0,
+  "obs26": 3,
+  "lv24": "normal",
+  "big24": 0,
+  "obs24": 3,
+  "gfm_agree": 0,
+  "f26": 0.0029,
+  "gfm26": 0.0,
+  "nearest_big": {
+   "km": 49.6,
+   "lonlat": [
+    83.93408681569781,
+    27.546163134612637
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayani_01"
+  }
+ },
+ {
+  "name": "Bhairahawa",
+  "name_ko": "바이라하와",
+  "lonlat": [
+   83.45,
+   27.51
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 41.4,
+   "lonlat": [
+    83.84969094515526,
+    27.3921024752968
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayani_14"
+  },
+  "reaches_within_8km": 0
+ },
+ {
+  "name": "Sauraha / Chitwan NP",
+  "name_ko": "사우라하·치트완 국립공원",
+  "lonlat": [
+   84.49,
+   27.58
+  ],
+  "focus_lonlat": [
+   84.52324836319092,
+   27.543536478482736
+  ],
+  "focus_window": "raptix_03",
+  "focus_river": "xriver_rapti",
+  "rivers_ko": [
+   "동라프티강"
+  ],
+  "rivers": [
+   "East Rapti"
+  ],
+  "reaches_within_8km": 10,
+  "lv26": "normal",
+  "big26": 0,
+  "obs26": 10,
+  "lv24": "some",
+  "big24": 0,
+  "obs24": 10,
+  "gfm_agree": 0,
+  "f26": 0.0125,
+  "gfm26": 0.026618705035971222,
+  "nearest_big": {
+   "km": 20.1,
+   "lonlat": [
+    84.31079982108335,
+    27.67570694501664
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_07"
+  }
+ },
+ {
+  "name": "Hetauda",
+  "name_ko": "헤타우다",
+  "lonlat": [
+   85.03,
+   27.43
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 74.9,
+   "lonlat": [
+    84.32440353587026,
+    27.69103103175405
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_06"
+  },
+  "reaches_within_8km": 0
+ },
+ {
+  "name": "Kathmandu",
+  "name_ko": "카트만두",
+  "lonlat": [
+   85.32,
+   27.71
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 97.5,
+   "lonlat": [
+    84.32440353587026,
+    27.69103103175405
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_06"
+  },
+  "reaches_within_8km": 0
+ },
+ {
+  "name": "Sindhuli (Bagmati)",
+  "name_ko": "신둘리(바그마티)",
+  "lonlat": [
+   85.63,
+   27.2
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 139.6,
+   "lonlat": [
+    84.32440353587026,
+    27.69103103175405
+   ],
+   "river_ko": "나라야니강",
+   "river": "Narayani",
+   "window": "narayaniu_06"
+  },
+  "reaches_within_8km": 0
+ },
+ {
+  "name": "Karmaiya (Bagmati barrage)",
+  "name_ko": "카르마이야(바그마티 보)",
+  "lonlat": [
+   85.46,
+   27.1
+  ],
+  "focus_lonlat": [
+   85.41963229781106,
+   27.04994381176377
+  ],
+  "focus_window": "bagmatix_20",
+  "focus_river": "xriver_bagmati",
+  "rivers_ko": [
+   "바그마티강"
+  ],
+  "rivers": [
+   "Bagmati"
+  ],
+  "reaches_within_8km": 7,
+  "lv26": "normal",
+  "big26": 0,
+  "obs26": 7,
+  "lv24": "big",
+  "big24": 3,
+  "obs24": 7,
+  "gfm_agree": 0,
+  "f26": 0.0081,
+  "gfm26": 0.002004110996916752,
+  "nearest_big": {
+   "km": 124.6,
+   "lonlat": [
+    84.22650822876656,
+    26.83863277919637
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_50"
+  }
+ },
+ {
+  "name": "Gaur",
+  "name_ko": "가우르",
+  "lonlat": [
+   85.27,
+   26.77
+  ],
+  "focus_lonlat": [
+   85.32960810785931,
+   26.813900367267888
+  ],
+  "focus_window": "bagmatix_34",
+  "focus_river": "xriver_bagmati",
+  "rivers_ko": [
+   "바그마티강"
+  ],
+  "rivers": [
+   "Bagmati"
+  ],
+  "reaches_within_8km": 7,
+  "lv26": "some",
+  "big26": 0,
+  "obs26": 7,
+  "lv24": "big",
+  "big24": 7,
+  "obs24": 7,
+  "gfm_agree": 0,
+  "f26": 0.0327,
+  "gfm26": 0.05477903391572456,
+  "nearest_big": {
+   "km": 102.5,
+   "lonlat": [
+    84.22650822876656,
+    26.83863277919637
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_50"
+  }
+ },
+ {
+  "name": "Birgunj",
+  "name_ko": "비르간지",
+  "lonlat": [
+   84.88,
+   27.01
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 66.5,
+   "lonlat": [
+    84.22650822876656,
+    26.83863277919637
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_50"
+  },
+  "reaches_within_8km": 0
+ },
+ {
+  "name": "Chatara",
+  "name_ko": "차타라",
+  "lonlat": [
+   87.16,
+   26.82
+  ],
+  "focus_lonlat": [
+   87.14427326080248,
+   26.817716349765522
+  ],
+  "focus_window": "koshix_49",
+  "focus_river": "xriver_koshi",
+  "rivers_ko": [
+   "코시강"
+  ],
+  "rivers": [
+   "Koshi"
+  ],
+  "reaches_within_8km": 6,
+  "lv26": "some",
+  "big26": 0,
+  "obs26": 6,
+  "lv24": "unseen",
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "f26": 0.0401,
+  "gfm26": 0.000904268145647456,
+  "nearest_big": {
+   "km": 289.3,
+   "lonlat": [
+    84.22650822876656,
+    26.83863277919637
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_50"
+  }
+ },
+ {
+  "name": "Koshi Barrage",
+  "name_ko": "코시 보",
+  "lonlat": [
+   87.0,
+   26.52
+  ],
+  "focus_lonlat": [
+   86.95236292291115,
+   26.457905172588994
+  ],
+  "focus_window": "koshi_01",
+  "focus_river": "river_koshi",
+  "rivers_ko": [
+   "코시강"
+  ],
+  "rivers": [
+   "Koshi"
+  ],
+  "reaches_within_8km": 2,
+  "lv26": "normal",
+  "big26": 0,
+  "obs26": 2,
+  "lv24": "unseen",
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "f26": 0.0054,
+  "gfm26": 0.0005213220727765613,
+  "nearest_big": {
+   "km": 275.7,
+   "lonlat": [
+    84.22650822876656,
+    26.83863277919637
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_50"
+  }
+ },
+ {
+  "name": "Hanumannagar (Saptari)",
+  "name_ko": "하누만나가르(삽타리)",
+  "lonlat": [
+   86.93,
+   26.54
+  ],
+  "focus_lonlat": [
+   86.95229483442066,
+   26.48099276094525
+  ],
+  "focus_window": "koshi_00",
+  "focus_river": "river_koshi",
+  "rivers_ko": [
+   "코시강"
+  ],
+  "rivers": [
+   "Koshi"
+  ],
+  "reaches_within_8km": 1,
+  "lv26": "normal",
+  "big26": 0,
+  "obs26": 1,
+  "lv24": "unseen",
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "f26": 0.0002,
+  "gfm26": 0.0,
+  "nearest_big": {
+   "km": 268.6,
+   "lonlat": [
+    84.22650822876656,
+    26.83863277919637
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_50"
+  }
+ },
+ {
+  "name": "Rajbiraj",
+  "name_ko": "라지비라즈",
+  "lonlat": [
+   86.75,
+   26.54
+  ],
+  "lv26": "far",
+  "lv24": "far",
+  "nearest_big": {
+   "km": 250.9,
+   "lonlat": [
+    84.22650822876656,
+    26.83863277919637
+   ],
+   "river_ko": "간다크강(나라야니 하류)",
+   "river": "Gandak (Narayani)",
+   "window": "narayanix_50"
+  },
+  "reaches_within_8km": 0
+ }
+]

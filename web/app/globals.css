@@ -1700,3 +1700,38 @@ body.sept-body { overflow: hidden; }
 .sept-rail.cmp .hint { font: 600 10px var(--font-geist-mono); letter-spacing: .04em; color: var(--orange); margin: -4px 0 6px; }
 .swipe-handle { user-select: none; -webkit-user-select: none; }
 .swipe-handle::before { content: ''; position: absolute; inset: 0 -12px; }   /* 잡기 쉬운 넓은 히트 영역 */
+
+/* ── /september 쉬운 화면 (기본) ── */
+.sept-topbar.simple { gap: 12px; }
+.sept-topbar.simple .search { position: relative; flex: 1 1 340px; max-width: 420px; }
+.sept-topbar.simple .search input { width: 100%; font: 14px var(--font-sans, inherit); padding: 9px 12px; border: 1.5px solid var(--ink); background: var(--surface, #fffefb); border-radius: 0; }
+.sept-topbar.simple .search input:focus { outline: none; border-color: var(--orange); }
+.sept-topbar.simple .search ul { position: absolute; top: 100%; left: 0; right: 0; margin: 2px 0 0; padding: 0; list-style: none; background: var(--surface, #fffefb); border: 1px solid var(--line-strong, #d5d1c6); box-shadow: 0 8px 24px rgba(0,0,0,.12); z-index: 30; }
+.sept-topbar.simple .search li button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 0; border-bottom: 1px solid var(--line, #e3e0d8); background: transparent; cursor: pointer; font: 13px inherit; text-align: left; }
+.sept-topbar.simple .search li button:hover { background: rgba(235,104,52,.08); }
+.sept-topbar.simple .search li i { width: 10px; height: 10px; border-radius: 50%; margin-left: auto; }
+.sept-topbar.simple .search li span { font-size: 12px; color: var(--muted); }
+.simple-head { position: absolute; z-index: 20; left: 16px; top: 76px; width: 360px; padding: 16px 18px 14px; background: color-mix(in srgb, var(--surface, #fffefb) 95%, transparent); border: 1px solid var(--line, #e3e0d8); box-shadow: 0 6px 24px rgba(20,18,14,.10); }
+.simple-head h1 { font-size: 22px; line-height: 1.2; margin: 0 0 8px; letter-spacing: -.01em; }
+.simple-head h1 em { font-style: normal; color: #d7301f; }
+.simple-head p { font-size: 13.5px; line-height: 1.55; margin: 0 0 12px; }
+.simple-head small { display: block; font-size: 11px; line-height: 1.45; color: var(--muted); margin-top: 10px; }
+.simple-legend { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; font-size: 13px; }
+.simple-legend li { display: flex; align-items: center; gap: 8px; }
+.simple-legend i { display: inline-block; width: 26px; height: 7px; border-radius: 4px; }
+.simple-legend i.unseen { background: repeating-linear-gradient(90deg, #a3a3a3 0 4px, transparent 4px 7px) !important; }
+.answer-card { position: absolute; z-index: 22; right: 16px; top: 76px; width: 380px; max-height: calc(100svh - 96px); overflow-y: auto; padding: 16px 18px; background: var(--surface, #fffefb); border: 1px solid var(--line-strong, #d5d1c6); box-shadow: 0 10px 32px rgba(20,18,14,.16); }
+.answer-card .x { position: absolute; right: 8px; top: 6px; border: 0; background: transparent; font-size: 22px; cursor: pointer; color: var(--muted); }
+.answer-card .where { font: 600 11px var(--font-geist-mono); letter-spacing: .06em; color: var(--muted); margin: 0 0 6px; text-transform: uppercase; }
+.answer-card h2 { display: flex; gap: 10px; align-items: flex-start; font-size: 20px; line-height: 1.25; margin: 0 0 4px; }
+.answer-card h2 i { flex: 0 0 auto; width: 14px; height: 14px; border-radius: 50%; margin-top: 5px; }
+.answer-card .when { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+.answer-card .count { font-size: 13px; margin: 0 0 8px; }
+.answer-card .chip { font-size: 12.5px; line-height: 1.45; padding: 7px 10px; margin: 0 0 10px; }
+.answer-card .chip.ok { background: rgba(42,120,214,.09); border-left: 3px solid #2a78d6; }
+.answer-card .chip.warn { background: rgba(245,158,66,.12); border-left: 3px solid #f59e42; }
+.answer-card .card-swipe { position: relative; aspect-ratio: 1/1; margin: 4px 0 4px; }
+.answer-card .cap { font-size: 11px; color: var(--muted); margin: 0 0 10px; line-height: 1.4; }
+.answer-card .other { font-size: 13px; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line, #e3e0d8); }
+.answer-card .go { font: 600 12px inherit; border: 1px solid var(--ink); background: transparent; padding: 8px 10px; cursor: pointer; width: 100%; text-align: left; }
+@media (max-width: 900px) { .simple-head { width: calc(100vw - 32px); top: 68px; } .answer-card { left: 16px; right: 16px; width: auto; top: auto; bottom: 16px; max-height: 60svh; } .sept-topbar.simple .links .nav-link { display: none; } }

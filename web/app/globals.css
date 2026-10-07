@@ -1771,3 +1771,13 @@ body.sept-body { overflow: hidden; }
   .answer-card { top: auto; bottom: 12px; left: 12px; right: 12px; width: auto; max-height: 62svh; padding: 14px; }
   .answer-card .card-swipe { max-width: 260px; margin: 4px auto; }
 }
+
+.answer-card .trend { font-size: 13px; line-height: 1.45; margin: 0 0 10px; padding: 7px 10px; border-left: 3px solid #9db8cc; background: rgba(157,184,204,.14); }
+.answer-card .trend.recede { border-color: #2a9d8f; background: rgba(42,157,143,.10); }
+.answer-card .trend.hold { border-color: #d7301f; background: rgba(215,48,31,.07); }
+.answer-card .trend.grow { border-color: #d7301f; background: rgba(215,48,31,.12); }
+.answer-card .trend small { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; }
+.answer-card .photo-seg { display: inline-flex; margin: 2px 0 6px; border: 1px solid var(--line-strong, #d5d1c6); }
+.answer-card .photo-seg button { font: 700 9px var(--font-geist-mono); letter-spacing: .07em; padding: 5px 8px; border: 0; border-right: 1px solid var(--line-strong, #d5d1c6); background: transparent; cursor: pointer; color: var(--ink); }
+.answer-card .photo-seg button:last-child { border-right: 0; }
+.answer-card .photo-seg button.is-active { background: var(--ink); color: #fff; }

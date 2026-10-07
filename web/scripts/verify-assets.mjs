@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, stat, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 
@@ -392,7 +392,11 @@ console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: sce
     assert.ok(simple.features.every((f) => ok.has(f.properties.lv26) && ok.has(f.properties.lv24)), 'simple view levels are plain categories');
     assert.ok(places.length >= 10 && places.every((p) => p.name && p.name_ko && p.lonlat), 'place lookup has names in both languages');
     assert.equal(places.find((p) => p.name === 'Susta')?.lv26, 'big', 'Susta reads as a big change in 2026');
-    console.log(`simple: ${simple.features.length} reaches · ${places.length} places`);
+    const withTrend = simple.features.filter((f) => f.properties.trend);
+    assert.ok(withTrend.length > 100, 'M109 trend present on the reaches orbit 85 covers');
+    for (const f of simple.features.filter((f) => f.properties.s2).slice(0, 5)) await access(resolve(root, `public/data/september/frames/${f.properties.window}_s2_post.jpg`));
+    for (const f of withTrend.slice(0, 5)) await access(resolve(root, `public/data/september/frames/${f.properties.window}_a85_post.jpg`));
+    console.log(`simple: ${simple.features.length} reaches · ${places.length} places · trend ${withTrend.length} · s2 ${simple.features.filter((f) => f.properties.s2).length}`);
   }
   if (sept.ribbon) {
     const rib = JSON.parse(await readFile(resolve(root, 'public' + sept.ribbon), 'utf8'));

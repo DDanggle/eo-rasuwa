@@ -1,5 +1,17 @@
 {
  "reaches": 268,
+ "trend": {
+  "hold": 122,
+  "grow": 14,
+  "recede": 4
+ },
+ "lv1003": {
+  "unseen": 128,
+  "normal": 116,
+  "some": 15,
+  "big": 9
+ },
+ "s2_pairs": 100,
  "reach_km": 2.56,
  "y2026": {
   "big": 55,

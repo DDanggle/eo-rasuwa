@@ -42,8 +42,11 @@ type Compare = { contract: string; dates: Record<'2024' | '2026', { base: string
 type View = 'now' | 'swipe' | 'diff';
 // ── 쉬운 화면(기본) ── 숫자 대신 사람 말: 크게 변함 / 조금 / 평소 / 못 봄
 type Level = 'big' | 'some' | 'normal' | 'unseen' | 'far';
-type Place = { name: string; name_ko: string; lonlat: [number, number]; lv26: Level; lv24: Level; focus_lonlat?: [number, number]; focus_window?: string; focus_river?: string; rivers?: string[]; rivers_ko?: string[]; big26?: number; obs26?: number; big24?: number; obs24?: number; gfm_agree?: number; nearest_big?: { km: number; lonlat: [number, number]; river: string; river_ko: string; window: string } | null };
-type Answer = { title: string; title_ko: string; lv26: Level; lv24: Level; window?: string; river?: string; has24: boolean; gfm: 'agree' | 'disagree' | 'none'; nearest_big?: Place['nearest_big']; count26?: [string, string]; count24?: [string, string] };
+type S2Meta = { pre: string; post: string } | null;
+type Trend = 'recede' | 'hold' | 'grow' | null;
+type Place = { name: string; name_ko: string; lonlat: [number, number]; lv26: Level; lv24: Level; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number>; focus_lonlat?: [number, number]; focus_window?: string; focus_river?: string; rivers?: string[]; rivers_ko?: string[]; big26?: number; obs26?: number; big24?: number; obs24?: number; gfm_agree?: number; nearest_big?: { km: number; lonlat: [number, number]; river: string; river_ko: string; window: string } | null };
+type Answer = { title: string; title_ko: string; lv26: Level; lv24: Level; window?: string; river?: string; has24: boolean; gfm: 'agree' | 'disagree' | 'none'; nearest_big?: Place['nearest_big']; count26?: [string, string]; count24?: [string, string]; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number> };
+const TREND_TEXT: Record<'recede' | 'hold' | 'grow', [string, string]> = { recede: ['10월 3일 레이더에선 변화가 줄었습니다 — 빠지는 중', 'Radar on 3 Oct shows less change — receding'], hold: ['10월 3일 레이더에서도 그대로입니다', 'Radar on 3 Oct shows the same — still changed'], grow: ['10월 3일 레이더에선 변화가 더 커졌습니다', 'Radar on 3 Oct shows more change'] };
 const LV_COLOR: Record<Level, string> = { big: '#d7301f', some: '#f59e42', normal: '#9db8cc', unseen: '#a3a3a3', far: '#a3a3a3' };
 const LV_TEXT: Record<Level, [string, string]> = {
   big: ['강이 평소보다 크게 변했습니다', 'The river changed far more than usual'],
@@ -99,6 +102,7 @@ export default function SeptemberPage() {
   const [picked, setPicked] = useState(false);
   const [cardSwipe, setCardSwipe] = useState(50);
   const [headOpen, setHeadOpen] = useState(true);
+  const [photo, setPhoto] = useState<'radar' | 'a85' | 's2'>('radar');
   const expertRef = useRef(false); const yearRef = useRef<'2026' | '2024'>('2026');
   const pickReachRef = useRef<(pr: Record<string, unknown>) => void>(() => {});   // 지도 클릭 핸들러가 최신 함수를 보게
   const [view, setView] = useState<View>('now');
@@ -268,18 +272,19 @@ export default function SeptemberPage() {
   const fly = (c: [number, number], zoom = 11.3) => mapRef.current?.flyTo({ center: c, zoom, duration: 900 });
   const pickReach = useCallback((pr: Record<string, unknown>) => {
     const g = typeof pr.gfm26 === 'number' ? pr.gfm26 : null; const lv26 = String(pr.lv26) as Level;
-    setCardSwipe(50);
+    setCardSwipe(50); setPhoto('radar');
     setAnswer({ title: `${String(pr.name)} · ${Number(pr.km).toFixed(0)} km`, title_ko: `${String(pr.name_ko)} · ${Number(pr.km).toFixed(0)} km 지점`, lv26, lv24: String(pr.lv24) as Level, window: pr.window ? String(pr.window) : undefined, river: String(pr.river),
-      has24: pr.has24 === true || pr.has24 === 'true', gfm: g == null || lv26 === 'unseen' ? 'none' : g > 0.01 ? 'agree' : 'disagree' });
+      has24: pr.has24 === true || pr.has24 === 'true', gfm: g == null || lv26 === 'unseen' ? 'none' : g > 0.01 ? 'agree' : 'disagree',
+      lv1003: (pr.lv1003 ? String(pr.lv1003) : 'unseen') as Level, trend: (pr.trend ? String(pr.trend) : null) as Trend, s2: typeof pr.s2 === 'string' ? JSON.parse(pr.s2) as S2Meta : (pr.s2 as S2Meta) ?? null });
   }, []);
   useEffect(() => { pickReachRef.current = pickReach; }, [pickReach]);
   const pickPlace = (p: Place) => {
-    setQuery(ko ? p.name_ko : p.name); setCardSwipe(50);
+    setQuery(ko ? p.name_ko : p.name); setCardSwipe(50); setPhoto('radar');
     fly(p.focus_lonlat ?? p.lonlat, p.lv26 === 'far' ? 9 : 11.2);
     const cnt = (big?: number, obs?: number): [string, string] | undefined => obs ? [`반경 8 km 안 강 구간 ${obs}곳 중 ${big}곳이 크게 변함`, `${big} of ${obs} river stretches within 8 km changed a lot`] : undefined;
     setPicked(true);
     setAnswer({ title: p.name, title_ko: p.name_ko, lv26: p.lv26, lv24: p.lv24, window: p.focus_window, river: p.focus_river, has24: (p.obs24 ?? 0) > 0,
-      gfm: p.lv26 === 'far' || p.lv26 === 'unseen' ? 'none' : (p.gfm_agree ?? 0) > 0 ? 'agree' : p.lv26 === 'big' ? 'disagree' : 'none', nearest_big: p.lv26 === 'big' ? null : p.nearest_big, count26: cnt(p.big26, p.obs26), count24: cnt(p.big24, p.obs24) });
+      gfm: p.lv26 === 'far' || p.lv26 === 'unseen' ? 'none' : (p.gfm_agree ?? 0) > 0 ? 'agree' : p.lv26 === 'big' ? 'disagree' : 'none', nearest_big: p.lv26 === 'big' ? null : p.nearest_big, count26: cnt(p.big26, p.obs26), count24: cnt(p.big24, p.obs24), lv1003: p.lv1003, trend: p.trend ?? null, s2: p.s2 ?? null, trend_counts: p.trend_counts });
   };
   const matches = useMemo(() => { const q = query.trim().toLowerCase(); if (!q) return [] as Place[]; return places.filter((p) => p.name.toLowerCase().includes(q) || p.name_ko.includes(query.trim())).slice(0, 6); }, [query, places]);
   const leads = useMemo(() => (sept?.fused_top ?? []).filter((f) => f.fused_frac >= 0.05), [sept]);
@@ -337,14 +342,24 @@ export default function SeptemberPage() {
           {(() => { const c = year === '2024' ? answer.count24 : answer.count26; return c ? <p className="count">{ko ? c[0] : c[1]}</p> : null; })()}
           {year === '2026' && answer.gfm === 'agree' && <p className="chip ok">✓ {ko ? '유럽 코페르니쿠스 홍수 지도도 같은 곳을 물에 잠긴 곳으로 봤습니다' : 'The EU Copernicus flood map also marks this as flooded'}</p>}
           {year === '2026' && answer.gfm === 'disagree' && answer.lv26 === 'big' && <p className="chip warn">{ko ? '코페르니쿠스 홍수 지도는 여기를 잠긴 곳으로 보지 않았습니다 — 물이 덮였다기보다 강 모양이 바뀌었을 수 있습니다' : 'Copernicus does not mark this as flooded — more likely the channel changed shape than land went under water'}</p>}
-          {answer.window && (
+          {year === '2026' && answer.trend && answer.lv26 !== 'normal' && <p className={`trend ${answer.trend}`}>{ko ? TREND_TEXT[answer.trend][0] : TREND_TEXT[answer.trend][1]}{answer.trend_counts && (answer.trend_counts.recede || 0) + (answer.trend_counts.hold || 0) > 1 && <small> · {ko ? `주변 구간: 그대로 ${answer.trend_counts.hold ?? 0}, 줄어듦 ${answer.trend_counts.recede ?? 0}` : `nearby: same ${answer.trend_counts.hold ?? 0}, less ${answer.trend_counts.recede ?? 0}`}</small>}</p>}
+          {year === '2026' && answer.window && (answer.lv1003 !== 'unseen' || answer.s2) && <div className="photo-seg" role="tablist">
+            <button role="tab" aria-selected={photo === 'radar'} className={photo === 'radar' ? 'is-active' : ''} onClick={() => setPhoto('radar')}>{ko ? '레이더 9/29' : 'RADAR 29 SEP'}</button>
+            {answer.lv1003 !== 'unseen' && <button role="tab" aria-selected={photo === 'a85'} className={photo === 'a85' ? 'is-active' : ''} onClick={() => setPhoto('a85')}>{ko ? '레이더 10/3' : 'RADAR 3 OCT'}</button>}
+            {answer.s2 && <button role="tab" aria-selected={photo === 's2'} className={photo === 's2' ? 'is-active' : ''} onClick={() => setPhoto('s2')}>{ko ? '실제 색 사진' : 'TRUE COLOUR'}</button>}
+          </div>}
+          {answer.window && (() => { const suf = year === '2024' && answer.has24 ? '_y24' : photo === 'a85' ? '_a85' : photo === 's2' ? '_s2' : ''; return (
             <div className="card-swipe story-swipe" style={{ ['--swipe' as string]: `${cardSwipe}%` }}>
-              <img src={`${FR}/${answer.window}${year === '2024' && answer.has24 ? '_y24' : ''}_post.jpg`} alt="after" />
-              <div className="swipe-clip"><img src={`${FR}/${answer.window}${year === '2024' && answer.has24 ? '_y24' : ''}_pre.jpg`} alt="before" /></div>
+              <img src={`${FR}/${answer.window}${suf}_post.jpg`} alt="after" />
+              <div className="swipe-clip"><img src={`${FR}/${answer.window}${suf}_pre.jpg`} alt="before" /></div>
               <div className="swipe-bar" /><span className="swipe-label pre">{ko ? '비 전' : 'BEFORE'}</span><span className="swipe-label post">{ko ? '비 후' : 'AFTER'}</span>
               <input type="range" min={0} max={100} value={cardSwipe} aria-label="before / after" onChange={(e) => setCardSwipe(Number(e.target.value))} />
-            </div>)}
-          {answer.window && <p className="cap">{ko ? '위성 레이더 사진(2.56 km). 짙은 보라·검정이 물, 초록이 숲·논, 노랑이 마른 땅. 손잡이를 끌어 비교하세요.' : 'Satellite radar (2.56 km). Dark purple/black is water, green is forest and fields, yellow is dry ground. Drag to compare.'}</p>}
+            </div>); })()}
+          {answer.window && <p className="cap">{photo === 's2' && year === '2026' && answer.s2
+            ? (ko ? `Sentinel-2 실제 색(2.56 km). 비 전 ${answer.s2.pre.slice(5).replace('-', '/')} → 비 후 ${answer.s2.post.slice(5).replace('-', '/')}. 구름은 흰색.` : `Sentinel-2 true colour (2.56 km). Before ${answer.s2.pre} → after ${answer.s2.post}. Clouds are white.`)
+            : photo === 'a85' && year === '2026'
+            ? (ko ? '위성 레이더, 10월 3일(다른 궤도). 비 전 = 8/28·9/9·9/21 중앙값. 짙은 보라·검정이 물.' : 'Satellite radar, 3 Oct (a different orbit). Before = median of 28 Aug, 9 and 21 Sep. Dark purple/black is water.')
+            : (ko ? '위성 레이더 사진(2.56 km). 짙은 보라·검정이 물, 초록이 숲·논, 노랑이 마른 땅. 손잡이를 끌어 비교하세요.' : 'Satellite radar (2.56 km). Dark purple/black is water, green is forest and fields, yellow is dry ground. Drag to compare.')}</p>}
           <p className="other">{year === '2026'
             ? <>{ko ? '2024년 9월 홍수 때는: ' : 'In the Sep 2024 flood: '}<b style={{ color: answer.lv24 === 'big' ? LV_COLOR.big : undefined }}>{ko ? LV_SHORT[answer.lv24][0] : LV_SHORT[answer.lv24][1]}</b>{answer.lv24 === 'unseen' && (ko ? ' (같은 궤도 자료 없음)' : ' (no matching pass)')}</>
             : <>{ko ? '2026년 9월에는: ' : 'In Sep 2026: '}<b style={{ color: answer.lv26 === 'big' ? LV_COLOR.big : undefined }}>{ko ? LV_SHORT[answer.lv26][0] : LV_SHORT[answer.lv26][1]}</b></>}</p>

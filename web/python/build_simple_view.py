@@ -62,5 +62,20 @@ for en, ko, lon, lat in PLACES:
                    "gfm_agree": gfm_agree, "f26": fp["f26"], "gfm26": fp["gfm26"], "nearest_big": nearest_big})
 (PUB / "september-places.json").write_text(json.dumps(places, ensure_ascii=False, indent=1))
 from collections import Counter
+# 홈 카드용 요약 — 숫자는 리본에서만
+c26 = Counter(f["properties"]["lv26"] for f in feats); c24 = Counter(f["properties"]["lv24"] for f in feats)
+def per_river(key):
+    out = {}
+    for f in feats:
+        p = f["properties"]; o = out.setdefault(p["name"], {"name": p["name"], "name_ko": p["name_ko"], "big": 0, "obs": 0})
+        if p[key] != "unseen": o["obs"] += 1; o["big"] += p[key] == "big"
+    return sorted(out.values(), key=lambda o: -o["big"])
+xs = [c for f in feats for c in f["geometry"]["coordinates"]]
+summary = {"reaches": len(feats), "reach_km": 2.56, "y2026": dict(c26), "y2024": dict(c24), "rivers26": per_river("lv26"), "rivers24": per_river("lv24"),
+           "bounds": [min(x for x, _ in xs), min(y for _, y in xs), max(x for x, _ in xs), max(y for _, y in xs)],
+           "headline_ko": "나라야니강이 인도 국경 너머까지 넓어졌습니다", "headline": "The Narayani widened all the way into India",
+           "headline24_ko": "2024년엔 바그마티강이 넓어졌습니다", "headline24": "In 2024 it was the Bagmati that widened",
+           "dates": {"2026": {"pre": "2026-08-24 · 09-05 · 09-17", "post": "2026-09-29"}, "2024": {"pre": "2024-08-27 · 09-20", "post": "2024-10-02"}}}
+(PUB / "september-simple-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1))
 print("simple reaches", len(feats), Counter(f["properties"]["lv26"] for f in feats), "| 2024", Counter(f["properties"]["lv24"] for f in feats))
 for p in places: print(f"  {p['name_ko']:<18} {p['lv26']:<7} 2024 {p['lv24']:<7} 가장 가까운 큰 변화 {p['nearest_big']['km'] if p['nearest_big'] else '-'} km")

@@ -98,6 +98,7 @@ export default function SeptemberPage() {
   const [query, setQuery] = useState('');
   const [picked, setPicked] = useState(false);
   const [cardSwipe, setCardSwipe] = useState(50);
+  const [headOpen, setHeadOpen] = useState(true);
   const expertRef = useRef(false); const yearRef = useRef<'2026' | '2024'>('2026');
   const pickReachRef = useRef<(pr: Record<string, unknown>) => void>(() => {});   // 지도 클릭 핸들러가 최신 함수를 보게
   const [view, setView] = useState<View>('now');
@@ -196,7 +197,8 @@ export default function SeptemberPage() {
         openRef.current(String(pr.id), String(pr.site), orbits); });
       map.on('mouseenter', 'sept-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'sept-fill', () => { map.getCanvas().style.cursor = ''; });
-      const b = sept.bounds; map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: { top: 90, right: 370, bottom: 150, left: 350 }, duration: 0 });
+      const narrow = window.innerWidth < 900; const b: [number, number, number, number] = expertRef.current ? sept.bounds : [83.4, 26.4, 87.2, 27.9];
+      map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: expertRef.current ? { top: 90, right: 370, bottom: 150, left: 350 } : narrow ? { top: 300, right: 16, bottom: 24, left: 16 } : { top: 80, right: 40, bottom: 40, left: 400 }, duration: 0 });
       setMapReady(true);
     };
     map.on('load', attach); map.on('style.load', attach);
@@ -303,7 +305,7 @@ export default function SeptemberPage() {
             <input value={query} onChange={(e) => { setQuery(e.target.value); setPicked(false); }} placeholder={ko ? '지명 검색 · 예: 수스타, 데브갓, 부트왈' : 'Search a place · e.g. Susta, Devghat, Butwal'} aria-label="search place" />
             {matches.length > 0 && !picked && <ul>{matches.map((p) => <li key={p.name}><button onClick={() => pickPlace(p)}><b>{ko ? p.name_ko : p.name}</b><i style={{ background: LV_COLOR[p.lv26] }} /><span>{ko ? LV_SHORT[p.lv26][0] : LV_SHORT[p.lv26][1]}</span></button></li>)}</ul>}
           </div>
-          <div className="viewseg" role="tablist" aria-label="Year">
+          <div className="viewseg year" role="tablist" aria-label="Year">
             {(['2026', '2024'] as const).map((y) => <button key={y} role="tab" aria-selected={year === y} className={year === y ? 'is-active' : ''} onClick={() => setYear(y)}>{ko ? `${y}년 9월` : `SEP ${y}`}</button>)}
           </div>
           <div className="links">
@@ -314,7 +316,8 @@ export default function SeptemberPage() {
         </header>
       )}
       {!expert && (
-        <section className="simple-head">
+        <section className={`simple-head ${headOpen ? '' : 'is-closed'}`}>
+          <button className="head-toggle" onClick={() => setHeadOpen((v) => !v)} aria-expanded={headOpen}>{headOpen ? (ko ? '접기' : 'HIDE') : (ko ? '설명' : 'ABOUT')}</button>
           <h1>{year === '2026'
             ? (ko ? <>나라야니강이 <em>인도 국경 너머까지</em> 넓어졌습니다</> : <>The Narayani widened <em>all the way into India</em></>)
             : (ko ? <>2024년엔 <em>바그마티강</em>이 넓어졌습니다</> : <>In 2024 it was the <em>Bagmati</em> that widened</>)}</h1>

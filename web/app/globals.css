@@ -1735,3 +1735,39 @@ body.sept-body { overflow: hidden; }
 .answer-card .other { font-size: 13px; margin: 0 0 10px; padding-top: 8px; border-top: 1px solid var(--line, #e3e0d8); }
 .answer-card .go { font: 600 12px inherit; border: 1px solid var(--ink); background: transparent; padding: 8px 10px; cursor: pointer; width: 100%; text-align: left; }
 @media (max-width: 900px) { .simple-head { width: calc(100vw - 32px); top: 68px; } .answer-card { left: 16px; right: 16px; width: auto; top: auto; bottom: 16px; max-height: 60svh; } .sept-topbar.simple .links .nav-link { display: none; } }
+
+/* 홈 2장 카드 — 강별 막대(2026 vs 2024) */
+.landing .river-bars { margin: 12px 0 8px; display: grid; gap: 6px; }
+.landing .rb-head, .landing .rb-row { display: grid; grid-template-columns: 120px 1fr 1fr; gap: 10px; align-items: center; }
+.landing .rb-head b { font: 700 9.5px var(--font-geist-mono); letter-spacing: .08em; color: #d7301f; }
+.landing .rb-head b.y24 { color: #2a78d6; }
+.landing .rb-row span { font-size: 12.5px; }
+.landing .rb-bar { position: relative; height: 18px; background: rgba(0,0,0,.05); }
+.landing .rb-bar i { position: absolute; left: 0; top: 0; bottom: 0; background: #d7301f; }
+.landing .rb-bar.y24 i { background: #2a78d6; }
+.landing .rb-bar em { position: absolute; left: 6px; top: 0; line-height: 18px; font: 700 11px var(--font-geist-mono); color: var(--ink); mix-blend-mode: multiply; }
+.landing .rb-bar em small { font-weight: 400; color: var(--muted); }
+.landing .rb-bar em.na { font-weight: 400; color: var(--muted); font-size: 10px; letter-spacing: .04em; }
+.landing .rb-note { font-size: 11px; color: var(--muted); line-height: 1.45; margin: 4px 0 0; grid-column: 1 / -1; }
+@media (max-width: 640px) { .landing .rb-head, .landing .rb-row { grid-template-columns: 92px 1fr 1fr; gap: 6px; } }
+
+/* /september 쉬운 화면 — 모바일·접기 */
+.simple-head { position: relative; }
+.simple-head .head-toggle { position: absolute; right: 10px; top: 10px; font: 700 9px var(--font-geist-mono); letter-spacing: .08em; padding: 4px 7px; border: 1px solid var(--line-strong, #d5d1c6); background: transparent; cursor: pointer; display: none; }
+@media (max-width: 900px) {
+  .sept-topbar.simple { height: auto; flex-wrap: wrap; padding: 8px 12px; gap: 8px; row-gap: 8px; align-items: center; }
+  .sept-topbar.simple .brand { flex: 1 1 auto; flex-direction: row; align-items: baseline; gap: 8px; }
+  .sept-topbar.simple .brand small { display: none; }
+  .sept-topbar.simple .viewseg.year { order: 2; }
+  .sept-topbar.simple .links { order: 3; }
+  .sept-topbar.simple .links .nav-link, .sept-topbar.simple .links button:nth-child(2), .sept-topbar.simple .links button:nth-child(3) { display: none; }
+  .sept-topbar.simple .search { order: 4; flex: 1 1 100%; max-width: none; }
+  .simple-head { top: 104px; left: 12px; width: calc(100vw - 24px); padding: 12px 14px 12px; }
+  .simple-head .head-toggle { display: inline-block; }
+  .simple-head h1 { font-size: 18px; padding-right: 48px; margin-bottom: 6px; }
+  .simple-head p { font-size: 12.5px; margin-bottom: 8px; }
+  .simple-head.is-closed p, .simple-head.is-closed small { display: none; }
+  .simple-head.is-closed h1 { margin-bottom: 8px; }
+  .answer-card { top: auto; bottom: 12px; left: 12px; right: 12px; width: auto; max-height: 62svh; padding: 14px; }
+  .answer-card .card-swipe { max-width: 260px; margin: 4px auto; }
+}

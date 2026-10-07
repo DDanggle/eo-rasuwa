@@ -12,6 +12,8 @@ type September = { event: { reported: string; reported_ko: string }; source_corr
 export default function Landing() {
   const [sc, setSc] = useState<Scenario | null>(null);
   const [sept, setSept] = useState<September | null>(null);
+  type SimpleSummary = { reaches: number; y2026: Record<string, number>; y2024: Record<string, number>; rivers26: { name: string; name_ko: string; big: number; obs: number }[]; rivers24: { name: string; name_ko: string; big: number; obs: number }[]; headline: string; headline_ko: string; headline24: string; headline24_ko: string };
+  const [simple, setSimple] = useState<SimpleSummary | null>(null);
   const [ko, setKo] = useState(true);
   // 언어: middleware가 IP 국가로 심은 lang 쿠키 → 없으면 브라우저 언어
   useEffect(() => {
@@ -26,7 +28,7 @@ export default function Landing() {
   const chooseLang = (isKo: boolean) => { setKo(isKo); try { document.cookie = `lang=${isKo ? 'ko' : 'en'};path=/;max-age=31536000`; } catch { /* noop */ } };
   const [swipe, setSwipe] = useState(50);
   useEffect(() => { document.body.classList.add('page-scroll'); return () => document.body.classList.remove('page-scroll'); }, []);
-  useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); fetch('/data/september.json').then((r) => r.ok ? r.json() as Promise<September> : null).then(setSept).catch(() => undefined); }, []);
+  useEffect(() => { fetch('/data/scenario.json').then((r) => r.json() as Promise<Scenario>).then(setSc).catch(() => undefined); fetch('/data/september.json').then((r) => r.ok ? r.json() as Promise<September> : null).then(setSept).catch(() => undefined); fetch('/data/september-simple-summary.json').then((r) => r.ok ? r.json() : null).then(setSimple).catch(() => undefined); }, []);
   const rv = sc?.review ?? null; const lead = rv?.leads[0];
   const pct = (x: number | null | undefined) => x == null ? '—' : `${(100 * x).toFixed(0)}%`;
   return (
@@ -65,17 +67,19 @@ export default function Landing() {
           </article>
           <article className="chapter ch2">
             <small>{ko ? '2장 · 2026년 9월 24~29일' : 'CHAPTER 2 · 24–29 SEP 2026'}</small>
-            <h2>{ko ? '몬순 막바지 호우 — 뉴스가 지목한 다섯 곳' : 'The late-monsoon rains — five places the news named'}</h2>
-            <p>{ko ? sept.event.reported_ko : sept.event.reported}</p>
-            <div className="funnel small" role="img" aria-label={`${sites.length} sites, ${nWin} windows, ${clear} clear signal`}>
-              <div><b>{sites.length}</b><span>{ko ? '지점' : 'news sites'}</span></div><i>→</i>
-              <div><b>{nWin}</b><span>{ko ? '레이더 창' : 'radar windows'}</span></div><i>→</i>
-              <div className="lead"><b>{clear}</b><span>{ko ? '뚜렷한 신호' : 'clear signal'}</span></div><i>·</i>
-              <div className="zero"><b>{sept.source_corridor.windows}</b><span>{ko ? '발원지 재관측 → 눈' : 'source re-observed → snow'}</span></div>
-            </div>
-            <ul className="verdicts">{sites.map((s) => <li key={s.name}><b>{ko ? s.name_ko : s.name}</b><em>{ko ? V[s.verdict]?.[0] ?? s.verdict : V[s.verdict]?.[1] ?? s.verdict}</em><span>{ko ? s.reading_ko : s.reading}</span></li>)}</ul>
-            <p className="note">{ko ? sept.fusion.headline_ko : sept.fusion.headline} {ko ? sept.monsoon_status.text_ko : sept.monsoon_status.text}</p>
-            <div className="cta"><a href="/september" className="btn primary">{ko ? '2장 지도 열기' : 'OPEN CHAPTER 2 ON THE MAP'}</a><a href={sept.download} className="btn" download>{ko ? '9월 창 181개 GeoJSON' : 'DOWNLOAD 181 SEPTEMBER WINDOWS'}</a></div>
+            <h2>{simple ? (ko ? simple.headline_ko : simple.headline) : (ko ? '몬순 막바지 호우' : 'The late-monsoon rains')}</h2>
+            <p>{ko ? '9월 24~29일 비 뒤 위성 레이더로 보면, 데브갓 아래부터 수스타를 지나 비하르까지 강이 평소보다 크게 변했습니다. 바그마티·코시·라프티·티나우는 대부분 평소 수준이었습니다. 같은 방법으로 본 2024년 9월 홍수는 반대로 바그마티강이 넓어졌습니다.' : 'After the 24–29 Sep rain, satellite radar shows the river changing far more than usual from below Devghat, past Susta, into Bihar. The Bagmati, Koshi, Rapti and Tinau stayed mostly as usual. Measured the same way, the September 2024 flood widened the Bagmati instead.'}</p>
+            {simple && <div className="river-bars" role="img" aria-label="river stretches that changed a lot, 2026 vs 2024">
+              <div className="rb-head"><span /><b>{ko ? '2026년 9월' : 'SEP 2026'}</b><b className="y24">{ko ? '2024년 9월' : 'SEP 2024'}</b></div>
+              {simple.rivers26.filter((r) => r.obs > 0).map((r) => { const r24 = simple.rivers24.find((x) => x.name === r.name); const w = (n: number, o: number) => `${Math.round(100 * n / Math.max(o, 1))}%`; return (
+                <div key={r.name} className="rb-row"><span>{ko ? r.name_ko : r.name}</span>
+                  <div className="rb-bar"><i style={{ width: w(r.big, r.obs) }} /><em>{r.big}<small>/{r.obs}</small></em></div>
+                  <div className="rb-bar y24">{r24 && r24.obs > 0 ? <><i style={{ width: w(r24.big, r24.obs) }} /><em>{r24.big}<small>/{r24.obs}</small></em></> : <em className="na">{ko ? '자료 없음' : 'no pass'}</em>}</div>
+                </div>); })}
+              <p className="rb-note">{ko ? '강을 2.56 km 구간으로 잘라, 평소 몬순 범위를 크게 넘은 구간 수 / 위성이 읽은 구간 수. 피해가 아니라 평소보다 많이 변한 곳입니다.' : 'River cut into 2.56 km stretches: stretches far beyond their ordinary monsoon range / stretches the satellite could read. Change beyond usual, not damage.'}</p>
+            </div>}
+            <p className="note">{ko ? sept.monsoon_status.text_ko : sept.monsoon_status.text}</p>
+            <div className="cta"><a href="/september" className="btn primary">{ko ? '2장 지도 열기' : 'OPEN CHAPTER 2 ON THE MAP'}</a><a href={sept.download} className="btn" download>{ko ? '9월 분석 창 GeoJSON' : 'DOWNLOAD THE SEPTEMBER WINDOWS'}</a></div>
           </article>
         </div>
       </section>); })()}

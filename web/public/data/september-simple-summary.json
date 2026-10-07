@@ -1,0 +1,112 @@
+{
+ "reaches": 268,
+ "reach_km": 2.56,
+ "y2026": {
+  "big": 55,
+  "some": 15,
+  "normal": 160,
+  "unseen": 38
+ },
+ "y2024": {
+  "some": 33,
+  "normal": 53,
+  "big": 62,
+  "unseen": 120
+ },
+ "rivers26": [
+  {
+   "name": "Gandak (Narayani)",
+   "name_ko": "간다크강(나라야니 하류)",
+   "big": 28,
+   "obs": 33
+  },
+  {
+   "name": "Narayani",
+   "name_ko": "나라야니강",
+   "big": 27,
+   "obs": 40
+  },
+  {
+   "name": "Tinau",
+   "name_ko": "티나우강",
+   "big": 0,
+   "obs": 9
+  },
+  {
+   "name": "Koshi",
+   "name_ko": "코시강",
+   "big": 0,
+   "obs": 82
+  },
+  {
+   "name": "East Rapti",
+   "name_ko": "동라프티강",
+   "big": 0,
+   "obs": 14
+  },
+  {
+   "name": "Bagmati",
+   "name_ko": "바그마티강",
+   "big": 0,
+   "obs": 52
+  }
+ ],
+ "rivers24": [
+  {
+   "name": "Bagmati",
+   "name_ko": "바그마티강",
+   "big": 34,
+   "obs": 52
+  },
+  {
+   "name": "Gandak (Narayani)",
+   "name_ko": "간다크강(나라야니 하류)",
+   "big": 26,
+   "obs": 33
+  },
+  {
+   "name": "Narayani",
+   "name_ko": "나라야니강",
+   "big": 2,
+   "obs": 40
+  },
+  {
+   "name": "Tinau",
+   "name_ko": "티나우강",
+   "big": 0,
+   "obs": 9
+  },
+  {
+   "name": "Koshi",
+   "name_ko": "코시강",
+   "big": 0,
+   "obs": 0
+  },
+  {
+   "name": "East Rapti",
+   "name_ko": "동라프티강",
+   "big": 0,
+   "obs": 14
+  }
+ ],
+ "bounds": [
+  83.46546393544966,
+  25.898298862718068,
+  87.16843606430373,
+  27.825653912121698
+ ],
+ "headline_ko": "나라야니강이 인도 국경 너머까지 넓어졌습니다",
+ "headline": "The Narayani widened all the way into India",
+ "headline24_ko": "2024년엔 바그마티강이 넓어졌습니다",
+ "headline24": "In 2024 it was the Bagmati that widened",
+ "dates": {
+  "2026": {
+   "pre": "2026-08-24 · 09-05 · 09-17",
+   "post": "2026-09-29"
+  },
+  "2024": {
+   "pre": "2024-08-27 · 09-20",
+   "post": "2024-10-02"
+  }
+ }
+}

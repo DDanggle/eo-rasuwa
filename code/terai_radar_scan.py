@@ -107,6 +107,16 @@ CONTRACTS: dict[str, dict] = {
         "base_placebo": ["2026-07-07", "2026-07-31"], "target_placebo": "2026-08-12",
         "out": "terai_radar_scan_z19",
     },
+    # M109 물 빠짐 확인: 궤도 85(상승) 10-03 — 홍수 뒤 4일, 다른 각도. 평시 기억 3장(08-28·09-09·09-21)은 전부 홍수 전.
+    # 수스타·비하르 간다크는 궤도 85 장면 밖(창별 장면 탐색이 건너뜀). 궤도가 다르므로 09-29 궤도19 값과는 계급·순위만 비교한다.
+    "a85": {
+        "measurement_id": "M109", "orbit": 85, "direction": "ascending",
+        "aois": ["river_narayani", "river_tinau", "river_koshi", "xriver_narayani", "xriver_tinau", "xriver_rapti", "xriver_bagmati", "xriver_koshi", "xriver_narayani_upper"],
+        "dates": ["2026-07-11", "2026-07-23", "2026-08-04", "2026-08-16", "2026-08-28", "2026-09-09", "2026-09-21", "2026-10-03"],
+        "base_event": ["2026-08-28", "2026-09-09", "2026-09-21"], "target_event": "2026-10-03",
+        "base_placebo": ["2026-07-11", "2026-07-23", "2026-08-04"], "target_placebo": "2026-08-16",
+        "out": "terai_radar_scan_a85",
+    },
 }
 SIZE, PATCH, CROP = 256, 4, 64
 MODEL_ID_NAME = "OLMOEARTH_V1_BASE"

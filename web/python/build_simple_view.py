@@ -87,6 +87,24 @@ summary = {"reaches": len(feats), "trend": dict(Counter(f["properties"]["trend"]
            "headline_ko": "나라야니강이 인도 국경 너머까지 넓어졌습니다", "headline": "The Narayani widened all the way into India",
            "headline24_ko": "2024년엔 바그마티강이 넓어졌습니다", "headline24": "In 2024 it was the Bagmati that widened",
            "dates": {"2026": {"pre": "2026-08-24 · 09-05 · 09-17", "post": "2026-09-29"}, "2024": {"pre": "2024-08-27 · 09-20", "post": "2024-10-02"}}}
+# 강 위 직접 라벨 — 범례 대신 읽히게. 강마다 대표 지점(그 해 가장 큰 변화 구간, 없으면 중간)과 한 줄.
+LABEL_RIVER = {"Narayani": ("나라야니강", "Narayani"), "Gandak (Narayani)": ("간다크강", "Gandak"), "Bagmati": ("바그마티강", "Bagmati"), "Koshi": ("코시강", "Koshi"), "East Rapti": ("동라프티강", "East Rapti"), "Tinau": ("티나우강", "Tinau")}
+LVW = {"big": ("크게 변함", "changed a lot"), "some": ("조금 변함", "changed a little"), "normal": ("평소 수준", "as usual"), "unseen": ("못 봄", "not seen")}
+labels = []
+for name, (ko, en) in LABEL_RIVER.items():
+    fs = [f for f in feats if f["properties"]["name"] == name]
+    if not fs: continue
+    for key, year in (("lv26", "2026"), ("lv24", "2024")):
+        obs = [f for f in fs if f["properties"][key] != "unseen"]
+        if not obs: lvl = "unseen"; pick = fs[len(fs) // 2]
+        else:
+            nb = sum(f["properties"][key] == "big" for f in obs); ns = sum(f["properties"][key] == "some" for f in obs)
+            lvl = "big" if nb >= 3 else "some" if ns / len(obs) >= 0.25 else "normal"   # 강 전체의 인상: 한두 구간 잡음에 흔들리지 않게
+            cand = [f for f in obs if f["properties"][key] == lvl] or obs
+            pick = cand[len(cand) // 2]
+        c = pick["geometry"]["coordinates"]; mid = c[len(c) // 2]
+        labels.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": mid}, "properties": {"year": year, "lv": lvl, "ko": f"{ko} · {LVW[lvl][0]}", "en": f"{en} · {LVW[lvl][1]}"}})
+(PUB / "september-river-labels.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": labels}, ensure_ascii=False))
 (PUB / "september-simple-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1))
 print("trend", summary["trend"], "lv1003", summary["lv1003"], "s2", summary["s2_pairs"])
 for f in feats:

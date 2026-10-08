@@ -177,11 +177,18 @@ export default function SeptemberPage() {
         map.on('mouseleave', 'ribbon-hit', () => { map.getCanvas().style.cursor = ''; });
       }
       // 쉬운 화면 리본: 굵고 평이한 네 색. 못 본 구간은 점선 회색.
+      // 종이색 한 겹: 배경 지도를 눌러 리본만 튀게(Upshot/Guardian 식). 자세히 보기에선 걷는다.
+      map.addLayer({ id: 'wash', type: 'background', paint: { 'background-color': '#f6f5f1', 'background-opacity': 0.55 } });
       map.addSource('simple', { type: 'geojson', data: '/data/september-simple.geojson' });
       map.addLayer({ id: 'simple-casing', type: 'line', source: 'simple', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 6, 9, 9, 13, 20] } });
       map.addLayer({ id: 'simple-unseen', type: 'line', source: 'simple', filter: ['==', ['get', 'lv26'], 'unseen'], layout: { 'line-cap': 'butt' }, paint: { 'line-color': LV_COLOR.unseen, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 2, 13, 7], 'line-dasharray': [1.2, 1.4] } });
       map.addLayer({ id: 'simple-line', type: 'line', source: 'simple', filter: ['!=', ['get', 'lv26'], 'unseen'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': lvExpr('lv26'), 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 3.5, 9, 6, 13, 15] } });
       map.addLayer({ id: 'simple-hit', type: 'line', source: 'simple', paint: { 'line-color': '#000', 'line-opacity': 0.001, 'line-width': 24 } });
+      map.addSource('rlabels', { type: 'geojson', data: '/data/september-river-labels.geojson' });
+      map.addLayer({ id: 'rlabels', type: 'symbol', source: 'rlabels', filter: ['==', ['get', 'year'], '2026'],
+        layout: { 'text-field': ['get', 'ko'], 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-size': ['interpolate', ['linear'], ['zoom'], 6, 12, 9, 15], 'text-anchor': 'left', 'text-offset': [0.9, 0], 'text-max-width': 14, 'text-allow-overlap': false, 'symbol-sort-key': ['match', ['get', 'lv'], 'big', 0, 'some', 1, 2] },
+        paint: { 'text-color': lvExpr('lv'), 'text-halo-color': '#f6f5f1', 'text-halo-width': 2.2 } });
+      map.addLayer({ id: 'rlabels-dot', type: 'circle', source: 'rlabels', filter: ['==', ['get', 'year'], '2026'], paint: { 'circle-radius': 4.5, 'circle-color': lvExpr('lv'), 'circle-stroke-color': '#fff', 'circle-stroke-width': 1.5 } });
       map.on('click', 'simple-hit', (e) => { const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (pr) pickReachRef.current(pr); });
       map.on('mouseenter', 'simple-hit', () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'simple-hit', () => { map.getCanvas().style.cursor = ''; });
@@ -201,7 +208,7 @@ export default function SeptemberPage() {
         openRef.current(String(pr.id), String(pr.site), orbits); });
       map.on('mouseenter', 'sept-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', 'sept-fill', () => { map.getCanvas().style.cursor = ''; });
-      const narrow = window.innerWidth < 900; const b: [number, number, number, number] = expertRef.current ? sept.bounds : [83.4, 26.4, 87.2, 27.9];
+      map.resize(); const narrow = window.innerWidth < 900; const b: [number, number, number, number] = expertRef.current ? sept.bounds : [83.4, 26.4, 87.2, 27.9];
       map.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: expertRef.current ? { top: 90, right: 370, bottom: 150, left: 350 } : narrow ? { top: 300, right: 16, bottom: 24, left: 16 } : { top: 80, right: 40, bottom: 40, left: 400 }, duration: 0 });
       setMapReady(true);
     };
@@ -227,9 +234,12 @@ export default function SeptemberPage() {
     for (const id of ['simple-casing', 'simple-line', 'simple-unseen', 'simple-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', expert ? 'none' : 'visible');
     if (m.getLayer('simple-line')) { m.setPaintProperty('simple-line', 'line-color', lvExpr(prop)); m.setFilter('simple-line', ['!=', ['get', prop], 'unseen']); }
     if (m.getLayer('simple-unseen')) m.setFilter('simple-unseen', ['==', ['get', prop], 'unseen']);
+    for (const id of ['rlabels', 'rlabels-dot']) if (m.getLayer(id)) { m.setFilter(id, ['==', ['get', 'year'], year]); m.setLayoutProperty(id, 'visibility', expert ? 'none' : 'visible'); }
+    if (m.getLayer('rlabels')) m.setLayoutProperty('rlabels', 'text-field', ['get', ko ? 'ko' : 'en']);
+    if (m.getLayer('wash')) m.setLayoutProperty('wash', 'visibility', expert ? 'none' : 'visible');
     if (!expert) for (const id of ['ribbon-casing', 'ribbon-unobs', 'ribbon', 'ribbon-hit', 'tokens-fill', 'sept-line', 'sept-rank', 'cmp-casing', 'cmp-24', 'cmp-diff', 'cmp-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', 'none');
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expert, year, mapReady]);
+  }, [expert, year, mapReady, ko]);
   // 보기 모드: 비교 중엔 토큰·창·기본 리본을 숨기고 비교 리본만 — 한 장면에 한 이야기
   useEffect(() => {
     viewRef.current = view;
@@ -305,32 +315,29 @@ export default function SeptemberPage() {
 
       {!expert && (
         <header className="sept-topbar simple">
-          <div className="brand"><Link href="/" className="brand-link">Nepal <b>AI Twin</b></Link><small>{ko ? '9월 24~29일 비, 위성으로 본 강' : 'The rivers after the 24–29 Sep rain, seen from orbit'}</small></div>
-          <div className="search">
-            <input value={query} onChange={(e) => { setQuery(e.target.value); setPicked(false); }} placeholder={ko ? '지명 검색 · 예: 수스타, 데브갓, 부트왈' : 'Search a place · e.g. Susta, Devghat, Butwal'} aria-label="search place" />
-            {matches.length > 0 && !picked && <ul>{matches.map((p) => <li key={p.name}><button onClick={() => pickPlace(p)}><b>{ko ? p.name_ko : p.name}</b><i style={{ background: LV_COLOR[p.lv26] }} /><span>{ko ? LV_SHORT[p.lv26][0] : LV_SHORT[p.lv26][1]}</span></button></li>)}</ul>}
-          </div>
-          <div className="viewseg year" role="tablist" aria-label="Year">
-            {(['2026', '2024'] as const).map((y) => <button key={y} role="tab" aria-selected={year === y} className={year === y ? 'is-active' : ''} onClick={() => setYear(y)}>{ko ? `${y}년 9월` : `SEP ${y}`}</button>)}
-          </div>
+          <div className="brand"><Link href="/" className="brand-link">Nepal <b>AI Twin</b></Link><small>{ko ? '2026년 9월 홍수 · 위성으로 본 강' : 'SEPTEMBER 2026 FLOODS · THE RIVERS FROM ORBIT'}</small></div>
           <div className="links">
-            <button onClick={() => { setExpert(true); setAnswer(null); }}>{ko ? '자세히 보기 →' : 'DETAILS →'}</button>
+            <button onClick={() => { setExpert(true); setAnswer(null); }}>{ko ? '분석 화면' : 'ANALYSIS VIEW'}</button>
             <button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button>
-            <a href="/map" className="nav-link">{ko ? '← 8월 사건' : '← AUG EVENT'}</a>
+            <Link href="/" className="nav-link">{ko ? '홈' : 'HOME'}</Link>
           </div>
         </header>
       )}
       {!expert && (
         <section className={`simple-head ${headOpen ? '' : 'is-closed'}`}>
           <button className="head-toggle" onClick={() => setHeadOpen((v) => !v)} aria-expanded={headOpen}>{headOpen ? (ko ? '접기' : 'HIDE') : (ko ? '설명' : 'ABOUT')}</button>
+          <p className="kicker"><span className={year === '2026' ? 'on' : ''} onClick={() => setYear('2026')} role="tab" aria-selected={year === '2026'}>{ko ? '2026년 9월' : 'September 2026'}</span><span className={year === '2024' ? 'on' : ''} onClick={() => setYear('2024')} role="tab" aria-selected={year === '2024'}>{ko ? '2024년 9월' : 'September 2024'}</span></p>
           <h1>{year === '2026'
             ? (ko ? <>나라야니강이 <em>인도 국경 너머까지</em> 넓어졌습니다</> : <>The Narayani widened <em>all the way into India</em></>)
             : (ko ? <>2024년엔 <em>바그마티강</em>이 넓어졌습니다</> : <>In 2024 it was the <em>Bagmati</em> that widened</>)}</h1>
-          <p>{year === '2026'
-            ? (ko ? '9월 24~29일 비 뒤 위성 레이더로 보면, 데브갓 아래부터 수스타를 지나 비하르까지 강이 평소보다 크게 변했습니다. 바그마티·코시·라프티·티나우는 대부분 평소 수준이었습니다.' : 'After the 24–29 Sep rain, satellite radar shows the river changing far more than usual from below Devghat, past Susta, into Bihar. The Bagmati, Koshi, Rapti and Tinau stayed mostly as usual.')
-            : (ko ? '같은 방법으로 2024년 9월 홍수를 보면 바그마티강 52구간 중 34곳이 크게 변했고, 나라야니 상류는 평소 수준이었습니다. 해마다 다른 강이 켜집니다.' : 'Measured the same way, the September 2024 flood changed 34 of 52 Bagmati stretches, while the upper Narayani stayed as usual. A different river lights up each year.')}</p>
-          <ul className="simple-legend">{(['big', 'some', 'normal', 'unseen'] as const).map((l) => <li key={l}><i className={l} style={{ background: LV_COLOR[l] }} />{ko ? LV_SHORT[l][0] : LV_SHORT[l][1]}</li>)}</ul>
-          <small>{ko ? '"평소"는 같은 곳의 몬순 평시 변화입니다. 피해가 아니라 평소보다 많이 변한 곳을 보여줍니다. 강을 누르거나 지명을 검색하세요.' : '"Usual" is the same place in an ordinary monsoon fortnight. This shows where the river changed more than usual, not damage. Tap a river or search a place.'}</small>
+          <p className="dek">{year === '2026'
+            ? (ko ? '9월 24~29일 비가 그친 뒤 위성 레이더로 본 강. 빨간 구간이 평소 몬순보다 크게 변한 곳이고, 하늘색은 평소 수준입니다. 바그마티·코시는 조용했습니다.' : 'The rivers seen by satellite radar after the 24–29 Sep rain. Red stretches changed far more than in an ordinary monsoon; light blue is as usual. The Bagmati and Koshi were quiet.')
+            : (ko ? '같은 방법으로 본 2024년 9월 홍수. 그해에는 바그마티강 52구간 중 34곳이 크게 변했고, 나라야니는 평소 수준이었습니다.' : 'The September 2024 flood measured the same way. That year 34 of 52 Bagmati stretches changed a lot and the Narayani stayed as usual.')}</p>
+          <div className="search">
+            <input value={query} onChange={(e) => { setQuery(e.target.value); setPicked(false); }} placeholder={ko ? '동네 이름을 넣어 보세요 — 수스타, 데브갓, 부트왈…' : 'Type a place — Susta, Devghat, Butwal…'} aria-label="search place" />
+            {matches.length > 0 && !picked && <ul>{matches.map((p) => <li key={p.name}><button onClick={() => pickPlace(p)}><b>{ko ? p.name_ko : p.name}</b><i style={{ background: LV_COLOR[p.lv26] }} /><span>{ko ? LV_SHORT[p.lv26][0] : LV_SHORT[p.lv26][1]}</span></button></li>)}</ul>}
+          </div>
+          <small>{ko ? '피해 지도가 아닙니다. 같은 곳의 평소 몬순 변화와 견주어 "평소보다 많이 변한 곳"을 보여줍니다. 강을 누르면 전후 사진이 열립니다.' : 'Not a damage map. It shows where the river changed more than in an ordinary monsoon at the same place. Tap a river for before/after.'}</small>
         </section>
       )}
       {!expert && answer && (

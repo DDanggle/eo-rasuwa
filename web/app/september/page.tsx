@@ -142,7 +142,7 @@ export default function SeptemberPage() {
   // 지도: 전체 화면, 이 페이지 전용 인스턴스
   useEffect(() => {
     if (!mapNode.current || mapRef.current || !geo || !sept) return;
-    const map = new MapLibreMap({ container: mapNode.current, style: styleUrl ?? fallbackStyle, center: [85.2, 27.4], zoom: 7.2, minZoom: 5, maxBounds: [[80.5, 25.0], [90.0, 30.5]], attributionControl: false });
+    const map = new MapLibreMap({ container: mapNode.current, style: styleUrl ?? fallbackStyle, center: [85.2, 27.4], zoom: 7.2, minZoom: 5, maxBounds: [[76.0, 19.0], [94.0, 35.0]], attributionControl: false });
     map.addControl(new NavigationControl({ showCompass: false }), 'bottom-right');
     map.addControl(new ScaleControl({ maxWidth: 120, unit: 'metric' }), 'bottom-left');
     map.addControl(new AttributionControl({ compact: true }), 'bottom-left');

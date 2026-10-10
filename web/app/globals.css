@@ -1797,3 +1797,26 @@ body.sept-body { overflow: hidden; }
 .simple-head .search li span { font-size: 12px; color: var(--muted); }
 .simple-head.is-closed .dek, .simple-head.is-closed .search, .simple-head.is-closed small { display: none; }
 @media (max-width: 900px) { .simple-head { top: 60px; left: 12px; width: calc(100vw - 24px); } .simple-head h1 { font-size: 22px; } .sept-topbar.simple { height: 52px; flex-wrap: nowrap; } .sept-topbar.simple .brand small { display: none; } .sept-topbar.simple .links .nav-link { display: none; } }
+
+/* 홈 — 뉴스 그래픽 식(2026-10-10): 최근 장(9월)이 머리기사, 8월 장은 둘째 기사 */
+.landing-nav .brand small { display: block; margin-top: 2px; font: 10px var(--font-geist-mono); letter-spacing: .08em; color: var(--muted); }
+.landing-nav .nav-link.quiet { border-bottom: 0; color: var(--muted); font-weight: 600; }
+.landing .lead-story { padding: 44px 0 30px; border-top: 0; }
+.landing .lead-story h1 { font-family: var(--font-serif); font-weight: 700; font-size: clamp(34px, 5vw, 58px); line-height: 1.06; letter-spacing: -.01em; margin: 0 0 14px; max-width: 22ch; text-wrap: balance; word-break: keep-all; }
+.landing .lead-story .river-bars { max-width: 640px; }
+.landing .lead-story .cta { margin-top: 18px; }
+.landing .ch1-story { padding-top: 34px; border-top: 1px solid var(--line, #e3e0d8); }
+.landing .ch1-story h1 { font-size: clamp(30px, 4.2vw, 48px); }
+.landing .how-text { max-width: 66ch; margin: 20px 0 0; font: 15px/1.65 var(--font-serif); color: #33322e; }
+.donate-inline { margin: 34px 0 0; padding: 18px 20px; border: 1px solid var(--line-strong, #d5d1c6); background: rgba(215,48,31,.035); max-width: 640px; }
+.donate-inline b { display: block; font: 700 14px/1.35 var(--font-geist-sans); }
+.donate-inline p { margin: 6px 0 10px; font: 13px/1.55 var(--font-geist-sans); color: #4b4a45; }
+.donate-inline div { display: flex; flex-wrap: wrap; gap: 6px; }
+.donate-inline a { font: 700 10px var(--font-geist-mono); letter-spacing: .06em; color: var(--ink); text-decoration: none; border: 1px solid var(--ink); padding: 6px 9px; }
+.donate-inline a:hover { background: var(--ink); color: #fffefb; }
+.donate-inline small { display: block; margin-top: 10px; font: 11px/1.5 var(--font-geist-sans); color: var(--muted); }
+.donate-inline small a { border: 0; padding: 0; font: inherit; text-decoration: underline; }
+@media (max-width: 640px) {
+  .landing-nav { flex-wrap: wrap; } .landing-nav div { flex-wrap: wrap; }
+  .landing .lead-story { padding-top: 26px; } .landing .lead-story h1 { font-size: 30px; } .landing .ch1-story h1 { font-size: 27px; }
+}

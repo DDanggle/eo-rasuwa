@@ -34,55 +34,42 @@ export default function Landing() {
   return (
     <main className="landing">
       <nav className="landing-nav">
-        <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026</span>
-        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/september" className="nav-link">{ko ? '2장 · 9월' : 'CHAPTER 2 · SEP'}</a><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
+        <span className="brand">Nepal <b>AI Twin</b><small>{ko ? '위성으로 본 네팔의 강과 홍수' : 'Nepal\u2019s rivers and floods, seen from orbit'}</small></span>
+        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/september" className="nav-link">{ko ? '9월 홍수 지도' : 'SEPTEMBER MAP'}</a><a href="/map" className="nav-link">{ko ? '8월 홍수 지도' : 'AUGUST MAP'}</a><a href="/story" className="nav-link quiet">STORY</a></div>
       </nav>
 
-      <section className="hero">
-        <p className="kicker">{ko ? '재난 전용 모델을 학습하지 않은, 범용 지구 임베딩 모델의 재사용' : 'A general Earth-embedding model, reused — no disaster-specific detector was trained'}</p>
-        <h1>{ko ? <>위성이 찍은 이미지 <em>100곳</em>의 장소.<br />먼저 확인할 곳 <em>6곳.</em></> : <><em>100 places</em> imaged from orbit.<br /><em>6</em> to check first.</>}</h1>
-        <p className="sub">{ko ? <>사건 전후의 센티넬 관측을 범용 지구 임베딩 모델(<a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2 OlmoEarth v1 Base</a>, 학습 없이 사용)로 비교해, 평소 변화보다 크게 달라진 장소만 남겼습니다. “달라진 곳”이 아니라 “평소보다 더 달라진 곳”입니다.</> : <>A general Earth-embedding model — <a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2&apos;s OlmoEarth v1 Base</a>, used frozen — compares before-and-after Sentinel observations with each place&apos;s ordinary change. Not &quot;what changed&quot; — &quot;what changed more than it usually does.&quot;</>}</p>
-        <div className="funnel" role="img" aria-label="100 scanned, 47 observable, 6 review leads, 0 confirmed damage labels">
-          <div><b>{rv?.funnel.scanned ?? 100}</b><span>{ko ? '스캔한 창' : 'scanned'}</span></div><i>→</i>
-          <div><b>{rv?.funnel.observable ?? 47}</b><span>{ko ? '판독 가능' : 'observable'}</span></div><i>→</i>
-          <div className="lead"><b>{rv?.funnel.leads ?? 6}</b><span>{ko ? '우선 검토' : 'review leads'}</span></div><i>·</i>
-          <div className="zero"><b>0</b><span>{ko ? '확정 피해 라벨' : 'confirmed damage labels'}</span></div>
-        </div>
-        <div className="cta">
-          <a href="/map" className="btn primary">{ko ? '후보 6곳 탐색' : 'EXPLORE 6 CANDIDATES'}</a>
-          <a href={rv?.all_observable_download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '측정된 47곳 GeoJSON 내려받기(후보 순)' : 'DOWNLOAD ALL 47 WINDOWS (RANKED GEOJSON)'}</a>
-          <a href="https://github.com/DDanggle/eo-rasuwa" className="btn" target="_blank" rel="noreferrer">GITHUB ↗</a>
-        </div>
+      <section className="lead-story">
+        <p className="kicker">{ko ? '최근 · 2026년 9월 24~29일 몬순 막바지 호우' : 'LATEST · the late-monsoon rains of 24–29 Sep 2026'}</p>
+        <h1>{simple ? (ko ? simple.headline_ko : simple.headline) : (ko ? '나라야니강이 인도 국경 너머까지 넓어졌습니다' : 'The Narayani widened past the Indian border')}</h1>
+        <p className="sub">{ko ? '비가 그친 뒤 위성 레이더로 본 강입니다. 데브갓 아래부터 수스타를 지나 비하르까지 강이 평소 몬순보다 크게 변했고, 바그마티·코시·라프티·티나우는 대부분 평소 수준이었습니다. 같은 방법으로 본 2024년 9월에는 반대로 바그마티강이 넓어졌습니다.' : 'The rivers as satellite radar saw them once the rain stopped. From below Devghat, past Susta and into Bihar, the river changed far more than in an ordinary monsoon; the Bagmati, Koshi, Rapti and Tinau stayed mostly as usual. Measured the same way, September 2024 was the reverse: the Bagmati widened.'}</p>
+        {simple && <div className="river-bars" role="img" aria-label="river stretches that changed a lot, 2026 vs 2024">
+          <div className="rb-head"><span /><b>{ko ? '2026년 9월' : 'SEP 2026'}</b><b className="y24">{ko ? '2024년 9월' : 'SEP 2024'}</b></div>
+          {simple.rivers26.filter((r) => r.obs > 0).map((r) => { const r24 = simple.rivers24.find((x) => x.name === r.name); const w = (n: number, o: number) => `${Math.round(100 * n / Math.max(o, 1))}%`; return (
+            <div key={r.name} className="rb-row"><span>{ko ? r.name_ko : r.name}</span>
+              <div className="rb-bar"><i style={{ width: w(r.big, r.obs) }} /><em>{r.big}<small>/{r.obs}</small></em></div>
+              <div className="rb-bar y24">{r24 && r24.obs > 0 ? <><i style={{ width: w(r24.big, r24.obs) }} /><em>{r24.big}<small>/{r24.obs}</small></em></> : <em className="na">{ko ? '자료 없음' : 'no pass'}</em>}</div>
+            </div>); })}
+          <p className="rb-note">{ko ? '강을 2.56 km 구간으로 잘라, 평소 몬순 범위를 크게 넘은 구간 수 / 위성이 읽은 구간 수. 피해가 아니라 평소보다 많이 변한 곳입니다.' : 'River cut into 2.56 km stretches: stretches far beyond their ordinary monsoon range / stretches the satellite could read. Change beyond usual, not damage.'}</p>
+        </div>}
+        {sept && <p className="note">{ko ? sept.monsoon_status.text_ko : sept.monsoon_status.text}</p>}
+        <div className="cta"><a href="/september" className="btn primary">{ko ? '지도에서 강별로 보기' : 'SEE EACH RIVER ON THE MAP'}</a>{sept && <a href={sept.download} className="btn" download>{ko ? '자료 내려받기' : 'DOWNLOAD THE DATA'}</a>}</div>
       </section>
 
-      {sept && (() => { const sites = ['susta', 'devghat', 'saptari', 'butwal', 'dharapani'].map((k) => sept.flood_sites[k]).filter(Boolean); const clear = sites.filter((s) => s.verdict === 'clear signal').length; const nWin = sites.reduce((a, s) => a + s.windows, 0); const V: Record<string, [string, string]> = { 'clear signal': ['뚜렷', 'CLEAR'], weak: ['약함', 'WEAK'], 'no signal': ['신호 없음', 'NO SIGNAL'], 'classical only': ['고전 자만', 'CLASSICAL ONLY'] }; return (
-      <section className="chapters" id="chapters">
-        <p className="kicker">{ko ? '두 장 — 같은 모델, 같은 계약, 다른 재난' : 'TWO CHAPTERS — same model, same contract, different disasters'}</p>
-        <div className="chapter-grid">
-          <article className="chapter ch1">
-            <small>{ko ? '1장 · 2026년 8월 26일' : 'CHAPTER 1 · 26 AUG 2026'}</small>
-            <h2>{ko ? '빙하 붕괴에서 시작된 돌발 홍수' : 'A flash flood that began with a glacier collapse'}</h2>
-            <p>{ko ? `랑탕 발원지에서 치트완까지 621 km. 창 ${rv?.funnel.scanned ?? 100}곳 중 ${rv?.funnel.observable ?? 47}곳 판독, ${rv?.funnel.leads ?? 6}곳 우선 검토. 위의 내용이 이 장입니다.` : `621 km from the Langtang source to Chitwan. ${rv?.funnel.scanned ?? 100} windows, ${rv?.funnel.observable ?? 47} observable, ${rv?.funnel.leads ?? 6} review leads — the chapter above.`}</p>
-            <a href="/map" className="btn">{ko ? '1장 지도' : 'CHAPTER 1 MAP'}</a>
-          </article>
-          <article className="chapter ch2">
-            <small>{ko ? '2장 · 2026년 9월 24~29일' : 'CHAPTER 2 · 24–29 SEP 2026'}</small>
-            <h2>{simple ? (ko ? simple.headline_ko : simple.headline) : (ko ? '몬순 막바지 호우' : 'The late-monsoon rains')}</h2>
-            <p>{ko ? '9월 24~29일 비 뒤 위성 레이더로 보면, 데브갓 아래부터 수스타를 지나 비하르까지 강이 평소보다 크게 변했습니다. 바그마티·코시·라프티·티나우는 대부분 평소 수준이었습니다. 같은 방법으로 본 2024년 9월 홍수는 반대로 바그마티강이 넓어졌습니다.' : 'After the 24–29 Sep rain, satellite radar shows the river changing far more than usual from below Devghat, past Susta, into Bihar. The Bagmati, Koshi, Rapti and Tinau stayed mostly as usual. Measured the same way, the September 2024 flood widened the Bagmati instead.'}</p>
-            {simple && <div className="river-bars" role="img" aria-label="river stretches that changed a lot, 2026 vs 2024">
-              <div className="rb-head"><span /><b>{ko ? '2026년 9월' : 'SEP 2026'}</b><b className="y24">{ko ? '2024년 9월' : 'SEP 2024'}</b></div>
-              {simple.rivers26.filter((r) => r.obs > 0).map((r) => { const r24 = simple.rivers24.find((x) => x.name === r.name); const w = (n: number, o: number) => `${Math.round(100 * n / Math.max(o, 1))}%`; return (
-                <div key={r.name} className="rb-row"><span>{ko ? r.name_ko : r.name}</span>
-                  <div className="rb-bar"><i style={{ width: w(r.big, r.obs) }} /><em>{r.big}<small>/{r.obs}</small></em></div>
-                  <div className="rb-bar y24">{r24 && r24.obs > 0 ? <><i style={{ width: w(r24.big, r24.obs) }} /><em>{r24.big}<small>/{r24.obs}</small></em></> : <em className="na">{ko ? '자료 없음' : 'no pass'}</em>}</div>
-                </div>); })}
-              <p className="rb-note">{ko ? '강을 2.56 km 구간으로 잘라, 평소 몬순 범위를 크게 넘은 구간 수 / 위성이 읽은 구간 수. 피해가 아니라 평소보다 많이 변한 곳입니다.' : 'River cut into 2.56 km stretches: stretches far beyond their ordinary monsoon range / stretches the satellite could read. Change beyond usual, not damage.'}</p>
-            </div>}
-            <p className="note">{ko ? sept.monsoon_status.text_ko : sept.monsoon_status.text}</p>
-            <div className="cta"><a href="/september" className="btn primary">{ko ? '2장 지도 열기' : 'OPEN CHAPTER 2 ON THE MAP'}</a><a href={sept.download} className="btn" download>{ko ? '9월 분석 창 GeoJSON' : 'DOWNLOAD THE SEPTEMBER WINDOWS'}</a></div>
-          </article>
+      <section className="hero ch1-story">
+        <p className="kicker">{ko ? '앞선 장 · 2026년 8월 26일 라수와 돌발 홍수' : 'EARLIER · the Rasuwa flash flood of 26 Aug 2026'}</p>
+        <h1>{ko ? <>위성이 찍은 <em>100곳</em> 가운데<br />먼저 확인할 곳 <em>6곳.</em></> : <><em>100 places</em> imaged from orbit.<br /><em>6</em> to check first.</>}</h1>
+        <p className="sub">{ko ? <>빙하가 무너져 강을 막았다 터진 날, 사건 전후의 위성 사진을 범용 지구 임베딩 모델(<a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2 OlmoEarth v1 Base</a>, 학습 없이 사용)로 비교해 평소보다 크게 달라진 장소만 남겼습니다. 피해를 확정하는 것이 아니라, 사람이 먼저 볼 곳을 좁힙니다.</> : <>The day a glacier collapse dammed and then burst the river, before/after satellite scenes were compared with a general Earth-embedding model (<a href="https://huggingface.co/allenai/OlmoEarth-v1-Base" target="_blank" rel="noreferrer">Ai2 OlmoEarth v1 Base</a>, used without training), keeping only the places that changed more than usual. It does not confirm damage; it narrows where people should look first.</>}</p>
+        <div className="funnel" role="img" aria-label="100 scanned, 47 observable, 6 review leads, 0 confirmed damage labels">
+          <div><b>{rv?.funnel.scanned ?? 100}</b><span>{ko ? '위성이 찍은 곳' : 'scanned'}</span></div><i>→</i>
+          <div><b>{rv?.funnel.observable ?? 47}</b><span>{ko ? '구름 없이 읽힌 곳' : 'observable'}</span></div><i>→</i>
+          <div className="lead"><b>{rv?.funnel.leads ?? 6}</b><span>{ko ? '먼저 확인할 곳' : 'review leads'}</span></div><i>·</i>
+          <div className="zero"><b>0</b><span>{ko ? '확정한 피해' : 'confirmed damage'}</span></div>
         </div>
-      </section>); })()}
+        <div className="cta">
+          <a href="/map" className="btn primary">{ko ? '6곳 지도에서 보기' : 'SEE THE 6 PLACES ON THE MAP'}</a>
+          <a href={rv?.all_observable_download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '자료 내려받기' : 'DOWNLOAD THE DATA'}</a>
+        </div>
+      </section>
 
       <section className="how">
         <p className="kicker">{ko ? '어떻게 작동하나' : 'HOW IT WORKS'}</p>
@@ -95,11 +82,7 @@ export default function Landing() {
           </div>
           <figure><img src={lead?.images.delta ?? '/data/candidates/v003_delta.png'} alt="embedding change" style={{ backgroundImage: `url(${lead?.images.post ?? '/data/candidates/v003_post.png'})`, backgroundSize: 'cover' }} /><figcaption><b>{ko ? '임베딩 변화' : 'EMBEDDING CHANGE'}</b>{ko ? ' — 평소 범위를 넘은 40 m 토큰(주황). 왼쪽 손잡이를 끌어 전후를 비교하세요.' : ' — 40 m tokens beyond their ordinary range (orange). Drag the handle on the left to compare.'}</figcaption></figure>
         </div>
-        <ul className="plain">
-          <li><b>Δz</b> — {ko ? '같은 장소가 사건 전후에 얼마나 달라졌는지를 AI 임베딩으로 측정한 값' : 'how much the same place changed before vs after, measured in the AI embedding'}</li>
-          <li><b>placebo</b> — {ko ? '사건이 없던 일반적인 기간(5~8월)에도 같은 장소가 얼마나 달라지는지 측정한 값으로, 평소 변화의 기준이 됩니다' : 'how much the same place changes in ordinary periods without an event (May–August) — the baseline for "ordinary change"'}</li>
-          <li><b>{ko ? '평소보다 다르게 보이는 비율' : 'share unlike its ordinary self'}</b> — {ko ? '한 창(2.56 km) 안에서 평소 변화 범위를 넘어선 40 m 격자의 비율. 표의 숫자가 이것이며, 피해 면적이 아닙니다.' : 'the share of 40 m cells in a 2.56 km window that moved beyond their ordinary range. This is the number in the table; it is not a damaged area.'}</li>
-        </ul>
+        <p className="how-text">{ko ? '같은 장소를 사건 전과 후에 찍은 위성 사진을 AI 임베딩으로 비교해 얼마나 달라졌는지 잽니다. 그다음, 사건이 없던 평소 몇 주 동안 그 장소가 저절로 얼마나 달라지는지도 같은 방법으로 잽니다. 이 페이지의 숫자는 “평소 변화 범위를 넘은 40 m 격자의 비율”입니다. 피해 면적이 아니라, 평소보다 많이 변한 정도입니다.' : 'The same place is photographed from orbit before and after the event, and an AI embedding measures how much it changed. Then the same method measures how much that place drifts on its own in ordinary weeks with no event. Every number on this page is the share of 40 m cells that moved beyond that ordinary range. It is a measure of unusual change, not a damaged area.'}</p>
       </section>
 
       {lead && (
@@ -142,7 +125,7 @@ export default function Landing() {
         <div className="cta"><a href="/story" className="btn">{ko ? '방법과 근거 전체 읽기' : 'METHODS & FULL EVIDENCE'}</a><a className="btn" href="https://github.com/DDanggle/eo-rasuwa" target="_blank" rel="noreferrer">CODE ↗</a></div>
       </section>
 
-      <aside className="donate-float" aria-label={ko ? '긴급 구호 후원' : 'Emergency relief donations'}>
+      <aside className="donate-inline" aria-label={ko ? '긴급 구호 후원' : 'Emergency relief donations'}>
         <b>{ko ? '후원을 부탁드립니다' : 'Please consider donating'}</b>
         <p>{ko ? '이 페이지는 기부를 받지 않지만, 네팔의 피해에 힘을 보태주시면 훨씬 더 빠른 수색과 회복에 도움이 됩니다. 아래는 네팔 현장에 직접 나가 있는 공인 단체의 후원 링크입니다.' : 'This page takes no donations. If you can help, these accredited organisations are on the ground in Nepal right now — your support speeds the search and the recovery.'}</p>
         <div>

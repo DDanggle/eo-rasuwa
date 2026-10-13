@@ -12,7 +12,7 @@ type September = { event: { reported: string; reported_ko: string }; source_corr
 export default function Landing() {
   const [sc, setSc] = useState<Scenario | null>(null);
   const [sept, setSept] = useState<September | null>(null);
-  type SimpleSummary = { reaches: number; y2026: Record<string, number>; y2024: Record<string, number>; rivers26: { name: string; name_ko: string; big: number; obs: number }[]; rivers24: { name: string; name_ko: string; big: number; obs: number }[]; headline: string; headline_ko: string; headline24: string; headline24_ko: string };
+  type SimpleSummary = { reaches: number; y2026: Record<string, number>; y2024: Record<string, number>; rivers26: { name: string; name_ko: string; big: number; obs: number }[]; rivers24: { name: string; name_ko: string; big: number; obs: number }[]; oct?: { reaches: number; big: number; obs: number; headline?: string; headline_ko?: string }; headline: string; headline_ko: string; headline24: string; headline24_ko: string };
   const [simple, setSimple] = useState<SimpleSummary | null>(null);
   const [ko, setKo] = useState(true);
   // 언어: middleware가 IP 국가로 심은 lang 쿠키 → 없으면 브라우저 언어
@@ -38,6 +38,7 @@ export default function Landing() {
         <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/september" className="nav-link">{ko ? '9월 홍수 지도' : 'SEPTEMBER MAP'}</a><a href="/map" className="nav-link">{ko ? '8월 홍수 지도' : 'AUGUST MAP'}</a><a href="/story" className="nav-link quiet">STORY</a></div>
       </nav>
 
+      {simple?.oct && <a href="/september?ev=1011" className="newsline"><b>{ko ? '새 홍수 · 10월 11일' : 'NEW FLOOD · 11 OCT'}</b><span>{ko ? `고르카 부디 간다키강, 산사태 댐 붕괴. 위성은 홍수보다 먼저 지나가 춤쳇의 산사태만 봤습니다 (${simple.oct.reaches}구간 중 크게 변한 곳 ${simple.oct.big}). 다음 통과 10월 23일.` : `Budhi Gandaki, Gorkha: a landslide dam burst. The satellite passed before the flood and saw only the Chumchet landslide (${simple.oct.big} of ${simple.oct.reaches} stretches changed a lot). Next pass 23 Oct.`}</span><i>→</i></a>}
       <section className="lead-story">
         <p className="kicker">{ko ? '최근 · 2026년 9월 24~29일 몬순 막바지 호우' : 'LATEST · the late-monsoon rains of 24–29 Sep 2026'}</p>
         <h1>{simple ? (ko ? simple.headline_ko : simple.headline) : (ko ? '나라야니강이 인도 국경 너머까지 넓어졌습니다' : 'The Narayani widened past the Indian border')}</h1>

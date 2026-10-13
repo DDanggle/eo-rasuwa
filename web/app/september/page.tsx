@@ -44,8 +44,8 @@ type View = 'now' | 'swipe' | 'diff';
 type Level = 'big' | 'some' | 'normal' | 'unseen' | 'far';
 type S2Meta = { pre: string; post: string } | null;
 type Trend = 'recede' | 'hold' | 'grow' | null;
-type Place = { name: string; name_ko: string; lonlat: [number, number]; lv26: Level; lv24: Level; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number>; focus_lonlat?: [number, number]; focus_window?: string; focus_river?: string; rivers?: string[]; rivers_ko?: string[]; big26?: number; obs26?: number; big24?: number; obs24?: number; gfm_agree?: number; nearest_big?: { km: number; lonlat: [number, number]; river: string; river_ko: string; window: string } | null };
-type Answer = { title: string; title_ko: string; lv26: Level; lv24: Level; window?: string; river?: string; has24: boolean; gfm: 'agree' | 'disagree' | 'none'; nearest_big?: Place['nearest_big']; count26?: [string, string]; count24?: [string, string]; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number> };
+type Place = { name: string; name_ko: string; lonlat: [number, number]; lv26: Level; lv24: Level; ev?: 'sep' | 'oct'; lv1011?: Level; big1011?: number; obs1011?: number; s2b?: S2Meta; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number>; focus_lonlat?: [number, number]; focus_window?: string; focus_river?: string; rivers?: string[]; rivers_ko?: string[]; big26?: number; obs26?: number; big24?: number; obs24?: number; gfm_agree?: number; nearest_big?: { km: number; lonlat: [number, number]; river: string; river_ko: string; window: string } | null };
+type Answer = { title: string; title_ko: string; lv26: Level; lv24: Level; ev?: 'sep' | 'oct'; lv1011?: Level; count1011?: [string, string]; s2b?: S2Meta; window?: string; river?: string; has24: boolean; gfm: 'agree' | 'disagree' | 'none'; nearest_big?: Place['nearest_big']; count26?: [string, string]; count24?: [string, string]; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number> };
 const TREND_TEXT: Record<'recede' | 'hold' | 'grow', [string, string]> = { recede: ['10월 3일 레이더에선 변화가 줄었습니다 — 빠지는 중', 'Radar on 3 Oct shows less change — receding'], hold: ['10월 3일 레이더에서도 그대로입니다', 'Radar on 3 Oct shows the same — still changed'], grow: ['10월 3일 레이더에선 변화가 더 커졌습니다', 'Radar on 3 Oct shows more change'] };
 const LV_COLOR: Record<Level, string> = { big: '#d7301f', some: '#f59e42', normal: '#9db8cc', unseen: '#a3a3a3', far: '#a3a3a3' };
 const LV_TEXT: Record<Level, [string, string]> = {
@@ -95,7 +95,7 @@ export default function SeptemberPage() {
   const [mapReady, setMapReady] = useState(false);
   const [cmp, setCmp] = useState<Compare | null>(null);
   const [expert, setExpert] = useState(false);          // 기본은 쉬운 화면
-  const [year, setYear] = useState<'2026' | '2024'>('2026');
+  const [year, setYear] = useState<'2026' | '2024' | '1011'>('2026');   // '1011' = 10월 11일 부디 간다키(다른 사건·다른 강, 같은 방법)
   const [places, setPlaces] = useState<Place[]>([]);
   const [answer, setAnswer] = useState<Answer | null>(null);
   const [query, setQuery] = useState('');
@@ -103,7 +103,8 @@ export default function SeptemberPage() {
   const [cardSwipe, setCardSwipe] = useState(50);
   const [headOpen, setHeadOpen] = useState(true);
   const [photo, setPhoto] = useState<'radar' | 'a85' | 's2'>('radar');
-  const expertRef = useRef(false); const yearRef = useRef<'2026' | '2024'>('2026');
+  const expertRef = useRef(false); const yearRef = useRef<'2026' | '2024' | '1011'>('2026'); const fitYearRef = useRef<string>('2026');
+  const [octHead, setOctHead] = useState<{ ko: string; en: string } | null>(null);
   const pickReachRef = useRef<(pr: Record<string, unknown>) => void>(() => {});   // 지도 클릭 핸들러가 최신 함수를 보게
   const [view, setView] = useState<View>('now');
   const [split, setSplit] = useState(60);   // 바그마티 오른쪽에서 시작: 처음엔 두 강 모두 2024, 왼쪽으로 끌면 바그마티→나라야니 순으로 2026 이 드러난다
@@ -120,6 +121,8 @@ export default function SeptemberPage() {
     document.body.classList.add('sept-body');
     try { const m = document.cookie.match(/(?:^|; )lang=(ko|en)/); if (m) setKo(m[1] === 'ko'); else if (!navigator.language.toLowerCase().startsWith('ko')) setKo(false); } catch { /* noop */ }  // eslint-disable-line react-hooks/set-state-in-effect
     fetch('/data/september.json').then((r) => r.json() as Promise<September>).then(setSept).catch(() => undefined);
+    try { if (new URLSearchParams(window.location.search).get('ev') === '1011') { setYear('1011'); } } catch { /* noop */ }
+    fetch('/data/september-simple-summary.json').then((r) => (r.ok ? r.json() : null)).then((j) => { if (j?.oct?.headline_ko) setOctHead({ ko: j.oct.headline_ko, en: j.oct.headline }); }).catch(() => undefined);
     fetch('/data/september-places.json').then((r) => (r.ok ? r.json() as Promise<Place[]> : [])).then(setPlaces).catch(() => undefined);
     fetch('/data/september-compare.json').then((r) => (r.ok ? r.json() as Promise<Compare> : null)).then(setCmp).catch(() => undefined);
     fetch('/data/september-windows.geojson').then((r) => r.json() as Promise<FeatureCollection>).then(setGeo).catch(() => undefined);
@@ -180,10 +183,10 @@ export default function SeptemberPage() {
       // 종이색 한 겹: 배경 지도를 눌러 리본만 튀게(Upshot/Guardian 식). 자세히 보기에선 걷는다.
       map.addLayer({ id: 'wash', type: 'background', paint: { 'background-color': '#f6f5f1', 'background-opacity': 0.55 } });
       map.addSource('simple', { type: 'geojson', data: '/data/september-simple.geojson' });
-      map.addLayer({ id: 'simple-casing', type: 'line', source: 'simple', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 6, 9, 9, 13, 20] } });
-      map.addLayer({ id: 'simple-unseen', type: 'line', source: 'simple', filter: ['==', ['get', 'lv26'], 'unseen'], layout: { 'line-cap': 'butt' }, paint: { 'line-color': LV_COLOR.unseen, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 2, 13, 7], 'line-dasharray': [1.2, 1.4] } });
-      map.addLayer({ id: 'simple-line', type: 'line', source: 'simple', filter: ['!=', ['get', 'lv26'], 'unseen'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': lvExpr('lv26'), 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 3.5, 9, 6, 13, 15] } });
-      map.addLayer({ id: 'simple-hit', type: 'line', source: 'simple', paint: { 'line-color': '#000', 'line-opacity': 0.001, 'line-width': 24 } });
+      map.addLayer({ id: 'simple-casing', type: 'line', source: 'simple', filter: ['==', ['get', 'ev'], 'sep'], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 6, 9, 9, 13, 20] } });
+      map.addLayer({ id: 'simple-unseen', type: 'line', source: 'simple', filter: ['all', ['==', ['get', 'ev'], 'sep'], ['==', ['get', 'lv26'], 'unseen']], layout: { 'line-cap': 'butt' }, paint: { 'line-color': LV_COLOR.unseen, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 2, 13, 7], 'line-dasharray': [1.2, 1.4] } });
+      map.addLayer({ id: 'simple-line', type: 'line', source: 'simple', filter: ['all', ['==', ['get', 'ev'], 'sep'], ['!=', ['get', 'lv26'], 'unseen']], layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': lvExpr('lv26'), 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 3.5, 9, 6, 13, 15] } });
+      map.addLayer({ id: 'simple-hit', type: 'line', source: 'simple', filter: ['==', ['get', 'ev'], 'sep'], paint: { 'line-color': '#000', 'line-opacity': 0.001, 'line-width': 24 } });
       map.addSource('rlabels', { type: 'geojson', data: '/data/september-river-labels.geojson' });
       map.addLayer({ id: 'rlabels', type: 'symbol', source: 'rlabels', filter: ['==', ['get', 'year'], '2026'],
         layout: { 'text-field': ['get', 'ko'], 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-size': ['interpolate', ['linear'], ['zoom'], 6, 12, 9, 15], 'text-anchor': 'left', 'text-offset': [0.9, 0], 'text-max-width': 14, 'text-allow-overlap': false, 'symbol-sort-key': ['match', ['get', 'lv'], 'big', 0, 'some', 1, 2] },
@@ -230,10 +233,14 @@ export default function SeptemberPage() {
   useEffect(() => {
     expertRef.current = expert; yearRef.current = year;
     const m = mapRef.current; if (!m || !mapReady) return;
-    const prop = year === '2024' ? 'lv24' : 'lv26';
+    const prop = year === '2024' ? 'lv24' : year === '1011' ? 'lv1011' : 'lv26'; const ev = year === '1011' ? 'oct' : 'sep';
     for (const id of ['simple-casing', 'simple-line', 'simple-unseen', 'simple-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', expert ? 'none' : 'visible');
-    if (m.getLayer('simple-line')) { m.setPaintProperty('simple-line', 'line-color', lvExpr(prop)); m.setFilter('simple-line', ['!=', ['get', prop], 'unseen']); }
-    if (m.getLayer('simple-unseen')) m.setFilter('simple-unseen', ['==', ['get', prop], 'unseen']);
+    if (m.getLayer('simple-line')) { m.setPaintProperty('simple-line', 'line-color', lvExpr(prop)); m.setFilter('simple-line', ['all', ['==', ['get', 'ev'], ev], ['!=', ['get', prop], 'unseen']]); }
+    if (m.getLayer('simple-unseen')) m.setFilter('simple-unseen', ['all', ['==', ['get', 'ev'], ev], ['==', ['get', prop], 'unseen']]);
+    for (const id of ['simple-casing', 'simple-hit']) if (m.getLayer(id)) m.setFilter(id, ['==', ['get', 'ev'], ev]);
+    // 탭을 바꾸면 그 사건의 강이 다 보이게
+    if (fitYearRef.current !== year && !expert) { fitYearRef.current = year; const narrow = window.innerWidth < 900; const b: [number, number, number, number] = year === '1011' ? [84.55, 27.72, 85.15, 28.56] : [83.4, 26.4, 87.2, 27.9];
+      m.fitBounds(new LngLatBounds([b[0], b[1]], [b[2], b[3]]), { padding: narrow ? { top: 300, right: 16, bottom: 24, left: 16 } : { top: 80, right: 40, bottom: 40, left: 400 }, duration: 600 }); }
     for (const id of ['rlabels', 'rlabels-dot']) if (m.getLayer(id)) { m.setFilter(id, ['==', ['get', 'year'], year]); m.setLayoutProperty(id, 'visibility', expert ? 'none' : 'visible'); }
     if (m.getLayer('rlabels')) m.setLayoutProperty('rlabels', 'text-field', ['get', ko ? 'ko' : 'en']);
     if (m.getLayer('wash')) m.setLayoutProperty('wash', 'visibility', expert ? 'none' : 'visible');
@@ -285,18 +292,20 @@ export default function SeptemberPage() {
     setCardSwipe(50); setPhoto('radar');
     setAnswer({ title: `${String(pr.name)} · ${Number(pr.km).toFixed(0)} km`, title_ko: `${String(pr.name_ko)} · ${Number(pr.km).toFixed(0)} km 지점`, lv26, lv24: String(pr.lv24) as Level, window: pr.window ? String(pr.window) : undefined, river: String(pr.river),
       has24: pr.has24 === true || pr.has24 === 'true', gfm: g == null || lv26 === 'unseen' ? 'none' : g > 0.01 ? 'agree' : 'disagree',
-      lv1003: (pr.lv1003 ? String(pr.lv1003) : 'unseen') as Level, trend: (pr.trend ? String(pr.trend) : null) as Trend, s2: typeof pr.s2 === 'string' ? JSON.parse(pr.s2) as S2Meta : (pr.s2 as S2Meta) ?? null });
+      lv1003: (pr.lv1003 ? String(pr.lv1003) : 'unseen') as Level, trend: (pr.trend ? String(pr.trend) : null) as Trend, s2: typeof pr.s2 === 'string' ? JSON.parse(pr.s2) as S2Meta : (pr.s2 as S2Meta) ?? null,
+      ev: pr.ev === 'oct' ? 'oct' : 'sep', lv1011: (pr.lv1011 ? String(pr.lv1011) : 'unseen') as Level, s2b: typeof pr.s2b === 'string' ? JSON.parse(pr.s2b) as S2Meta : (pr.s2b as S2Meta) ?? null });
   }, []);
   useEffect(() => { pickReachRef.current = pickReach; }, [pickReach]);
   const pickPlace = (p: Place) => {
     setQuery(ko ? p.name_ko : p.name); setCardSwipe(50); setPhoto('radar');
-    fly(p.focus_lonlat ?? p.lonlat, p.lv26 === 'far' ? 9 : 11.2);
+    fly(p.focus_lonlat ?? p.lonlat, (p.ev === 'oct' ? p.lv1011 : p.lv26) === 'far' ? 9 : 11.2);
     const cnt = (big?: number, obs?: number): [string, string] | undefined => obs ? [`반경 8 km 안 강 구간 ${obs}곳 중 ${big}곳이 크게 변함`, `${big} of ${obs} river stretches within 8 km changed a lot`] : undefined;
     setPicked(true);
     setAnswer({ title: p.name, title_ko: p.name_ko, lv26: p.lv26, lv24: p.lv24, window: p.focus_window, river: p.focus_river, has24: (p.obs24 ?? 0) > 0,
-      gfm: p.lv26 === 'far' || p.lv26 === 'unseen' ? 'none' : (p.gfm_agree ?? 0) > 0 ? 'agree' : p.lv26 === 'big' ? 'disagree' : 'none', nearest_big: p.lv26 === 'big' ? null : p.nearest_big, count26: cnt(p.big26, p.obs26), count24: cnt(p.big24, p.obs24), lv1003: p.lv1003, trend: p.trend ?? null, s2: p.s2 ?? null, trend_counts: p.trend_counts });
+      gfm: p.lv26 === 'far' || p.lv26 === 'unseen' ? 'none' : (p.gfm_agree ?? 0) > 0 ? 'agree' : p.lv26 === 'big' ? 'disagree' : 'none', nearest_big: p.lv26 === 'big' ? null : p.nearest_big, count26: cnt(p.big26, p.obs26), count24: cnt(p.big24, p.obs24), lv1003: p.lv1003, trend: p.trend ?? null, s2: p.s2 ?? null, trend_counts: p.trend_counts,
+      ev: p.ev ?? 'sep', lv1011: p.lv1011 ?? 'far', count1011: cnt(p.big1011, p.obs1011), s2b: p.s2b ?? null });
   };
-  const matches = useMemo(() => { const q = query.trim().toLowerCase(); if (!q) return [] as Place[]; return places.filter((p) => p.name.toLowerCase().includes(q) || p.name_ko.includes(query.trim())).slice(0, 6); }, [query, places]);
+  const matches = useMemo(() => { const q = query.trim().toLowerCase(); if (!q) return [] as Place[]; return places.filter((p) => (p.ev ?? 'sep') === (year === '1011' ? 'oct' : 'sep')).filter((p) => p.name.toLowerCase().includes(q) || p.name_ko.includes(query.trim())).slice(0, 6); }, [query, places, year]);
   const leads = useMemo(() => (sept?.fused_top ?? []).filter((f) => f.fused_frac >= 0.05), [sept]);
   const sites = useMemo(() => SITE_ORDER.map((k) => [k, sept?.flood_sites[k]] as const).filter((x) => x[1]) as [string, Site][], [sept]);
   const hasS2 = (site: string) => !!sept?.frames.s2_sites.includes(site);
@@ -326,16 +335,20 @@ export default function SeptemberPage() {
       {!expert && (
         <section className={`simple-head ${headOpen ? '' : 'is-closed'}`}>
           <button className="head-toggle" onClick={() => setHeadOpen((v) => !v)} aria-expanded={headOpen}>{headOpen ? (ko ? '접기' : 'HIDE') : (ko ? '설명' : 'ABOUT')}</button>
-          <p className="kicker"><span className={year === '2026' ? 'on' : ''} onClick={() => setYear('2026')} role="tab" aria-selected={year === '2026'}>{ko ? '2026년 9월' : 'September 2026'}</span><span className={year === '2024' ? 'on' : ''} onClick={() => setYear('2024')} role="tab" aria-selected={year === '2024'}>{ko ? '2024년 9월' : 'September 2024'}</span></p>
-          <h1>{year === '2026'
+          <p className="kicker"><span className={year === '2026' ? 'on' : ''} onClick={() => setYear('2026')} role="tab" aria-selected={year === '2026'}>{ko ? '2026년 9월' : 'September 2026'}</span><span className={year === '2024' ? 'on' : ''} onClick={() => setYear('2024')} role="tab" aria-selected={year === '2024'}>{ko ? '2024년 9월' : 'September 2024'}</span><span className={year === '1011' ? 'on new' : 'new'} onClick={() => { setYear('1011'); setAnswer(null); setQuery(''); }} role="tab" aria-selected={year === '1011'}>{ko ? '10월 11일 · 새 홍수' : '11 Oct · new flood'}</span></p>
+          <h1>{year === '1011'
+            ? (octHead ? (ko ? octHead.ko : octHead.en) : (ko ? <>부디 간다키강, <em>산사태 댐이 터진 날</em> 아침의 위성</> : <>The Budhi Gandaki, <em>the morning the landslide dam burst</em></>))
+            : year === '2026'
             ? (ko ? <>나라야니강이 <em>인도 국경 너머까지</em> 넓어졌습니다</> : <>The Narayani widened <em>all the way into India</em></>)
             : (ko ? <>2024년엔 <em>바그마티강</em>이 넓어졌습니다</> : <>In 2024 it was the <em>Bagmati</em> that widened</>)}</h1>
-          <p className="dek">{year === '2026'
+          <p className="dek">{year === '1011'
+            ? (ko ? '10월 11일 새벽 고르카 춤쳇 위 산사태가 강을 막았다 터졌습니다. 레이더 위성은 그날 아침 6시 3분, 홍수파가 하류에 닿기 전에 지나갔습니다. 빨간 구간은 춤쳇의 산사태 하나뿐이고 하류는 아직 평소 수준입니다. 홍수 뒤 모습은 10월 23일 다음 통과에서 잽니다.' : 'Before dawn on 11 Oct a landslide above Chumchet, Gorkha, dammed the river and the dam burst. The radar satellite passed at 06:03, before the flood wave reached downstream. The only red stretch is the Chumchet landslide itself; downstream is still as usual. The next pass on 23 Oct will measure the aftermath.')
+            : year === '2026'
             ? (ko ? '9월 24~29일 비가 그친 뒤 위성 레이더로 본 강. 빨간 구간이 평소 몬순보다 크게 변한 곳이고, 하늘색은 평소 수준입니다. 바그마티·코시는 조용했습니다.' : 'The rivers seen by satellite radar after the 24–29 Sep rain. Red stretches changed far more than in an ordinary monsoon; light blue is as usual. The Bagmati and Koshi were quiet.')
             : (ko ? '같은 방법으로 본 2024년 9월 홍수. 그해에는 바그마티강 52구간 중 34곳이 크게 변했고, 나라야니는 평소 수준이었습니다.' : 'The September 2024 flood measured the same way. That year 34 of 52 Bagmati stretches changed a lot and the Narayani stayed as usual.')}</p>
           <div className="search">
-            <input value={query} onChange={(e) => { setQuery(e.target.value); setPicked(false); }} placeholder={ko ? '동네 이름을 넣어 보세요 — 수스타, 데브갓, 부트왈…' : 'Type a place — Susta, Devghat, Butwal…'} aria-label="search place" />
-            {matches.length > 0 && !picked && <ul>{matches.map((p) => <li key={p.name}><button onClick={() => pickPlace(p)}><b>{ko ? p.name_ko : p.name}</b><i style={{ background: LV_COLOR[p.lv26] }} /><span>{ko ? LV_SHORT[p.lv26][0] : LV_SHORT[p.lv26][1]}</span></button></li>)}</ul>}
+            <input value={query} onChange={(e) => { setQuery(e.target.value); setPicked(false); }} placeholder={year === '1011' ? (ko ? '동네 이름 — 춤쳇, 자갓, 아루갓…' : 'Type a place — Chumchet, Jagat, Arughat…') : (ko ? '동네 이름을 넣어 보세요 — 수스타, 데브갓, 부트왈…' : 'Type a place — Susta, Devghat, Butwal…')} aria-label="search place" />
+            {matches.length > 0 && !picked && <ul>{matches.map((p) => <li key={p.name}><button onClick={() => pickPlace(p)}><b>{ko ? p.name_ko : p.name}</b><i style={{ background: LV_COLOR[year === '1011' ? (p.lv1011 ?? 'far') : p.lv26] }} /><span>{ko ? LV_SHORT[year === '1011' ? (p.lv1011 ?? 'far') : p.lv26][0] : LV_SHORT[year === '1011' ? (p.lv1011 ?? 'far') : p.lv26][1]}</span></button></li>)}</ul>}
           </div>
           <small>{ko ? '피해 지도가 아닙니다. 같은 곳의 평소 몬순 변화와 견주어 "평소보다 많이 변한 곳"을 보여줍니다. 강을 누르면 전후 사진이 열립니다.' : 'Not a damage map. It shows where the river changed more than in an ordinary monsoon at the same place. Tap a river for before/after.'}</small>
         </section>
@@ -344,33 +357,41 @@ export default function SeptemberPage() {
         <section className="answer-card" aria-live="polite">
           <button className="x" onClick={() => setAnswer(null)} aria-label="close">×</button>
           <p className="where">{ko ? answer.title_ko : answer.title}</p>
-          <h2><i style={{ background: LV_COLOR[year === '2024' ? answer.lv24 : answer.lv26] }} />{ko ? LV_TEXT[year === '2024' ? answer.lv24 : answer.lv26][0] : LV_TEXT[year === '2024' ? answer.lv24 : answer.lv26][1]}</h2>
-          <p className="when">{year === '2024' ? (ko ? '2024년 10월 2일 레이더 · 9월 27~28일 홍수 뒤' : 'Radar 2 Oct 2024 · after the 27–28 Sep flood') : (ko ? '2026년 9월 29일 레이더 · 9월 24~29일 비 뒤' : 'Radar 29 Sep 2026 · after the 24–29 Sep rain')}</p>
-          {(() => { const c = year === '2024' ? answer.count24 : answer.count26; return c ? <p className="count">{ko ? c[0] : c[1]}</p> : null; })()}
-          {year === '2026' && answer.gfm === 'agree' && <p className="chip ok">✓ {ko ? '유럽 코페르니쿠스 홍수 지도도 같은 곳을 물에 잠긴 곳으로 봤습니다' : 'The EU Copernicus flood map also marks this as flooded'}</p>}
-          {year === '2026' && answer.gfm === 'disagree' && answer.lv26 === 'big' && <p className="chip warn">{ko ? '코페르니쿠스 홍수 지도는 여기를 잠긴 곳으로 보지 않았습니다 — 물이 덮였다기보다 강 모양이 바뀌었을 수 있습니다' : 'Copernicus does not mark this as flooded — more likely the channel changed shape than land went under water'}</p>}
-          {year === '2026' && answer.trend && answer.lv26 !== 'normal' && <p className={`trend ${answer.trend}`}>{ko ? TREND_TEXT[answer.trend][0] : TREND_TEXT[answer.trend][1]}{answer.trend_counts && (answer.trend_counts.recede || 0) + (answer.trend_counts.hold || 0) > 1 && <small> · {ko ? `주변 구간: 그대로 ${answer.trend_counts.hold ?? 0}, 줄어듦 ${answer.trend_counts.recede ?? 0}` : `nearby: same ${answer.trend_counts.hold ?? 0}, less ${answer.trend_counts.recede ?? 0}`}</small>}</p>}
-          {year === '2026' && answer.window && (answer.lv1003 !== 'unseen' || answer.s2) && <div className="photo-seg" role="tablist">
+          {(() => { const L = answer.ev === 'oct' ? (answer.lv1011 ?? 'unseen') : year === '2024' ? answer.lv24 : answer.lv26; return <h2><i style={{ background: LV_COLOR[L] }} />{ko ? LV_TEXT[L][0] : LV_TEXT[L][1]}</h2>; })()}
+          <p className="when">{answer.ev === 'oct' ? (ko ? '2026년 10월 11일 06:03 레이더 · 산사태 댐 붕괴 직후' : 'Radar 11 Oct 2026, 06:03 · right after the dam burst') : year === '2024' ? (ko ? '2024년 10월 2일 레이더 · 9월 27~28일 홍수 뒤' : 'Radar 2 Oct 2024 · after the 27–28 Sep flood') : (ko ? '2026년 9월 29일 레이더 · 9월 24~29일 비 뒤' : 'Radar 29 Sep 2026 · after the 24–29 Sep rain')}</p>
+          {(() => { const c = answer.ev === 'oct' ? answer.count1011 : year === '2024' ? answer.count24 : answer.count26; return c ? <p className="count">{ko ? c[0] : c[1]}</p> : null; })()}
+          {answer.ev !== 'oct' && year === '2026' && answer.gfm === 'agree' && <p className="chip ok">✓ {ko ? '유럽 코페르니쿠스 홍수 지도도 같은 곳을 물에 잠긴 곳으로 봤습니다' : 'The EU Copernicus flood map also marks this as flooded'}</p>}
+          {answer.ev !== 'oct' && year === '2026' && answer.gfm === 'disagree' && answer.lv26 === 'big' && <p className="chip warn">{ko ? '코페르니쿠스 홍수 지도는 여기를 잠긴 곳으로 보지 않았습니다 — 물이 덮였다기보다 강 모양이 바뀌었을 수 있습니다' : 'Copernicus does not mark this as flooded — more likely the channel changed shape than land went under water'}</p>}
+          {answer.ev !== 'oct' && year === '2026' && answer.trend && answer.lv26 !== 'normal' && <p className={`trend ${answer.trend}`}>{ko ? TREND_TEXT[answer.trend][0] : TREND_TEXT[answer.trend][1]}{answer.trend_counts && (answer.trend_counts.recede || 0) + (answer.trend_counts.hold || 0) > 1 && <small> · {ko ? `주변 구간: 그대로 ${answer.trend_counts.hold ?? 0}, 줄어듦 ${answer.trend_counts.recede ?? 0}` : `nearby: same ${answer.trend_counts.hold ?? 0}, less ${answer.trend_counts.recede ?? 0}`}</small>}</p>}
+          {answer.ev === 'oct' && answer.window && answer.s2b && <div className="photo-seg" role="tablist">
+            <button role="tab" aria-selected={photo === 'radar'} className={photo === 'radar' ? 'is-active' : ''} onClick={() => setPhoto('radar')}>{ko ? '레이더 10/11' : 'RADAR 11 OCT'}</button>
+            <button role="tab" aria-selected={photo === 's2'} className={photo === 's2' ? 'is-active' : ''} onClick={() => setPhoto('s2')}>{ko ? '실제 색 사진' : 'TRUE COLOUR'}</button>
+          </div>}
+          {answer.ev !== 'oct' && year === '2026' && answer.window && (answer.lv1003 !== 'unseen' || answer.s2) && <div className="photo-seg" role="tablist">
             <button role="tab" aria-selected={photo === 'radar'} className={photo === 'radar' ? 'is-active' : ''} onClick={() => setPhoto('radar')}>{ko ? '레이더 9/29' : 'RADAR 29 SEP'}</button>
             {answer.lv1003 !== 'unseen' && <button role="tab" aria-selected={photo === 'a85'} className={photo === 'a85' ? 'is-active' : ''} onClick={() => setPhoto('a85')}>{ko ? '레이더 10/3' : 'RADAR 3 OCT'}</button>}
             {answer.s2 && <button role="tab" aria-selected={photo === 's2'} className={photo === 's2' ? 'is-active' : ''} onClick={() => setPhoto('s2')}>{ko ? '실제 색 사진' : 'TRUE COLOUR'}</button>}
           </div>}
-          {answer.window && (() => { const suf = year === '2024' && answer.has24 ? '_y24' : photo === 'a85' ? '_a85' : photo === 's2' ? '_s2' : ''; return (
+          {answer.window && (() => { const suf = answer.ev === 'oct' ? (photo === 's2' ? '_s2' : '_b19') : year === '2024' && answer.has24 ? '_y24' : photo === 'a85' ? '_a85' : photo === 's2' ? '_s2' : ''; return (
             <div className="card-swipe story-swipe" style={{ ['--swipe' as string]: `${cardSwipe}%` }}>
               <img src={`${FR}/${answer.window}${suf}_post.jpg`} alt="after" />
               <div className="swipe-clip"><img src={`${FR}/${answer.window}${suf}_pre.jpg`} alt="before" /></div>
-              <div className="swipe-bar" /><span className="swipe-label pre">{ko ? '비 전' : 'BEFORE'}</span><span className="swipe-label post">{ko ? '비 후' : 'AFTER'}</span>
+              <div className="swipe-bar" /><span className="swipe-label pre">{ko ? (answer.ev === 'oct' ? '전' : '비 전') : 'BEFORE'}</span><span className="swipe-label post">{ko ? (answer.ev === 'oct' ? '후' : '비 후') : 'AFTER'}</span>
               <input type="range" min={0} max={100} value={cardSwipe} aria-label="before / after" onChange={(e) => setCardSwipe(Number(e.target.value))} />
             </div>); })()}
-          {answer.window && <p className="cap">{photo === 's2' && year === '2026' && answer.s2
+          {answer.window && <p className="cap">{answer.ev === 'oct'
+            ? (photo === 's2' && answer.s2b
+              ? (ko ? `Sentinel-2 실제 색(2.56 km). 전 ${answer.s2b.pre.slice(5).replace('-', '/')} → 후 ${answer.s2b.post.slice(5).replace('-', '/')} 10:42. 구름은 흰색.` : `Sentinel-2 true colour (2.56 km). Before ${answer.s2b.pre} → after ${answer.s2b.post} 10:42. Clouds are white.`)
+              : (ko ? '위성 레이더, 10월 11일 06:03. 전 = 9/5·9/17·9/29 중앙값. 짙은 보라·검정이 물, 노랑이 마른 땅.' : 'Satellite radar, 11 Oct 06:03. Before = median of 5, 17 and 29 Sep. Dark purple/black is water, yellow is dry ground.'))
+            : photo === 's2' && year === '2026' && answer.s2
             ? (ko ? `Sentinel-2 실제 색(2.56 km). 비 전 ${answer.s2.pre.slice(5).replace('-', '/')} → 비 후 ${answer.s2.post.slice(5).replace('-', '/')}. 구름은 흰색.` : `Sentinel-2 true colour (2.56 km). Before ${answer.s2.pre} → after ${answer.s2.post}. Clouds are white.`)
             : photo === 'a85' && year === '2026'
             ? (ko ? '위성 레이더, 10월 3일(다른 궤도). 비 전 = 8/28·9/9·9/21 중앙값. 짙은 보라·검정이 물.' : 'Satellite radar, 3 Oct (a different orbit). Before = median of 28 Aug, 9 and 21 Sep. Dark purple/black is water.')
             : (ko ? '위성 레이더 사진(2.56 km). 짙은 보라·검정이 물, 초록이 숲·논, 노랑이 마른 땅. 손잡이를 끌어 비교하세요.' : 'Satellite radar (2.56 km). Dark purple/black is water, green is forest and fields, yellow is dry ground. Drag to compare.')}</p>}
-          <p className="other">{year === '2026'
+          {answer.ev !== 'oct' && <p className="other">{year === '2026'
             ? <>{ko ? '2024년 9월 홍수 때는: ' : 'In the Sep 2024 flood: '}<b style={{ color: answer.lv24 === 'big' ? LV_COLOR.big : undefined }}>{ko ? LV_SHORT[answer.lv24][0] : LV_SHORT[answer.lv24][1]}</b>{answer.lv24 === 'unseen' && (ko ? ' (같은 궤도 자료 없음)' : ' (no matching pass)')}</>
-            : <>{ko ? '2026년 9월에는: ' : 'In Sep 2026: '}<b style={{ color: answer.lv26 === 'big' ? LV_COLOR.big : undefined }}>{ko ? LV_SHORT[answer.lv26][0] : LV_SHORT[answer.lv26][1]}</b></>}</p>
-          {year === '2026' && answer.nearest_big && <button className="go" onClick={() => { fly(answer.nearest_big!.lonlat, 11.5); }}>{ko ? `가장 가까운 큰 변화: ${answer.nearest_big.river_ko} · ${answer.nearest_big.km} km →` : `Nearest big change: ${answer.nearest_big.river} · ${answer.nearest_big.km} km →`}</button>}
+            : <>{ko ? '2026년 9월에는: ' : 'In Sep 2026: '}<b style={{ color: answer.lv26 === 'big' ? LV_COLOR.big : undefined }}>{ko ? LV_SHORT[answer.lv26][0] : LV_SHORT[answer.lv26][1]}</b></>}</p>}
+          {answer.ev !== 'oct' && year === '2026' && answer.nearest_big && <button className="go" onClick={() => { fly(answer.nearest_big!.lonlat, 11.5); }}>{ko ? `가장 가까운 큰 변화: ${answer.nearest_big.river_ko} · ${answer.nearest_big.km} km →` : `Nearest big change: ${answer.nearest_big.river} · ${answer.nearest_big.km} km →`}</button>}
         </section>
       )}
       {expert && <header className="sept-topbar">

@@ -17,6 +17,10 @@ RN = {"river_narayani": ("Narayani", "나라야니강"), "xriver_narayani": ("Ga
 # M109: 10-03 궤도 85(다른 각도) 계급 — 절대값 비교 금지, 계급만. s2 = 실색 전후 사진 유무(날짜).
 A85 = {w["id"]: w for w in json.loads((ART / "terai_radar_scan_a85/report.json").read_text())["windows"] if w["status"] == "ranked"} if (ART / "terai_radar_scan_a85/report.json").exists() else {}
 S2 = json.loads((ART / "terai_radar_scan_a85/s2_frames.json").read_text()) if (ART / "terai_radar_scan_a85/s2_frames.json").exists() else {}
+# M110: 10-11 부디 간다키(고르카 Chumchet 산사태댐 붕괴) — 다른 사건, 다른 강. 같은 궤도 19·같은 3v1 계약. 구간은 ev="oct" 로 구분.
+B19 = {w["id"]: w for w in json.loads((ART / "terai_radar_scan_b19/report.json").read_text())["windows"] if w["status"] == "ranked"} if (ART / "terai_radar_scan_b19/report.json").exists() else {}
+S2B = json.loads((ART / "terai_radar_scan_b19/s2_frames.json").read_text()) if (ART / "terai_radar_scan_b19/s2_frames.json").exists() else {}
+BG = json.loads((ART / "terai_radar_scan_b19/budhi_ribbon_geom.geojson").read_text())["features"] if (ART / "terai_radar_scan_b19/budhi_ribbon_geom.geojson").exists() else []
 RANKL = {"big": 3, "some": 2, "normal": 1}
 def lv(f): return "unseen" if f is None else "big" if f >= 0.05 else "some" if f >= 0.02 else "normal"
 feats = []
@@ -29,9 +33,18 @@ for f in rib["features"]:
     a = A85.get(w); q["lv1003"] = lv(a["candidate_token_frac"]) if a else "unseen"; q["f1003"] = a["candidate_token_frac"] if a else None
     # 추이: 10-03 계급 < 09-29 계급 → 빠지는 중(recede), 같음 → 여전히(hold), 커짐 → 늘어남(grow); 어느 한쪽 못 봄 → None
     q["trend"] = None if (q["lv1003"] == "unseen" or q["lv26"] == "unseen") else ("recede" if RANKL[q["lv1003"]] < RANKL[q["lv26"]] else "grow" if RANKL[q["lv1003"]] > RANKL[q["lv26"]] else "hold")
-    q["s2"] = S2.get(w)
+    q["s2"] = S2.get(w); q["ev"] = "sep"
     feats.append({"type": "Feature", "geometry": f["geometry"], "properties": q})
+oct_feats = []
+for f in BG:
+    p = f["properties"]; w = p["window"]; b = B19.get(w)
+    q = {"river": "xriver_budhi_gandaki", "name": "Budhi Gandaki", "name_ko": "부디 간다키강", "window": w, "km": p["km"], "ev": "oct",
+         "lv26": "unseen", "lv24": "unseen", "f26": None, "f24": None, "nw26": None, "gfm26": None, "has24": False, "agree": False, "lv1003": "unseen", "f1003": None, "trend": None, "s2": None,
+         "lv1011": lv(b["candidate_token_frac"]) if b else "unseen", "f1011": b["candidate_token_frac"] if b else None, "nw1011": (b.get("water_new_frac_event") if b else None), "s2b": S2B.get(w)}
+    oct_feats.append({"type": "Feature", "geometry": f["geometry"], "properties": q})
+feats += oct_feats
 (PUB / "september-simple.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": feats}, separators=(",", ":")))
+sep_feats = [f for f in feats if f["properties"]["ev"] == "sep"]; feats_all = feats; feats = sep_feats
 
 # 지명: 강 가까운 도시·마을(뉴스에 나온 곳 + 주요 도시). 좌표는 공개 지명 중심점.
 PLACES = [("Devghat", "데브갓", 84.425, 27.720), ("Narayangadh / Bharatpur", "나라얀가드·바라트푸르", 84.43, 27.69), ("Gaindakot", "가인다코트", 84.38, 27.70),
@@ -71,6 +84,22 @@ for en, ko, lon, lat in PLACES:
                    "gfm_agree": gfm_agree, "f26": fp["f26"], "gfm26": fp["gfm26"], "nearest_big": nearest_big,
                    "lv1003": fp["lv1003"], "trend": fp["trend"], "s2": fp["s2"],
                    "trend_counts": dict(Counter(x[1]["trend"] for x in near if x[1]["trend"]))})
+# 10-11 사건 지명 — 부디 간다키 구간만 상대로, lv1011 하나.
+OCT_PLACES = [("Chumchet", "춤쳇", 84.9644, 28.4755), ("Philim / Lokpa", "필림·록파", 84.90, 28.45), ("Jagat", "자갓", 84.89, 28.32), ("Machhakhola", "마차콜라", 84.87, 28.22),
+              ("Soti Khola", "소티콜라", 84.84, 28.15), ("Arughat", "아루갓", 84.81, 28.04), ("Salyantar", "살얀타르", 84.78, 27.93), ("Benighat (Trishuli confluence)", "베니갓(트리슐리 합류)", 84.78, 27.81)]
+for en, ko, lon, lat in OCT_PLACES:
+    near = []
+    for f in oct_feats:
+        d = min(dist((lon, lat), c) for c in f["geometry"]["coordinates"])
+        if d <= 8: near.append((d, f["properties"], f["geometry"]["coordinates"]))
+    obs = [x for x in near if x[1]["lv1011"] != "unseen"]
+    focus = max(obs, key=lambda x: (RANK[x[1]["lv1011"]], x[1]["f1011"] or 0, -x[0])) if obs else (min(near, key=lambda x: x[0]) if near else None)
+    if not focus: places.append({"name": en, "name_ko": ko, "lonlat": [lon, lat], "ev": "oct", "lv26": "far", "lv24": "far", "lv1011": "far", "nearest_big": None, "reaches_within_8km": 0}); continue
+    fp = focus[1]; mid = focus[2][len(focus[2]) // 2]
+    places.append({"name": en, "name_ko": ko, "lonlat": [lon, lat], "ev": "oct", "focus_lonlat": mid, "focus_window": fp["window"], "focus_river": fp["river"], "rivers_ko": ["부디 간다키강"], "rivers": ["Budhi Gandaki"],
+                   "reaches_within_8km": len(near), "lv26": "far", "lv24": "far", "big26": 0, "obs26": 0, "big24": 0, "obs24": 0, "gfm_agree": 0, "nearest_big": None, "lv1003": "unseen", "trend": None, "s2": None,
+                   "lv1011": max((x[1]["lv1011"] for x in obs), key=lambda l: RANK[l]) if obs else "unseen", "big1011": sum(1 for x in obs if x[1]["lv1011"] == "big"), "obs1011": len(obs), "f1011": fp["f1011"], "s2b": fp["s2b"]})
+for pl in places: pl.setdefault("ev", "sep"); pl.setdefault("lv1011", "far")
 (PUB / "september-places.json").write_text(json.dumps(places, ensure_ascii=False, indent=1))
 # 홈 카드용 요약 — 숫자는 리본에서만
 c26 = Counter(f["properties"]["lv26"] for f in feats); c24 = Counter(f["properties"]["lv24"] for f in feats)
@@ -86,7 +115,13 @@ summary = {"reaches": len(feats), "trend": dict(Counter(f["properties"]["trend"]
            "bounds": [min(x for x, _ in xs), min(y for _, y in xs), max(x for x, _ in xs), max(y for _, y in xs)],
            "headline_ko": "나라야니강이 인도 국경 너머까지 넓어졌습니다", "headline": "The Narayani widened all the way into India",
            "headline24_ko": "2024년엔 바그마티강이 넓어졌습니다", "headline24": "In 2024 it was the Bagmati that widened",
-           "dates": {"2026": {"pre": "2026-08-24 · 09-05 · 09-17", "post": "2026-09-29"}, "2024": {"pre": "2024-08-27 · 09-20", "post": "2024-10-02"}}}
+           "dates": {"2026": {"pre": "2026-08-24 · 09-05 · 09-17", "post": "2026-09-29"}, "2024": {"pre": "2024-08-27 · 09-20", "post": "2024-10-02"}, "1011": {"pre": "2026-09-05 · 09-17 · 09-29", "post": "2026-10-11"}}}
+c1011 = Counter(f["properties"]["lv1011"] for f in oct_feats)
+summary["oct"] = {"reaches": len(oct_feats), "lv": dict(c1011), "big": c1011["big"], "obs": sum(v for k, v in c1011.items() if k != "unseen"), "s2_pairs": sum(1 for f in oct_feats if f["properties"]["s2b"]),
+                  "big_km": sorted(round(f["properties"]["km"]) for f in oct_feats if f["properties"]["lv1011"] == "big"),
+                  # 측정된 사실(M110): 레이더는 06:03, 댐 붕괴 직후·홍수파가 아루갓(06:30)에 닿기 전. 큰 변화는 춤쳇 창 하나뿐 → 산사태 자체를 본 것.
+                  "headline_ko": "위성이 홍수보다 먼저 지나갔습니다", "headline": "The satellite passed before the flood did",
+                  "bounds": [min(c[0] for f in oct_feats for c in f["geometry"]["coordinates"]), min(c[1] for f in oct_feats for c in f["geometry"]["coordinates"]), max(c[0] for f in oct_feats for c in f["geometry"]["coordinates"]), max(c[1] for f in oct_feats for c in f["geometry"]["coordinates"])] if oct_feats else None}
 # 강 위 직접 라벨 — 범례 대신 읽히게. 강마다 대표 지점(그 해 가장 큰 변화 구간, 없으면 중간)과 한 줄.
 LABEL_RIVER = {"Narayani": ("나라야니강", "Narayani"), "Gandak (Narayani)": ("간다크강", "Gandak"), "Bagmati": ("바그마티강", "Bagmati"), "Koshi": ("코시강", "Koshi"), "East Rapti": ("동라프티강", "East Rapti"), "Tinau": ("티나우강", "Tinau")}
 LVW = {"big": ("크게 변함", "changed a lot"), "some": ("조금 변함", "changed a little"), "normal": ("평소 수준", "as usual"), "unseen": ("못 봄", "not seen")}
@@ -104,9 +139,20 @@ for name, (ko, en) in LABEL_RIVER.items():
             pick = cand[len(cand) // 2]
         c = pick["geometry"]["coordinates"]; mid = c[len(c) // 2]
         labels.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": mid}, "properties": {"year": year, "lv": lvl, "ko": f"{ko} · {LVW[lvl][0]}", "en": f"{en} · {LVW[lvl][1]}"}})
+if oct_feats:
+    obs = [f for f in oct_feats if f["properties"]["lv1011"] != "unseen"]
+    if not obs: lvl = "unseen"; pick = oct_feats[len(oct_feats) // 2]
+    else:
+        nb = sum(f["properties"]["lv1011"] == "big" for f in obs); ns = sum(f["properties"]["lv1011"] == "some" for f in obs)
+        lvl = "big" if nb >= 3 else "some" if ns / len(obs) >= 0.25 else "normal"; cand = [f for f in obs if f["properties"]["lv1011"] == lvl] or obs; pick = cand[len(cand) // 2]
+    c = pick["geometry"]["coordinates"]; mid = c[len(c) // 2]
+    labels.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": mid}, "properties": {"year": "1011", "lv": lvl, "ko": f"부디 간다키강 · {LVW[lvl][0]}", "en": f"Budhi Gandaki · {LVW[lvl][1]}"}})
 (PUB / "september-river-labels.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": labels}, ensure_ascii=False))
 (PUB / "september-simple-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1))
-print("trend", summary["trend"], "lv1003", summary["lv1003"], "s2", summary["s2_pairs"])
+print("trend", summary["trend"], "lv1003", summary["lv1003"], "s2", summary["s2_pairs"], "| oct", summary["oct"]["lv"] if oct_feats else None, "s2b", summary["oct"]["s2_pairs"] if oct_feats else None)
+for f in oct_feats:
+    p = f["properties"]
+    if p["lv1011"] != "unseen": print("   oct", p["window"], p["km"], p["lv1011"], round(p["f1011"], 3), "nw", None if p["nw1011"] is None else round(p["nw1011"], 3))
 for f in feats:
     p = f["properties"]
     if p["name"] in ("Narayani",) and p["lv1003"] != "unseen": print("  ", p["window"], "09-29", p["lv26"], round(p["f26"] or 0, 3), "10-03", p["lv1003"], round(p["f1003"], 3), p["trend"])

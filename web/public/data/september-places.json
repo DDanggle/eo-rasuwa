@@ -49,7 +49,9 @@
   "trend_counts": {
    "hold": 1,
    "grow": 1
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Narayangadh / Bharatpur",
@@ -101,7 +103,9 @@
   "trend_counts": {
    "hold": 1,
    "grow": 1
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Gaindakot",
@@ -153,7 +157,9 @@
   "trend_counts": {
    "hold": 3,
    "grow": 1
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Susta",
@@ -204,7 +210,9 @@
    "pre_ok": 0.79,
    "post_ok": 0.74
   },
-  "trend_counts": {}
+  "trend_counts": {},
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Tribeni",
@@ -225,7 +233,9 @@
    "river": "Narayani",
    "window": "narayaniu_22"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Valmikinagar (India)",
@@ -246,7 +256,9 @@
    "river": "Narayani",
    "window": "narayaniu_17"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Bagaha (India)",
@@ -290,7 +302,9 @@
   "lv1003": "unseen",
   "trend": null,
   "s2": null,
-  "trend_counts": {}
+  "trend_counts": {},
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Butwal",
@@ -339,7 +353,9 @@
    "pre_ok": 0.81,
    "post_ok": 0.7
   },
-  "trend_counts": {}
+  "trend_counts": {},
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Bhairahawa",
@@ -360,7 +376,9 @@
    "river": "Narayani",
    "window": "narayani_14"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Sauraha / Chitwan NP",
@@ -407,7 +425,9 @@
   "trend_counts": {
    "hold": 9,
    "grow": 1
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Hetauda",
@@ -428,7 +448,9 @@
    "river": "Narayani",
    "window": "narayaniu_06"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Kathmandu",
@@ -449,7 +471,9 @@
    "river": "Narayani",
    "window": "narayaniu_06"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Sindhuli (Bagmati)",
@@ -470,7 +494,9 @@
    "river": "Narayani",
    "window": "narayaniu_06"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Karmaiya (Bagmati barrage)",
@@ -517,7 +543,9 @@
   "trend_counts": {
    "hold": 5,
    "grow": 2
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Gaur",
@@ -564,7 +592,9 @@
   "trend_counts": {
    "grow": 2,
    "hold": 5
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Birgunj",
@@ -585,7 +615,9 @@
    "river": "Gandak (Narayani)",
    "window": "narayanix_50"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Chatara",
@@ -629,7 +661,9 @@
   "lv1003": "unseen",
   "trend": null,
   "s2": null,
-  "trend_counts": {}
+  "trend_counts": {},
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Koshi Barrage",
@@ -675,7 +709,9 @@
   "s2": null,
   "trend_counts": {
    "hold": 2
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Hanumannagar (Saptari)",
@@ -721,7 +757,9 @@
   "s2": null,
   "trend_counts": {
    "hold": 1
-  }
+  },
+  "ev": "sep",
+  "lv1011": "far"
  },
  {
   "name": "Rajbiraj",
@@ -742,6 +780,347 @@
    "river": "Gandak (Narayani)",
    "window": "narayanix_50"
   },
-  "reaches_within_8km": 0
+  "reaches_within_8km": 0,
+  "ev": "sep",
+  "lv1011": "far"
+ },
+ {
+  "name": "Chumchet",
+  "name_ko": "춤쳇",
+  "lonlat": [
+   84.9644,
+   28.4755
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.98307,
+   28.47209
+  ],
+  "focus_window": "budhig_00",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 5,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "big",
+  "big1011": 1,
+  "obs1011": 5,
+  "f1011": 0.051025390625,
+  "s2b": {
+   "pre": "2026-10-06",
+   "post": "2026-10-11",
+   "pre_ok": 0.95,
+   "post_ok": 0.96
+  }
+ },
+ {
+  "name": "Philim / Lokpa",
+  "name_ko": "필림·록파",
+  "lonlat": [
+   84.9,
+   28.45
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.98307,
+   28.47209
+  ],
+  "focus_window": "budhig_00",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 8,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "big",
+  "big1011": 1,
+  "obs1011": 8,
+  "f1011": 0.051025390625,
+  "s2b": {
+   "pre": "2026-10-06",
+   "post": "2026-10-11",
+   "pre_ok": 0.95,
+   "post_ok": 0.96
+  }
+ },
+ {
+  "name": "Jagat",
+  "name_ko": "자갓",
+  "lonlat": [
+   84.89,
+   28.32
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.89349,
+   28.39593
+  ],
+  "focus_window": "budhig_06",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 8,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "some",
+  "big1011": 0,
+  "obs1011": 8,
+  "f1011": 0.0224609375,
+  "s2b": {
+   "pre": "2026-10-06",
+   "post": "2026-10-11",
+   "pre_ok": 0.99,
+   "post_ok": 0.93
+  }
+ },
+ {
+  "name": "Machhakhola",
+  "name_ko": "마차콜라",
+  "lonlat": [
+   84.87,
+   28.22
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.86631,
+   28.15023
+  ],
+  "focus_window": "budhig_18",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 8,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "normal",
+  "big1011": 0,
+  "obs1011": 8,
+  "f1011": 0.01416015625,
+  "s2b": null
+ },
+ {
+  "name": "Soti Khola",
+  "name_ko": "소티콜라",
+  "lonlat": [
+   84.84,
+   28.15
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.84225,
+   28.11369
+  ],
+  "focus_window": "budhig_20",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 8,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "some",
+  "big1011": 0,
+  "obs1011": 8,
+  "f1011": 0.021728515625,
+  "s2b": {
+   "pre": "2026-10-06",
+   "post": "2026-10-11",
+   "pre_ok": 0.95,
+   "post_ok": 0.96
+  }
+ },
+ {
+  "name": "Arughat",
+  "name_ko": "아루갓",
+  "lonlat": [
+   84.81,
+   28.04
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.84225,
+   28.11369
+  ],
+  "focus_window": "budhig_20",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 9,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "some",
+  "big1011": 0,
+  "obs1011": 9,
+  "f1011": 0.021728515625,
+  "s2b": {
+   "pre": "2026-10-06",
+   "post": "2026-10-11",
+   "pre_ok": 0.95,
+   "post_ok": 0.96
+  }
+ },
+ {
+  "name": "Salyantar",
+  "name_ko": "살얀타르",
+  "lonlat": [
+   84.78,
+   27.93
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.76286,
+   27.85996
+  ],
+  "focus_window": "budhig_35",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 10,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "normal",
+  "big1011": 0,
+  "obs1011": 10,
+  "f1011": 0.016845703125,
+  "s2b": {
+   "pre": "2026-10-01",
+   "post": "2026-10-11",
+   "pre_ok": 0.95,
+   "post_ok": 0.95
+  }
+ },
+ {
+  "name": "Benighat (Trishuli confluence)",
+  "name_ko": "베니갓(트리슐리 합류)",
+  "lonlat": [
+   84.78,
+   27.81
+  ],
+  "ev": "oct",
+  "focus_lonlat": [
+   84.76286,
+   27.85996
+  ],
+  "focus_window": "budhig_35",
+  "focus_river": "xriver_budhi_gandaki",
+  "rivers_ko": [
+   "부디 간다키강"
+  ],
+  "rivers": [
+   "Budhi Gandaki"
+  ],
+  "reaches_within_8km": 3,
+  "lv26": "far",
+  "lv24": "far",
+  "big26": 0,
+  "obs26": 0,
+  "big24": 0,
+  "obs24": 0,
+  "gfm_agree": 0,
+  "nearest_big": null,
+  "lv1003": "unseen",
+  "trend": null,
+  "s2": null,
+  "lv1011": "normal",
+  "big1011": 0,
+  "obs1011": 3,
+  "f1011": 0.016845703125,
+  "s2b": {
+   "pre": "2026-10-01",
+   "post": "2026-10-11",
+   "pre_ok": 0.95,
+   "post_ok": 0.95
+  }
  }
 ]

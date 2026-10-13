@@ -1820,3 +1820,10 @@ body.sept-body { overflow: hidden; }
   .landing-nav { flex-wrap: wrap; } .landing-nav div { flex-wrap: wrap; }
   .landing .lead-story { padding-top: 26px; } .landing .lead-story h1 { font-size: 30px; } .landing .ch1-story h1 { font-size: 27px; }
 }
+.simple-head .kicker span.new { color: #d7301f; }
+.simple-head .kicker span.new.on { color: #d7301f; border-bottom-color: #d7301f; }
+.landing .newsline { display: flex; gap: 12px; align-items: baseline; margin: 18px 0 -22px; padding: 10px 14px; border: 1px solid #d7301f; background: rgba(215,48,31,.05); color: var(--ink); text-decoration: none; font-size: 13.5px; line-height: 1.45; }
+.landing .newsline b { flex: 0 0 auto; font: 700 10px var(--font-geist-mono); letter-spacing: .1em; color: #d7301f; }
+.landing .newsline i { flex: 0 0 auto; font-style: normal; color: #d7301f; }
+.landing .newsline:hover { background: rgba(215,48,31,.1); border-bottom-width: 1px; }
+@media (max-width: 640px) { .landing .newsline { flex-wrap: wrap; margin-bottom: -10px; } }

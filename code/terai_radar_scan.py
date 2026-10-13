@@ -117,6 +117,16 @@ CONTRACTS: dict[str, dict] = {
         "base_placebo": ["2026-07-11", "2026-07-23", "2026-08-04"], "target_placebo": "2026-08-16",
         "out": "terai_radar_scan_a85",
     },
+    # M110 — 10-11 부디 간다키(고르카 Chumchet) 산사태댐 붕괴 홍수. 궤도 19 하강 10-11 00:18 UTC = 06:03 NPT(붕괴 직후).
+    # 1장과 같은 3v1. 평시 기억 3장은 전부 홍수 전(09-05·09-17·09-29). 평시 쌍은 7~8월 몬순 한복판이라 보수적인 문턱.
+    "b19": {
+        "measurement_id": "M110", "orbit": 19, "direction": "descending",
+        "aois": ["xriver_budhi_gandaki"],
+        "dates": ["2026-07-19", "2026-07-31", "2026-08-12", "2026-08-24", "2026-09-05", "2026-09-17", "2026-09-29", "2026-10-11"],
+        "base_event": ["2026-09-05", "2026-09-17", "2026-09-29"], "target_event": "2026-10-11",
+        "base_placebo": ["2026-07-19", "2026-07-31", "2026-08-12"], "target_placebo": "2026-08-24",
+        "out": "terai_radar_scan_b19",
+    },
 }
 SIZE, PATCH, CROP = 256, 4, 64
 MODEL_ID_NAME = "OLMOEARTH_V1_BASE"

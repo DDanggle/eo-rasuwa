@@ -16,8 +16,9 @@
     "start": "next start",
     "lint": "eslint . --ignore-pattern .next --ignore-pattern public/maplibre-gl-worker.mjs --ignore-pattern public/maplibre-gl-shared.mjs",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm verify && pnpm lint && pnpm typecheck && pnpm build",
-    "smoke": "node scripts/smoke-host.mjs"
+    "check": "pnpm verify && pnpm test:decision && pnpm lint && pnpm typecheck && pnpm build",
+    "smoke": "node scripts/smoke-host.mjs",
+    "test:decision": "node --test tests/decision-support.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.0",

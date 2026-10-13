@@ -23,7 +23,7 @@ export default async function DecisionPage() {
   if (windows.length !== review.funnel.observable || JSON.stringify(publishedIds) !== JSON.stringify(normalizedIds)) throw new Error('Decision data and public review contract disagree');
   const sourceHashes = Object.fromEntries(files.map((file, index) => [file, createHash('sha256').update(texts[index]).digest('hex')]));
   const data: DecisionData = {
-    windows, sourceHashes, sourceVersion: sourceHashes['candidates.geojson'].slice(0, 12),
+    windows, sourceHashes, sourceVersion: createHash('sha256').update(texts.join('\0')).digest('hex').slice(0, 12),
     threshold: review.threshold,
     counts: { scanned: review.funnel.scanned, observable: review.funnel.observable, leads: review.funnel.leads, confirmed: review.funnel.confirmed_damage_labels },
     reobserveIds: review.reobserve.map((w: { id: string }) => w.id),

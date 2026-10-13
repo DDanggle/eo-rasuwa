@@ -30,7 +30,7 @@ export default function Landing() {
     <main className="landing">
       <nav className="landing-nav">
         <span className="brand">Nepal <b>AI Twin</b> · Rasuwa flash flood · 26 Aug 2026</span>
-        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
+        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/decision-support" className="nav-link">{ko ? '의사결정 데모' : 'DECISION DEMO'}</a><a href="/story" className="nav-link">STORY</a><a href="/map" className="nav-link">OPEN FULL EVIDENCE MAP →</a></div>
       </nav>
 
       <section className="hero">
@@ -48,6 +48,13 @@ export default function Landing() {
           <a href={rv?.all_observable_download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '측정된 47곳 GeoJSON 내려받기(후보 순)' : 'DOWNLOAD ALL 47 WINDOWS (RANKED GEOJSON)'}</a>
           <a href="https://github.com/DDanggle/eo-rasuwa" className="btn" target="_blank" rel="noreferrer">GITHUB ↗</a>
         </div>
+      </section>
+
+      <section className="how">
+        <p className="kicker">GEO EVIDENCE · {ko ? '관측에서 다음 판단까지' : 'FROM OBSERVATION TO A REVIEW DECISION'}</p>
+        <h2>{ko ? '근거를 비교하고, 확인할 곳을 선택하세요.' : 'Compare the evidence. Choose where to look next.'}</h2>
+        <p className="note">{ko ? '실제 관측된 47곳을 비교하고, 검토 목록과 출처가 포함된 근거 자료를 내려받으세요. ESCWA 지원을 위한 독립 포트폴리오 데모이며 공식 기관 서비스가 아닙니다.' : 'Compare 47 observable windows and export your review list with its evidence and sources. An independent portfolio demo developed for an ESCWA application, with no institutional affiliation.'}</p>
+        <div className="cta"><a href="/decision-support" className="btn primary">{ko ? '의사결정 지원 데모 열기' : 'OPEN THE DECISION SUPPORT DEMO'}</a></div>
       </section>
 
       <section className="how">

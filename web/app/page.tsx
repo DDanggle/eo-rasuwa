@@ -35,7 +35,7 @@ export default function Landing() {
     <main className="landing">
       <nav className="landing-nav">
         <span className="brand">Nepal <b>AI Twin</b><small>{ko ? '위성으로 본 네팔의 강과 홍수' : 'Nepal\u2019s rivers and floods, seen from orbit'}</small></span>
-        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/september" className="nav-link">{ko ? '9월 홍수 지도' : 'SEPTEMBER MAP'}</a><a href="/map" className="nav-link">{ko ? '8월 홍수 지도' : 'AUGUST MAP'}</a><a href="/story" className="nav-link quiet">STORY</a></div>
+        <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><a href="/september" className="nav-link">{ko ? '9월 홍수 지도' : 'SEPTEMBER MAP'}</a><a href="/map" className="nav-link">{ko ? '8월 홍수 지도' : 'AUGUST MAP'}</a><a href="/decision-support" className="nav-link">{ko ? '의사결정 데모' : 'DECISION DEMO'}</a><a href="/story" className="nav-link quiet">STORY</a></div>
       </nav>
 
       {simple?.oct && <a href="/september?ev=1011" className="newsline"><b>{ko ? '새 홍수 · 10월 11일' : 'NEW FLOOD · 11 OCT'}</b><span>{ko ? `고르카 부디 간다키강, 산사태 댐 붕괴. 위성은 홍수보다 먼저 지나가 춤쳇의 산사태만 봤습니다 (${simple.oct.reaches}구간 중 크게 변한 곳 ${simple.oct.big}). 다음 통과 10월 23일.` : `Budhi Gandaki, Gorkha: a landslide dam burst. The satellite passed before the flood and saw only the Chumchet landslide (${simple.oct.big} of ${simple.oct.reaches} stretches changed a lot). Next pass 23 Oct.`}</span><i>→</i></a>}
@@ -70,6 +70,13 @@ export default function Landing() {
           <a href="/map" className="btn primary">{ko ? '6곳 지도에서 보기' : 'SEE THE 6 PLACES ON THE MAP'}</a>
           <a href={rv?.all_observable_download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '자료 내려받기' : 'DOWNLOAD THE DATA'}</a>
         </div>
+      </section>
+
+      <section className="how">
+        <p className="kicker">GEO EVIDENCE · {ko ? '관측에서 다음 판단까지' : 'FROM OBSERVATION TO A REVIEW DECISION'}</p>
+        <h2>{ko ? '근거를 비교하고, 확인할 곳을 선택하세요.' : 'Compare the evidence. Choose where to look next.'}</h2>
+        <p className="note">{ko ? '실제 관측된 47곳을 비교하고, 검토 목록과 출처가 포함된 근거 자료를 내려받으세요. ESCWA 지원을 위한 독립 포트폴리오 데모이며 공식 기관 서비스가 아닙니다.' : 'Compare 47 observable windows and export your review list with its evidence and sources. An independent portfolio demo developed for an ESCWA application, with no institutional affiliation.'}</p>
+        <div className="cta"><a href="/decision-support" className="btn primary">{ko ? '의사결정 지원 데모 열기' : 'OPEN THE DECISION SUPPORT DEMO'}</a></div>
       </section>
 
       <section className="how">

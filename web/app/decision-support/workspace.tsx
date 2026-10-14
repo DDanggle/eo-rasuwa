@@ -66,6 +66,12 @@ export default function DecisionWorkspace({ data }: { data: DecisionData }) {
     download('nepal-review-selection.geojson', JSON.stringify(exportSelection(data, selected, notes, new Date().toISOString()), null, 2), 'application/geo+json');
     setMessage(t('GeoJSON exported with source hashes, limitations, and your notes.', '출처 해시·한계·메모를 포함한 GeoJSON을 내려받았습니다.'));
   };
+  const sendRequest = () => {
+    const lines = selection.map(w => `- ${w.place} (${w.id}) · change ${percent(w.change)} · observable ${percent(w.observed)} · ${notes[w.id]?.status ?? 'unreviewed'}${notes[w.id]?.note ? ` · ${notes[w.id].note}` : ''}`);
+    const body = [t('Check request from the Nepal AI Twin decision-support demo', 'Nepal AI Twin 의사결정 데모에서 보내는 확인 요청'), '', ...lines, '', `source ${data.sourceVersion} · ${new Date().toISOString().slice(0, 10)}`].join('\n');
+    window.location.assign(`mailto:iameastroot@gmail.com?subject=${encodeURIComponent(t('Check request: ', '확인 요청: ') + selection.map(w => w.place).slice(0, 3).join(', ') + (selection.length > 3 ? ` +${selection.length - 3}` : ''))}&body=${encodeURIComponent(body)}`);
+    setMessage(t('Your mail app opened with the request. Nothing is sent until you press send.', '요청이 담긴 메일 창이 열렸습니다. 보내기를 누르기 전에는 전송되지 않습니다.'));
+  };
   const exportBrief = () => {
     download('nepal-evidence-brief.md', evidenceBrief(data, selected, notes, new Date().toISOString()), 'text/markdown;charset=utf-8');
     setMessage(t('English evidence brief exported. Your notes are kept as written.', '영문 근거 브리프를 내려받았습니다. 메모는 입력한 언어로 유지됩니다.'));
@@ -75,7 +81,7 @@ export default function DecisionWorkspace({ data }: { data: DecisionData }) {
     <a className={styles.skip} href="#review-queue">{t('Skip to review list', '검토 목록으로 이동')}</a>
     <header className={styles.header}>
       <Link href="/" className={styles.brand}>NEPAL <strong>AI TWIN</strong><span> / GEO EVIDENCE</span></Link>
-      <nav aria-label={t('Page navigation', '페이지 탐색')}><a href="/map">{t('Evidence map ↗', '분석 지도 ↗')}</a><a href="#delivery">{t('Your review list', '내 검토 목록')}</a>
+      <nav aria-label={t('Page navigation', '페이지 탐색')}><a href="/map">{t('Evidence map ↗', '분석 지도 ↗')}</a><a href="#delivery">{t('Check requests', '확인 요청')}</a>
         <button aria-pressed={!ko} onClick={() => { setKo(false); try { document.cookie = 'lang=en;path=/;max-age=31536000'; } catch { /* noop */ } }}>EN</button><button aria-pressed={ko} onClick={() => { setKo(true); try { document.cookie = 'lang=ko;path=/;max-age=31536000'; } catch { /* noop */ } }}>한국어</button>
       </nav>
     </header>
@@ -136,10 +142,10 @@ export default function DecisionWorkspace({ data }: { data: DecisionData }) {
     </section>
 
     <section className={styles.delivery} id="delivery">
-      <div className={styles.sectionTop}><div><p className={styles.eyebrow}>03 / DECISION & DELIVERY</p><h2>{t('Your review list', '내 검토 목록')} <span>{selection.length}</span></h2></div><div className={styles.smallActions}><button onClick={() => choose(published.map(w => w.id))}>{t('Select published leads', '공개 후보 선택')}</button><button disabled={!selected.length} onClick={() => choose([])}>{t('Clear selection', '선택 해제')}</button></div></div>
-      <p>{t('Compare the places you chose, then deliver their evidence together. The six published leads are selected initially; your selection is not an automated response plan.', '선택한 장소들을 비교하고 근거를 함께 전달하세요. 처음에는 공개 후보 6곳이 선택됩니다. 이 목록은 사용자의 검토 선택이며 자동 대응 계획이 아닙니다.')}</p>
+      <div className={styles.sectionTop}><div><p className={styles.eyebrow}>03 / {t('REVIEW REQUESTS', '확인 요청')}</p><h2>{t('Ask for a check on these places', '이 장소들을 확인해 달라고 요청하기')} <span>{selection.length}</span></h2></div><div className={styles.smallActions}><button onClick={() => choose(published.map(w => w.id))}>{t('Select published leads', '공개 후보 선택')}</button><button disabled={!selected.length} onClick={() => choose([])}>{t('Clear selection', '선택 해제')}</button></div></div>
+      <p>{t('Anyone can request a check: pick the places you think someone on the ground should look at, add a note on why, and send the request. Requests are collected like crowdsourcing; they are not an automated response plan. The six published leads are selected to start.', '누구나 요청할 수 있습니다. 현장을 아는 분이 봐 주었으면 하는 장소를 고르고, 이유를 적고, 요청을 보내세요. 요청은 크라우드소싱처럼 모아 다음 관측과 현장 확인의 우선순위에 씁니다. 자동 대응 계획이 아닙니다. 처음에는 공개 후보 6곳이 선택돼 있습니다.')}</p>
       {selection.length ? <div className={styles.tableWrap}><table><thead><tr>{[t('Place', '장소'), t('Change share', '기준 초과 비율'), t('Observable', '관측 비율'), t('Your status', '내 검토 상태'), t('Selection', '선택')].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{selection.map(w => <tr key={w.id}><td><button className={styles.textLink} onClick={() => { setActive(w.id); document.getElementById('review-queue')?.scrollIntoView({ behavior: 'auto', block: 'start' }); }}>{w.place}</button><small>{w.id}</small></td><td>{percent(w.change)}</td><td>{percent(w.observed)}</td><td>{(() => { const entry = statuses.find(x => x[0] === (notes[w.id]?.status ?? 'unreviewed'))!; return t(entry[1], entry[2]); })()}</td><td><button className={styles.remove} aria-label={`${t('Remove', '제외')}: ${w.place}`} onClick={() => toggle(w.id)}>×</button></td></tr>)}</tbody></table></div> : <div className={styles.empty}>{t('Choose at least one window to build your evidence package.', '근거 자료를 만들려면 분석 창을 한 곳 이상 선택하세요.')}</div>}
-      <div className={styles.exportRow}><div><b>{t('One selection. Traceable outputs.', '한 번 선택하고, 근거와 함께 전달하세요.')}</b><p>{t('Includes scores, observation dates, source checksums, limitations, and your notes. No account required.', '점수·관측일·출처 체크섬·한계·검토 메모를 포함합니다. 계정 없이 내려받을 수 있습니다.')}</p></div><div className={styles.exportButtons}><button className={styles.secondary} disabled={!selection.length} onClick={exportData}>{t('Download GeoJSON ↓', 'GeoJSON 내려받기 ↓')}</button><button className={styles.primary} disabled={!selection.length} onClick={exportBrief}>{t('Download evidence brief ↓', '근거 브리프 내려받기 ↓')}</button></div></div>
+      <div className={styles.exportRow}><div><b>{t('Send the request, keep the evidence attached.', '요청을 보내고, 근거는 그대로 붙여 두세요.')}</b><p>{t('The request carries the places, your reasons, observation dates and source checksums. No account required; it goes by email to the project.', '요청에는 장소·이유·관측일·출처 체크섬이 담깁니다. 계정 없이 프로젝트 메일로 보내지며, 같은 내용을 파일로도 내려받을 수 있습니다.')}</p></div><div className={styles.exportButtons}><button className={styles.primary} disabled={!selection.length} onClick={sendRequest}>{t('Send check request ✉', '확인 요청 보내기 ✉')}</button><button className={styles.secondary} disabled={!selection.length} onClick={exportData}>{t('Download GeoJSON ↓', 'GeoJSON 내려받기 ↓')}</button><button className={styles.secondary} disabled={!selection.length} onClick={exportBrief}>{t('Download evidence brief ↓', '근거 브리프 내려받기 ↓')}</button></div></div>
       <p className={styles.status} role="status" aria-live="polite">{message || t('Review notes and selection are private to this browser until you share a download.', '검토 메모와 선택은 파일을 공유하기 전까지 이 브라우저에만 남습니다.')}</p>
     </section>
 

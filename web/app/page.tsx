@@ -39,6 +39,7 @@ export default function Landing() {
       </nav>
 
       {simple?.oct && <a href="/september?ev=1011" className="newsline"><b>{ko ? '새 홍수 · 10월 11일' : 'NEW FLOOD · 11 OCT'}</b><span>{ko ? `고르카 부디 간다키강, 산사태 댐 붕괴. 위성은 홍수보다 먼저 지나가 춤쳇의 산사태만 봤습니다 (${simple.oct.reaches}구간 중 크게 변한 곳 ${simple.oct.big}). 다음 통과 10월 23일.` : `Budhi Gandaki, Gorkha: a landslide dam burst. The satellite passed before the flood and saw only the Chumchet landslide (${simple.oct.big} of ${simple.oct.reaches} stretches changed a lot). Next pass 23 Oct.`}</span><i>→</i></a>}
+      <div className="mains">
       <section className="lead-story">
         <p className="kicker">{ko ? '최근 · 2026년 9월 24~29일 몬순 막바지 호우' : 'LATEST · the late-monsoon rains of 24–29 Sep 2026'}</p>
         <h1>{simple ? (ko ? simple.headline_ko : simple.headline) : (ko ? '나라야니강이 인도 국경 너머까지 넓어졌습니다' : 'The Narayani widened past the Indian border')}</h1>
@@ -71,6 +72,7 @@ export default function Landing() {
           <a href={rv?.all_observable_download ?? '/data/candidates.geojson'} className="btn" download>{ko ? '자료 내려받기' : 'DOWNLOAD THE DATA'}</a>
         </div>
       </section>
+      </div>
 
       <section className="how">
         <p className="kicker">GEO EVIDENCE · {ko ? '관측에서 다음 판단까지' : 'FROM OBSERVATION TO A REVIEW DECISION'}</p>

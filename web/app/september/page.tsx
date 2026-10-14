@@ -44,8 +44,8 @@ type View = 'now' | 'swipe' | 'diff';
 type Level = 'big' | 'some' | 'normal' | 'unseen' | 'far';
 type S2Meta = { pre: string; post: string } | null;
 type Trend = 'recede' | 'hold' | 'grow' | null;
-type Place = { name: string; name_ko: string; lonlat: [number, number]; lv26: Level; lv24: Level; ev?: 'sep' | 'oct'; lv1011?: Level; big1011?: number; obs1011?: number; s2b?: S2Meta; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number>; focus_lonlat?: [number, number]; focus_window?: string; focus_river?: string; rivers?: string[]; rivers_ko?: string[]; big26?: number; obs26?: number; big24?: number; obs24?: number; gfm_agree?: number; nearest_big?: { km: number; lonlat: [number, number]; river: string; river_ko: string; window: string } | null };
-type Answer = { title: string; title_ko: string; lv26: Level; lv24: Level; ev?: 'sep' | 'oct'; lv1011?: Level; count1011?: [string, string]; s2b?: S2Meta; window?: string; river?: string; has24: boolean; gfm: 'agree' | 'disagree' | 'none'; nearest_big?: Place['nearest_big']; count26?: [string, string]; count24?: [string, string]; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number> };
+type Place = { name: string; name_ko: string; desc?: string; desc_ko?: string; lonlat: [number, number]; lv26: Level; lv24: Level; ev?: 'sep' | 'oct'; lv1011?: Level; big1011?: number; obs1011?: number; s2b?: S2Meta; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number>; focus_lonlat?: [number, number]; focus_window?: string; focus_river?: string; rivers?: string[]; rivers_ko?: string[]; big26?: number; obs26?: number; big24?: number; obs24?: number; gfm_agree?: number; nearest_big?: { km: number; lonlat: [number, number]; river: string; river_ko: string; window: string } | null };
+type Answer = { title: string; title_ko: string; why?: string; why_ko?: string; lv26: Level; lv24: Level; ev?: 'sep' | 'oct'; lv1011?: Level; count1011?: [string, string]; s2b?: S2Meta; window?: string; river?: string; has24: boolean; gfm: 'agree' | 'disagree' | 'none'; nearest_big?: Place['nearest_big']; count26?: [string, string]; count24?: [string, string]; lv1003?: Level; trend?: Trend; s2?: S2Meta; trend_counts?: Record<string, number> };
 const TREND_TEXT: Record<'recede' | 'hold' | 'grow', [string, string]> = { recede: ['10월 3일 레이더에선 변화가 줄었습니다 — 빠지는 중', 'Radar on 3 Oct shows less change — receding'], hold: ['10월 3일 레이더에서도 그대로입니다', 'Radar on 3 Oct shows the same — still changed'], grow: ['10월 3일 레이더에선 변화가 더 커졌습니다', 'Radar on 3 Oct shows more change'] };
 const LV_COLOR: Record<Level, string> = { big: '#d7301f', some: '#f59e42', normal: '#9db8cc', unseen: '#a3a3a3', far: '#a3a3a3' };
 const LV_TEXT: Record<Level, [string, string]> = {
@@ -247,6 +247,7 @@ export default function SeptemberPage() {
     if (!expert) for (const id of ['ribbon-casing', 'ribbon-unobs', 'ribbon', 'ribbon-hit', 'tokens-fill', 'sept-line', 'sept-rank', 'cmp-casing', 'cmp-24', 'cmp-diff', 'cmp-hit']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', 'none');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expert, year, mapReady, ko]);
+  useEffect(() => { document.body.classList.toggle('sept-scroll', !expert); return () => document.body.classList.remove('sept-scroll'); }, [expert]);
   // 보기 모드: 비교 중엔 토큰·창·기본 리본을 숨기고 비교 리본만 — 한 장면에 한 이야기
   useEffect(() => {
     viewRef.current = view;
@@ -297,11 +298,11 @@ export default function SeptemberPage() {
   }, []);
   useEffect(() => { pickReachRef.current = pickReach; }, [pickReach]);
   const pickPlace = (p: Place) => {
-    setQuery(ko ? p.name_ko : p.name); setCardSwipe(50); setPhoto('radar');
+    setQuery(p.name); setCardSwipe(50); setPhoto('radar');
     fly(p.focus_lonlat ?? p.lonlat, (p.ev === 'oct' ? p.lv1011 : p.lv26) === 'far' ? 9 : 11.2);
     const cnt = (big?: number, obs?: number): [string, string] | undefined => obs ? [`반경 8 km 안 강 구간 ${obs}곳 중 ${big}곳이 크게 변함`, `${big} of ${obs} river stretches within 8 km changed a lot`] : undefined;
     setPicked(true);
-    setAnswer({ title: p.name, title_ko: p.name_ko, lv26: p.lv26, lv24: p.lv24, window: p.focus_window, river: p.focus_river, has24: (p.obs24 ?? 0) > 0,
+    setAnswer({ title: p.name, title_ko: p.name_ko, why: p.desc, why_ko: p.desc_ko, lv26: p.lv26, lv24: p.lv24, window: p.focus_window, river: p.focus_river, has24: (p.obs24 ?? 0) > 0,
       gfm: p.lv26 === 'far' || p.lv26 === 'unseen' ? 'none' : (p.gfm_agree ?? 0) > 0 ? 'agree' : p.lv26 === 'big' ? 'disagree' : 'none', nearest_big: p.lv26 === 'big' ? null : p.nearest_big, count26: cnt(p.big26, p.obs26), count24: cnt(p.big24, p.obs24), lv1003: p.lv1003, trend: p.trend ?? null, s2: p.s2 ?? null, trend_counts: p.trend_counts,
       ev: p.ev ?? 'sep', lv1011: p.lv1011 ?? 'far', count1011: cnt(p.big1011, p.obs1011), s2b: p.s2b ?? null });
   };
@@ -312,7 +313,7 @@ export default function SeptemberPage() {
   const cmpWin = (id: string) => /^(narayani|tinau|narayaniu|narayanix|tinaux|raptix|bagmatix)_/.test(id);
 
   return (
-    <main className="sept-shell">
+    <><main className={`sept-shell ${expert ? '' : 'scrolly'}`}>
       <div ref={mapNode} className="sept-stage" />
       <div ref={mapNodeB} className="sept-stage b" style={{ visibility: view === 'swipe' ? 'visible' : 'hidden', clipPath: `inset(0 0 0 ${split}%)` }} aria-hidden />
       {view === 'swipe' && <>
@@ -346,17 +347,22 @@ export default function SeptemberPage() {
             : year === '2026'
             ? (ko ? '9월 24~29일 비가 그친 뒤 위성 레이더로 본 강. 빨간 구간이 평소 몬순보다 크게 변한 곳이고, 하늘색은 평소 수준입니다. 바그마티·코시는 조용했습니다.' : 'The rivers seen by satellite radar after the 24–29 Sep rain. Red stretches changed far more than in an ordinary monsoon; light blue is as usual. The Bagmati and Koshi were quiet.')
             : (ko ? '같은 방법으로 본 2024년 9월 홍수. 그해에는 바그마티강 52구간 중 34곳이 크게 변했고, 나라야니는 평소 수준이었습니다.' : 'The September 2024 flood measured the same way. That year 34 of 52 Bagmati stretches changed a lot and the Narayani stayed as usual.')}</p>
-          <div className="search">
-            <input value={query} onChange={(e) => { setQuery(e.target.value); setPicked(false); }} placeholder={year === '1011' ? (ko ? '동네 이름 — 춤쳇, 자갓, 아루갓…' : 'Type a place — Chumchet, Jagat, Arughat…') : (ko ? '동네 이름을 넣어 보세요 — 수스타, 데브갓, 부트왈…' : 'Type a place — Susta, Devghat, Butwal…')} aria-label="search place" />
-            {matches.length > 0 && !picked && <ul>{matches.map((p) => <li key={p.name}><button onClick={() => pickPlace(p)}><b>{ko ? p.name_ko : p.name}</b><i style={{ background: LV_COLOR[year === '1011' ? (p.lv1011 ?? 'far') : p.lv26] }} /><span>{ko ? LV_SHORT[year === '1011' ? (p.lv1011 ?? 'far') : p.lv26][0] : LV_SHORT[year === '1011' ? (p.lv1011 ?? 'far') : p.lv26][1]}</span></button></li>)}</ul>}
+          <div className="picker">
+            <label>{ko ? '장소를 골라 보세요. 뉴스에 나온 마을과 강가 도시입니다.' : 'Pick a place. These are the villages and river towns from the news.'}</label>
+            <select value={query} onChange={(e) => { const p = places.find((x) => x.name === e.target.value); if (p) pickPlace(p); else { setQuery(''); setAnswer(null); } }} aria-label="choose place">
+              <option value="">{ko ? '장소 고르기…' : 'Choose a place…'}</option>
+              {places.filter((p) => (p.ev ?? 'sep') === (year === '1011' ? 'oct' : 'sep')).map((p) => { const L = year === '1011' ? (p.lv1011 ?? 'far') : year === '2024' ? p.lv24 : p.lv26; return <option key={p.name} value={p.name}>{(ko ? p.name_ko : p.name) + ' — ' + (ko ? LV_SHORT[L][0] : LV_SHORT[L][1])}</option>; })}
+            </select>
           </div>
           <small>{ko ? '피해 지도가 아닙니다. 같은 곳의 평소 몬순 변화와 견주어 "평소보다 많이 변한 곳"을 보여줍니다. 강을 누르면 전후 사진이 열립니다.' : 'Not a damage map. It shows where the river changed more than in an ordinary monsoon at the same place. Tap a river for before/after.'}</small>
+          <a className="readmore" href="#report">{ko ? '아래로 내려 무엇을 어떻게 쟀는지 읽기 ↓' : 'Scroll down to read what was measured and how ↓'}</a>
         </section>
       )}
       {!expert && answer && (
         <section className="answer-card" aria-live="polite">
           <button className="x" onClick={() => setAnswer(null)} aria-label="close">×</button>
           <p className="where">{ko ? answer.title_ko : answer.title}</p>
+          {(ko ? answer.why_ko : answer.why) && <p className="why">{ko ? answer.why_ko : answer.why}</p>}
           {(() => { const L = answer.ev === 'oct' ? (answer.lv1011 ?? 'unseen') : year === '2024' ? answer.lv24 : answer.lv26; return <h2><i style={{ background: LV_COLOR[L] }} />{ko ? LV_TEXT[L][0] : LV_TEXT[L][1]}</h2>; })()}
           <p className="when">{answer.ev === 'oct' ? (ko ? '2026년 10월 11일 06:03 레이더 · 산사태 댐 붕괴 직후' : 'Radar 11 Oct 2026, 06:03 · right after the dam burst') : year === '2024' ? (ko ? '2024년 10월 2일 레이더 · 9월 27~28일 홍수 뒤' : 'Radar 2 Oct 2024 · after the 27–28 Sep flood') : (ko ? '2026년 9월 29일 레이더 · 9월 24~29일 비 뒤' : 'Radar 29 Sep 2026 · after the 24–29 Sep rain')}</p>
           {(() => { const c = answer.ev === 'oct' ? answer.count1011 : year === '2024' ? answer.count24 : answer.count26; return c ? <p className="count">{ko ? c[0] : c[1]}</p> : null; })()}
@@ -564,6 +570,8 @@ export default function SeptemberPage() {
         </div>
       )}
     </main>
+    {!expert && <SeptReport ko={ko} year={year} cmp={cmp} />}
+    </>
   );
 }
 
@@ -590,5 +598,42 @@ function Dumbbell({ rows, ko }: { rows: CompareRiver[]; ko: boolean }) {
       </svg>
       <figcaption><i style={{ background: Y24 }} />2024 <i style={{ background: Y26 }} />2026 · {ko ? '평시 범위를 넘은(≥5%) 구간 수' : 'reaches beyond the ordinary range (≥5%)'}</figcaption>
     </figure>
+  );
+}
+
+
+// 지도 아래 보고서 — 숫자는 장부(M103~M110)에서 옮겨 적은 것, 문장은 사람 말로.
+function SeptReport({ ko, year, cmp }: { ko: boolean; year: '2026' | '2024' | '1011'; cmp: Compare | null }) {
+  const K = ko;
+  return (
+    <article className="sept-report" id="report">
+      <div className="rep-inner">
+        <p className="kicker">{K ? '보고서 · 무엇을 어떻게 쟀나' : 'REPORT · what was measured, and how'}</p>
+        <h2>{K ? '위성 레이더로 강이 "평소보다 얼마나" 변했는지 잰다' : 'Measuring how much more than usual a river changed, from satellite radar'}</h2>
+        <p>{K ? '유럽 Sentinel-1 위성은 같은 궤도로 12일마다 같은 곳을 레이더로 찍습니다. 구름과 밤에 상관없이 찍히므로 몬순에도 빠지지 않습니다. 강을 2.56 km 구간으로 잘라, 각 구간을 홍수 전 세 번(36·24·12일 전)과 홍수 뒤 한 번 찍은 사진을 범용 지구 임베딩 모델(Ai2 OlmoEarth v1 Base, 추가 학습 없음)에 넣고 "전과 후가 얼마나 다른가"를 숫자로 뽑습니다.' : 'The European Sentinel-1 satellite images the same place by radar every 12 days on the same orbit, through cloud and at night, so the monsoon never hides it. We cut each river into 2.56 km stretches, feed three pre-flood passes (36, 24 and 12 days before) and one post-flood pass into a general Earth-embedding model (Ai2 OlmoEarth v1 Base, no extra training) and read out how different "after" is from "before".'}</p>
+        <p>{K ? '그 숫자만으로는 "많다"가 무엇인지 알 수 없습니다. 그래서 같은 구간을 홍수가 없던 7~8월에도 똑같이 재서 "평소 몬순에도 이만큼은 변한다"는 기준선을 만듭니다. 기준선의 상위 1%를 넘은 40 m 격자가 구간의 5% 이상이면 "크게 변함", 2~5%면 "조금 변함", 그 아래면 "평소 수준"입니다. 평소에는 정의상 1%만 넘습니다.' : 'A number alone does not say what "a lot" means. So the same stretches are measured the same way in July and August, when there was no flood, to get a baseline of how much an ordinary monsoon moves them. If more than 5% of a stretch\u2019s 40 m cells exceed the top 1% of that baseline, the stretch "changed a lot"; 2 to 5% is "a little"; below that, "as usual". By construction only 1% exceeds it in an ordinary fortnight.'}</p>
+
+        <h3>{K ? '2026년 9월 24~29일 비' : 'The rain of 24–29 September 2026'}</h3>
+        <p>{K ? '9월 29일 레이더(궤도 19)로 다섯 강 268구간을 쟀습니다. 크게 변한 구간 55곳은 전부 나라야니 수계입니다. 데브갓 아래 사행 구간(22구간 중 18)과 수스타를 지나 인도 비하르의 간다크(33구간 중 28)까지 이어집니다. 바그마티·코시·동라프티·티나우는 크게 변한 구간이 0곳입니다. 유럽 코페르니쿠스의 운영 홍수 지도(GFM)와 대 보면, 우리가 "크게 변함"으로 둔 구간의 90~98%는 GFM도 물에 잠겼다고 봅니다. 놓친 쪽은 주로 바그마티의 얕은 저지대 범람입니다. 임베딩은 강의 모양이 바뀐 것은 잘 보고, 얕게 넓게 퍼진 물은 잘 못 봅니다.' : 'The 29 September radar pass (orbit 19) measured 268 stretches on five rivers. All 55 stretches that changed a lot are on the Narayani system: the braided reach below Devghat (18 of 22) and on past Susta into the Gandak in Bihar (28 of 33). The Bagmati, Koshi, East Rapti and Tinau had none. Against the EU Copernicus operational flood map (GFM), 90 to 98% of the stretches we mark as changed a lot are also flooded in GFM; what we miss is mostly shallow lowland flooding on the Bagmati. The embedding sees a river changing shape well, and shallow sheets of water poorly.'}</p>
+        <p>{K ? '10월 3일 다른 궤도(85)로 다시 봤을 때 상류 나라야니는 9곳 중 8곳이 여전히 "크게 변함"이었습니다. 물이 빠지는 것이 아니라 강의 모양이 바뀐 것과 맞는 결과입니다. 같은 날 Sentinel-2 실제 색 사진에서는 9월 21일에 드러나 있던 모래톱이 물에 잠겨 있습니다.' : 'Seen again on 3 October from another orbit (85), the upper Narayani was still "changed a lot" in 8 of 9 stretches. That fits a river that changed shape, not water that is draining. The same-day Sentinel-2 true-colour frames show sandbars exposed on 21 September now under water.'}</p>
+
+        <h3>{K ? '2024년 9월과 견주면' : 'Compared with September 2024'}</h3>
+        <p>{cmp ? (K ? cmp.headline_ko : cmp.headline) : ''}</p>
+        <p className="caveat">{cmp ? (K ? cmp.caveat_ko : cmp.caveat) : ''}</p>
+
+        <h3>{K ? '2026년 10월 11일 부디 간다키' : 'The Budhi Gandaki, 11 October 2026'}</h3>
+        <p>{K ? '고르카 춤쳇 위에서 새벽 4시 22분 산사태가 샤르 콜라를 막았고, 6시쯤 터져 부디 간다키로 홍수가 내려갔습니다. 레이더 위성은 6시 3분에 지나갔습니다. 홍수파가 아루갓에 닿은 6시 30분보다 앞섭니다. 그래서 37구간 가운데 크게 변한 곳은 춤쳇 구간 하나뿐이고, 하류는 아직 평소 수준입니다. 위성이 본 것은 산사태와 댐이지 홍수가 아닙니다. 4시간 반 뒤 Sentinel-2 사진에는 하류 자갓까지 진흙이 덮인 강이 보입니다. 홍수 뒤 모습은 10월 23일 같은 궤도가 다시 지날 때 잽니다.' : 'At 04:22 a landslide above Chumchet, Gorkha, dammed the Shyar Khola; around 06:00 it burst and the flood ran down the Budhi Gandaki. The radar satellite passed at 06:03, before the wave reached Arughat at 06:30. So of 37 stretches only the Chumchet one changed a lot and downstream was still as usual: the satellite saw the landslide and the dam, not the flood. Sentinel-2 frames four and a half hours later show a mud-covered river down to Jagat. The aftermath will be measured when the same orbit passes again on 23 October.'}</p>
+
+        <h3>{K ? '이 지도가 말하지 않는 것' : 'What this map does not say'}</h3>
+        <ul>
+          <li>{K ? '피해를 확정하지 않습니다. 현장 정답은 0개이고, "크게 변함"은 사람이 먼저 볼 곳을 좁히는 표시입니다.' : 'It does not confirm damage. There are zero field labels; "changed a lot" marks where people should look first.'}</li>
+          <li>{K ? '2.56 km 구간의 평균이지 강폭이 아닙니다. 구간 안 어디가 변했는지는 구간을 눌러 전후 사진으로 보세요.' : 'Each value is a 2.56 km average, not a channel width. Tap a stretch to see where inside it the change is.'}</li>
+          <li>{K ? '얕게 넓게 퍼진 물은 놓칠 수 있습니다. 2024년 바그마티가 그 예이며, 그래서 코페르니쿠스 지도를 옆에 둡니다.' : 'Shallow, wide sheets of water can be missed; the 2024 Bagmati is the example, which is why the Copernicus map sits alongside.'}</li>
+          <li>{K ? '다른 궤도에서 찍은 날은 각도가 달라 절대값을 비교하지 않고 등급만 비교합니다.' : 'Passes from a different orbit have a different viewing angle, so only the class is compared, never the raw value.'}</li>
+        </ul>
+        <p className="sources">{K ? '자료: ESA Copernicus Sentinel-1 RTC·Sentinel-2 L2A(Microsoft Planetary Computer), Copernicus GFM, OpenStreetMap 하천선. 모델: Ai2 OlmoEarth v1 Base(동결). 측정 장부 M103~M110. 궤도·날짜·문턱값은 내려받는 GeoJSON에 들어 있습니다.' : 'Data: ESA Copernicus Sentinel-1 RTC and Sentinel-2 L2A (Microsoft Planetary Computer), Copernicus GFM, OpenStreetMap river lines. Model: Ai2 OlmoEarth v1 Base, frozen. Measurement ledger M103–M110. Orbits, dates and thresholds are in the downloadable GeoJSON.'}</p>
+        <p className="sources">{year === '1011' ? (K ? '지금 보는 탭: 10월 11일.' : 'Current tab: 11 October.') : ''}</p>
+      </div>
+    </article>
   );
 }

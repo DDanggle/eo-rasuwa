@@ -57,6 +57,35 @@ PLACES = [("Devghat", "데브갓", 84.425, 27.720), ("Narayangadh / Bharatpur", 
 def dist(a, b): return math.hypot((a[0] - b[0]) * 99, (a[1] - b[1]) * 111)
 RANK = {"big": 3, "some": 2, "normal": 1, "unseen": 0}
 places = []
+# 한 줄 설명 — 이 장소가 왜 지도에 있는지(뉴스·지형). 측정값이 아니라 안내문.
+DESC = {"Devghat": ("칼리간다키·트리슐리가 만나 나라야니가 되는 합류점. 수위계가 있어 뉴스에 자주 나옵니다.", "Where the Kali Gandaki and Trishuli meet to form the Narayani; the gauge here is the one in the news."),
+        "Narayangadh / Bharatpur": ("치트완의 큰 도시. 나라야니 다리와 강변 시장이 있습니다.", "Chitwan's main city, with the Narayani bridge and riverside bazaar."),
+        "Gaindakot": ("나라야니 서안, 나라얀가드 맞은편. 9월 21일 모래톱이 10월 1일 물에 잠긴 곳.", "West bank opposite Narayangadh; sandbars exposed on 21 Sep were under water on 1 Oct."),
+        "Susta": ("인도 국경 마을. 간다크 제방 안쪽이라 홍수 때마다 고립되는 곳.", "Border village inside the Gandak embankments, cut off in every big flood."),
+        "Tribeni": ("나라야니가 인도로 넘어가는 지점, 간다크 보 바로 위.", "Where the Narayani crosses into India, just above the Gandak barrage."),
+        "Valmikinagar (India)": ("간다크 보(발미키 바라지). 방류량이 비하르 홍수를 좌우합니다.", "The Gandak barrage; its release governs flooding in Bihar."),
+        "Bagaha (India)": ("비하르 서부 참파란. 2026년 간다크 수위가 기록을 넘은 수위계.", "West Champaran, Bihar; the gauge where the Gandak set a new record in 2026."),
+        "Butwal": ("티나우강이 산을 빠져나오는 도시. 9월 27일 집 6채가 쓸려갔다는 보도.", "Where the Tinau leaves the hills; six houses reported swept away on 27 Sep."),
+        "Bhairahawa": ("티나우 하류 평지 도시, 룸비니 공항.", "Plains city on the lower Tinau, by Lumbini airport."),
+        "Sauraha / Chitwan NP": ("치트완 국립공원 입구, 동라프티강가.", "Gateway to Chitwan National Park on the East Rapti."),
+        "Hetauda": ("동라프티 상류의 산업 도시.", "Industrial town on the upper East Rapti."),
+        "Kathmandu": ("바그마티 발원 분지. 2024년 9월엔 도심이 잠겼습니다.", "The Bagmati's source basin; the city itself flooded in Sep 2024."),
+        "Sindhuli (Bagmati)": ("바그마티가 마하바라트 산맥을 가로지르는 협곡 구간.", "Where the Bagmati cuts through the Mahabharat range."),
+        "Karmaiya (Bagmati barrage)": ("바그마티 보. 2024년 홍수 때 하류 제방이 터진 곳.", "Bagmati barrage; downstream embankments breached in 2024."),
+        "Gaur": ("바그마티 하류 국경 도시.", "Border town on the lower Bagmati."),
+        "Birgunj": ("네팔 최대 국경 통상 도시, 평지.", "Nepal's main border trade city, on the plains."),
+        "Chatara": ("코시가 산을 빠져나오는 지점.", "Where the Koshi leaves the hills."),
+        "Koshi Barrage": ("코시 보. 2008년 제방 붕괴로 유명한 곳.", "The Koshi barrage, site of the 2008 embankment breach."),
+        "Hanumannagar (Saptari)": ("코시 보 옆 삽타리 쪽 마을.", "Saptari-side village by the Koshi barrage."),
+        "Rajbiraj": ("삽타리 군청 소재지.", "District headquarters of Saptari."),
+        "Chumchet": ("10월 11일 산사태가 강을 막았다 터진 곳(샤르 콜라).", "Where the 11 Oct landslide dammed and burst the Shyar Khola."),
+        "Philim / Lokpa": ("샤르 콜라가 부디 간다키 본류와 만나는 곳. 마나슬루 트레킹 길.", "Where the Shyar Khola joins the Budhi Gandaki, on the Manaslu trail."),
+        "Jagat": ("마나슬루 보전지역 입구 마을. 집 10채 이상 유실 보도.", "Entry village to the Manaslu area; more than ten houses reported lost."),
+        "Machhakhola": ("다리가 끊긴 마을, 수력발전소 피해.", "Village where a footbridge was lost; hydropower damage."),
+        "Soti Khola": ("철제 차량 다리가 쓸려간 곳.", "Where the motorable iron bridge was swept away."),
+        "Arughat": ("고르카·다딩을 잇는 큰 다리. 06:30 첫 홍수파, 07:50 위험 수위.", "The main Gorkha–Dhading bridge; first wave 06:30, danger level 07:50."),
+        "Salyantar": ("아루갓 아래 다딩 쪽 강변.", "Dhading-side riverbank below Arughat."),
+        "Benighat (Trishuli confluence)": ("부디 간다키가 트리슐리와 만나는 곳. 카트만두 가는 길.", "Where the Budhi Gandaki meets the Trishuli, on the Kathmandu road.")}
 for en, ko, lon, lat in PLACES:
     near = []
     for f in feats:
@@ -99,7 +128,7 @@ for en, ko, lon, lat in OCT_PLACES:
     places.append({"name": en, "name_ko": ko, "lonlat": [lon, lat], "ev": "oct", "focus_lonlat": mid, "focus_window": fp["window"], "focus_river": fp["river"], "rivers_ko": ["부디 간다키강"], "rivers": ["Budhi Gandaki"],
                    "reaches_within_8km": len(near), "lv26": "far", "lv24": "far", "big26": 0, "obs26": 0, "big24": 0, "obs24": 0, "gfm_agree": 0, "nearest_big": None, "lv1003": "unseen", "trend": None, "s2": None,
                    "lv1011": max((x[1]["lv1011"] for x in obs), key=lambda l: RANK[l]) if obs else "unseen", "big1011": sum(1 for x in obs if x[1]["lv1011"] == "big"), "obs1011": len(obs), "f1011": fp["f1011"], "s2b": fp["s2b"]})
-for pl in places: pl.setdefault("ev", "sep"); pl.setdefault("lv1011", "far")
+for pl in places: pl.setdefault("ev", "sep"); pl.setdefault("lv1011", "far"); pl["desc_ko"], pl["desc"] = DESC.get(pl["name"], ("", ""))
 (PUB / "september-places.json").write_text(json.dumps(places, ensure_ascii=False, indent=1))
 # 홈 카드용 요약 — 숫자는 리본에서만
 c26 = Counter(f["properties"]["lv26"] for f in feats); c24 = Counter(f["properties"]["lv24"] for f in feats)

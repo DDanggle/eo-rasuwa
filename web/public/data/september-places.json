@@ -51,7 +51,9 @@
    "grow": 1
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "칼리간다키·트리슐리가 만나 나라야니가 되는 합류점. 수위계가 있어 뉴스에 자주 나옵니다.",
+  "desc": "Where the Kali Gandaki and Trishuli meet to form the Narayani; the gauge here is the one in the news."
  },
  {
   "name": "Narayangadh / Bharatpur",
@@ -105,7 +107,9 @@
    "grow": 1
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "치트완의 큰 도시. 나라야니 다리와 강변 시장이 있습니다.",
+  "desc": "Chitwan's main city, with the Narayani bridge and riverside bazaar."
  },
  {
   "name": "Gaindakot",
@@ -159,7 +163,9 @@
    "grow": 1
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "나라야니 서안, 나라얀가드 맞은편. 9월 21일 모래톱이 10월 1일 물에 잠긴 곳.",
+  "desc": "West bank opposite Narayangadh; sandbars exposed on 21 Sep were under water on 1 Oct."
  },
  {
   "name": "Susta",
@@ -212,7 +218,9 @@
   },
   "trend_counts": {},
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "인도 국경 마을. 간다크 제방 안쪽이라 홍수 때마다 고립되는 곳.",
+  "desc": "Border village inside the Gandak embankments, cut off in every big flood."
  },
  {
   "name": "Tribeni",
@@ -235,7 +243,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "나라야니가 인도로 넘어가는 지점, 간다크 보 바로 위.",
+  "desc": "Where the Narayani crosses into India, just above the Gandak barrage."
  },
  {
   "name": "Valmikinagar (India)",
@@ -258,7 +268,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "간다크 보(발미키 바라지). 방류량이 비하르 홍수를 좌우합니다.",
+  "desc": "The Gandak barrage; its release governs flooding in Bihar."
  },
  {
   "name": "Bagaha (India)",
@@ -304,7 +316,9 @@
   "s2": null,
   "trend_counts": {},
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "비하르 서부 참파란. 2026년 간다크 수위가 기록을 넘은 수위계.",
+  "desc": "West Champaran, Bihar; the gauge where the Gandak set a new record in 2026."
  },
  {
   "name": "Butwal",
@@ -355,7 +369,9 @@
   },
   "trend_counts": {},
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "티나우강이 산을 빠져나오는 도시. 9월 27일 집 6채가 쓸려갔다는 보도.",
+  "desc": "Where the Tinau leaves the hills; six houses reported swept away on 27 Sep."
  },
  {
   "name": "Bhairahawa",
@@ -378,7 +394,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "티나우 하류 평지 도시, 룸비니 공항.",
+  "desc": "Plains city on the lower Tinau, by Lumbini airport."
  },
  {
   "name": "Sauraha / Chitwan NP",
@@ -427,7 +445,9 @@
    "grow": 1
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "치트완 국립공원 입구, 동라프티강가.",
+  "desc": "Gateway to Chitwan National Park on the East Rapti."
  },
  {
   "name": "Hetauda",
@@ -450,7 +470,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "동라프티 상류의 산업 도시.",
+  "desc": "Industrial town on the upper East Rapti."
  },
  {
   "name": "Kathmandu",
@@ -473,7 +495,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "바그마티 발원 분지. 2024년 9월엔 도심이 잠겼습니다.",
+  "desc": "The Bagmati's source basin; the city itself flooded in Sep 2024."
  },
  {
   "name": "Sindhuli (Bagmati)",
@@ -496,7 +520,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "바그마티가 마하바라트 산맥을 가로지르는 협곡 구간.",
+  "desc": "Where the Bagmati cuts through the Mahabharat range."
  },
  {
   "name": "Karmaiya (Bagmati barrage)",
@@ -545,7 +571,9 @@
    "grow": 2
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "바그마티 보. 2024년 홍수 때 하류 제방이 터진 곳.",
+  "desc": "Bagmati barrage; downstream embankments breached in 2024."
  },
  {
   "name": "Gaur",
@@ -594,7 +622,9 @@
    "hold": 5
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "바그마티 하류 국경 도시.",
+  "desc": "Border town on the lower Bagmati."
  },
  {
   "name": "Birgunj",
@@ -617,7 +647,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "네팔 최대 국경 통상 도시, 평지.",
+  "desc": "Nepal's main border trade city, on the plains."
  },
  {
   "name": "Chatara",
@@ -663,7 +695,9 @@
   "s2": null,
   "trend_counts": {},
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "코시가 산을 빠져나오는 지점.",
+  "desc": "Where the Koshi leaves the hills."
  },
  {
   "name": "Koshi Barrage",
@@ -711,7 +745,9 @@
    "hold": 2
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "코시 보. 2008년 제방 붕괴로 유명한 곳.",
+  "desc": "The Koshi barrage, site of the 2008 embankment breach."
  },
  {
   "name": "Hanumannagar (Saptari)",
@@ -759,7 +795,9 @@
    "hold": 1
   },
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "코시 보 옆 삽타리 쪽 마을.",
+  "desc": "Saptari-side village by the Koshi barrage."
  },
  {
   "name": "Rajbiraj",
@@ -782,7 +820,9 @@
   },
   "reaches_within_8km": 0,
   "ev": "sep",
-  "lv1011": "far"
+  "lv1011": "far",
+  "desc_ko": "삽타리 군청 소재지.",
+  "desc": "District headquarters of Saptari."
  },
  {
   "name": "Chumchet",
@@ -825,7 +865,9 @@
    "post": "2026-10-11",
    "pre_ok": 0.95,
    "post_ok": 0.96
-  }
+  },
+  "desc_ko": "10월 11일 산사태가 강을 막았다 터진 곳(샤르 콜라).",
+  "desc": "Where the 11 Oct landslide dammed and burst the Shyar Khola."
  },
  {
   "name": "Philim / Lokpa",
@@ -868,7 +910,9 @@
    "post": "2026-10-11",
    "pre_ok": 0.95,
    "post_ok": 0.96
-  }
+  },
+  "desc_ko": "샤르 콜라가 부디 간다키 본류와 만나는 곳. 마나슬루 트레킹 길.",
+  "desc": "Where the Shyar Khola joins the Budhi Gandaki, on the Manaslu trail."
  },
  {
   "name": "Jagat",
@@ -911,7 +955,9 @@
    "post": "2026-10-11",
    "pre_ok": 0.99,
    "post_ok": 0.93
-  }
+  },
+  "desc_ko": "마나슬루 보전지역 입구 마을. 집 10채 이상 유실 보도.",
+  "desc": "Entry village to the Manaslu area; more than ten houses reported lost."
  },
  {
   "name": "Machhakhola",
@@ -949,7 +995,9 @@
   "big1011": 0,
   "obs1011": 8,
   "f1011": 0.01416015625,
-  "s2b": null
+  "s2b": null,
+  "desc_ko": "다리가 끊긴 마을, 수력발전소 피해.",
+  "desc": "Village where a footbridge was lost; hydropower damage."
  },
  {
   "name": "Soti Khola",
@@ -992,7 +1040,9 @@
    "post": "2026-10-11",
    "pre_ok": 0.95,
    "post_ok": 0.96
-  }
+  },
+  "desc_ko": "철제 차량 다리가 쓸려간 곳.",
+  "desc": "Where the motorable iron bridge was swept away."
  },
  {
   "name": "Arughat",
@@ -1035,7 +1085,9 @@
    "post": "2026-10-11",
    "pre_ok": 0.95,
    "post_ok": 0.96
-  }
+  },
+  "desc_ko": "고르카·다딩을 잇는 큰 다리. 06:30 첫 홍수파, 07:50 위험 수위.",
+  "desc": "The main Gorkha–Dhading bridge; first wave 06:30, danger level 07:50."
  },
  {
   "name": "Salyantar",
@@ -1078,7 +1130,9 @@
    "post": "2026-10-11",
    "pre_ok": 0.95,
    "post_ok": 0.95
-  }
+  },
+  "desc_ko": "아루갓 아래 다딩 쪽 강변.",
+  "desc": "Dhading-side riverbank below Arughat."
  },
  {
   "name": "Benighat (Trishuli confluence)",
@@ -1121,6 +1175,8 @@
    "post": "2026-10-11",
    "pre_ok": 0.95,
    "post_ok": 0.95
-  }
+  },
+  "desc_ko": "부디 간다키가 트리슐리와 만나는 곳. 카트만두 가는 길.",
+  "desc": "Where the Budhi Gandaki meets the Trishuli, on the Kathmandu road."
  }
 ]

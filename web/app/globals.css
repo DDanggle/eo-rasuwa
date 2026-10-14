@@ -1827,3 +1827,39 @@ body.sept-body { overflow: hidden; }
 .landing .newsline i { flex: 0 0 auto; font-style: normal; color: #d7301f; }
 .landing .newsline:hover { background: rgba(215,48,31,.1); border-bottom-width: 1px; }
 @media (max-width: 640px) { .landing .newsline { flex-wrap: wrap; margin-bottom: -10px; } }
+
+/* 분석 지도 상단 로고: 줄바꿈으로 깨지지 않게 — 한 줄 고정, 좁은 폭에서는 설명줄만 숨긴다 */
+.topbar .brand-lockup { flex: 0 0 auto; white-space: nowrap; min-width: 0; }
+.topbar .brand-lockup h1 { white-space: nowrap; }
+.topbar .brand-lockup .eyebrow { white-space: nowrap; letter-spacing: .1em; }
+@media (max-width: 1400px) { .topbar .brand-lockup .eyebrow { display: none; } .topbar .brand-lockup { gap: 9px; } .topbar .brand-mark { width: 30px; height: 30px; padding: 4px; } }
+
+/* 홈: 8월·9월 두 기사를 절반씩 나란히 */
+.landing .mains { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; align-items: start; margin-top: 10px; }
+.landing .mains > section { border-top: 0; padding: 36px 0 28px; min-width: 0; }
+.landing .mains > .ch1-story { border-left: 1px solid var(--line, #e3e0d8); padding-left: 40px; }
+.landing .mains h1 { font-size: clamp(26px, 2.6vw, 36px); max-width: none; }
+.landing .mains .sub { font-size: 15px; max-width: none; }
+.landing .mains .river-bars { max-width: none; }
+.landing .mains .funnel > div { min-width: 96px; padding: 10px 12px; } .landing .mains .funnel > div b { font-size: 28px; }
+.landing .mains .btn { padding: 10px 14px; font-size: 10px; }
+.landing .newsline { margin-bottom: 0; }
+@media (max-width: 900px) { .landing .mains { grid-template-columns: 1fr; gap: 0; } .landing .mains > .ch1-story { border-left: 0; padding-left: 0; border-top: 1px solid var(--line, #e3e0d8); } }
+
+/* /september 쉬운 화면: 지도 한 화면 + 아래로 내리면 보고서 */
+body.sept-body.sept-scroll { overflow: auto; }
+.sept-shell.scrolly { position: relative; height: 100svh; overflow: hidden; }
+.sept-report { background: var(--bg, #f6f5f1); border-top: 1px solid var(--line-strong, #d5d1c6); padding: 56px 24px 80px; color: var(--ink); }
+.sept-report .rep-inner { max-width: 720px; margin: 0 auto; }
+.sept-report .kicker { font: 11px var(--font-geist-mono); letter-spacing: .16em; color: var(--muted); text-transform: uppercase; margin: 0 0 10px; }
+.sept-report h2 { font-family: var(--font-serif); font-size: clamp(26px, 3.4vw, 38px); line-height: 1.15; margin: 0 0 18px; word-break: keep-all; }
+.sept-report h3 { font-family: var(--font-serif); font-size: 21px; margin: 34px 0 8px; }
+.sept-report p, .sept-report li { font: 16px/1.7 var(--font-serif); word-break: keep-all; margin: 0 0 14px; }
+.sept-report ul { padding-left: 20px; }
+.sept-report .caveat { font-size: 14px; color: #4b4a45; border-left: 2px solid var(--line-strong, #d5d1c6); padding-left: 12px; }
+.sept-report .sources { font: 12px/1.6 var(--font-geist-sans); color: var(--muted); }
+.simple-head .readmore { display: inline-block; margin-top: 10px; font: 600 10px var(--font-geist-mono); letter-spacing: .08em; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); }
+.simple-head .picker label { display: block; font-size: 12px; color: var(--muted); margin: 0 0 6px; line-height: 1.4; }
+.simple-head .picker select { width: 100%; font: 14px var(--font-geist-sans); padding: 10px 12px; border: 1px solid var(--line-strong, #d5d1c6); background: var(--surface, #fffefb); color: var(--ink); border-radius: 0; }
+.answer-card .why { font-size: 12.5px; line-height: 1.5; color: #4b4a45; margin: -2px 0 8px; }
+@media (max-width: 900px) { .simple-head .readmore { display: none; } .sept-report { padding: 36px 16px 60px; } }

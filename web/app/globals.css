@@ -1863,3 +1863,19 @@ body.sept-body.sept-scroll { overflow: auto; }
 .simple-head .picker select { width: 100%; font: 14px var(--font-geist-sans); padding: 10px 12px; border: 1px solid var(--line-strong, #d5d1c6); background: var(--surface, #fffefb); color: var(--ink); border-radius: 0; }
 .answer-card .why { font-size: 12.5px; line-height: 1.5; color: #4b4a45; margin: -2px 0 8px; }
 @media (max-width: 900px) { .simple-head .readmore { display: none; } .sept-report { padding: 36px 16px 60px; } }
+
+/* ===== 연구 페이지(/research) 2026-10-19 ===== */
+.landing.research .rtable { overflow-x: auto; margin: 14px 0 10px; border: 1px solid var(--line, #e3e0d8); background: var(--surface, #fffefb); }
+.landing.research table { border-collapse: collapse; width: 100%; font: 13px/1.45 var(--font-geist-sans); }
+.landing.research th { text-align: left; font: 700 10px var(--font-geist-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--line-strong, #cfcbc2); white-space: nowrap; }
+.landing.research td { padding: 9px 12px; border-bottom: 1px solid var(--line, #e3e0d8); vertical-align: top; word-break: keep-all; }
+.landing.research tr:last-child td { border-bottom: 0; }
+.landing.research td.mono { font-family: var(--font-geist-mono); font-size: 12px; white-space: nowrap; }
+.landing.research td.small { font-size: 11.5px; white-space: normal; }
+.landing.research td.muted { color: var(--muted); }
+.landing.research tr.fail td { color: #8a3b2a; }
+.landing.research h2 { font-family: var(--font-serif); font-weight: 700; font-size: clamp(22px, 2.8vw, 32px); line-height: 1.2; margin: 6px 0 10px; word-break: keep-all; max-width: 30ch; }
+.landing.research h3 { font-family: var(--font-serif); font-size: 19px; margin: 28px 0 6px; }
+.landing.research .note { font: 14px/1.6 var(--font-geist-sans); color: #4b4a45; max-width: 76ch; margin: 6px 0 0; }
+.landing.research .sub.small { font-size: 14px; }
+.landing.research .rfig { display: block; width: 100%; max-width: 960px; margin: 16px 0 6px; border: 1px solid var(--line, #e3e0d8); background: var(--surface, #fffefb); }

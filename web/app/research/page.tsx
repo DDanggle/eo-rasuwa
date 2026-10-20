@@ -39,9 +39,22 @@ export default function Research() {
         <div><button className={!ko ? 'is-active' : ''} onClick={() => chooseLang(false)}>EN</button><button className={ko ? 'is-active' : ''} onClick={() => chooseLang(true)}>한국어</button><Link href="/" className="nav-link">{K ? '홈' : 'HOME'}</Link><a href="/september" className="nav-link">{K ? '9월 지도' : 'SEPTEMBER MAP'}</a></div>
       </nav>
       <section className="hero">
-        <p className="kicker">{K ? '연구 · 2026년 9월 9일 ~ 10월 19일' : 'RESEARCH · 9 Sep – 19 Oct 2026'}</p>
+        <p className="kicker">{K ? '연구 · 2026년 6월 ~ 10월 19일 · 측정 장부 113절' : 'RESEARCH · JUN – 19 OCT 2026 · 113 LEDGER SECTIONS'}</p>
         <h1>{K ? <>동결된 지구 임베딩 하나로 세 홍수를 쟀다. <em>무엇을 보고, 무엇을 못 보는가.</em></> : <>Three floods measured with one frozen Earth embedding. <em>What it sees, and what it cannot.</em></>}</h1>
         <p className="sub">{K ? '모델을 학습시키지 않았습니다. Ai2 OlmoEarth v1 Base 를 그대로 두고, Sentinel-1 레이더를 2.56 km 구간씩 홍수 전 세 번·후 한 번 넣어 "평소보다 얼마나 달라졌나"를 숫자로 뽑았습니다. 그 숫자가 믿을 만한지 모델 크기·다른 모델 가족·고전 지수·코페르니쿠스 운영 지도·다른 해·좌표 사전지식으로 차례로 시험한 기록입니다. 현장 정답은 0개이고, 모든 숫자는 측정 장부에서 옮겨 적었습니다.' : 'No model was trained. Ai2 OlmoEarth v1 Base stays frozen; Sentinel-1 radar enters as three pre-flood passes and one post-flood pass per 2.56 km stretch, and the output is a number for "how much more than usual it changed". This page records how that number was tested in turn against model size, a second model family, classical indices, the Copernicus operational flood map, another year and coordinate priors. There are zero field labels; every number is copied from the measurement ledger.'}</p>
+      </section>
+
+      <section>
+        <p className="kicker">{K ? '세 시기 · M1 ~ M113' : 'THREE PERIODS · M1 – M113'}</p>
+        <div className="rtable"><table>
+          <thead><tr><th>{K ? '시기' : 'Period'}</th><th>{K ? '절' : 'Sections'}</th><th>{K ? '무대' : 'Stage'}</th><th>{K ? '질문' : 'Question'}</th><th>{K ? '결론 한 줄' : 'One-line result'}</th></tr></thead>
+          <tbody>
+            <tr><td className="mono">0</td><td className="mono">M1–M65</td><td className="muted">{K ? '제주·한국·Sen12Landslides 16지역' : 'Jeju, Korea, Sen12Landslides (16 regions)'}</td><td>{K ? '공개 GeoFM을 그대로 믿어도 되나. 산사태 분할에서 사전학습이 이기나' : 'Can a public GeoFM be trusted as released? Does pretraining win at landslide segmentation?'}</td><td><b>{K ? '릴리스 간 임베딩 비호환, 계약은 기계에 안 보임, 공식 split 누수. 확증 8지역에서 사전학습 인코더 +0.076, 6/8 승' : 'Embeddings do not survive a release change, contracts are invisible to code, the official split leaks. Pretrained encoder wins 6 of 8 confirmatory regions, +0.076'}</b></td></tr>
+            <tr><td className="mono">1</td><td className="mono">M66–M95</td><td className="muted">{K ? '라수와·보테코시 2026-08-26 홍수' : 'Rasuwa / Bhote Koshi flood, 26 Aug 2026'}</td><td>{K ? '학습 없이 사건 전후 임베딩 거리만으로 어디를 먼저 볼지 낼 수 있나' : 'Without training, can pre/post embedding distance say where to look first?'}</td><td><b>{K ? '100창→47 판독→6 리드. 단위 결함 자기 철회. 레이더가 광학 눈먼 50창 구제. UNOSAT 발원 폴리곤 76×' : '100 windows → 47 readable → 6 leads. A unit flaw retracted by us. Radar rescues 50 windows optics could not read. UNOSAT source polygons 76×'}</b></td></tr>
+            <tr><td className="mono">2</td><td className="mono">M96–M113</td><td className="muted">{K ? '테라이 다섯 강·부디 간다키 + 모델·문턱 비교' : 'Five Terai rivers, Budhi Gandaki, plus model and threshold tests'}</td><td>{K ? '그 계약이 모델·강·해·문턱을 바꿔도 버티나' : 'Does the contract survive a change of model, river, year or threshold?'}</td><td><b>{K ? '나라야니–간다크 한 수계. GFM CSI 0.60. 2024 vs 2026을 가름. 크기·가족·좌표 인코더 모두 자의 천장에서 멈춤' : 'One river system, Narayani–Gandak. GFM CSI 0.60. Separates 2024 from 2026. Size, family and coordinate encoders all stop at the ruler’s ceiling'}</b></td></tr>
+          </tbody>
+        </table></div>
+        <p className="note">{K ? '시기 0이 남긴 규율(사전등록, 계약 봉인, seed·블록 신뢰구간, 틀린 것 즉시 철회)이 이후 모든 절의 틀이다. 아래 표는 시기 2를 절별로 편다. 전체 개관은 맨 아래 내려받기.' : 'Period 0 left the discipline every later section follows: pre-registration, sealed contracts, seed and block confidence intervals, immediate retraction of what was wrong. The table below unfolds period 2 section by section; the full overview is downloadable at the bottom.'}</p>
       </section>
 
       <section>
@@ -123,7 +136,7 @@ export default function Research() {
       <section>
         <p className="kicker">{K ? '자료와 재현' : 'DATA AND REPRODUCTION'}</p>
         <p className="sub small">{K ? '자료: ESA Copernicus Sentinel-1 RTC·Sentinel-2 L2A(Microsoft Planetary Computer), Copernicus GFM, UNOSAT 발원 폴리곤, OpenStreetMap 하천선. 모델: Ai2 OlmoEarth v1 Base(동결), Galileo(nasaharvest), TerraMind v1(IBM·ESA), MIND·SatCLIP·GeoCLIP 공개 가중치. 측정 장부 M96~M113. 영문 노트: MIND 좌표 사전지식 시험(M111·M112).' : 'Data: ESA Copernicus Sentinel-1 RTC and Sentinel-2 L2A (Microsoft Planetary Computer), Copernicus GFM, UNOSAT source polygons, OpenStreetMap river lines. Models: Ai2 OlmoEarth v1 Base (frozen), Galileo (nasaharvest), TerraMind v1 (IBM/ESA), public MIND, SatCLIP and GeoCLIP weights. Measurement ledger M96–M113. English note: the MIND coordinate-prior test (M111, M112).'}</p>
-        <div className="cta"><a className="btn" href="/data/research/M111_mind_prior_note_en.md" download>{K ? 'M111·M112 영문 노트 (MD)' : 'M111·M112 NOTE (MD)'}</a><a className="btn" href="/data/research/STUDY_SUMMARY_M96-M113.md" download>{K ? '연구 요약 (MD)' : 'STUDY SUMMARY (MD)'}</a><a className="btn" href="/september">{K ? '9월 지도로' : 'TO THE SEPTEMBER MAP'}</a></div>
+        <div className="cta"><a className="btn primary" href="/data/research/RESEARCH_OVERVIEW.md" download>{K ? '전체 개관 M1~M113 (MD)' : 'FULL OVERVIEW M1–M113 (MD)'}</a><a className="btn" href="/data/research/M111_mind_prior_note_en.md" download>{K ? 'M111·M112 영문 노트 (MD)' : 'M111·M112 NOTE (MD)'}</a><a className="btn" href="/data/research/STUDY_SUMMARY_M96-M113.md" download>{K ? '연구 요약 (MD)' : 'STUDY SUMMARY (MD)'}</a><a className="btn" href="/september">{K ? '9월 지도로' : 'TO THE SEPTEMBER MAP'}</a></div>
       </section>
     </main>
   );
